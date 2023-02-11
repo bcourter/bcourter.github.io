@@ -28,7 +28,7 @@ twitter_username: bcourter
 github_username:  bcourter
 
 # Build settings
-theme: minima
+theme: jekyll-text-theme
 plugins:
   - jekyll-feed
 
