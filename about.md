@@ -18,8 +18,25 @@ titles:
 key: page-about
 ---
 
-Just say something about yourself. :+1:
+###### Generative Engineering
+###### Geometry and Manufacturing
+###### Unit Gradient Magnitude Fields
 
-{% highlight javascript %}
-(() => console.log('hello, world!'))();
-{% endhighlight %}
+##### Currently:
+* Independent computational geometry researcher
+* Fellow, [nTopology](https://ntopology.com)
+
+##### Advisor to:
+* [Shapr3D](https://shapr3d.com)
+* [Zeroth](https://zeroth.oo)
+* [Atomic Industries](https://www.atomic.industries/)
+
+##### Former:
+* Advisor and Acting Head of Engineering, [FluidForm](https://fluidform.com)
+* CTO, Advisor [nTopology](https://ntopology.com)
+* Head of software research, [Stratasys](https://stratasys.com)
+* Director of software strategy, [GrabCAD](https://www.grabcad.com)
+* Founder, [SpaceClaim](www.spaceclaim.com)
+* Director of Business Development, Product Manager, [PTC](https://www.ptc.com)
+
+
