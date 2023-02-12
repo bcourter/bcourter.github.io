@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "github-pages", "~> 228", group: :jekyll_plugins
+
 # gem "jekyll-text-theme", path: "../"
 gem "jekyll-text-theme"
 
