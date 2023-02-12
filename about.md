@@ -32,10 +32,10 @@ key: page-about
 * [Atomic Industries](https://www.atomic.industries/)
 
 ##### Former:
-* Advisor and Acting Head of Engineering, [FluidForm](https://fluidform.com)
-* CTO, Advisor [nTopology](https://ntopology.com)
-* Head of software research, [Stratasys](https://stratasys.com)
-* Director of software strategy, [GrabCAD](https://www.grabcad.com)
+* Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
+* CTO, Advisor, [nTopology](https://ntopology.com)
+* Head of Software Research, [Stratasys](https://stratasys.com)
+* Director of Strategy, [GrabCAD](https://www.grabcad.com)
 * Founder, [SpaceClaim](www.spaceclaim.com)
 * Director of Business Development, Product Manager, [PTC](https://www.ptc.com)
 
