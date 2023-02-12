@@ -28,9 +28,13 @@ twitter_username: bcourter
 github_username:  bcourter
 
 # Build settings
-theme: minima
+remote_theme: kitian616/jekyll-TeXt-theme
 plugins:
   - jekyll-feed
+
+highlight_theme: "tomorrow-night" # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
+lang: en
+timezone: America/New_York
 
 # Exclude from processing.
 # The following items will not be processed, by default.
