@@ -7,11 +7,25 @@
 
 <script type="text/x-mathjax-config">
 	var _config = { tex2jax: {
-		inlineMath: [['$','$'], ['\\(','\\)']]
+		inlineMath: [['$','$'], ['\\(','\\)']],
+		loader: {load: ['[tex]/configmacros']},
+		tex: {
+      extensions: [
+        "AMSmath.js",
+        "AMSsymbols.js",
+        "noErrors.js",
+        "noUndefined.js"
+      ],
+      packages: {'[+]': ['configmacros']},
+	    macros: {
+	      R: '{\\mathbb R}',
+	      bold: ['{\\bf #1}',1]
+	    }
+	  }
 	}};
-	{%- if _mathjax_autoNumber == true -%}
-		_config.TeX = { equationNumbers: { autoNumber: "all" } };
-	{%- endif -%}
+//	{%- if _mathjax_autoNumber == true -%}
+//		_config.tex = { equationNumbers: { autoNumber: "all" } };
+//	{%- endif -%}
 	MathJax.Hub.Config(_config);
 </script>
 <script type="text/javascript" src="{{ _sources.mathjax }}" async></script>

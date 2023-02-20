@@ -23,7 +23,7 @@ key: page-about
 ###### Unit Gradient Magnitude Fields
 
 ##### Currently:
-* Independent computational geometry researcher
+* Independent advisor and geometry researcher
 * Fellow, [nTopology](https://ntopology.com)
 
 ##### Advisor to:
@@ -32,11 +32,11 @@ key: page-about
 * [Atomic Industries](https://www.atomic.industries/)
 
 ##### Former:
-* Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
 * CTO, Advisor, [nTopology](https://ntopology.com)
+* Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
 * Head of Software Research, [Stratasys](https://stratasys.com)
-* Director of Strategy, [GrabCAD](https://www.grabcad.com)
-* Founder, [SpaceClaim](www.spaceclaim.com)
+* Director of Strategy, [GrabCAD](https://www.grabcad.com) (Acquired by Stratasys.)
+* Founder, [SpaceClaim](www.spaceclaim.com) (Acquired by ANSYS.)
 * Director of Business Development, Product Manager, [PTC](https://www.ptc.com)
 
 
