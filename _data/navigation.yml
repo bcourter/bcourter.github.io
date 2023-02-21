@@ -1,6 +1,16 @@
 header:
   - titles:
       # @start locale config
+      en      : &EN       Projects
+      en-GB   : *EN
+      en-US   : *EN
+      en-CA   : *EN
+      en-AU   : *EN
+      # @end locale config
+    url: /projects.html
+
+  - titles:
+      # @start locale config
       en      : &EN       Archive
       en-GB   : *EN
       en-US   : *EN

@@ -1,6 +1,6 @@
 ---
 title: Field-Driven Design&#58; Product Data Models for Rapid, Collaborative Development
-tags: nTopology, SDF
+tags: nTopology SDF
 ---
 The term "Field-Driven Design," which became a trademark of nTopology, originated during a discussion with Trevor Laughlin in early 2019.  I believe that this post was the first public mention of the concept:
 

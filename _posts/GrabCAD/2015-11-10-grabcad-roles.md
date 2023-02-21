@@ -1,6 +1,6 @@
 ---
 title: A better way to describe technical roles
-tags: Archive
+tags: GrabCAD Management
 ---
 GrabCAD ran an active blog, and I had the pleasure of contributing there.  This old post considers the role one plays as an engineer versus ones title:
 

@@ -1,6 +1,6 @@
 ---
 title: nTop Live&#58; Periodic Structures with Multiple Domains for Heat Transfer and Beyond
-tags: nTopology, SDF, TwoBody
+tags: nTopology SDF TwoBody Video
 ---
 
 This video shows how to create implicit models like heat exchangers with multiple, layered, interconnected domains:

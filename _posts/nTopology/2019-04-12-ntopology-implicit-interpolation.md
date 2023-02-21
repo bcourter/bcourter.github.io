@@ -1,6 +1,6 @@
 ---
 title: Interpolating with Implicit Modeling
-tags: nTopology, SDF
+tags: nTopology SDF
 ---
 More from the my early posts on the nTopology blog.  This post shows interpolation approaches with implicit models:
 

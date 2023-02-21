@@ -1,6 +1,6 @@
 ---
 title: nTop Live&#58; Functional Toolpath Design for FDM/FFF
-tags: nTopology, SDF, TwoBody
+tags: nTopology SDF TwoBody Video
 ---
 
 This video shows how to make FDM/FFF infill, featuring the zigs and the zags:

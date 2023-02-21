@@ -1,6 +1,6 @@
 ---
 title: Notation for fields
-tags: SDF, UGF
+tags: SDF UGF
 ---
 {% include math.html %}
 
@@ -16,4 +16,3 @@ The two body field of two distance fields:
 
 $$ \frac{\df{A}-\df{B}}{\df{A}+\df{B}} $$
 
- <!--more-->
