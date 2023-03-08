@@ -1,6 +1,6 @@
 ---
 title: A brief introduction to CAD file formats
-tags: GrabCAD Interop
+tags: GrabCAD Interop Explicit
 ---
 GrabCAD ran an active blog, and I had the pleasure of contributing there.  This old post describes the contents of explicit file formats:
 
