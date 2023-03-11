@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: article
 ---
 
 # Projects
@@ -8,8 +8,10 @@ layout: home
     * [Struttura](/homepage/Struttura/)
     * [Poincar&eacute; Kaleidoscope](/homepage/Poincare-WebGL/)
     * [Struttura](/homepage/Four/)
+
 * Sculpture
     * M&ouml;bius Gears
+        * [Post on GrabCAD](https://blog.grabcad.com/blog/2014/10/14/mobius-gears/)
         * [Metric with bearings](https://grabcad.com/library/mobius-v4-m6-with-bearings-1)
         * [US dimensions with bearings](https://grabcad.com/library/11-gear-mobius-strip-v2-public)
         * [Metric without bearings](https://grabcad.com/library/11-gear-mobius-v3-1)
@@ -29,5 +31,6 @@ layout: home
     * [Impossible Geometry](https://youtu.be/0POQYrwHtG8)
         * [MC Escher's Belvedere](https://grabcad.com/library/belvedere)
         * [MC Escher's Waterfall](https://grabcad.com/library/waterfall)
-    * [Other GrabCAD models](https://grabcad.com/blake.courter/models)
     * [Palm Table and misc](https://photos.google.com/album/AF1QipOrAC1AOJNSLo6vIz-nP93m0dz9S0iiJmcM7_IO)
+
+* [Other GrabCAD models](https://grabcad.com/blake.courter/models)
