@@ -17,7 +17,7 @@ On the other hand, we can place a pawn on our zero and count as it walks down an
 
 ![Addition as a metric](\assets\blog\X-Math-Tables\1.jpg)
 
-What happens if we repeat the same process with subtraction?  Notice how they go in perpendicular directions and are perpendicular at every point.  
+What happens if we repeat the same process with subtraction?  Notice how the sum and difference contour lines and slopes are perpendicular at every point.  
 
 ![Addition and subtraction fields](\assets\blog\X-Math-Tables\2.jpg)
 
@@ -27,7 +27,8 @@ In nTopology, we can also construct *epigraphs* of our sum and difference fields
 
 ![nTop difference field and epigraph](\assets\blog\X-Math-Tables\diff-epi.png)
 
-Let's fabricate those from magnetic tiles and discuss positive and negative Gaussian curvature as well as convexity and concavity.  Positive curvature comes from the sum field, and negative curvature from the subtraction field.  Ball-like ellipses and horse-saddle hyperbolas are easily found on the couch.  
+Let's fabricate those epigraphs from magnetic tiles, relating positive and negative Gaussian curvature to the convexity and concavity of curves.  Positive curvature comes from the sum field, and negative curvature from the subtraction field.  Ball-like ellipses and horse-saddle hyperbolas are easily found on the surface geometry couch, especially if it has a cover like ours.
+
 ![Magnetic tile assemblies of the epigraphs](\assets\blog\X-Math-Tables\3.jpg)
 
 For the next discussion, consider also assembling four squares.  We can compare those four squares to the four equalteral triangles on the spherical model and the four diamonds (double equalteral triangles) in the hyperbolic model.  What happens when we take the pieces around each center apart and look at them flatted?
@@ -40,7 +41,7 @@ X quickly observed that the exceess angle on the hyperbolic side completed the e
 
 <hr>
 
-Subtraction image from nTop, in case you want to print it:
+To complement addition, here's the subtraction image from nTop, in case you want to print it:
 
 ![nTop addition field](\assets\blog\X-Math-Tables\diff.png)
 
