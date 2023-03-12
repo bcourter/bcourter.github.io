@@ -1,6 +1,6 @@
 ---
 title: Hardinge HLV-H
-tags: Metalworking Reddit
+tags: Metalworking Reddit Tools
 ---
 
 The initial job of the floor [from a few months ago](/2021/04/21/endgrain-floor.html) was to slow me down from from bringing this classic lathe on board.  Am happy to have it cleaned, installed, and happily cutting chips!

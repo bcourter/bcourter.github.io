@@ -1,6 +1,6 @@
 ---
 title: SpaceClaim MultiTouch 720p
-tags: SpaceClaim Video
+tags: SpaceClaim Video Interactive
 ---
 
 Back from when multi-touch was hot.

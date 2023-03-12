@@ -1,6 +1,6 @@
 ---
 title: Folding Chef's Knife
-tags: Woodworking Metalworking Reddit SpaceClaim
+tags: Woodworking Metalworking Reddit SpaceClaim Tools
 ---
 
 Designed a folding chef knife to prepare for a camping trip.  Designed in SpaceClaim.

@@ -1,6 +1,11 @@
 ---
 layout: article
+key: projects-home
 ---
+
+## [Portfolio of Projects]
+
+[PDF overview of Portfolio](https://drive.google.com/file/d/0B0c5cswA4ANDSjlFTmMwT21oME0/view?usp=sharing&resourcekey=0-NpHrx-_ySL75HV5MdkoBjw){: onclick="gtag('event', 'download_portfolio');"}
 
 * [Old homepage with math art projects](/homepage/)
     * [Struttura](/homepage/Struttura/)
@@ -16,7 +21,7 @@ layout: article
         * Builds
             * [mcmptk](https://youtu.be/YEp-J3Hj8uU)
     * [The Penrose Triangle](/homepage/Penrose/)
-        * [Files on GrabCAD](https://grabcad.com/library/the-penrose-triangle-1)
+        * [Overview Presentation](https://drive.google.com/file/d/1xVqKeeGn5BUSU0N4g4ieo0-JtPGrLxut/view?usp=share_link){: onclick="gtag('event', 'download_penrose');"}
         * [Facebook](https://www.facebook.com/ThePenroseTriangle/)
     * [Dust Collection](https://grabcad.com/blake.courter/models)
         * [Four way sweep bollard](https://grabcad.com/library/dust-bollard-1)
