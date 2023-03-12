@@ -25,6 +25,7 @@ layout: article
         * [Retractable sled](https://grabcad.com/library/retracting-dust-sled-1)
         * [Two-inlet cyclone](https://grabcad.com/library/twin-inlet-dust-cyclone-1)
     * [Bubblegons](https://photos.google.com/share/AF1QipPPRc3UYrY5a8xfErjyNXTovnHz5WptG7BZwtXoGE82N3CJyQeQs3nw-Z7LVXuHRA)
+        * [Coverage from Maker Faire Somerville 2012](https://www.youtube.com/watch?v=gKmxbScZMQE)
     * [The Autosub Dome](https://photos.google.com/share/AF1QipNgNeOgTjJSDkZq1TkthNKnHvgxU0HszvlqjwvnccJiGzpsjR1f5veJFt_UtcKXfw?key=bGxYWm5Fd0xjRGpqOE1vRVpMVFZjUlJNOWdHSWJB)
         * [Data on GrabCAD](https://grabcad.com/blake.courter/models)
     * [Ten Tetrahedra Tree Topper](https://grabcad.com/library/ten-tetrahedra-tree-topper-1)

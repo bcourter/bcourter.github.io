@@ -11,12 +11,7 @@ In this video, I demonstrate its beauty and power in nTopology:
 
 <!--more-->
 
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/eYJ2-oleFTc" 
-	frameborder="0" 
-	allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-	allowfullscreen>
-</iframe>
+<div>{%- include extensions/youtube.html id='eYJ2-oleFTc' -%}</div>
 
 See [nTopology](https://ntopology.com/videos/video/ntop-live-workflow-and-modeling-techniques-in-ntop-platform/) for sample files and more information.
 

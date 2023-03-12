@@ -7,12 +7,7 @@ This video shows how to create implicit models like heat exchangers with multipl
 
 <!--more-->
 
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/MvC9uJHVzmE" 
-	frameborder="0" 
-	allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-	allowfullscreen>
-</iframe>
+<div>{%- include extensions/youtube.html id='MvC9uJHVzmE' -%}</div>
 
 See [nTopology](https://ntopology.com/videos/video/ntop-live-periodic-structures-with-multiple-domains-for-heat-transfer-and-beyond/) for sample files and more information.
 

@@ -22,12 +22,7 @@ As well as our friends at:
 * [Intact Solutions](https://www.intact-solutions.com/rev/)
 * [Zea](https://www.zea.live/)
 
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/Gg-i3gSP8KQ" 
-	frameborder="0" 
-	allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-	allowfullscreen>
-</iframe>
+<div>{%- include extensions/youtube.html id='Gg-i3gSP8KQ' -%}</div>
 
 See [the 3.0 announcemnt from nTopology](https://ntopology.com/blog/ntopology-3-0-release-announcement/) for more information.
 

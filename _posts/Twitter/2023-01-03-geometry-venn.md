@@ -6,7 +6,7 @@ tags: SDF Explicit Reddit Twitter
 [Mark Burhop](https://twitter.com/burhop) [requested](https://twitter.com/burhop/status/1608133190958579712) definitions of hipster geometry terms.  
 <!--more-->
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I&#39;m looking to tune my vocabulary a bit. Any one got good definitions for &quot;implicits&quot;, or &quot;algorithmic modeling&quot; or &quot;architected materials&quot; or &quot;meta materials&quot; or any other new terms? <a href="https://twitter.com/hashtag/CAD?src=hash&amp;ref_src=twsrc%5Etfw">#CAD</a> <a href="https://twitter.com/hashtag/implicits?src=hash&amp;ref_src=twsrc%5Etfw">#implicits</a> <a href="https://twitter.com/hashtag/algorithmicModeling?src=hash&amp;ref_src=twsrc%5Etfw">#algorithmicModeling</a> <a href="https://twitter.com/hashtag/architectedMaterials?src=hash&amp;ref_src=twsrc%5Etfw">#architectedMaterials</a></p>&mdash; Mark Burhop (@burhop) <a href="https://twitter.com/burhop/status/1608133190958579712?ref_src=twsrc%5Etfw">December 28, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">One more try over lunch. Wish Slides used consistent offsets with the labels. <a href="https://t.co/rw0o6J38db">pic.twitter.com/rw0o6J38db</a></p>&mdash; Blake Courter (@bcourter) <a href="https://twitter.com/bcourter/status/1610343804942393344?ref_src=twsrc%5Etfw">January 3, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 This Venn diagram attempts to describe the main relationships:
 
