@@ -2,8 +2,6 @@
 layout: article
 ---
 
-# Projects
-
 * [Old homepage with math art projects](/homepage/)
     * [Struttura](/homepage/Struttura/)
     * [Poincar&eacute; Kaleidoscope](/homepage/Poincare-WebGL/)
