@@ -33,3 +33,18 @@ Some of the main objects and operations relate as follows:
 ![Shapes and Fields Diagram](assets/Shapes and Fields Diagram.svg){: width="57%" height="57%"}
 
 
+<script src="https://giscus.app/client.js"
+        data-repo="bcourter/bcourter.github.io"
+        data-repo-id="R_kgDOI8ujxA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOI8ujxM4CU1QC"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
