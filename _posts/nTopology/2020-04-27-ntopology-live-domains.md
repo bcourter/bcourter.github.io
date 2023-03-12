@@ -5,9 +5,8 @@ tags: nTopology SDF TwoBody Video
 
 This video shows how to create implicit models like heat exchangers with multiple, layered, interconnected domains:
 
-<!--more-->
-
 <div>{%- include extensions/youtube.html id='MvC9uJHVzmE' -%}</div>
+<!--more-->
 
 See [nTopology](https://ntopology.com/videos/video/ntop-live-periodic-structures-with-multiple-domains-for-heat-transfer-and-beyond/) for sample files and more information.
 

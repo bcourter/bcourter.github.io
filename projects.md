@@ -18,6 +18,8 @@ layout: article
         * Builds
             * [mcmptk](https://youtu.be/YEp-J3Hj8uU)
     * [The Penrose Triangle](/homepage/Penrose/)
+        * [Files on GrabCAD](https://grabcad.com/library/the-penrose-triangle-1)
+        * [Facebook](https://www.facebook.com/ThePenroseTriangle/)
     * [Dust Collection](https://grabcad.com/blake.courter/models)
         * [Four way sweep bollard](https://grabcad.com/library/dust-bollard-1)
         * [Geared floor sweep](https://grabcad.com/library/roto-sweep-1)

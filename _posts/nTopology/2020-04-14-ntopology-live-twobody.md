@@ -9,9 +9,8 @@ $$ \frac{A-B}{A+B} $$
 
 In this video, I demonstrate its beauty and power in nTopology:
 
-<!--more-->
-
 <div>{%- include extensions/youtube.html id='eYJ2-oleFTc' -%}</div>
+<!--more-->
 
 See [nTopology](https://ntopology.com/videos/video/ntop-live-workflow-and-modeling-techniques-in-ntop-platform/) for sample files and more information.
 
