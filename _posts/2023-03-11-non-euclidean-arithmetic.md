@@ -9,7 +9,7 @@ My daughter, "X", who just turned five, has been enjoying adding and subtracting
 
  <!--more-->
 
-When she finished, we went into [nTopology](https://www.ntopology.com) and plotted the sum field, reflecting around the origin.  Looking at it this way, we can think of the sum as adding the distances to two infinite lines, as defined by the values of our rows and colums.  We call this sum field a kind of *norm field*.  
+When she finished, we went into [nTopology](https://www.ntopology.com) and plotted the sum field, reflecting around the origin.  Looking at it this way, we can think of the sum as adding the distances to two infinite lines, as defined by the values of our rows and columns.  We call this sum field a kind of *norm field*.  
 
 ![nTop addition field](\assets\blog\X-Math-Tables\sum.png)
 
@@ -31,13 +31,13 @@ Let's fabricate those epigraphs from magnetic tiles, relating positive and negat
 
 ![Magnetic tile assemblies of the epigraphs](\assets\blog\X-Math-Tables\3.jpg)
 
-For the next discussion, consider also assembling four squares.  We can compare those four squares to the four equalteral triangles on the spherical model and the four diamonds (double equalteral triangles) in the hyperbolic model.  What happens when we take the pieces around each center apart and look at them flatted?
+For the next discussion, consider also assembling four squares.  We can compare those four squares to the four equilateral triangles on the spherical model and the four diamonds (double equilateral triangles) in the hyperbolic model.  What happens when we take the pieces around each center apart and look at them flatted?
 
 ![Flattened magnetic tiles](\assets\blog\X-Math-Tables\4.jpg)
 
 (It might help to arrange the pieces next to each other, if your student doesn't do it first.)
 
-X quickly observed that the exceess angle on the hyperbolic side completed the elliptical side, so they were on average flat.  
+X quickly observed that the excess angle on the hyperbolic side completed the elliptical side, so they were on average flat.  
 
 <hr>
 
