@@ -1,6 +1,8 @@
-{%- if jekyll.environment != 'development' -%}
+{%- if jekyll.environment != 'developmentXXX' -%}  
   {%- if site.comments.provider == 'disqus' -%}
     {%- include comments-providers/disqus.html -%}
+  {%- elsif site.comments.provider == 'giscus' -%}
+    {%- include comments-providers/giscus.html -%}
   {%- elsif site.comments.provider == 'gitalk' -%}
     {%- include comments-providers/gitalk.html -%}
   {%- elsif site.comments.provider == 'valine' -%}

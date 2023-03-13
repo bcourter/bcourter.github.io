@@ -1,0 +1,24 @@
+{%- if 
+  site.comments.giscus.repo and
+  site.comments.giscus.repo-id and
+  site.comments.giscus.category and
+  site.comments.giscus.category-id and
+  site.comments.giscus.mapping -%}
+
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ site.comments.giscus.repo }}"
+    data-repo-id="{{ site.comments.giscus.repo-id }}"
+    data-category="{{ site.comments.giscus.category }}"
+    data-category-id="{{ site.comments.giscus.category-id }}"
+    data-mapping="{{ site.comments.giscus.mapping }}"
+    data-strict="{{ site.comments.giscus.strict }}"
+    data-reactions-enabled="{{ site.comments.giscus.reactions-enabled }}"
+    data-emit-metadata="{{ site.comments.giscus.emit-metadata }}"
+    data-input-position="{{ site.comments.giscus.input-position }}"
+    data-theme="{{ site.comments.giscus.theme }}"
+    data-lang="{{ site.comments.giscus.lang }}"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+{%- endif -%}

@@ -1,9 +1,10 @@
 ---
 layout: article
-key: projects-home
+show_title: false
+comments: true
 ---
 
-## [Portfolio of Projects]
+## Portfolio of Projects
 
 [PDF overview of Portfolio](https://drive.google.com/file/d/0B0c5cswA4ANDSjlFTmMwT21oME0/view?usp=sharing&resourcekey=0-NpHrx-_ySL75HV5MdkoBjw){: onclick="gtag('event', 'download_portfolio');"}
 

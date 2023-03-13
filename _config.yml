@@ -119,11 +119,11 @@ sharing:
 ## => Comments
 ##############################
 comments:
-  provider: "disqus" # false (default), "disqus", "gitalk", "valine", "custom"
+  provider: "giscus" # false (default), "disqus", "giscus", "gitalk", "valine", "custom"
 
   ## Disqus
   disqus:
-    shortname: "blakecourter" # the Disqus shortname for the site
+    shortname: "" # the Disqus shortname for the site
 
   ## Gitalk
   # please refer to https://github.com/gitalk/gitalk for more info.
@@ -134,6 +134,21 @@ comments:
     owner       : # GitHub repo owner
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
       # - your GitHub Id
+
+  ## Giscus
+  # please refer to https://giscus.app/ for more info.
+  giscus:
+    repo: "bcourter/bcourter.github.io"
+    repo-id: "R_kgDOI8ujxA"
+    category: "Announcements"
+    category-id: "DIC_kwDOI8ujxM4CU1QC"
+    mapping: "pathname"
+    strict: "0"
+    reactions-enabled: "1"
+    emit-metadata: "0"
+    input-position: "bottom"
+    theme: "light"
+    lang: "en"
 
   ## Valine
   # please refer to https://valine.js.org/en/ for more info.
