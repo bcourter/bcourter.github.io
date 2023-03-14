@@ -24,6 +24,11 @@ I'm currently collecting my notes in a document that appears to be turning into 
 
 ### [Preview Manuscript&nbsp;&nbsp;&nbsp; <br>![UGF Manuscript Thumbnail](assets/Cover Thumbnail.svg){: width="30%" height="30%" align=center}]( {{site.data.ugf.latest}} ){: onclick="gtag('event', 'download_ugf');" target="_blank"}
 
+### [Subscribe to Updates](https://docs.google.com/forms/d/e/1FAIpQLSc7ODKkQD2kd8LXfOm2oLpm4oX-CWgO6g4Hz_fSaMZh3sm75Q/viewform?usp=sf_link){:target="_blank"}
+
+### [Follow on GitHub](https://github.com/bcourter/UGFs){:target="_blank"}
+
+### [Comment on Overleaf](https://www.overleaf.com/read/fczzwxwhktsj){:target="_blank"}
 
 ## Overview:
 Some of the main objects and operations relate as follows:
