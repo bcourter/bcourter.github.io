@@ -20,3 +20,5 @@ I'm thrilled to exhibit and present at the Romano gallery at Blair Academy from 
 </div>
 
 [Writeup on Blair.edu](https://www.blair.edu/about-blair/publications-news/post/~board/news/post/romano-gallery-hosts-geometry-manufacturing-exhibit)
+
+[PDF overview of Portfolio](https://drive.google.com/file/d/0B0c5cswA4ANDSjlFTmMwT21oME0/view?usp=sharing&resourcekey=0-NpHrx-_ySL75HV5MdkoBjw){: onclick="gtag('event', 'download_portfolio');"}
