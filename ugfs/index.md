@@ -20,7 +20,7 @@ h3 {
 
 Unit gradient fields (UGFs), like signed distance fields SDFs, have gradients with unit magnitude.  Although they do not necessarily represent the Euclidean distance to a shape, they are closed under offsets and booleans, unlike SDFs.  This project explores the relationships between SDFs, and UGFs, and other fields.
 
-I'm currently collecting my notes in a document that appears to be turning into a book.  It's at a very early stage where it could use feedback.  I look forward to your thoughts.
+I'm currently collecting my notes in a document that appears to be turning into a book.  It's at a very early stage where it could use feedback.  I look forward to your thoughts. 
 
 ### [Preview Manuscript&nbsp;&nbsp;&nbsp; <br>![UGF Manuscript Thumbnail](assets/Cover Thumbnail.svg){: width="30%" height="30%" align=center}]( {{site.data.ugf.latest}} ){: onclick="gtag('event', 'download_ugf');" target="_blank"}
 
