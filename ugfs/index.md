@@ -26,6 +26,8 @@ I'm currently collecting my notes in a document that appears to be turning into 
 
 ### [Subscribe to Updates](https://docs.google.com/forms/d/e/1FAIpQLSc7ODKkQD2kd8LXfOm2oLpm4oX-CWgO6g4Hz_fSaMZh3sm75Q/viewform?usp=sf_link){:target="_blank"}
 
+### [Slide Presentation (WIP)](https://docs.google.com/presentation/d/1z2GceOWif3Mue2EMChB6nVxam9DzBOQ-i1lPOPXsKRo/){: onclick="gtag('event', 'ugf_presentation');" target="_blank"}
+
 ### [Follow on GitHub](https://github.com/bcourter/UGFs){:target="_blank"}
 
 ### [Comment on Overleaf](https://www.overleaf.com/read/fczzwxwhktsj){:target="_blank"}
