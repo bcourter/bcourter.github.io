@@ -11,7 +11,7 @@ comments: true
 * [Old homepage with math art projects](/homepage/)
     * [Struttura](/homepage/Struttura/)
     * [Poincar&eacute; Kaleidoscope](/homepage/Poincare-WebGL/)
-    * [Struttura](/homepage/Four/)
+    * [Four.js](/homepage/Four/)
 
 * Sculpture
     * M&ouml;bius Gears
