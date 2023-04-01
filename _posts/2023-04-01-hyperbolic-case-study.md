@@ -10,9 +10,7 @@ As [mentioned yesterday](/2023/04/01/hyperbolic-cad.html){:target="_blank"}, hyp
 
 The key unit in any structural design, including beam lattices, is a triangle.  In Euclidean space, the sum of the angles of set of triangles around a vertex must total 360&deg;.  In hyperbolic space, we can increase that total angle to any number we want, even &infin;!
 
-![Surface curvature](http://roy.red/images/triangles.svg)
-
-*Triangles on surfaces of different curvature, courtesy of [Roy](http://roy.red/posts/uniting-spherical-and-hyperbolic-tilings/){:target="_blank"}*
+![Surface curvature](\assets\blog\Hyperbolic-Tessellation\Triangles.svg)
 
  <!--more-->
 
