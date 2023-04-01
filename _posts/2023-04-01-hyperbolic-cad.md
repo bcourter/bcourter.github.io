@@ -2,8 +2,6 @@
 title: Hyperbolic CAD for High-Performance Engineering
 tags: Education Geometry SDF Interactive 3DPrinting
 ---
-{% include math.html %}
-
 ## 1 April 2023
 
 As the cost of fabricating high-fidelity, quantum-collapsed geometry becomes increasingly prevalent, as an industry, we're forced to confront the following challenge: where are we going to put all of our crap?  At [QE3D](https://www.linkedin.com/company/qe3d/){:target="_blank"}, we're hard at work to collapse wave functions in our commitment to enable more engineering design space.   
@@ -40,6 +38,7 @@ Recall that in a Riemannian manifold, which in infinitely differentiable, the cu
 For example, consider the circles on this hyperbolic surface from [Keenan Crane](https://www.cs.cmu.edu/~kmcrane/){:target="_blank"}'s [course on discrete differential geometry](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/){:target="_blank"}.
 
 ![Hyperbolic Surface](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/figure6.svg)
+{% include math.html %}
 
 In any number of dimensions, we can use the sum and difference fields of two distance fields $$\df{A}$$ and $$\df{B}$$:
 
