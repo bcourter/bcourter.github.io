@@ -40,6 +40,7 @@ Recall that in a Riemannian manifold, which in infinitely differentiable, the cu
 For example, consider the circles on this hyperbolic surface from [Keenan Crane](https://www.cs.cmu.edu/~kmcrane/){:target="_blank"}'s [course on discrete differential geometry](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/){:target="_blank"}.
 
 ![Hyperbolic Surface](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/figure6.svg)
+
 In any number of dimensions, we can use the sum and difference fields of two distance fields $$\df{A}$$ and $$\df{B}$$:
 
 $$ \df{A}+\df{B} \;,$$
