@@ -41,11 +41,12 @@ For example, consider the circles on this hyperbolic surface from [Keenan Crane]
 
 ![Hyperbolic Surface](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/figure6.svg)
 
-In any number of dimensions, we can use the two-body field of two distance fields $$\df{A}$$ and $$\df{B}$$:
+In any number of dimensions, we can use the sum and difference fields of two distance fields $$\df{A}$$ and $$\df{B}$$:
 
-$$ \frac{\df{A}-\df{B}}{\df{A}+\df{B}} \;,$$
+$$ \df{A}+\df{B} $$
+$$ \df{A}-\df{B} \;,$$
 
-can be used to create such conformal maps between any two sets represented by $$\df{A}$$ and $$\df{B}$$, such as the conformal map beween this square and circle:
+to create conformal maps between any two sets represented by $$\df{A}$$ and $$\df{B}$$, such as the conformal map between this square and circle:
 
 ![Two body field](\assets\add-subtract.png)
 
