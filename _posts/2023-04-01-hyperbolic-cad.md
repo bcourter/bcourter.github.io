@@ -43,7 +43,10 @@ For example, consider the circles on this hyperbolic surface from [Keenan Crane]
 
 In any number of dimensions, we can use the sum and difference fields of two distance fields $$\df{A}$$ and $$\df{B}$$:
 
-$$ \df{A}+\df{B} $$
+$$ \df{A}+\df{B} \;,$$
+
+and:
+
 $$ \df{A}-\df{B} \;,$$
 
 to create conformal maps between any two sets represented by $$\df{A}$$ and $$\df{B}$$, such as the conformal map between this square and circle:
