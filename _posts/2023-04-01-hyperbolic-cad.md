@@ -33,13 +33,13 @@ Throwing differential geometry out the window, we apply variational analysis to 
 
 ### Conformal maps into hyperbolic embeddings
 
+{% include math.html %}
+
 Recall that in a Riemannian manifold, which in infinitely differentiable, the curvature at any point maybe positive negative, or hyperbolic.  As we increase in dimension, the hyperbolic case becomes more prevalent.  This trend offers the opportunity to put that extra space to work!  On a hyperbolic point of a surface, for example, a circle drawn around that point has a larger circumference that the same radius circle on a flat (Euclidean) surface, which is in turn larger than a circle of the same radius in spherical space.  That larger circumference gives us more space to place objects, and the same is even more true as you increase dimension.  
 
 For example, consider the circles on this hyperbolic surface from [Keenan Crane](https://www.cs.cmu.edu/~kmcrane/){:target="_blank"}'s [course on discrete differential geometry](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/){:target="_blank"}.
 
 ![Hyperbolic Surface](https://www.cs.cmu.edu/~kmcrane/Projects/DDG/figure6.svg)
-{% include math.html %}
-
 In any number of dimensions, we can use the sum and difference fields of two distance fields $$\df{A}$$ and $$\df{B}$$:
 
 $$ \df{A}+\df{B} \;,$$
