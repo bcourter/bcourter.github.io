@@ -16,7 +16,7 @@ At QE3D, we manifest our quantum technology through three regimes for AI-driven,
 
  <!--more-->
 
-### The geometric forth dimension
+### The geometric fourth dimension
 
 [Daniel Piker](https://twitter.com/KangarooPhysics?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor){:target="_blank"} introduced me to the concept of transforming otherwise Euclidean three-dimensional objects via stereographic projection onto the Riemann hypersphere.  Astonished by the myopia of the [three.js](https://threejs.org/){:target="_blank"} community, I launched [four.js](https://github.com/bcourter/four.js){:target="_blank"}, which has mostly enjoyed success in the dimension orthogonal to this reality.  
 
