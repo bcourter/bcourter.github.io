@@ -2,7 +2,7 @@
 title: Hyperbolic CAD for High-Performance Engineering
 tags: Education Geometry SDF Interactive 3DPrinting
 ---
-## 1 April 2023
+## 1 April 2023 (Fiction)
 
 As the cost of fabricating high-fidelity, quantum-collapsed geometry becomes increasingly prevalent, as an industry, we're forced to confront the following challenge: where are we going to put all of our crap?  At [QE3D](https://www.linkedin.com/company/qe3d/){:target="_blank"}, we're hard at work to collapse wave functions in our commitment to enable more engineering design space.   
 

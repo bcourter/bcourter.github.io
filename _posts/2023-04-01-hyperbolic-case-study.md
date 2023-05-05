@@ -2,7 +2,7 @@
 title: Case Study&#58; Hyperbolic multiscale lattices for the entangled lifestyle
 tags: Education Geometry SDF Interactive 3DPrinting
 ---
-## 1 April 2023
+## 1 April 2023 (Fiction)
 
 As [mentioned yesterday](/2023/04/01/hyperbolic-cad.html){:target="_blank"}, hyperbolic space is more spatially dense than Euclidean space, and therefore offers opportunities for higher performance and fidelity in engineering applications.  In this case study, we'll examine how to prepare ordinary Euclidean CAD and mesh geometry for embedding in hyperbolic space and manufacture in [QE3D](https://www.linkedin.com/company/qe3d/){:target="_blank"}'s quantum entanglement production system.  
 
