@@ -57,17 +57,21 @@ As a third example, although not normally considered a common option during offs
 
 ## Offsets and SDFs
 
-When modeling with fields, we often "offset" a distance field $$\df{F}$$ as an alternative to offsetting the boundary of the related shape $$\shape{F}$$. (In our notation, one can convert a shape to a distance field via $$\df{F} = \DF \shape{F}$$ or extract a shape from the non-positive region of a field via $$\shape{F} = \Shape \df{F}$$.)  We define the *offset of the field* $$\df{F}$$ *by constant distance* $$\lambda$$:
+When modeling with fields, we often "offset" a field $$F$$ as an alternative to offsetting the boundary of the shape $$\shape{F}$$ it represents. 
 
-$$ \func{offset}_{\lambda}(\df{F}) \equiv \df{F} - \lambda \;,$$
+(In our notation, one can convert a shape to a distance field via $$\df{F} = \DF \shape{F}$$ or extract a shape from the non-positive region of a field via $$\shape{F} = \Shape F$$.  We also annotate planes $$\plane{P}$$, distance fields $$\df{D}$$, and unit gradient fields $$\ugf{G}$$ to distinguish them from general fields $$F$$.)  
 
-so the offset behavior is baked into the field once its made.  If we'd like different edge treatments on different edges, somehow we need to produce a primitive with the proper behavior ahead of time.  
+We define the *offset of the field* $$F$$ *by constant distance* $$\lambda$$:
+
+$$ \func{Offset}_{\lambda}(F) \equiv F - \lambda \;,$$
+
+so the result of the offset depends on the gradient of $$F$$.  One can think of the offset behavior as baked into the field's geometry itself, not something one can do to the geometry, as with boundary modeling.  If we'd like different edge treatments on different edges, somehow we need to produce a fields with the proper behavior encoded in them ahead of time.  
 
 For example:
 
 | ![UGF example nominal](/assets/blog/UGFs/01 Square UGF Intro Nominal.png) | ![UGF example offset](/assets/blog/UGFs/01 Square UGF Intro Offset.png) | 
 
-Clearly, only the top right corner represents an SDF.  On the other hand, the gradient, where defined, always has unit magnitude, as observed by the 1:1 slope in the field's *epigraph*, $$\planeSm{z} - \df{F}(\planeSm{x}, \planeSm{y})$$:
+Clearly, only the top right corner represents an SDF.  In this example, the gradient, where defined, always has unit magnitude, as observed by the 1:1 slope in the field's *epigraph*, $$\planeSm{z} - F(\planeSm{x}, \planeSm{y})$$:
 
 <div class="extensions extensions--video"> <iframe title="Intro UGF 3D" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/691afa46a83c4c25a95b844c5bb1e2ee/embed"> </iframe> </div>
 
@@ -83,9 +87,9 @@ UGFs, fields with unit gradient magnitude (where the gradient is defined), offer
 
 The offset of a distance field is not, in general, a distance field.  Starting with a SDF, if one offsets a convex edge inward or a concave edge outward, the result is a field that no longer represents the distance to the isosurface.  (We'll dedicate a post on this topic soon, but if you wanted an exercise, this would be it.)  Similarly, [as observed by Inigo Quilez](https://www.iquilezles.org/www/articles/interiordistance/interiordistance.htm){:target="_blank"}, Booleans, as produced by $$\min$$ and $$\max$$, do not produce distances.  Most other common operations, including blending, smoothing, interpolating, variable offsetting, warping, and even scaling all can introduce artifacts that cause subsequent operations to behave unpredictably.  Finally, we can also construct UGFs from other UGFs in ways that are not possible with SDFs.  
 
-Over the past year or so, I've been gathering my implicit modeling practices into a manuscript unified by organizing principle of UGFs and how they relate to SDFs and their relatives.  Now that the book has achieved critical mass, I thought I'd start to introduce UGFs thought a blog series.  With the release of [nTop 4.0 and its stunning new UGF-powered logo](https://ntop.com){:target="_blank"} and in anticipation of seeing old friends at [CDFAM 23](https://cdfam.com/){:target="_blank"}&#42;, it's time to start talking about the project!  
+Over the past year or so, I've been gathering my implicit modeling practices into a manuscript unified by organizing principle of UGFs and how they relate to SDFs and their relatives.  Now that the book has achieved critical mass, I thought I'd start to introduce UGFs thought a blog series.  With the release of [nTop 4.0](https://ntop.com){:target="_blank"} and its new spherecube and UGF themed logo, as well as in anticipation of conversations at [CDFAM 23](https://cdfam.com/){:target="_blank"}&#42;, it's time to start talking about the project!  
 
-| ![](/assets/Spacer-100x250.png)| [![nTop Logo](/assets/blog/UGFs/nTop.jpg){: height="100%" width="100%"}](https://ntop.com){:target="_blank"} | [![CDFAM Logo](/assets/blog/UGFs/cdfam.png){: height="30%" width="30%"}](https://cdfam.com/){:target="_blank"} | ![](/assets/Spacer-100x250.png) |
+| ![](/assets/Spacer-150.png)| ![](/assets/Spacer-150.png) | [![nTop Logo](/assets/blog/UGFs/nTop.jpg){: height="100%" width="100%"}](https://ntop.com){:target="_blank"} | ![](/assets/Spacer-150.png) | [![CDFAM Logo](/assets/blog/UGFs/cdfam.png){: height="30%" width="30%"}](https://cdfam.com/){:target="_blank"} | ![](/assets/Spacer-150.png) |
 
 &#42; <font size="2"> Note: while the nTop logo, as most of the images on this page, was designed in nTop, the CDFAM logo appears to have been generated using machine learning. </font>
 
