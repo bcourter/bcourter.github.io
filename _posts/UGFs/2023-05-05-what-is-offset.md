@@ -85,7 +85,7 @@ The offset of a distance field is not, in general, a distance field.  Starting w
 
 Over the past year or so, I've been gathering my implicit modeling practices into a manuscript unified by organizing principle of UGFs and how they relate to SDFs and their relatives.  Now that the book has achieved critical mass, I thought I'd start to introduce UGFs thought a blog series.  With the release of [nTop 4.0 and its stunning new UGF-powered logo](https://ntop.com){:target="_blank"} and in anticipation of seeing old friends at [CDFAM 23](https://cdfam.com/){:target="_blank"}&#42;, it's time to start talking about the project!  
 
-| &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | [![nTop Logo](\assets\blog\UGFs\ntop.jpg){:style="height: 8rem"}](https://ntop.com){:target="_blank"} | [![CDFAM Logo](\assets\blog\UGFs\cdfam.png){:style="height: 10rem"}](https://cdfam.com/){:target="_blank"} | &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | [![nTop Logo](\assets\blog\UGFs\ntop.jpg){: height="100%" width="100%"}](https://ntop.com){:target="_blank"} | [![CDFAM Logo](\assets\blog\UGFs\cdfam.png){: height="30%" width="30%"}](https://cdfam.com/){:target="_blank"} | &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
 
 &#42; <font size="2"> Note: while the nTop logo, as most of the images on this page, was designed in nTop, the CDFAM logo appears to have been generated using machine learning. </font>
 
