@@ -65,7 +65,7 @@ so the offset behavior is baked into the field once its made.  If we'd like diff
 
 For example:
 
-| ![UGF example nominal](\assets\blog\UGFs\01 Square UGF Intro Nominal.png) | ![UGF example offset](\assets\blog\UGFs\01 Square UGF Intro Offset.png) | 
+| ![UGF example nominal](/assets/blog/UGFs/01 Square UGF Intro Nominal.png) | ![UGF example offset](/assets/blog/UGFs/01 Square UGF Intro Offset.png) | 
 
 Clearly, only the top right corner represents an SDF.  On the other hand, the gradient, where defined, always has unit magnitude, as observed by the 1:1 slope in the field's *epigraph*, $$\planeSm{z} - \df{F}(\planeSm{x}, \planeSm{y})$$:
 
@@ -73,7 +73,7 @@ Clearly, only the top right corner represents an SDF.  On the other hand, the gr
 
 A similar situation presents itself in 3D.  How the edges of the cube propagate when this spherecube is rounded is predetermined by the field surrounding the cube, yet it's not visible on the nominal geometry:
 
-| ![Spherecube sharp](\assets\blog\UGFs\01 SphereCube Round Sharp.png) | ![Spherecube round](\assets\blog\UGFs\01 SphereCube Round Round.png) | ![Spherecube chamfer](\assets\blog\UGFs\01 SphereCube Round Chamfer.png) | 
+| ![Spherecube sharp](/assets/blog/UGFs/01 SphereCube Round Sharp.png) | ![Spherecube round](/assets/blog/UGFs/01 SphereCube Round Round.png) | ![Spherecube chamfer](/assets/blog/UGFs/01 SphereCube Round Chamfer.png) | 
 
 The left option is most common with B-rep modelers when rounding an edge, and some provide the option to round the blend, as seen in the center.  UGF modeling, however, provides a unique ability to add more control, as expressed with the chamfered alternative on the right.
 
@@ -85,7 +85,7 @@ The offset of a distance field is not, in general, a distance field.  Starting w
 
 Over the past year or so, I've been gathering my implicit modeling practices into a manuscript unified by organizing principle of UGFs and how they relate to SDFs and their relatives.  Now that the book has achieved critical mass, I thought I'd start to introduce UGFs thought a blog series.  With the release of [nTop 4.0 and its stunning new UGF-powered logo](https://ntop.com){:target="_blank"} and in anticipation of seeing old friends at [CDFAM 23](https://cdfam.com/){:target="_blank"}&#42;, it's time to start talking about the project!  
 
-| &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | [![nTop Logo](\assets\blog\UGFs\ntop.jpg){: height="100%" width="100%"}](https://ntop.com){:target="_blank"} | [![CDFAM Logo](\assets\blog\UGFs\cdfam.png){: height="30%" width="30%"}](https://cdfam.com/){:target="_blank"} | &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | [![nTop Logo](/assets/blog/UGFs/ntop.jpg){: height="100%" width="100%"}](https://ntop.com){:target="_blank"} | [![CDFAM Logo](/assets/blog/UGFs/cdfam.png){: height="30%" width="30%"}](https://cdfam.com/){:target="_blank"} | &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
 
 &#42; <font size="2"> Note: while the nTop logo, as most of the images on this page, was designed in nTop, the CDFAM logo appears to have been generated using machine learning. </font>
 
@@ -93,7 +93,7 @@ Over the past year or so, I've been gathering my implicit modeling practices int
 
 Let's take a look at a less theoretical example, where we want to control different edges with different edge treatments.  Here, we're also using UGFs to produce drafted faces and a lip feature, as common in molding applications.  
 
-| ![Drafted all sharp](\assets\blog\UGFs\01 Drafted Split Sharp Sharp.png) | ![Drafted half and half](\assets\blog\UGFs\01 Drafted Split Round Sharp.png) | ![Drafted all round](\assets\blog\UGFs\01 Drafted Split Round Round.png) |
+| ![Drafted all sharp](/assets/blog/UGFs/01 Drafted Split Sharp Sharp.png) | ![Drafted half and half](/assets/blog/UGFs/01 Drafted Split Round Sharp.png) | ![Drafted all round](/assets/blog/UGFs/01 Drafted Split Round Round.png) |
 
 Each Boolean operation offers an opportunity to choose what kind of edge treatment is appropriate, establishing downstream design intent.  When modeling with UGFs, it is natural to encode such design intent sooner than with explicit modeling, enabling downstream operations to behave predictably and be automated.  
 
@@ -117,4 +117,4 @@ So to summarize: UGFs are like SDFs but are more useful, enabling a more express
 
 *Closing image: multiscale, spatially-varying FDM/FFF infill with constant weld offsets:*
 
-![FDM Wheel](\assets\blog\UGFs\UGF-Wheel.svg)
+![FDM Wheel](/assets/blog/UGFs/UGF-Wheel.svg)
