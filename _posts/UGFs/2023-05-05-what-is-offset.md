@@ -4,7 +4,7 @@ tags: SDF UGF Geometry
 ---
 {% include math.html %}
 
-For those of us who work in engineering and geometric modeling, "offset" is an everyday operation.  We use it in 2D and 3D to produce curves and surfaces at constant distance from other curves and surfaces.  With experience, we learn that offset can be a flimsy operation, especially with precise B-rep solids and meshes.  [Implicit modeling](https://www.blakecourter.com/2019/03/12/ntopology-implicits-basics.html), in particular, the signed distance field (SDF) representation of shapes, offers robust offsetting, but again, with experience, we learn that the results aren't always what we expect.  
+For those of us who work in engineering and geometric modeling, "offset" is an everyday operation.  We use it in 2D and 3D to produce curves and surfaces at constant distance from other curves and surfaces.  With experience, we learn that offset can be failure-prone, especially with precise B-rep solids and meshes.  [Implicit modeling](https://www.blakecourter.com/2019/03/12/ntopology-implicits-basics.html), in particular, the signed distance field (SDF) representation of shapes, offers robust offsetting, but again, with experience, we learn that the results aren't always what we expect.  
 
 Take these three examples of an offset rectangle, created using three different "line joining" approaches that date back to the early days of 2D graphics and are built into your browser:
 
@@ -59,13 +59,13 @@ As a third example, although not normally considered a common option during offs
 
 When modeling with fields, we often "offset" a field $$F$$ as an alternative to offsetting the boundary of the shape $$\shape{F}$$ it represents. 
 
-(In our notation, one can convert a shape to a distance field via $$\df{F} = \DF \shape{F}$$ or extract a shape from the non-positive region of a field via $$\shape{F} = \Shape F$$.  We also annotate planes $$\plane{P}$$, distance fields $$\df{D}$$, and unit gradient fields $$\ugf{G}$$ to distinguish them from general fields $$F$$.)  
+(In our notation, one can convert a shape to a distance field via $$\df{F} = \DF \shape{F}$$ or extract a shape from the non-positive region of a field via $$\shape{F} = \Shape F$$.  We also annotate planes $$\plane{P}$$, distance fields $$\df{D}$$, and unit gradient fields $$\ugf{G}$$ to distinguish them from general fields $$F$$.  The next post will cover these topics.)  
 
 We define the *offset of the field* $$F$$ *by constant distance* $$\lambda$$:
 
 $$ \func{Offset}_{\lambda}(F) \equiv F - \lambda \;,$$
 
-so the result of the offset depends on the gradient of $$F$$.  One can think of the offset behavior as baked into the field's geometry itself, not something one can do to the geometry, as with boundary modeling.  If we'd like different edge treatments on different edges, somehow we need to produce a fields with the proper behavior encoded in them ahead of time.  
+so the distance the zero isosurface moves depends on the gradient of $$F$$.  One can think of the offset behavior as baked into the field's geometry itself, not something one can do to the geometry, as with boundary modeling.  If we'd like different edge treatments on different edges, somehow we need to produce a fields with the proper behavior encoded in them ahead of time.  
 
 For example:
 
@@ -122,3 +122,5 @@ So to summarize: UGFs are like SDFs but are more useful, enabling a more express
 *Closing image: multiscale, spatially-varying FDM/FFF infill with constant weld offsets:*
 
 ![FDM Wheel](/assets/blog/UGFs/UGF-Wheel.svg)
+
+[Sign up for major updates on the UGF manuscript](https://docs.google.com/forms/d/e/1FAIpQLSc7ODKkQD2kd8LXfOm2oLpm4oX-CWgO6g4Hz_fSaMZh3sm75Q/viewform?usp=sf_link){:target="_blank"}
