@@ -2,12 +2,28 @@
 $$ \newcommand{\R}{\mathbb{R}} $$
 
 $$ \newcommand{\shape}[1]{\mathcal{#1}} $$
+$$ \newcommand{\grad}{\boldsymbol{\nabla\!}} $$
+$$ \newcommand{\BoundaryMap}[2][]{\vec{\mathbf{Q}}_{#2}^{#1}} $$
+
+$$ \newcommand{\norm}[1]{\left\|#1\right\|} $$
+$$ \newcommand{\abs}[1]{\left|#1\right|} $$
+
+$$ \newcommand{\func}[1]{\; \mathop{\text{#1}}} $$
+
 
 $$ \newcommand{\func}[1]{\mathop{\rm #1}\nolimits} $$
 
 $$ \newcommand{\DF}{\mathfrak{D\hspace{-0.2em}\scriptstyle{F}\,}} $$
 $$ \newcommand{\Shape}{\boldsymbol{\Omega}} $$
 
+$$ \newcommand{\wavysmile}{\raise{-0.2ex}{\smallsmile}} $$
+$$ \newcommand{\wavyfrown}{\raise{ 0.2ex}{\smallfrown}} $$
+$$ \newcommand{\wavy}{\wavysmile\!\wavyfrown\!\wavysmile\!\wavyfrown\!\wavysmile} $$
+$$ \newcommand{\sampson}[1]{\hspace{-1.3em}
+	\style{display: inline-block; transform: translateY(-0.1em) rotate(90deg) scale(0.4, 0.3) }{\wavy} 
+	\hspace{-1.4em} #1 \hspace{-1.3em} 
+	\style{display: inline-block; transform: translateY(-0.1em) rotate(-90deg) scale(0.4, 0.3)}{\wavy}
+	\hspace{-1.4em}} $$
 
 $$ \newcommand{\fieldset}[2]{#1 \hspace{-0.65em} \lower{0.8ex}{\scriptscriptstyle{#2}} \;} $$
 $$ \newcommand{\planesymbol}{~ \style{display: inline-block; transform: scale(2.24, 0.66)}{\diamond}} $$
@@ -20,8 +36,28 @@ $$ \newcommand{\plane}[1]{\fieldset{#1}{\planesymbol}} $$
 $$ \newcommand{\fieldsetSm}[2]{#1 \hspace{-0.48em} \lower{0.8ex}{\scriptscriptstyle{#2}} \;} $$
 $$ \newcommand{\planeSm}[1]{\fieldsetSm{#1}{\planesymbol}} $$
 
+<!-- Booleans -->
 
+$$ \newcommand{\cupset}[2]{\; \mathop{#1 \hspace{-0.51em} \raise{0.24ex}{#2} \;}} $$
+$$ \newcommand{\capset}[2]{\; \mathop{#1 \hspace{-0.51em} \raise{0.24ex}{#2} \;}} $$
 
+$$ \newcommand{\minmaxCup}{\;\vee\;} $$
+$$ \newcommand{\minmaxCap}{\;\wedge\;} $$
+$$ \newcommand{\arbitraryCup}{\cupset{\vee}  {\scriptstyle{\raise{ 0.4ex}{*}}}} $$
+$$ \newcommand{\arbitraryCap}{\capset{\wedge}{\scriptstyle{\raise{-0.4ex}{*}}}} $$
+
+$$ \newcommand{\distanceCup}{\cupset{\cup}{\scriptstyle{\circ}}} $$
+$$ \newcommand{\distanceCap}{\capset{\cap}{\scriptstyle{\circ}}} $$
+$$ \newcommand{\euclideanSymbol}{\hspace{-0.02em}\raise{0.1ex}{\scriptscriptstyle{+}}} $$
+$$ \newcommand{\euclideanCup}{\cupset{\cup}{\euclideanSymbol}} $$
+$$ \newcommand{\euclideanCap}{\capset{\cap}{\euclideanSymbol}} $$
+
+$$ \newcommand{\chamferMinmaxCup}{\;\sqcup\;} $$
+$$ \newcommand{\chamferMinmaxCap}{\;\sqcap\;} $$
+$$ \newcommand{\chamferDistanceCup}{\cupset{\sqcup}{\scriptstyle{\circ}}} $$
+$$ \newcommand{\chamferDistanceCap}{\capset{\sqcap}{\scriptstyle{\circ}}} $$
+$$ \newcommand{\chamferEuclideanCup}{\cupset{\sqcup}{\euclideanSymbol}} $$
+$$ \newcommand{\chamferEuclideanCap}{\capset{\sqcap}{\euclideanSymbol}} $$
 
 
 </div>
