@@ -12,7 +12,7 @@ Many readers [of the last post](2023/05/05/what-is-offset.html) requested a more
 
 *If the controls aren't working on your device, click through to [ShaderToy](https://www.shadertoy.com/view/clV3Rz)*
 
-With `SDF` enabled and `offset` zeroed, the *boundary map* arrow always points to the boundary, via the distance intersection of two planes, $$ \df{F} = \plane{A} \distanceCap \plane{B} $$ .  With `SDF` disabled, the points in a region opposite of the vertex, the *normal cone* of the intersection, fail to point at the boundary.  The normal cone, shown in green, is the set of points closest to the sharp intersection.  Similarly, with `SDF` enabled and negative `offset`, the boundary map of points in the normal cone of the intersection trace out the classic *swallowtail* failure mode of offsetting chains of curves with fillets.  
+With `SDF` enabled and `offset` non-negative, the *boundary map* arrow always points to the boundary, via the distance intersection of two planes, $$ \df{F} = \plane{A} \distanceCap \plane{B} $$ .  With `SDF` disabled, the points in a region opposite of the vertex, the *normal cone* of the intersection, fail to point at the boundary.  The normal cone, shown in green, is the set of points closest to the sharp intersection.  Similarly, with `SDF` enabled and negative `offset`, the boundary map of points in the normal cone of the intersection trace out the classic *swallowtail* failure mode of offsetting chains of curves with fillets.  
 
 [![Swallowtail bird](https://ofbirdsandb.files.wordpress.com/2015/09/stki.jpg)
 	*A swallow with its tail*
@@ -20,11 +20,11 @@ With `SDF` enabled and `offset` zeroed, the *boundary map* arrow always points t
 
 ## Definitions
 
-Per requests, let's nail down some definitions to at least a SIGGRAPH level of rigor.  For nuanced definitions, see [Luo, Wang, and Lukens's framing of SDFs using Variational Analysis](https://link.springer.com/article/10.1007/s10957-018-1414-2).  
+Let's nail down some definitions to at least a SIGGRAPH level of rigor.  For nuanced definitions, see [Luo, Wang, and Lukens's framing of SDFs using Variational Analysis](https://link.springer.com/article/10.1007/s10957-018-1414-2).  
 
 ### Fields
 
-Fields are functions mapping a smoothly curved space, usually $$\R^n$$, to the affinely extended reals $$\overline\R \equiv \R \cup \{\pm\infty\}$$.  If you haven't seen these before, it turns out that you can do the hokey-pokey with analysis and simply define the ends of the real number line to be closed instead of open, even dividing (anything other than zero) by zero; feel free to resent your third grade teachers and find new brilliance in IEEE floating point representations.  
+Fields are functions mapping a smoothly curved space, usually $$\R^n$$, to the affinely extended reals $$\overline\R \equiv \R \cup \{\pm\infty\}$$.  If you haven't seen extended reals before, it turns out that you can do the hokey-pokey with analysis and simply define the ends of the real number line to be closed instead of open, even dividing (anything other than zero) by zero; feel free to resent your third grade teachers and find new brilliance in IEEE floating point representations.  
 
 ### Unit Gradient Fields
 
@@ -85,11 +85,11 @@ It's worth comparing the DF blend to common implicits blends in the graphics com
 
 $$ \ugf{A} \euclideanCup \ugf{B} \equiv \max\!\left(\ugf{A} \minmaxCup \ugf{B}, 0 \right) \;-\; \norm{\left(\min(\ugf{A}, 0),\strut\min(\ugf{B}, 0) \right)} \;,  $$ 
 
-where $$ \norm{\cdot} $$ is the Euclidean norm of the vector of fields being blended.  We'll use variants of the traditional union and intersections symbols for blended or rounded intersections.  
+where $$ \norm{\cdot} $$ is the Euclidean norm of a vector of fields.  We'll use variants of the traditional union and intersections symbols for blended or rounded intersections. 
 
 ### Scaled Quilez Blend
 
-[Quilez](https://iquilezles.org/articles/smin/) provide several examples of "smooth minimum functions" that blend the entire discontinuity typically produced by $$\min$$.  With constant blend radius, they do not repeat the logic of $$\min$$ an $$\max$$, but by using an estimate of distance-to-curve for their intersection, we can produce a logic-preserving minimum.  This radius variation works on Quilez' polynomial and exponential $$\func{smin}$$:
+[Quilez](https://iquilezles.org/articles/smin/) provide several examples of "smooth minimum functions" that blend the entire discontinuity typically produced by $$\min$$.  With constant blend radius, they do not repeat the logic of $$\min$$ and $$\max$$, but by using an estimate of distance-to-curve for their intersection, we can produce a logic-preserving minimum.  This radius variation works on Quilez' polynomial and exponential $$\func{smin}$$:
 
 $$ \func{smin}\left(\ugf{A}\,, \ugf{B}\,, \abs{\ugf{A} \, \ugf{B } \; (1 - \grad{\ugf{A}} \,\cdot \grad{\ugf{B}})}\right) \;.$$
 
@@ -124,7 +124,7 @@ As a preview to future posts on edge treatments, see these two social media thre
 
 ![John Nash Stereotype](https://64.media.tumblr.com/tumblr_lpeps6ji5C1r13x2bo1_500.jpg)
 
-*While I'm a fan of John Nash's work, this portrayal never landed for me.  However, I did question my sanity working on this diagram.*
+*While I'm a fan of John Nash's work, this portrayal never landed for me.  That said, I did question my sanity working on this diagram.*
 
 Given a few different grades of fields and a set of operators, one might wonder if there's any structure worth noting.  For example, the distance-preserving Boolean maps DFs to DFs.  Here's my attempt to document the structure of the system, with a few operations to be defined in later posts:
 
