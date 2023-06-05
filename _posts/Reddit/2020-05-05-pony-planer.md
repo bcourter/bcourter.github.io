@@ -1,6 +1,6 @@
 ---
 title: Pony Planer
-tags: Woodworking Machines Reddit
+tags: Woodworking Tools Reddit
 ---
 An old machine restoration.  Two posts:
 <!--more-->

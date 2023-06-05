@@ -1,6 +1,6 @@
 ---
 title: nTop Platform 3.0 and Beyond
-tags: nTopology SDF Interop Video
+tags: nTop SDF Interop Video
 ---
 
 nTop 3.0 is overwhelmingly the most exciting technology available for Field-Driven Design.  In this video, my colleages and I take a behind-the-scenes review of what made it possible.  

@@ -1,6 +1,6 @@
 ---
 title: April Fools 2022 Implicit Loft
-tags: nTopology SDF
+tags: nTop SDF
 ---
 
 To-date, no one has provided a pure implicit approach to loft bewteen oriented curves.  Prepare to be amazed.

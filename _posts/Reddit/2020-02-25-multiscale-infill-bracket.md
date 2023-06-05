@@ -1,6 +1,6 @@
 ---
 title: FDM/FFF Bracket with Multiscale Infill
-tags: 3DPrinting Geometry Reddit nTopology
+tags: 3DPrinting Geometry Reddit nTop
 ---
 Have finally started to get the hang of repeating, multiscale infill.  Designed in nTopology.
 <!--more-->

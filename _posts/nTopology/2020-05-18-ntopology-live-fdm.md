@@ -1,6 +1,6 @@
 ---
 title: nTop Live&#58; Functional Toolpath Design for FDM/FFF
-tags: nTopology SDF TwoBody Video Stratasys
+tags: nTop SDF TwoBody Video Stratasys
 ---
 
 This video shows how to make FDM/FFF infill, featuring the zigs and the zags:

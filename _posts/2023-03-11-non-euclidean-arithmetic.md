@@ -1,6 +1,6 @@
 ---
 title: Discrete non-Euclidean geometry for kids via trivial arithmetic
-tags: SDF Geometry nTopology Education 
+tags: SDF Geometry nTop Education 
 ---
 
 My daughter, "X", who just turned five, has been enjoying adding and subtracting small whole numbers in her head.  She is just starting to write, so we made a little table for her to practice.  Here she is adding:

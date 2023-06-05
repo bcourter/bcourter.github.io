@@ -1,6 +1,6 @@
 ---
 title: B-rep vs. Implicit Modeling&#58; Understanding the Basics
-tags: nTopology SDF
+tags: nTop SDF
 ---
 In the early days of nTopology, I wrote a few posts for their blog.  This post compares the B-rep and implicit modeling approaches at a high level:
 
