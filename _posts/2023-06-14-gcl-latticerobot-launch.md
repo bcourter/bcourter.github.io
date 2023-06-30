@@ -13,6 +13,8 @@ With the UGF research entering a public phase, some other collaborations from th
 
 > [Develop3D: LatticeRobot announces community for advancing lattices in products](https://develop3d.com/cad/latticerobot-announces-community-for-advancing-lattices-in-products/)
 
+> [TCT: LatticeRobot launches engineering community for lattice research and knowledge share](https://www.tctmagazine.com/additive-manufacturing-3d-printing-news/software-and-simulation-news/latticerobot-launches-engineering-community-for-lattice-rese/)
+
  <!--more-->
 
 ### What is [Gradient Control Labs](https://www.gradientcontrol.com) (GCL)?
