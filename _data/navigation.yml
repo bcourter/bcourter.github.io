@@ -62,29 +62,29 @@ header:
     url: /about.html
 
 sdf-ugf:
-  - title:      Implicit Modeling Posts <br> Background
+  - title:      Implicit Modeling Content <br> Background
     children:
       - title:  Retrospective&#58; The Promise of Unbreakable Geometry
         url:    /2023/06/03/foreword.html
 
-  - title:      Unit Gradient Field series
+  - title:      Unit Gradient Field Series
     children:
       - title:  What Do We Mean by Offset?
         url:    /2023/05/05/what-is-offset.html
       - title:  SDFs, UGFs, and Their Friends
         url:    /2023/05/18/field-notation.html
     
-  - title:      Intro to implicit modeling series at nTop
+  - title:      Intro to implicit modeling Series from the nTop Blog
     children:
       - title:  Implicit Modeling Intro
         url:    /2019/01/22/ntopology-implicit-why.html
       - title:  B-rep vs Implicit 1&#58; <br> Basic Concepts
         url:    /2019/03/12/ntopology-implicits-basics.html
-      - title:  B-rep vs Implicit 1&#58; <br> Why Implicits Succeed
+      - title:  B-rep vs Implicit 2&#58; <br> Why Implicits Succeed
         url:    /2019/03/28/ntopology-implicits-succeed.html
-      - title:  Interpolating with Implicit Modeling
+      - title:  Interpolating with <br> Implicit Modeling
         url:    /2019/04/12/ntopology-implicit-interpolation.html
-      - title:  Lightweighting with Implicit Modeling
+      - title:  Lightweighting with <br> Implicit Modeling
         url:    /2019/05/08/ntopology-implicit-lightweighting.html
       - title:  Intro to Field-Driven Design
         url:    /2019/03/04/ntopology-fdd.html
@@ -92,7 +92,7 @@ sdf-ugf:
   - title:      Videos and Social
     children:
       - title:  The Two-Body Field
-        url:    /2020/02/25/multiscale-infill-bracket.html
+        url:    /2020/04/14/ntopology-live-twobody.html
       - title:  Multi-domain, <br> Laminated Fields
         url:    /2020/04/27/ntopology-live-domains.html
       - title:  FDM/FFF Toolpathing

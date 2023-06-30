@@ -19,13 +19,17 @@ key: page-about
 comment: false
 ---
 
-###### Generative Engineering
-###### Geometry and Manufacturing
-###### Unit Gradient Magnitude Fields
+##### Main Interests:
+* Generative Engineering and Sculpture
+* Geometry and Manufacturing
+* [Unit Gradient Fields (UGFs)](/2023/06/03/foreword.html)
 
 ##### Currently:
-* Independent advisor and geometry researcher
+* Managing Director, [Gradient Control Laboratories](https://gradientcontrol.com)
 * Fellow, [nTopology](https://ntopology.com)
+* Independent Researcher of [UGFs](/2023/06/03/foreword.html)
+* Chair, [LatticeRobot](https://LatticeRobot.com)
+* Board Member, [Intact Solutions](https://intact-solutions.com)
 
 ##### Advisor to:
 * [Shapr3D](https://shapr3d.com)
