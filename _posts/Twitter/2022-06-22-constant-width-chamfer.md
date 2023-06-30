@@ -1,6 +1,8 @@
 ---
 title: Constant width chamfer
 tags: SDF nTop Twitter
+sidebar:
+    nav: sdf-ugf
 ---
 
 <blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">Following up from yesterday here&#39;s how to make a constant-width chamfer using implicit modeling. Images are from <a href="https://twitter.com/nTopology?ref_src=twsrc%5Etfw">@nTopology</a>. <br><br>(1/n) <a href="https://t.co/6k7BtKv3cP">pic.twitter.com/6k7BtKv3cP</a></p>&mdash; Blake Courter (@bcourter) <a href="https://twitter.com/bcourter/status/1539764910103662592?ref_src=twsrc%5Etfw">June 23, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

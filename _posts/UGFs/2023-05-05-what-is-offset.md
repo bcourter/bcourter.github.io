@@ -1,6 +1,8 @@
 ---
 title: Unit Gradient Fields&#58; What do we mean by "offset"?  
 tags: SDF UGF Geometry
+sidebar:
+    nav: sdf-ugf
 ---
 {% include math.html %}
 

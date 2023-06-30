@@ -60,3 +60,45 @@ header:
       tr      : &TR       Hakkında
       # @end locale config
     url: /about.html
+
+sdf-ugf:
+  - title:      Implicit Modeling Posts <br> Background
+    children:
+      - title:  Retrospective&#58; The Promise of Unbreakable Geometry
+        url:    /2023/06/03/foreword.html
+
+  - title:      Unit Gradient Field series
+    children:
+      - title:  What Do We Mean by Offset?
+        url:    /2023/05/05/what-is-offset.html
+      - title:  SDFs, UGFs, and Their Friends
+        url:    /2023/05/18/field-notation.html
+    
+  - title:      Intro to implicit modeling series at nTop
+    children:
+      - title:  Implicit Modeling Intro
+        url:    /2019/01/22/ntopology-implicit-why.html
+      - title:  B-rep vs Implicit 1&#58; <br> Basic Concepts
+        url:    /2019/03/12/ntopology-implicits-basics.html
+      - title:  B-rep vs Implicit 1&#58; <br> Why Implicits Succeed
+        url:    /2019/03/28/ntopology-implicits-succeed.html
+      - title:  Interpolating with Implicit Modeling
+        url:    /2019/04/12/ntopology-implicit-interpolation.html
+      - title:  Lightweighting with Implicit Modeling
+        url:    /2019/05/08/ntopology-implicit-lightweighting.html
+      - title:  Intro to Field-Driven Design
+        url:    /2019/03/04/ntopology-fdd.html
+    
+  - title:      Videos and Social
+    children:
+      - title:  The Two-Body Field
+        url:    /2020/02/25/multiscale-infill-bracket.html
+      - title:  Multi-domain, <br> Laminated Fields
+        url:    /2020/04/27/ntopology-live-domains.html
+      - title:  FDM/FFF Toolpathing
+        url:    /2020/05/18/ntopology-live-fdm.html
+      - title:  Constant-Width Chamfer
+        url:    /2022/06/22/constant-width-chamfer.html
+      - title:  Edge Coordinate System
+        url:    /2022/06/25/edge-coordinate-system.html
+

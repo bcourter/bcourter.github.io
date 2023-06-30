@@ -1,6 +1,8 @@
 ---
 title: Lightweighting with Implicit Models
 tags: nTop SDF
+sidebar:
+    nav: sdf-ugf
 ---
 More from the early days of nTopology, when I wrote a few posts for their blog.  This post reviews lightweighting approaches with implicit models:
 

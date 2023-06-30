@@ -1,6 +1,8 @@
 ---
 title: Edge coordinate system
 tags: SDF nTop Twitter
+sidebar:
+    nav: sdf-ugf
 ---
 
 <blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">Okay, let&#39;s build off of the implicit chamfer thread to demonstrate how you can quickly produce any edge treatment you can dream of using implicit geometry. <br><br>In <a href="https://twitter.com/nTopology?ref_src=twsrc%5Etfw">@ntopology</a>, we&#39;ll deliver the holy grail of edge treatments: the C∞ blend.<br><br>Previous:<a href="https://t.co/uKOXYihBD5">https://t.co/uKOXYihBD5</a><br><br>(1/n) <a href="https://t.co/UG7sRIbifa">pic.twitter.com/UG7sRIbifa</a></p>&mdash; Blake Courter (@bcourter) <a href="https://twitter.com/bcourter/status/1540711798495531009?ref_src=twsrc%5Etfw">June 25, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
