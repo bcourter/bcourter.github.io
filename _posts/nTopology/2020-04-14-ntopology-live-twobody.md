@@ -1,6 +1,8 @@
 ---
 title: nTop Live&#58; Introduction to the Two-Body Field
 tags: nTop SDF TwoBody Video
+sidebar:
+    nav: sdf-ugf
 ---
 
 One of the most useful fields in implicit modeling is the the two-body field of two distance fields $$A$$ an $$B$$:

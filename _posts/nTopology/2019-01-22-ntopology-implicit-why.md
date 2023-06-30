@@ -1,6 +1,8 @@
 ---
 title: Implicit Modeling for Engineering Design
 tags: nTop SDF
+sidebar:
+    nav: sdf-ugf
 ---
 In the early days of nTopology, I wrote a few posts for their blog.  This post was my first to talk about the benefits of implicit modeling:
 

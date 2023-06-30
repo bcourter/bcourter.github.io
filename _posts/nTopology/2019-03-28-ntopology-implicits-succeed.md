@@ -1,6 +1,8 @@
 ---
 title: How implicits succeed where B-reps fail
 tags: nTop SDF
+sidebar:
+    nav: sdf-ugf
 ---
 In the early days of nTopology, I wrote a few posts for their blog.  This post compares the B-rep and implicit modeling approaches:
 

@@ -1,6 +1,8 @@
 ---
 title: Unit Gradient Fields&#58; SDFs, UGFs, and their friends  
 tags: SDF UGF
+sidebar:
+    nav: sdf-ugf
 ---
 {% include math.html %}
 
