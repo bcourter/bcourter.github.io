@@ -4,13 +4,14 @@ tags: SDF UGF
 sidebar:
     nav: sdf-ugf
 ---
-{% include math.html %}
 
 Many readers [of the last post](/2023/05/05/what-is-offset.html) requested a more formal definition of a UGF.  Let's look a bit more closely at the definition of an SDF and how it compares to UGFs and other useful fields in engineering applications.  Some readers may find the visual concepts more intuitive than the nuances, so let's get a feel for the territory first by examining the field at the intersection of two planes:
 
 <iframe class="fullsize" frameborder="0" src="https://www.shadertoy.com/embed/clV3Rz?gui=false&t=10&paused=false&muted=false" allowfullscreen></iframe>
 
 <!--more-->
+
+{% include math.html %}
 
 *If the controls aren't working on your device, click through to [ShaderToy](https://www.shadertoy.com/view/clV3Rz)*
 

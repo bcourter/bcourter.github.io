@@ -62,19 +62,21 @@ header:
     url: /about.html
 
 sdf-ugf:
-  - title:      Implicit Modeling Content <br> Background
+  - title:      Implicit Modeling Content <br><hr><br> Background
     children:
       - title:  Retrospective&#58; The Promise of Unbreakable Geometry
         url:    /2023/06/03/foreword.html
 
-  - title:      Unit Gradient Field Series
+  - title:      Unit gradient field series
     children:
       - title:  What Do We Mean by Offset?
         url:    /2023/05/05/what-is-offset.html
       - title:  SDFs, UGFs, and Their Friends
         url:    /2023/05/18/field-notation.html
+      - title:  The Two-Body Field, &Xi;
+        url:    /2023/07/01/two-body-field.html
     
-  - title:      Intro to implicit modeling Series from the nTop Blog
+  - title:      Intro to implicit modeling series from the nTop Blog
     children:
       - title:  Implicit Modeling Intro
         url:    /2019/01/22/ntopology-implicit-why.html
@@ -89,7 +91,7 @@ sdf-ugf:
       - title:  Intro to Field-Driven Design
         url:    /2019/03/04/ntopology-fdd.html
     
-  - title:      Videos and Social
+  - title:      Videos
     children:
       - title:  The Two-Body Field
         url:    /2020/04/14/ntopology-live-twobody.html
@@ -97,6 +99,9 @@ sdf-ugf:
         url:    /2020/04/27/ntopology-live-domains.html
       - title:  FDM/FFF Toolpathing
         url:    /2020/05/18/ntopology-live-fdm.html
+        
+  - title:      Social
+    children:
       - title:  Constant-Width Chamfer
         url:    /2022/06/22/constant-width-chamfer.html
       - title:  Edge Coordinate System

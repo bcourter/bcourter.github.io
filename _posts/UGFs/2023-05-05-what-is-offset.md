@@ -4,7 +4,6 @@ tags: SDF UGF Geometry
 sidebar:
     nav: sdf-ugf
 ---
-{% include math.html %}
 
 For those of us who work in engineering and geometric modeling, "offset" is an everyday operation.  We use it in 2D and 3D to produce curves and surfaces at constant distance from other curves and surfaces.  With experience, we learn that offset can be failure-prone, especially with precise B-rep solids and meshes.  [Implicit modeling](https://www.blakecourter.com/2019/03/12/ntopology-implicits-basics.html), in particular, the signed distance field (SDF) representation of shapes, offers robust offsetting, but again, with experience, we learn that the results aren't always what we expect.  
 
@@ -50,6 +49,8 @@ Take these three examples of an offset rectangle, created using three different 
 </svg>
 
 <!--more-->
+
+{% include math.html %}
 
 The red rectangle on the left uses extensions of the rectangle's edges.  This approach is similar to what we expect from B-rep and most mesh modelers, where extra faces are only added when needed.  One might not notice that the offset vertices are actually a factor of $$\sqrt{2}$$ farther from the vertex than the sides.  In engineering applications, we often prefer the topological simplicity of such *naturally extended* intersections to geometric correctness.  
 
