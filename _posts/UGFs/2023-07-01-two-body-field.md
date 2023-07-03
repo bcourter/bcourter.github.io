@@ -5,7 +5,7 @@ sidebar:
     nav: sdf-ugf
 ---
 
-So far in the series, we've defined the basic idea that [UGFs generalize SDFs](/2023/05/05/what-is-offset.html) and examined that when representing shapes, UGFs offer design freedom in [the shapes' normal cones](/2023/05/18/field-notation.html).  In most of the examples, we've shown that this freedom helps recapitulate the kinds of edge treatments we see in engineering software like rolling-ball blends and chamfers.  In this post, we'll take a look at the clearance and midsurface fields, generated from SDFs, and the two-body field, generated from UGFs.
+So far in the series, we've defined the basic idea that [UGFs generalize SDFs](/2023/05/05/what-is-offset.html) and examined that when representing shapes, UGFs offer design freedom in [the shapes' normal cones](/2023/05/18/field-notation.html).  In most of the examples, we've shown that this freedom helps recapitulate the kinds of edge treatments we see in engineering software like rolling-ball blends and chamfers.  In this post, we'll take a look at the clearance and midsurface fields that apply to SDFs and the two-body field that applies to all UGFs.
 
 *Use the slider to change viewing modes:*
 
@@ -13,7 +13,7 @@ So far in the series, we've defined the basic idea that [UGFs generalize SDFs](/
 
 {% include math.html %}
 
-*The clearance field, $$\ugf{A} + \ugf{B}\,$$, the midsurface field, $$\ugf{A} - \ugf{B}\,$$, and the two-body field: $$\twobody{\ugf{A}}{\ugf{B}} \equiv \frac{(\ugf{A} - \ugf{B})}{(\ugf{A} + \ugf{B})}$$.  The clearance and midsurface fields are overlaid to demonstrate their orthogonality.*
+*The clearance field, $$\ugf{A} + \ugf{B}\,$$, the midsurface field, $$\ugf{A} - \ugf{B}\,$$, and the two-body field: $$\twobody{\ugf{A}}{\ugf{B}} \equiv \frac{\ugf{A} - \ugf{B}}{\ugf{A} + \ugf{B}}$$.  The clearance and midsurface fields are overlaid to demonstrate their orthogonality.*
 
 <!--more-->
 
@@ -122,7 +122,7 @@ There are few concepts to unpack.  First, lets just get a feel for why the sum a
 
 Clearly, the sum indicates the clearance.  The difference is the midsurface field, but scaled by a factor of two.  If one zooms out of the sum field to the far side of either shape, the sum also doubles up far from the midsurface, so we normalize by two in the Shadertoy above.  
 
-The two-body field, $$\twobody{\ugf{A}}{\ugf{B}} \equiv \frac{(\ugf{A} - \ugf{B})}{(\ugf{A} + \ugf{B})}, clearly ranges in $$ [-1, 1] $$ in the region not contained in either of the shapes, creating a predictable parametric space for modulation, interpolation, and remapping.  
+The two-body field, $$\twobody{\ugf{A}}{\ugf{B}} \equiv \frac{\ugf{A} - \ugf{B}}{\ugf{A} + \ugf{B}}$$, clearly ranges in $$ [-1, 1] $$ in the region not contained in either of the shapes, creating a predictable parametric space for modulation, interpolation, and remapping.  
 
 ### The clearance is orthogonal to the midsurface 
 
@@ -141,11 +141,11 @@ However, those of us from the [Tristan Needham](https://en.wikipedia.org/wiki/Tr
 
 The key observation is that when $$ \ugf{A}\, $$ and $$ \ugf{B}\, $$ are UGFs, the sum and difference gradient vectors form the diagonals of a rhombus, and therefore, are orthogonal.  Note that this rhombus is contained in the normal cone of the fields' intersection (green).
 
-The sum and difference fields, $$ S = \ugf{A}\, + \ugf{B}\, $$ and $$ D = \ugf{A}\, - \ugf{B}\, $$, produce an orthogonal basis and using the Sampson Norm, $$ \sampson{F} \equiv \frac{F}{\norm{\grad{F}}} $$, $$ \augf{S}\,' = \sampson{S} $$ and $$ \augf{D}\,' = \sampson{D} $$ form an orthonormal basis, which can be a useful way of approximating distance-to-curve and constructing edge treatments.  Perhaps we'll do a deeper dive on this topic in a future post, but here's a teaser from some old [twitter](/2022/06/22/constant-width-chamfer.html) [threads](/2022/06/25/edge-coordinate-system.html).
+The sum and difference fields, $$ S = \ugf{A}\, + \ugf{B}\, $$ and $$ D = \ugf{A}\, - \ugf{B}\, $$, produce an orthogonal basis and using the Sampson Norm, $$ \sampson{F} \equiv \frac{F}{\norm{\grad{F}}} $$, $$ \sampson{S} $$ and $$ \sampson{D} $$ form an orthonormal basis, which can be a useful way of approximating distance-to-curve and constructing edge treatments.  Perhaps we'll do a deeper dive on this topic in a future post, but here's a teaser from some [old](/2022/06/22/constant-width-chamfer.html) twitter [threads](/2022/06/25/edge-coordinate-system.html).
 
 ### Applications of the two-body field
 
-The two-body field can be more useful than fields from geometry for modulating other fields and interpolating shape.  It perhaps most celebrated in engineering applications when mapping one a shape from Cartesian space into a new field-driven parametric space.  For example, consider the toolpath geometry for the saddle surface below.  Two pairs of side walls $$U$$ and $$V$$ form two two-body fields, which, when multiplied by a constant characteristic length, creates a $$UVW$$ coordinate space along with the the distance to the midsurface of the reference geometry, $$W$$.  
+The two-body field can be a convenient alternative to SDFs for modulating other fields and interpolating shape.  In engineering applications, it can be uniquely handy when mapping one a shape from Cartesian space into a new field-driven parametric space.  For example, consider the toolpath geometry for the saddle surface below.  Two pairs of side walls $$U$$ and $$V$$ form two two-body fields, which, when multiplied by a constant characteristic length, creates a $$UVW$$ coordinate space along with the the distance to the midsurface of the reference geometry, $$W$$.  
 
 <div style='display:block; width: 80%; margin-left:auto; margin-right:auto;'>
 <table>
@@ -165,7 +165,7 @@ When observing the two-body field above, you might have noticed that the circles
 
 <div>{%- include extensions/shadertoy.html id='cs2cW3' -%}</div>
 
-*Apollonian circles and conic sections.  Unmodified, the Apollonian family are all circles, but between a circle and a line, ellipses occur near the circle, hyperbola occur near the line, and a parabola appears at $$ \Xi = 0 $$.  Observe the constant spacing along the horizontal axis containing the circle centers.*
+*Apollonian circles and conic sections.  Only between two points to we see an Apollonian family of circles, but between a circle and a line, we see the full family of conic sections: ellipses occur near the circle, hyperbola occur near the line, and a parabola appears at $$ \Xi = 0 $$.  Observe that the two-body parameterization creates constant spacing along the horizontal axis containing the circle centers.*
 
 If these circles look familiar, they are members of the family (pencil) of [Apollonian circles](https://en.wikipedia.org/wiki/Apollonian_circles) which sometimes appear in engineering applications.  These circles are described by curves that are the constant ratio of distance to two circles, and indeed, the two-body field may be suitably reparameterized:
 
