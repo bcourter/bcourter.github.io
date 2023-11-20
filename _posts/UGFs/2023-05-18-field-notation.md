@@ -41,11 +41,17 @@ DFs contain more information about a shape than a UGF representing the same shap
 
 ### The Boundary Map
 
-The boundary map, represented by the black arrow in the visualization, is simply the map to the closest point on the surface of a set represented by a DF $$ \df{F} $$:
+The boundary map, represented by the black arrow in the visualization, is simply the map from point $$\p$$ to the closest point on the surface of a set represented by a DF $$ \df{F} $$:
 
-$$ \BoundaryMap{\df{F}} = -\df{F} \;\, \grad\df{F} $$
+$$ \BoundaryMap{\df{F}}(\p) = \p - \df{F} \;\, \grad\df{F} $$
 
 Distance fields can be thought of as the magnitude of the boundary map vector fields, and any UGF that is a boundary map represents a distance field.
+
+### The Normal Cone
+
+We can constuct the normal cone as illustrated above using the boundary map.  Given two SDFs $$\df{A}(\p)$$ and $$\df{B}(\p)$$ the normal cone for $$ \ugf{F} = \df{A} \distanceCap \df{B}$$ becomes:
+
+$$ \NormalCone{\ugf{F}} = -\df{A}\left(\BoundaryMap{\df{B}}(\p)\right) \minmaxCap -\df{B}\left(\BoundaryMap{\df{A}}(\p)\right) $$
 
 ### Plane Fields
 
@@ -66,7 +72,7 @@ The latter, we'll refer to as *approximate UGFs* (AUGFs).  Any field with non-va
 
 $$ \sampson{F} \equiv \frac{F}{\norm{\grad{F}}} \;. $$
 
-We will often generalize properties of planar intersections to behavior near the isosurface of AUGFs.  
+We will often generalize properties of planar intersections to behavior near the zero isosurface of AUGFs.  
 
 ## Families of Booleans
 
@@ -129,9 +135,9 @@ As a preview to future posts on edge treatments, see these two social media thre
 
 ![John Nash Stereotype](https://64.media.tumblr.com/tumblr_lpeps6ji5C1r13x2bo1_500.jpg)
 
-*While I'm a fan of John Nash's work, this portrayal never landed for me.  That said, I did question my sanity working on this diagram.*
+*While I'm a fan of John Nash's work, this portrayal never landed for me.  That said, I did question my sanity while working on the diagram below.*
 
-Given a few different grades of fields and a set of operators, one might wonder if there's any structure worth noting.  For example, the distance-preserving Boolean maps DFs to DFs.  Here's my attempt to document the structure of the system, with a few operations to be defined in later posts:
+Given a few different grades of fields and a set of operators, one might wonder if there's any structure worth noting.  For example, the distance-preserving Boolean maps DFs to DFs, while the minmax boolean map DFs to UGFs.  Here's my attempt to document the structure of the system, with a few operations to be defined in later posts:
 
 ![Shapes and Fields Diagram](/assets/blog/UGFs/01 Shapes and Fields Legend.svg){: width="45%" height="45%"}
 &nbsp;&nbsp;&nbsp;
