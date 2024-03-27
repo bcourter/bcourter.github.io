@@ -234,12 +234,24 @@ function initialize(nodes) {
 
     // Add a label.
     const text = node
+      //   .append("svg")
+      //   .attr("viewbox", (d) => {
+      //     let rad = getRadius(d);
+      //     return `${-rad} ${-rad} ${2 * rad} ${2 * rad}`;
+      //   })
+      //   .attr("width", (d) => 2 * getRadius(d))
+      //   .attr("height", (d) => 2 * getRadius(d))
+      //   .attr("preserveAspectRatio", "xMidYMid meet")
       .append("text")
       .attr("fill-opacity", 0.7)
       .attr("fill", "#000")
       .attr("text-anchor", "middle")
       .attr("style", "label")
-      .attr("clip-path", (d) => `circle(${getRadius(d) - lineThickness})`)
+      //   .attr("clip-path", (d) => `circle(${getRadius(d) - lineThickness})`)
+      .attr(
+        "transform",
+        (d) => `scale(${0.22 * Math.min(getRadius(d) / d.Company.length, 5)})`
+      )
       .text((d) => d.Company);
 
     // Add a drag behavior.
