@@ -31,7 +31,7 @@ function setHue(hcl, hue) {
   return op;
 }
 
-const industries = {
+const industryColors = {
   CAM_MES: setHue(enduserHCL, hueOf("orange")),
   MCAD: setHue(enduserHCL, hueOf("olive")),
   CAE: setHue(enduserHCL, hueOf("teal")),
@@ -45,16 +45,36 @@ const industries = {
   Physics: setHue(componentHCL, hueOf("teal")),
 };
 
-const qualities = {
-  AI_ML: d3.hcl(0, 6, 0),
-  Generative: d3.hcl(0, 4, 0),
-  PDM_PLM: d3.hcl(0, 0, -4),
-  VnV_SCM: d3.hcl(0, 0, -4),
-  Hardware: d3.hcl(0, -11, 0),
-  Ecosystem_Community: d3.hcl(0, 11, -4),
-};
+class ScoreValue {
+  constructor(moat, dank) {
+    this.moat = moat;
+    this.dank = dank;
+  }
+}
 
-const allcategories = { ...industries, ...qualities };
+const allcategoryScores = {
+  CAM_MES: new ScoreValue(0, 0),
+  MCAD: new ScoreValue(0, 0),
+  CAE: new ScoreValue(0, 0),
+  CFD: new ScoreValue(0, 0),
+  EDA: new ScoreValue(0, 0),
+  IM_PM: new ScoreValue(0, 0),
+  AEC: new ScoreValue(0, 0),
+
+  B_rep: new ScoreValue(1, 1),
+  Implicit: new ScoreValue(1, 1),
+  Physics: new ScoreValue(1, 1),
+
+  AI_ML: new ScoreValue(0, 3),
+  Generative: new ScoreValue(0, 2),
+  PDM_PLM: new ScoreValue(1, 0),
+  VnV_SCM: new ScoreValue(1, 0),
+  Hardware: new ScoreValue(-1, -1),
+  Ecosystem_Community: new ScoreValue(2, 0),
+
+  Components: new ScoreValue(-1, 0),
+  Integrations: new ScoreValue(0.5, 0),
+};
 
 const stageToSize = {
   "Tightly Held": 5,
@@ -73,13 +93,13 @@ const brandMap = new Object();
 
 function vendorDot(a, b) {
   let sum = 0;
-  Object.keys(allcategories).forEach((c) => {
+  Object.keys(allcategoryScores).forEach((c) => {
     sum += a[c] * b[c];
   });
   return sum;
 }
 
-function getNumber(d, key) {
+function getNumber(d, key, brandList, isBrand) {
   if (!d[key]) {
     d[key] = 0;
     return 0;
@@ -89,7 +109,9 @@ function getNumber(d, key) {
   if (isNaN(num)) {
     let brands = d[key].split(",");
     brands.forEach((s) => {
-      brandMap[s.trim()] = d;
+      let trimmed = s.trim();
+      brandList.push(trimmed);
+      if (isBrand) brandMap[trimmed] = d;
     });
     num = brandValue * brands.length;
     d[key] = num;
@@ -105,11 +127,13 @@ function processVendor(d) {
     let hi = 0;
   }
 
-  d.magnitude = 0;
+  d.industryScore = 0;
   d.color = d3.rgb(0, 0, 0);
-  for (const [key, hclValue] of Object.entries(industries)) {
-    const num = getNumber(d, key);
-    d.magnitude += num;
+  d.brandList = [];
+  d.dependencyList = [];
+  for (const [key, hclValue] of Object.entries(industryColors)) {
+    const num = getNumber(d, key, d.brandList, true);
+    d.industryScore += num;
 
     let rgb = d3.rgb(hclValue);
     d.color.r += rgb.r * num;
@@ -117,25 +141,30 @@ function processVendor(d) {
     d.color.b += rgb.b * num;
   }
 
-  if (d.magnitude != 0) {
-    d.color.r /= d.magnitude;
-    d.color.g /= d.magnitude;
-    d.color.b /= d.magnitude;
-  }
+  if (d.industryScore != 0) {
+    d.color.r /= d.industryScore;
+    d.color.g /= d.industryScore;
+    d.color.b /= d.industryScore;
+  } else d.color = enduserHCL.copy().c = 0;
 
   let hcl = d3.hcl(d.color);
   if (!hcl.h || !hcl.c) hcl = enduserHCL;
 
-  let qualitiesSum = 0;
-  for (const [key, hclValue] of Object.entries(qualities)) {
-    const num = getNumber(d, key);
-    d.magnitude += num;
-    qualitiesSum += num;
-
-    hcl.c += hclValue.c * num;
-    hcl.l += hclValue.l * num;
+  d.qualityScore = 0;
+  d.tallyScore = new ScoreValue(0, 0);
+  for (const [key, score] of Object.entries(allcategoryScores)) {
+    let num;
+    if (key == "Components" || key == "Integrations")
+      num = getNumber(d, key, d.dependencyList, false);
+    else {
+      num = getNumber(d, key, d.brandList, true);
+      d.qualityScore += num;
+    }
+    d.tallyScore.moat += score.moat * num;
+    d.tallyScore.dank += score.dank * num;
   }
 
+  hcl.l -= d.tallyScore.dank;
   d.color = d3.color(hcl);
 
   const angle = (hcl.h * Math.PI) / 180;
@@ -146,12 +175,12 @@ function processVendor(d) {
   d.stageSize = stageToSize[d.Stage];
   if (typeof d.stageSize != "number") d.stageSize = 5;
 
-  d.size = Math.sqrt(2.5 * d.magnitude + d.stageSize);
+  d.size = Math.sqrt(2.5 * d.industryScore + d.qualityScore + d.stageSize);
   return d;
 }
 
 function initialize(nodes) {
-  nodes = nodes.filter((v) => v.magnitude > 0);
+  //   nodes = nodes.filter((v) => v.industryScore > 0);
   const links = [];
 
   //   for (let i = 0; i < nodes.length; i++) {
@@ -166,6 +195,18 @@ function initialize(nodes) {
   //     }
   //   }
 
+  nodes.forEach((n) => {
+    n.dependencyList.forEach((d) => {
+      let dNode = brandMap[d];
+      if (!dNode || dNode === n) return; // lookup failed
+      links.push({
+        source: n.Company,
+        target: dNode.Company,
+        value: 22,
+      });
+    });
+  });
+
   let chart = function () {
     // Specify the dimensions of the chart.
     const width = container.clientWidth;
@@ -174,8 +215,13 @@ function initialize(nodes) {
     const explodeRadius = size * 0.2;
     const lineThickness = 1.5;
 
-    function getRadius(d) {
-      return (d.size * size) / 160;
+    const circleScale = 1 / 250;
+
+    function getInsideRadius(d) {
+      return d.size * size * circleScale;
+    }
+    function getOutsideRadius(d) {
+      return getInsideRadius(d) + d.tallyScore.moat + lineThickness;
     }
 
     // Create a simulation with several forces.
@@ -188,7 +234,7 @@ function initialize(nodes) {
       .force("charge", d3.forceManyBody())
       .force(
         "collide",
-        d3.forceCollide((d) => getRadius(d) + lineThickness)
+        d3.forceCollide((d) => getOutsideRadius(d) + lineThickness)
       )
       .force(
         "x",
@@ -226,31 +272,36 @@ function initialize(nodes) {
 
     node
       .append("circle")
-      .attr("r", (d) => getRadius(d))
-      .attr("fill", (d) => d.color)
-      .attr("stroke", (d) => d.color.darker(1));
+      .attr("r", (d) => getOutsideRadius(d))
+      .attr("fill", (d) => d.color.darker(1));
 
-    node.append("title").text((d) => d.Company);
+    node
+      .append("circle")
+      .attr("r", (d) => getInsideRadius(d))
+      .attr("fill", (d) => d.color);
+
+    node
+      .append("title")
+      .text(
+        (d) =>
+          `${d.Company}\n${d.Headquarters}\n${d.Founded}\n` +
+          `Brands: ${d.brandList.join(
+            " "
+          )}\nDependencies: ${d.dependencyList.join(" ")}`
+      );
 
     // Add a label.
     const text = node
-      //   .append("svg")
-      //   .attr("viewbox", (d) => {
-      //     let rad = getRadius(d);
-      //     return `${-rad} ${-rad} ${2 * rad} ${2 * rad}`;
-      //   })
-      //   .attr("width", (d) => 2 * getRadius(d))
-      //   .attr("height", (d) => 2 * getRadius(d))
-      //   .attr("preserveAspectRatio", "xMidYMid meet")
       .append("text")
       .attr("fill-opacity", 0.7)
       .attr("fill", "#000")
       .attr("text-anchor", "middle")
       .attr("style", "label")
-      //   .attr("clip-path", (d) => `circle(${getRadius(d) - lineThickness})`)
+      //   .attr("clip-path", (d) => `circle(${getInsideRadius(d) - lineThickness})`)
       .attr(
         "transform",
-        (d) => `scale(${0.22 * Math.min(getRadius(d) / d.Company.length, 5)})`
+        (d) =>
+          `scale(${0.22 * Math.min(getInsideRadius(d) / d.Company.length, 5)})` // fudge scaling based on word length
       )
       .text((d) => d.Company);
 
