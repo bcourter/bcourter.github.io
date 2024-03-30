@@ -70,10 +70,10 @@ const allcategoryScores = {
   PDM_PLM: new ScoreValue(1, 0),
   VnV_SCM: new ScoreValue(1, 0),
   Hardware: new ScoreValue(-1, -1),
-  Ecosystem_Community: new ScoreValue(2, 0),
+  Ecosystem_Community: new ScoreValue(1, 0),
 
   Components: new ScoreValue(-1, 0),
-  Integrations: new ScoreValue(0.5, 0),
+  Integrations: new ScoreValue(0, 0),
 };
 
 const stageToSize = {
@@ -122,15 +122,11 @@ function getNumber(d, key, brandList, isBrand) {
 
 function processVendor(d) {
   d.id = d.Company;
-
-  if (d.Company == "Siemens PLM") {
-    let hi = 0;
-  }
+  brandMap[d.id] = d;
 
   d.industryScore = 0;
   d.color = d3.rgb(0, 0, 0);
   d.brandList = [];
-  d.dependencyList = [];
   for (const [key, hclValue] of Object.entries(industryColors)) {
     const num = getNumber(d, key, d.brandList, true);
     d.industryScore += num;
@@ -145,17 +141,24 @@ function processVendor(d) {
     d.color.r /= d.industryScore;
     d.color.g /= d.industryScore;
     d.color.b /= d.industryScore;
-  } else d.color = enduserHCL.copy().c = 0;
+  } else {
+    let c = enduserHCL.copy();
+    c.c = 0;
+    d.color = d3.rgb(c);
+  }
 
   let hcl = d3.hcl(d.color);
   if (!hcl.h || !hcl.c) hcl = enduserHCL;
 
+  d.componentsList = [];
+  d.integrationsList = [];
   d.qualityScore = 0;
   d.tallyScore = new ScoreValue(0, 0);
   for (const [key, score] of Object.entries(allcategoryScores)) {
     let num;
-    if (key == "Components" || key == "Integrations")
-      num = getNumber(d, key, d.dependencyList, false);
+    if (key == "Components") num = getNumber(d, key, d.componentsList, false);
+    else if (key == "Integrations")
+      num = getNumber(d, key, d.integrationsList, false);
     else {
       num = getNumber(d, key, d.brandList, true);
       d.qualityScore += num;
@@ -180,58 +183,58 @@ function processVendor(d) {
 }
 
 function initialize(nodes) {
+  // Specify the dimensions of the chart.
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  const size = Math.min(width, height);
+  const explodeRadius = size * 0.2;
+  const lineThickness = 1.0;
+
+  const circleScale = 1 / 250;
+
+  function getInsideRadius(d) {
+    return d.size * size * circleScale;
+  }
+  function getOutsideRadius(d) {
+    return getInsideRadius(d) + Math.max(d.tallyScore.moat, lineThickness);
+  }
+
   //   nodes = nodes.filter((v) => v.industryScore > 0);
+
   const links = [];
 
-  //   for (let i = 0; i < nodes.length; i++) {
-  //     for (let j = 0; j < i; j++) {
-  //       let dot = vendorDot(nodes[i], nodes[j]);
-  //       if (dot > 0)
-  //         links.push({
-  //           source: nodes[i].Company,
-  //           target: nodes[j].Company,
-  //           value: dot,
-  //         });
-  //     }
-  //   }
+  function createLink(source, targetName, strength, width) {
+    let target = brandMap[targetName];
+    if (!target || target === source) {
+      console.log(
+        `Link creation: could not look up brand: ${targetName} in ${source.Company}.`
+      );
+      return;
+    }
+    links.push({
+      source: source.id,
+      target: target.id,
+      distance: getOutsideRadius(target) + getOutsideRadius(target),
+      strength: strength,
+      value: width,
+    });
+  }
 
   nodes.forEach((n) => {
-    n.dependencyList.forEach((d) => {
-      let dNode = brandMap[d];
-      if (!dNode || dNode === n) return; // lookup failed
-      links.push({
-        source: n.Company,
-        target: dNode.Company,
-        value: 22,
-      });
-    });
+    n.componentsList.forEach((d) => createLink(n, d, 0.1, 3));
+    n.integrationsList.forEach((d) => createLink(n, d, 0.01, 1));
   });
 
   let chart = function () {
-    // Specify the dimensions of the chart.
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const size = Math.min(width, height);
-    const explodeRadius = size * 0.2;
-    const lineThickness = 1.5;
-
-    const circleScale = 1 / 250;
-
-    function getInsideRadius(d) {
-      return d.size * size * circleScale;
-    }
-    function getOutsideRadius(d) {
-      return getInsideRadius(d) + d.tallyScore.moat + lineThickness;
-    }
-
     // Create a simulation with several forces.
     const simulation = d3
       .forceSimulation(nodes)
+      .force("center", d3.forceCenter(0, 0))
       .force(
         "link",
         d3.forceLink(links).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody())
+      .force("charge", d3.forceManyBody().strength(-40))
       .force(
         "collide",
         d3.forceCollide((d) => getOutsideRadius(d) + lineThickness)
@@ -287,7 +290,7 @@ function initialize(nodes) {
           `${d.Company}\n${d.Headquarters}\n${d.Founded}\n` +
           `Brands: ${d.brandList.join(
             " "
-          )}\nDependencies: ${d.dependencyList.join(" ")}`
+          )}\nDependencies: ${d.componentsList.join(" ")}`
       );
 
     // Add a label.
