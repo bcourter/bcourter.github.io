@@ -1,5 +1,3 @@
-import ForceGraph from "./ForceGraph.js";
-
 const url =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpp3EgZEXoDrQ8MVxr7AS2ifn3Efvlk7QFEEe9Z1iMtOXX7QX5ZK5XQg0EcrSun1umA0-nCr5BQFR/pub?gid=595724753&single=true&output=tsv";
 
@@ -31,18 +29,58 @@ function setHue(hcl, hue) {
   return op;
 }
 
-const industryColors = {
-  CAM_MES: setHue(enduserHCL, hueOf("orange")),
-  MCAD: setHue(enduserHCL, hueOf("olive")),
-  CAE: setHue(enduserHCL, hueOf("teal")),
-  CFD: setHue(enduserHCL, hueOf("cyan")),
-  EDA: setHue(enduserHCL, hueOf("azure")),
-  IM_PM: setHue(enduserHCL, hueOf("violet")),
-  AEC: setHue(enduserHCL, hueOf("rose")),
+const industries = {
+  CAM_MES: {
+    title: "CAM\nMES",
+    color: setHue(enduserHCL, hueOf("orange")),
+    isComponent: false,
+  },
+  MCAD: {
+    title: "MCAD",
+    color: setHue(enduserHCL, hueOf("olive")),
+    isComponent: false,
+  },
+  CAE: {
+    title: "CAE",
+    color: setHue(enduserHCL, hueOf("teal")),
+    isComponent: false,
+  },
+  CFD: {
+    title: "CFD",
+    color: setHue(enduserHCL, hueOf("cyan")),
+    isComponent: false,
+  },
+  EDA: {
+    title: "EDA",
+    color: setHue(enduserHCL, hueOf("azure")),
+    isComponent: false,
+  },
+  IM_PM: {
+    title: "IM\nPM",
+    color: setHue(enduserHCL, hueOf("violet")),
+    isComponent: false,
+  },
+  AEC: {
+    title: "AEC",
+    color: setHue(enduserHCL, hueOf("rose")),
+    isComponent: false,
+  },
 
-  B_rep: setHue(componentHCL, hueOf("yellow")),
-  Implicit: setHue(componentHCL, hueOf("green")),
-  Physics: setHue(componentHCL, hueOf("teal")),
+  B_rep: {
+    title: "B-rep",
+    color: setHue(componentHCL, hueOf("yellow")),
+    isComponent: true,
+  },
+  Implicit: {
+    title: "Implicit",
+    color: setHue(componentHCL, hueOf("green")),
+    isComponent: true,
+  },
+  Physics: {
+    title: "Physics",
+    color: setHue(componentHCL, hueOf("teal")),
+    isComponent: true,
+  },
 };
 
 class ScoreValue {
@@ -127,11 +165,11 @@ function processVendor(d) {
   d.industryScore = 0;
   d.color = d3.rgb(0, 0, 0);
   d.brandList = [];
-  for (const [key, hclValue] of Object.entries(industryColors)) {
+  for (const [key, hclValue] of Object.entries(industries)) {
     const num = getNumber(d, key, d.brandList, true);
     d.industryScore += num;
 
-    let rgb = d3.rgb(hclValue);
+    let rgb = d3.rgb(hclValue.color);
     d.color.r += rgb.r * num;
     d.color.g += rgb.g * num;
     d.color.b += rgb.b * num;
@@ -170,17 +208,21 @@ function processVendor(d) {
   hcl.l -= d.tallyScore.dank;
   d.color = d3.color(hcl);
 
-  const angle = (hcl.h * Math.PI) / 180;
-  d.dx = Math.cos(angle);
-  d.dy = -Math.sin(angle);
+  d.hue = ((hcl.h ? hcl.h : 0) * Math.PI) / 180;
+  d.dx = Math.cos(d.hue);
+  d.dy = -Math.sin(d.hue);
   d.special = Math.min(1, hcl.c / 10);
 
   d.stageSize = stageToSize[d.Stage];
   if (typeof d.stageSize != "number") d.stageSize = 5;
 
   d.size = Math.sqrt(2.5 * d.industryScore + d.qualityScore + d.stageSize);
+
   return d;
 }
+
+const svg = d3.create("svg").attr("style", "max-width: 100%; height: auto;");
+const props = { nodeScale: 1 };
 
 function initialize(nodes) {
   // Specify the dimensions of the chart.
@@ -193,13 +235,13 @@ function initialize(nodes) {
   const circleScale = 1 / 250;
 
   function getInsideRadius(d) {
-    return d.size * size * circleScale;
+    return d.size * size * circleScale * props.nodeScale;
   }
   function getOutsideRadius(d) {
     return getInsideRadius(d) + Math.max(d.tallyScore.moat, lineThickness);
   }
 
-  //   nodes = nodes.filter((v) => v.industryScore > 0);
+  nodes = nodes.filter((v) => v.Company.length > 0);
 
   const links = [];
 
@@ -227,34 +269,23 @@ function initialize(nodes) {
 
   let chart = function () {
     // Create a simulation with several forces.
+    let posStrength = 0.15; // default is 0.1
+
     const simulation = d3
       .forceSimulation(nodes)
-      .force("center", d3.forceCenter(0, 0))
-      .force(
-        "link",
-        d3.forceLink(links).id((d) => d.id)
-      )
+      // .force("center", d3.forceCenter(0, 0))
+      // .force(
+      //   "link",
+      //   d3.forceLink(links).id((d) => d.id)
+      // )
       .force("charge", d3.forceManyBody().strength(-40))
       .force(
         "collide",
         d3.forceCollide((d) => getOutsideRadius(d) + lineThickness)
-      )
-      .force(
-        "x",
-        d3.forceX().x((d) => d.dx * d.special * explodeRadius)
-      )
-      .force(
-        "y",
-        d3.forceY().y((d) => d.dy * d.special * explodeRadius)
       );
 
     // Create the SVG container.
-    const svg = d3
-      .create("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", [-width / 2, -height / 2, width, height])
-      .attr("style", "max-width: 100%; height: auto;");
+    resize(); // sets size of svg
 
     // Add a line for each link, and a circle for each node.
     const link = svg
@@ -355,10 +386,167 @@ function initialize(nodes) {
     // stop naturally, but it’s a good practice.)
     // invalidation.then(() => simulation.stop());
 
+    // Legends
+
+    const hueLegend = svg
+      .append("g")
+      .attr("stroke-width", lineThickness)
+      .selectAll("circle")
+      .data(industries)
+      .filter((i) => !i.isComponent)
+      .join("g");
+
+    hueLegend
+      .append("circle")
+      .attr("r", 50)
+      .attr("fill", (d) => d.color.darker(1));
+
+    hueLegend
+      .append("text")
+      .attr("fill-opacity", 0.7)
+      .attr("fill", "#000")
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .attr("style", "label")
+      //   .attr("clip-path", (d) => `circle(${getInsideRadius(d) - lineThickness})`)
+      // .attr(
+      //   "transform",
+      //   (d) =>
+      //     `scale(${0.22 * Math.min(getInsideRadius(d) / d.Company.length, 5)})` // fudge scaling based on word length
+      // )
+      .text((d) => d.title);
+
+    function layoutHorseshoe() {
+      simulation
+        .force(
+          "x",
+          d3
+            .forceX()
+            .x((d) => d.dx * d.special * explodeRadius)
+            .strength(posStrength)
+        )
+        .force(
+          "y",
+          d3
+            .forceY()
+            .y((d) => d.dy * d.special * explodeRadius)
+            .strength(posStrength)
+        );
+
+      hueLegend
+        .selectAll("circle")
+        .data(industries)
+        // .filter((i) => i.isComponent)
+        .attr("x", (d) => d.dx * explodeRadius)
+        .attr("y", (d) => d.dy * explodeRadius);
+    }
+
+    function layoutWorld() {
+      simulation
+        .force(
+          "x",
+          d3
+            .forceX()
+            .x((d) => (d.Longitude * width) / 360)
+            .strength(posStrength)
+        )
+        .force(
+          "y",
+          d3
+            .forceY()
+            .y((d) => -((d.Latitude / 180 - 0.2) * height))
+            .strength(posStrength)
+        );
+      simulation.alpha(1).restart();
+    }
+
+    function layoutTimeline() {
+      simulation
+        .force(
+          "x",
+          d3
+            .forceX()
+            .x(
+              (d) =>
+                (width / (2 * 2.5)) *
+                -Math.log((2025 - (d.Founded > 0 ? d.Founded : 0)) / 8)
+            )
+            .strength(posStrength)
+        )
+        .force(
+          "y",
+          d3
+            .forceY()
+            .y((d) => ((d.hue / Math.PI - 1) * height) / 4)
+            .strength(posStrength)
+        );
+      simulation.alpha(1).restart();
+    }
+
+    function createRadioButtons() {
+      let buttons = {
+        Horseshoe: layoutHorseshoe,
+        World: layoutWorld,
+        Timeline: layoutTimeline,
+      };
+
+      let first = true;
+      for (const [name, action] of Object.entries(buttons)) {
+        var radioButton = document.createElement("input");
+        radioButton.type = "radio";
+        radioButton.name = "layout";
+        radioButton.value = name;
+
+        if (first) {
+          first = false;
+          radioButton.checked = true;
+        }
+
+        radioButton.addEventListener("change", action);
+        overlay.appendChild(radioButton);
+
+        // Create label for the radio button
+        var label = document.createElement("label");
+        label.appendChild(document.createTextNode(name));
+        overlay.appendChild(label);
+
+        // Line break for readability
+        overlay.appendChild(document.createElement("br"));
+      }
+    }
+
+    createRadioButtons(simulation);
+
+    layoutHorseshoe();
     return svg.node();
   };
 
   container.append(chart());
 }
+
+// https://gist.github.com/curran/3a68b0c81991e2e94b19
+function resize() {
+  // Extract the width and height that was computed by CSS.
+  var width = container.clientWidth;
+  var height = container.clientHeight;
+
+  // Use the extracted size to set the size of an SVG element.
+  if (!svg) return;
+
+  svg
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+}
+
+// Redraw based on the new size whenever the browser window is resized.
+window.addEventListener("resize", resize);
+
+// const gui = new GUI();
+// gui.add(props, "nodeScale", 0, 1);
+
+// <p><input type="radio" name="radio" value="horseshoe" onchange="updateLayout('t')" checked>Horseshoe</input></p>
+// <p><input type="radio" name="radio" value="map" onchange="updateLayout('t')">Map</input></p>
+// <p><input type="radio" name="radio" value="timepne" onchange="updateLayout">Timeline</input></li>
 
 d3.tsv(url, processVendor).then(initialize);

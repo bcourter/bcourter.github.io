@@ -27,17 +27,26 @@
             color: black;
             background-color: red;
             /* overflow: hidden; */
-            position: relative;
+            position: absolute;
             display: block;
             z-index: 1;
         }
+
+        .overlay {
+            position: absolute;
+            top: 10px; 
+            left: 10px;
+        }
     </style>
+    <link rel="stylesheet" href="dat.gui.css">
 </head>
 
 <body>
-    <div id="container" class="fullsize"></div>
-
-    <script src="d3.v7.js"></script>    
+    <script src="d3.v7.js"></script>
+    <script src="dat.gui.min.js"></script>
     <script type="module" src="main.js"></script>
+    <div id="container" class="fullsize"></div>
+    <div id="overlay" class="overlay">
+    </div>
 </body>
 </html>
