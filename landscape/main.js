@@ -1,4 +1,5 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+// import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+// import * as topojson from "https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js";
 
 const url =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpp3EgZEXoDrQ8MVxr7AS2ifn3Efvlk7QFEEe9Z1iMtOXX7QX5ZK5XQg0EcrSun1umA0-nCr5BQFR/pub?gid=595724753&single=true&output=tsv";
@@ -241,22 +242,84 @@ const svg = d3
 
 const props = { nodeScale: 1 };
 
+let width, height;
+
+function updateLayout() {}
+
+const animationDuraction = 800;
+
 function initialize(nodes) {
   // Specify the dimensions of the chart.
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+  width = container.clientWidth;
+  height = container.clientHeight;
   const size = Math.min(width, height);
   const explodeRadius = size * 0.15;
   const lineThickness = 1.0;
   const circleScale = 1 / 250;
 
+  // world map in back
+
+  function getBounds(pointdata) {
+    let min = [Number.MAX_VALUE, Number.MAX_VALUE];
+    let max = [Number.MIN_VALUE, Number.MIN_VALUE];
+    let pairs = pointdata.split(/[ML]/i).filter((p) => p !== "");
+
+    pairs.map((p) => {
+      let split = p.split(",");
+      let x = Number(split[0]);
+      let y = Number(split[1]);
+      if (!x || !y) return;
+      min[0] = Math.min(min[0], x);
+      min[1] = Math.min(min[1], y);
+      max[0] = Math.max(max[0], x);
+      max[1] = Math.max(max[1], y);
+    });
+    return [min, max];
+  }
+
+  const mapLegend = svg.append("g");
+  const mapObject = mapLegend.append("path").attr("opacity", 0.2);
+
+  function updateMapLegend(opacity) {
+    if (!mapObject.span) return;
+
+    let scale = width / mapObject.span[0];
+    mapObject.attr(
+      "transform",
+      `translate(${-width / 2}, ${
+        -(scale * mapObject.span[1]) / 6
+      }) scale(${scale})`
+    );
+
+    mapLegend
+      .transition()
+      .duration(animationDuraction / 2)
+      .attr("opacity", opacity);
+  }
+
+  d3.json(
+    "https://gist.githubusercontent.com/d3noob/5193723/raw/world-110m2.json"
+  ).then(function (topology) {
+    const projection = d3
+      .geoMercator()
+      // .center([0, -20]) //long and lat starting position
+      // .scale(150) //starting zoom position
+      .rotate([0, 0]); //where world split occurs
+
+    const path = d3.geoPath(projection);
+    let land = topojson.feature(topology, topology.objects.countries);
+    let landPath = path(land);
+    let bounds = getBounds(landPath);
+    mapObject.span = [bounds[1][0] - bounds[0][0], bounds[1][1] - bounds[0][1]];
+
+    mapObject.attr("d", landPath);
+
+    updateMapLegend(0);
+  });
+
   // time legend in back
 
   const years = Array.from({ length: 32 }, (v, k) => 2024 - 2 * k);
-
-  function yearToX(year) {
-    return (width / (2 * 2.5)) * -Math.log((2025 - (year > 0 ? year : 0)) / 8);
-  }
 
   const timeLegend = svg
     .selectAll("years")
@@ -265,25 +328,46 @@ function initialize(nodes) {
     .append("g")
     .attr("opacity", 0);
 
-  timeLegend
-    .append("line")
-    .attr("stroke", "#CCC")
-    .attr("x1", (d) => yearToX(d))
-    .attr("x2", (d) => yearToX(d))
-    .attr("y1", height / 2 - 50)
-    .attr("y2", -height / 2 + 20);
+  function getsTimeLabel(d) {
+    return d >= 2012 || d % 8 == 0;
+  }
+
+  function yearToX(year) {
+    return (width / (2 * 2.5)) * -Math.log((2025 - (year > 0 ? year : 0)) / 8);
+  }
+
+  timeLegend.append("line").attr("stroke", "#CCC");
 
   timeLegend
-    .filter((d) => d >= 2012 || d % 8 == 0)
+    .filter((d) => getsTimeLabel(d))
     .append("text")
     .attr("fill-opacity", 0.7)
     .attr("fill", "#000")
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "middle")
     .attr("style", "label")
-    .attr("x", (d) => yearToX(d))
-    .attr("y", height / 2 - 20)
     .text((d) => d);
+
+  function updateTimelegend(opacity) {
+    timeLegend
+      .transition()
+      .duration(animationDuraction / 2)
+      .attr("opacity", opacity);
+
+    timeLegend
+      .selectAll("line")
+      .attr("x1", (d) => yearToX(d))
+      .attr("x2", (d) => yearToX(d))
+      .attr("y1", (d) => height / 2 - (getsTimeLabel(d) ? 40 : 50))
+      .attr("y2", -height / 2 + 20);
+
+    timeLegend
+      .selectAll("text")
+      .attr("x", (d) => yearToX(d))
+      .attr("y", height / 2 - 20);
+  }
+
+  updateTimelegend(0);
 
   function getInsideRadius(d) {
     return d.size * size * circleScale * props.nodeScale;
@@ -550,9 +634,9 @@ function initialize(nodes) {
 
     hueLegend.append("title").text((d) => `${d.description}`);
 
-    const animationDuraction = 800;
-
     function layoutHorseshoe() {
+      updateLayout = layoutHorseshoe;
+
       simulation
         .force(
           "x",
@@ -576,18 +660,18 @@ function initialize(nodes) {
         .duration(animationDuraction)
         .attr("transform", (d) => {
           let h = (d.color.h * Math.PI) / 180;
-          return `translate(${Math.cos(h) * width * 0.45},${
+          return `translate(${Math.cos(h) * height * 0.45},${
             -Math.sin(h) * height * 0.45
           })`;
         });
 
-      timeLegend
-        .transition()
-        .duration(animationDuraction / 2)
-        .attr("opacity", 0);
+      updateMapLegend(0);
+      updateTimelegend(0);
     }
 
     function layoutWorld() {
+      updateLayout = layoutWorld;
+
       simulation
         .force(
           "x",
@@ -613,13 +697,13 @@ function initialize(nodes) {
           return `translate(${-width * 0.6},${0})`;
         });
 
-      timeLegend
-        .transition()
-        .duration(animationDuraction / 2)
-        .attr("opacity", 0);
+      updateMapLegend(1);
+      updateTimelegend(0);
     }
 
     function layoutTimeline() {
+      updateLayout = layoutTimeline;
+
       simulation
         .force(
           "x",
@@ -647,10 +731,8 @@ function initialize(nodes) {
           })`;
         });
 
-      timeLegend
-        .transition()
-        .duration(animationDuraction / 2)
-        .attr("opacity", 1);
+      updateMapLegend(0);
+      updateTimelegend(1);
     }
 
     function createRadioButtons() {
@@ -697,16 +779,17 @@ function initialize(nodes) {
 // https://gist.github.com/curran/3a68b0c81991e2e94b19
 function resize() {
   // Extract the width and height that was computed by CSS.
-  var width = container.clientWidth;
-  var height = container.clientHeight;
+  width = container.clientWidth;
+  height = container.clientHeight;
 
   // Use the extracted size to set the size of an SVG element.
   if (!svg) return;
-
   svg
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+  updateLayout();
 }
 
 // Redraw based on the new size whenever the browser window is resized.
