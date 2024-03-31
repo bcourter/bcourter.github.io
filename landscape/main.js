@@ -31,53 +31,64 @@ function setHue(hcl, hue) {
 
 const industries = {
   CAM_MES: {
-    title: "CAM\nMES",
-    color: setHue(enduserHCL, hueOf("orange")),
+    title: "CAM_MES",
+    description:
+      "Computer-Aided Manufacturing\nManufacturing Execution Systems",
+    color: setHue(enduserHCL, hueOf("red")),
     isComponent: false,
   },
   MCAD: {
     title: "MCAD",
-    color: setHue(enduserHCL, hueOf("olive")),
+    description: "Mechancial Computer-Aided Design",
+    color: setHue(enduserHCL, hueOf("yellow")),
     isComponent: false,
   },
   CAE: {
     title: "CAE",
-    color: setHue(enduserHCL, hueOf("teal")),
+    description: "Computer-Aided Engineering",
+    color: setHue(enduserHCL, hueOf("green")),
     isComponent: false,
   },
   CFD: {
     title: "CFD",
+    description: "Computational Fluid Dynamics",
     color: setHue(enduserHCL, hueOf("cyan")),
     isComponent: false,
   },
   EDA: {
     title: "EDA",
-    color: setHue(enduserHCL, hueOf("azure")),
+    description: "Electronic Design Automation",
+    color: setHue(enduserHCL, hueOf("blue")),
     isComponent: false,
   },
   IM_PM: {
-    title: "IM\nPM",
+    title: "IM_PM",
+    description: "Industrial Manufacturing\nProcess Manufacturing",
     color: setHue(enduserHCL, hueOf("violet")),
     isComponent: false,
   },
   AEC: {
     title: "AEC",
-    color: setHue(enduserHCL, hueOf("rose")),
+    description: "Architectural Engineering and Construction",
+    color: setHue(enduserHCL, hueOf("magenta")),
     isComponent: false,
   },
 
   B_rep: {
     title: "B-rep",
+    description: "Boundary-Represenation solid models including meshes",
     color: setHue(componentHCL, hueOf("yellow")),
     isComponent: true,
   },
   Implicit: {
     title: "Implicit",
+    description: "Implicit solid models described by function of space",
     color: setHue(componentHCL, hueOf("green")),
     isComponent: true,
   },
   Physics: {
     title: "Physics",
+    description: "Physical simulation codes",
     color: setHue(componentHCL, hueOf("teal")),
     isComponent: true,
   },
@@ -221,7 +232,11 @@ function processVendor(d) {
   return d;
 }
 
-const svg = d3.create("svg").attr("style", "max-width: 100%; height: auto;");
+const svg = d3
+  .create("svg")
+  .attr("xmlns", "http://www.w3.org/2000/svg")
+  .attr("style", "max-width: 100%; height: auto;");
+
 const props = { nodeScale: 1 };
 
 function initialize(nodes) {
@@ -229,7 +244,7 @@ function initialize(nodes) {
   const width = container.clientWidth;
   const height = container.clientHeight;
   const size = Math.min(width, height);
-  const explodeRadius = size * 0.2;
+  const explodeRadius = size * 0.15;
   const lineThickness = 1.0;
 
   const circleScale = 1 / 250;
@@ -386,35 +401,120 @@ function initialize(nodes) {
     // stop naturally, but it’s a good practice.)
     // invalidation.then(() => simulation.stop());
 
+    const filterSize = 100;
+    const blurFilter = svg
+      .append("defs")
+      .append("filter")
+      .attr("id", "blurFilter")
+      .attr("x", -filterSize)
+      .attr("y", -filterSize)
+      .attr("width", filterSize * 2)
+      .attr("height", filterSize * 2);
+    blurFilter.append("feGaussianBlur").attr("stdDeviation", "5");
+    blurFilter
+      .append("feBlend")
+      .attr("in", "SourceGraphic")
+      .attr("in2", "blurOut");
+
+    //
     // Legends
+    //
+
+    // Hexagon Symbol https://gist.github.com/captainhead/b542212d5f11e50f2ccaa47a71deb6c7
+    const a = Math.pow(3, 0.25);
+    // Given an area, compute the side length of a hexagon with that area.
+    function sideLength(area) {
+      return a * Math.sqrt(2 * (area / 9));
+    }
+
+    // Generate the 6 vertices of a unit hexagon.
+    const basePoints = d3
+      .range(6)
+      .map((p) => (Math.PI / 3) * p)
+      .map((p) => ({
+        x: Math.cos(p),
+        y: Math.sin(p),
+      }));
+
+    const hexagonSymbol = {
+      draw: function (context, size) {
+        // Scale the unit hexagon's vertices by the desired size of the hexagon.
+        const len = sideLength(size);
+        const points = basePoints.map(({ x, y }) => ({
+          x: x * len,
+          y: y * len,
+        }));
+
+        // Move to the first vertex of the hexagon.
+        let { x, y } = points[0];
+        context.moveTo(x, y);
+        // Line-to the remaining vertices of the hexagon.
+        for (let p = 1; p < points.length; p++) {
+          let { x, y } = points[p];
+          context.lineTo(x, y);
+        }
+        // Close the path to connect the last vertex back to the first.
+        context.closePath();
+      },
+    };
+
+    const industryHues = Object.values(industries).filter(
+      (i) => !i.isComponent
+    );
 
     const hueLegend = svg
-      .append("g")
-      .attr("stroke-width", lineThickness)
-      .selectAll("circle")
-      .data(industries)
-      .filter((i) => !i.isComponent)
-      .join("g");
+      .selectAll("hues")
+      .data(industryHues)
+      .enter()
+      .append("g");
+
+    // hueLegend
+    //   .append("circle")
+    //   .attr("r", legendSize)
+    //   .attr("fill", (d) => d.color.darker(1));
+    const hueHexagon = d3.symbol().size(1800).type(hexagonSymbol);
 
     hueLegend
-      .append("circle")
-      .attr("r", 50)
-      .attr("fill", (d) => d.color.darker(1));
+      .append("path")
+      .attr("d", hueHexagon)
+      .attr("fill", (d) => d.color.darker(1))
+      .attr("filter", "url(#blurFilter)");
 
-    hueLegend
+    // hueLegend
+    //   .append("foreignObject")
+    //   .attr("x", -legendSize)
+    //   .attr("y", -legendSize)
+    //   .attr("width", 2 * legendSize)
+    //   .attr("height", 2 * legendSize)
+    //   .append("div")
+    //   .attr("xmlns", "http://www.w3.org/1999/xhtml")
+    //   .attr("class", "svg-div")
+    //   // .attr("width", 2 * legendSize)
+    //   // .attr("height", 2 * legendSize)
+    //   .html(
+    //     "test"
+    //   );
+
+    let hueLegendText = hueLegend
       .append("text")
       .attr("fill-opacity", 0.7)
       .attr("fill", "#000")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr("style", "label")
-      //   .attr("clip-path", (d) => `circle(${getInsideRadius(d) - lineThickness})`)
-      // .attr(
-      //   "transform",
-      //   (d) =>
-      //     `scale(${0.22 * Math.min(getInsideRadius(d) / d.Company.length, 5)})` // fudge scaling based on word length
-      // )
-      .text((d) => d.title);
+      .attr("style", "label");
+    // .text((d) => d.title);
+
+    hueLegendText
+      .selectAll()
+      .data((d) => d.title.split("_"))
+      .join("tspan")
+      .attr("x", 0)
+      .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
+      .text((d) => d);
+
+    hueLegend.append("title").text((d) => `${d.description}`);
+
+    const animationDuraction = 1000;
 
     function layoutHorseshoe() {
       simulation
@@ -432,13 +532,18 @@ function initialize(nodes) {
             .y((d) => d.dy * d.special * explodeRadius)
             .strength(posStrength)
         );
+      simulation.alpha(1).restart();
 
       hueLegend
-        .selectAll("circle")
-        .data(industries)
-        // .filter((i) => i.isComponent)
-        .attr("x", (d) => d.dx * explodeRadius)
-        .attr("y", (d) => d.dy * explodeRadius);
+        .transition()
+        .ease(d3.easeQuadOut)
+        .duration(animationDuraction)
+        .attr("transform", (d) => {
+          let h = (d.color.h * Math.PI) / 180;
+          return `translate(${Math.cos(h) * width * 0.45},${
+            -Math.sin(h) * height * 0.45
+          })`;
+        });
     }
 
     function layoutWorld() {
@@ -447,7 +552,7 @@ function initialize(nodes) {
           "x",
           d3
             .forceX()
-            .x((d) => (d.Longitude * width) / 360)
+            .x((d) => (d.Longitude * width) / 400) // 400 is padding on 360 deg longitude
             .strength(posStrength)
         )
         .force(
@@ -458,6 +563,14 @@ function initialize(nodes) {
             .strength(posStrength)
         );
       simulation.alpha(1).restart();
+
+      hueLegend
+        .transition()
+        .ease(d3.easeQuadOut)
+        .duration(animationDuraction)
+        .attr("transform", (d) => {
+          return `translate(${-width * 0.6},${0})`;
+        });
     }
 
     function layoutTimeline() {
@@ -477,10 +590,20 @@ function initialize(nodes) {
           "y",
           d3
             .forceY()
-            .y((d) => ((d.hue / Math.PI - 1) * height) / 4)
+            .y((d) => ((((d.hue / Math.PI + 0.25) % 2) - 1) * height) / 3)
             .strength(posStrength)
         );
       simulation.alpha(1).restart();
+
+      hueLegend
+        .transition()
+        .ease(d3.easeQuadOut)
+        .duration(animationDuraction)
+        .attr("transform", (d) => {
+          return `translate(${-width / 2 + 60},${
+            ((((d.color.h / 180 + 0.25) % 2) - 1) * height) / 3
+          })`;
+        });
     }
 
     function createRadioButtons() {
