@@ -1,3 +1,5 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
 const url =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpp3EgZEXoDrQ8MVxr7AS2ifn3Efvlk7QFEEe9Z1iMtOXX7QX5ZK5XQg0EcrSun1umA0-nCr5BQFR/pub?gid=595724753&single=true&output=tsv";
 
@@ -246,8 +248,42 @@ function initialize(nodes) {
   const size = Math.min(width, height);
   const explodeRadius = size * 0.15;
   const lineThickness = 1.0;
-
   const circleScale = 1 / 250;
+
+  // time legend in back
+
+  const years = Array.from({ length: 32 }, (v, k) => 2024 - 2 * k);
+
+  function yearToX(year) {
+    return (width / (2 * 2.5)) * -Math.log((2025 - (year > 0 ? year : 0)) / 8);
+  }
+
+  const timeLegend = svg
+    .selectAll("years")
+    .data(years)
+    .enter()
+    .append("g")
+    .attr("opacity", 0);
+
+  timeLegend
+    .append("line")
+    .attr("stroke", "#CCC")
+    .attr("x1", (d) => yearToX(d))
+    .attr("x2", (d) => yearToX(d))
+    .attr("y1", height / 2 - 50)
+    .attr("y2", -height / 2 + 20);
+
+  timeLegend
+    .filter((d) => d >= 2012 || d % 8 == 0)
+    .append("text")
+    .attr("fill-opacity", 0.7)
+    .attr("fill", "#000")
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .attr("style", "label")
+    .attr("x", (d) => yearToX(d))
+    .attr("y", height / 2 - 20)
+    .text((d) => d);
 
   function getInsideRadius(d) {
     return d.size * size * circleScale * props.nodeScale;
@@ -514,7 +550,7 @@ function initialize(nodes) {
 
     hueLegend.append("title").text((d) => `${d.description}`);
 
-    const animationDuraction = 1000;
+    const animationDuraction = 800;
 
     function layoutHorseshoe() {
       simulation
@@ -544,6 +580,11 @@ function initialize(nodes) {
             -Math.sin(h) * height * 0.45
           })`;
         });
+
+      timeLegend
+        .transition()
+        .duration(animationDuraction / 2)
+        .attr("opacity", 0);
     }
 
     function layoutWorld() {
@@ -571,6 +612,11 @@ function initialize(nodes) {
         .attr("transform", (d) => {
           return `translate(${-width * 0.6},${0})`;
         });
+
+      timeLegend
+        .transition()
+        .duration(animationDuraction / 2)
+        .attr("opacity", 0);
     }
 
     function layoutTimeline() {
@@ -579,11 +625,7 @@ function initialize(nodes) {
           "x",
           d3
             .forceX()
-            .x(
-              (d) =>
-                (width / (2 * 2.5)) *
-                -Math.log((2025 - (d.Founded > 0 ? d.Founded : 0)) / 8)
-            )
+            .x((d) => yearToX(d.Founded))
             .strength(posStrength)
         )
         .force(
@@ -604,12 +646,17 @@ function initialize(nodes) {
             ((((d.color.h / 180 + 0.25) % 2) - 1) * height) / 3
           })`;
         });
+
+      timeLegend
+        .transition()
+        .duration(animationDuraction / 2)
+        .attr("opacity", 1);
     }
 
     function createRadioButtons() {
       let buttons = {
-        Horseshoe: layoutHorseshoe,
-        World: layoutWorld,
+        Industry: layoutHorseshoe,
+        Geography: layoutWorld,
         Timeline: layoutTimeline,
       };
 
@@ -664,12 +711,5 @@ function resize() {
 
 // Redraw based on the new size whenever the browser window is resized.
 window.addEventListener("resize", resize);
-
-// const gui = new GUI();
-// gui.add(props, "nodeScale", 0, 1);
-
-// <p><input type="radio" name="radio" value="horseshoe" onchange="updateLayout('t')" checked>Horseshoe</input></p>
-// <p><input type="radio" name="radio" value="map" onchange="updateLayout('t')">Map</input></p>
-// <p><input type="radio" name="radio" value="timepne" onchange="updateLayout">Timeline</input></li>
 
 d3.tsv(url, processVendor).then(initialize);
