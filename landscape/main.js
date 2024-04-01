@@ -255,7 +255,7 @@ function initialize(nodes) {
   const size = Math.min(width, height);
   const explodeRadius = size * 0.15;
   const lineThickness = 1.0;
-  const circleScale = 1 / 250;
+  const circleScale = 1 / 300;
 
   // world map in back
 
@@ -359,7 +359,7 @@ function initialize(nodes) {
       .attr("x1", (d) => yearToX(d))
       .attr("x2", (d) => yearToX(d))
       .attr("y1", (d) => height / 2 - (getsTimeLabel(d) ? 40 : 50))
-      .attr("y2", -height / 2 + 20);
+      .attr("y2", -height / 2 + 30);
 
     timeLegend
       .selectAll("text")
@@ -391,15 +391,18 @@ function initialize(nodes) {
     links.push({
       source: source.id,
       target: target.id,
-      distance: getOutsideRadius(target) + getOutsideRadius(target),
+      distance:
+        getOutsideRadius(target) + getOutsideRadius(target) + circleScale,
       strength: strength,
       value: width,
     });
   }
 
+  let partnerStrength = 0;
+
   nodes.forEach((n) => {
-    n.componentsList.forEach((d) => createLink(n, d, 0.1, 3));
-    n.integrationsList.forEach((d) => createLink(n, d, 0.01, 1));
+    n.componentsList.forEach((d) => createLink(n, d, 0, 3));
+    n.integrationsList.forEach((d) => createLink(n, d, 0, 1));
   });
 
   let chart = function () {
@@ -409,10 +412,13 @@ function initialize(nodes) {
     const simulation = d3
       .forceSimulation(nodes)
       // .force("center", d3.forceCenter(0, 0))
-      // .force(
-      //   "link",
-      //   d3.forceLink(links).id((d) => d.id)
-      // )
+      .force(
+        "link",
+        d3
+          .forceLink(links)
+          .id((d) => d.id)
+          .strength((d) => d.strength)
+      )
       .force("charge", d3.forceManyBody().strength(-40))
       .force(
         "collide",
@@ -456,23 +462,34 @@ function initialize(nodes) {
           `${d.Company}\n${d.Headquarters}\n${d.Founded}\n` +
           `Brands: ${d.brandList.join(
             " "
-          )}\nDependencies: ${d.componentsList.join(" ")}`
+          )}\nComponents: ${d.componentsList.join(
+            " "
+          )}\nIntegrations: ${d.integrationsList.join(" ")}`
       );
 
     // Add a label.
-    const text = node
+    const nodeText = node
       .append("text")
       .attr("fill-opacity", 0.7)
       .attr("fill", "#000")
       .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
       .attr("style", "label")
       //   .attr("clip-path", (d) => `circle(${getInsideRadius(d) - lineThickness})`)
-      .attr(
-        "transform",
-        (d) =>
-          `scale(${0.22 * Math.min(getInsideRadius(d) / d.Company.length, 5)})` // fudge scaling based on word length
-      )
-      .text((d) => d.Company);
+      .attr("transform", (d) => {
+        let words = d.Company.split(" ");
+        let longest = Math.max(...words.map((w) => w.length));
+        return `scale(${0.25 * Math.min(getInsideRadius(d) / longest, 5)})`; // fudge scaling based on word length
+      });
+    // .text((d) => d.Company);
+
+    nodeText
+      .selectAll()
+      .data((d) => d.Company.split(" "))
+      .join("tspan")
+      .attr("x", 0)
+      .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
+      .text((d) => d);
 
     // Add a drag behavior.
     node.call(
@@ -621,6 +638,7 @@ function initialize(nodes) {
       .attr("fill", "#000")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
+      .attr("font-weight", "bold")
       .attr("style", "label");
     // .text((d) => d.title);
 
@@ -735,7 +753,9 @@ function initialize(nodes) {
       updateTimelegend(1);
     }
 
-    function createRadioButtons() {
+    // Content
+
+    function createControls() {
       let buttons = {
         Industry: layoutHorseshoe,
         Geography: layoutWorld,
@@ -755,19 +775,29 @@ function initialize(nodes) {
         }
 
         radioButton.addEventListener("change", action);
-        overlay.appendChild(radioButton);
+        controls.appendChild(radioButton);
 
         // Create label for the radio button
         var label = document.createElement("label");
         label.appendChild(document.createTextNode(name));
-        overlay.appendChild(label);
+        controls.appendChild(label);
 
         // Line break for readability
-        overlay.appendChild(document.createElement("br"));
+        controls.appendChild(document.createElement("br"));
       }
+
+      let disruptPara = document.createElement("p");
+      let disruptButton = document.createElement("button");
+      disruptButton.appendChild(document.createTextNode("Disrupt"));
+      disruptButton.addEventListener("click", () =>
+        simulation.alpha(2).restart()
+      );
+
+      disruptPara.appendChild(disruptButton);
+      controls.appendChild(disruptPara);
     }
 
-    createRadioButtons(simulation);
+    createControls();
 
     layoutHorseshoe();
     return svg.node();

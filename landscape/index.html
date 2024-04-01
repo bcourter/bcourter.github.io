@@ -2,20 +2,38 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PH8NNRS9GG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PH8NNRS9GG');
+    </script>
     <meta charset="utf-8" />
-    <title>Engineering Software Industry Landscape</title>
+    <title>Engineering Software Moat Map</title>
     <style>
         html,
         body {
             height: 100%;
             margin: 0;
             font-family: Sans-Serif;
+            font-size: small;
         }
     
         .fullsize {
             height: 100%; 
             width: 100%;
             position: absolute;
+        }
+
+        #container {
+            height: calc(100% - 30px); 
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
         }
 
         .label {
@@ -33,17 +51,60 @@
             z-index: 1;
         }
 
-        .overlay {
+        #overlay {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        div {overflow: hidden;}
+
+        #credits {
             position: absolute;
             top: 10px; 
-            left: 10px;
+            left: 20px;
+            z-index: 2;
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px; 
+            right: 20px;
+            z-index: 2;
         }
     </style>
 </head>
 
 <body>
-    <div id="container" class="fullsize"></div>
-    <div id="overlay" class="overlay"></div>
+    <div id="container"></div>
+    <div id="overlay">
+        <h1> Engineering Software Moat Map </h1>
+
+        <div id="credits">
+            <p>Visualization by <a href="https://www.blakecourter.com/"  target="_blank">Blake Courter</a> </p>
+            <small>
+            <p><a href="/2024/04/01/moat-map.html" target="_blank">Methodology</a></p>
+            <p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpp3EgZEXoDrQ8MVxr7AS2ifn3Efvlk7QFEEe9Z1iMtOXX7QX5ZK5XQg0EcrSun1umA0-nCr5BQFR/pubhtml?gid=595724753&single=true" target="_blank">Data</a> contributed by:
+            <ul>
+                <li>Alex Huckstepp</li>
+                <li>Andy Fine</li>
+                <li>Brad Rothenberg</li>
+                <li>Luke Church</li>
+                <li>Oleg Shilovitsky</li>
+                <li>Rik Baruah</li>
+            </ul> 
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScTUBwuw6szHmuR4OMVmm-kdjvsDb3oSscyoUa9ZmL4s5NuhA/viewform?usp=sf_link" target="_blank">Submit</a> an addition or correction.
+            </small>
+        </div>
+        
+        <div id="controls">
+            <p>Layout:</p>
+        </div>
+    </div>
   
     <script src="https://cdn.jsdelivr.net/npm/d3@7" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
