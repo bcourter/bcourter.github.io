@@ -278,7 +278,7 @@ function initialize(nodes) {
   }
 
   const mapLegend = svg.append("g");
-  const mapObject = mapLegend.append("path").attr("opacity", 0.2);
+  const mapObject = mapLegend.append("path").attr("opacity", 0.1);
 
   function updateMapLegend(opacity) {
     if (!mapObject.span) return;
@@ -359,7 +359,7 @@ function initialize(nodes) {
       .attr("x1", (d) => yearToX(d))
       .attr("x2", (d) => yearToX(d))
       .attr("y1", (d) => height / 2 - (getsTimeLabel(d) ? 40 : 50))
-      .attr("y2", -height / 2 + 30);
+      .attr("y2", -height / 2 + 60);
 
     timeLegend
       .selectAll("text")
