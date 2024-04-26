@@ -8,7 +8,7 @@
 <script type="text/x-mathjax-config">
 	var _config = { tex2jax: {
 		inlineMath: [['$','$'], ['\\(','\\)']],
-		loader: {load: ['[tex]/configmacros']},
+		loader: {load: ['[tex]/configmacros', '[tex]/physics']},
 		tex: {
       extensions: [
         "AMSmath.js",
@@ -16,9 +16,10 @@
         "noErrors.js",
         "noUndefined.js"
       ],
-      packages: {'[+]': ['configmacros']},
+      packages: {'[+]': ['configmacros', 'physics']},
 	    macros: {
-	      bold: ['{\\bf #1}',1]
+	      bold: ['{\\bf #1}',1],
+				sgn: ['\mathop{\rm sgn}']
 	    }
 	  }
 	}};

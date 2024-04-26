@@ -32,16 +32,17 @@ comment: false
 * Board Member, [Intact Solutions](https://intact-solutions.com)
 
 ##### Advisor to:
-* [Shapr3D](https://shapr3d.com)
-* [Zeroth](https://zeroth.oo)
+* [Variant3D](https://www.variant3d.io/)
 * [Atomic Industries](https://www.atomic.industries/)
+* [Zeroth](https://zeroth.oo)
+* [Shapr3D](https://shapr3d.com)
 
-##### Former:
+##### Formerly:
 * CTO, Advisor, [nTopology](https://ntopology.com)
 * Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
 * Head of Software Research, [Stratasys](https://stratasys.com)
 * Director of Strategy, [GrabCAD](https://www.grabcad.com) (Acquired by Stratasys.)
 * Founder, [SpaceClaim](www.spaceclaim.com) (Acquired by ANSYS.)
-* Director of Business Development, Product Manager, [PTC](https://www.ptc.com)
+* Director of Business Development, Product Manager, AE, [PTC](https://www.ptc.com)
 
 
