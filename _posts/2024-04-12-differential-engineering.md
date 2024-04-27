@@ -298,3 +298,7 @@ Around that time I started to notice the use of differentiable simulation pipeli
 2024 appears to be a great year for differential engineering.  In addition to the emerging tech above, nTop's [new kernel](https://cdfam.com/ntop-siemens/) is built for derivatives, providing industrial strength support for automation and interop.  [Gradient Control Laboratories](https://www.gradientcontrol.com/)' meta-kernel generates forward-mode AD while generating other useful manipulations like symbolic derivatives and UGF transformations.  I expect both technologies to be used as black boxes to realize the first generation of differential interoperability.  
 
 Please be in touch if you have have direct interest in getting started with differentiable engineering.  
+
+### Dedication
+
+As I was finishing this post, it crossed the wire that [Ken Versprille](https://www.cimdata.com/en/speaker-bios/versprille), [grandfather to NURBSs](https://blogs.sw.siemens.com/solidedge/just-how-did-nurbs-come-to-be-by-dr-ken-versprille/) and industry friend, has passed.  I would have enjoyed sharing this material with him.  
