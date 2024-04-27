@@ -28,11 +28,11 @@ If AI and ML are to participate in the team sport known as "engineering," they w
 * The [exploding market](/2024/04/01/moat-map.html) of simulation tools mostly promises to accelerate simulation but still requires traditional, manual, validation.
 * Systems engineers can deploy MDO tools at product or subsystems levels, but such systems typically provide guidance during the concept phase and become reinterpreted by humans for detailed design.  
 
-If part of the promise of AI and ML is to increase the size of the design space that engineers can navigate, how can we bridge these human gaps in the process?  As generative design scales to the subsystem and product level, how can we connect all the pieces without the meaning becoming hidden in a nonintuitive latent space?  How will we ever achieve the sci-fi dream of synthetic, cyber-physical systems if there must always be humans in the loop?
+If AI and ML promises to increase the size of the design space that engineers can navigate, how can we bridge these human gaps in the process?  As generative design scales to the subsystem and product level, how can we connect all the pieces without the meaning becoming hidden in a nonintuitive latent space?  How will we ever achieve the sci-fi dream of synthetic, cyber-physical systems if there must always be humans in the loop?
 
 ## Abstracting the design engineer
 
-Let's propose a model for a design engineer, human or automated, rekindling the old term "MDA" as the Mechanical Design *Automaton*:
+Let's propose a model for a design engineer, human or automated, which we'll call "Mechanical Design Automation (MDA)":
 
 <object data="/assets/blog/Differentiable/DifferentiableEngineeringTriangle.svg" type="image/svg+xml"></object>
 
@@ -59,7 +59,7 @@ This system suggests that a designer cares not about the shape of their design, 
 
 On the other hand, this model shows that a designer is most interested in navigating an available set of design parameters explore a large design space of shapes to achieve a fitness goal.  Somehow, the designer needs to use a set of fitnesses to update the set of parameters.  And we only have one shape $$\Shape$$ for every vector of input parameters $$\parameters$$ and vector of fitnesses $$\fitness$$.  
 
-What is the map from fitnesses to parameters?  It's the inverse of $$\MDA$$, the origin story for the term "inverse engineering."  In many cases, we might optimize a design by minimizing a scalar loss function $$\lambda(\fitness)$$.  Various optimization techniques such topology optimization and multi-disciplinary optimization (MDO) are examples of this setup.  
+What is the map from fitnesses to parameters?  It's the inverse of MDA, the origin story for the term "inverse engineering."  In many cases, we might optimize a design by minimizing a scalar loss function.  Various optimization techniques such topology optimization and multi-disciplinary optimization (MDO) are examples of this setup.  
 
 Therefore, the job of the designer is to find the magical set of parameters to achieve a set of fitnesses that pleases all stakeholders, while being unconcerned about the output shape.  Given any shape and fitnesses, the designer tweaks the design until it's optimal.  In such a world, it might be helpful to know in what direction and how far to turn a knob to get the intended result.  The tools of calculus provide such an estimate.  
 
@@ -80,7 +80,7 @@ $$\Large{\pdv{\fitness}{\parameters} = \pdv{\fitness}{\Shape} \pdv{\Shape}{\para
 
 ✏️ *Math tip: read the partial derivative notation "$$\partial x$$" as the same as "$$dx$$" assuming all partials are independent, but be aware that there are more of them.  If $$\p = (x, y)$$, we express a vector of those partials as the gradient $$\grad f(\p) = \pdv{f}{\p} = \left(\pdv{f}{x}, \pdv{f}{y}\right)$$, notation we reserve for spatial derivatives.*
 
-Speaking in the language of differentials, we can summarize that:
+Speaking in the language of differentials (and linear algebra):
 * CAD systems are concerned with shapes' *parametric sensitivities* $$\pdv{\Shape}{\parameters}$$ (a row vector);
 * CAE systems determine shapes' *functional sensitivities* $$\pdv{\fitness}{\Shape}$$ (a column vector); and
 * Combined, the (outer) product of those two vectors becomes a matrix of derivatives that captures how each parameter contributes to each fitness.  A matrix of partial derivatives is called a "Jacobian", so it seems appropriate to call $$\pdv{\fitness}{\Shape} \pdv{\Shape}{\parameters}$$ the *design Jacobian*.  
@@ -301,4 +301,4 @@ Please be in touch if you have have direct interest in getting started with diff
 
 ### Dedication
 
-As I was finishing this post, it crossed the wire that [Ken Versprille](https://www.cimdata.com/en/speaker-bios/versprille), [grandfather to NURBSs](https://blogs.sw.siemens.com/solidedge/just-how-did-nurbs-come-to-be-by-dr-ken-versprille/) and industry friend, has passed.  I would have enjoyed sharing this material with him.  
+As I was finishing this post, it crossed the wire that [Ken Versprille](https://www.cimdata.com/en/speaker-bios/versprille), [the father of NURBSs](https://blogs.sw.siemens.com/solidedge/just-how-did-nurbs-come-to-be-by-dr-ken-versprille/) and industry friend, has passed.  I would have enjoyed sharing this material with him.  
