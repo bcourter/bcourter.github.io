@@ -15,11 +15,11 @@ tags: SDF UGF Differentiable AI/ML Management
 
 👥 *Lots of credit: These ideas came from discussions with many people, including:*
 
-* {: style="font-size: 80%;"} [Sandilya Kambampati](https://www.linkedin.com/in/sandilya-kambampati-85595475/), [Intact Solutions](https://www.intact-solutions.com/)
-* {: style="font-size: 80%;"} [Luke Church](https://www.linkedin.com/in/lukechurch/), [Gradient Control Laboratories](https://www.gradientcontrol.com/)
-* {: style="font-size: 80%;"} [Trevor Laughlin](https://www.linkedin.com/in/trevorlaughlin/), [nTop](https://www.nTop.com/)
-* {: style="font-size: 80%;"} [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/), [PTC](https://www.ptc.com/)
-* {: style="font-size: 80%;"} [Peter Harman](https://www.linkedin.com/in/peterharman/), [Infinitive](https://cae.tech/)
+* {: style="font-size: 92%;"} [Sandilya Kambampati](https://www.linkedin.com/in/sandilya-kambampati-85595475/), [Intact Solutions](https://www.intact-solutions.com/)
+* {: style="font-size: 92%;"} [Luke Church](https://www.linkedin.com/in/lukechurch/), [Gradient Control Laboratories](https://www.gradientcontrol.com/)
+* {: style="font-size: 92%;"} [Trevor Laughlin](https://www.linkedin.com/in/trevorlaughlin/), [nTop](https://www.nTop.com/)
+* {: style="font-size: 92%;"} [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/), [PTC](https://www.ptc.com/)
+* {: style="font-size: 92%;"} [Peter Harman](https://www.linkedin.com/in/peterharman/), [Infinitive](https://cae.tech/)
 
 ## Introduction
 
@@ -47,7 +47,7 @@ $$ \newcommand{\CAE}{\text{CAE}} $$
 $$ \newcommand{\MDA}{\text{MDA}} $$
 
 There appear to be three main roles in an engineering process:
-* Model creation tools, like CAD systems, that generate output like parts, assemblies, and manufacturing deliverables.  We can model CAD as a function from parameters $$\parameters$$$ to CAD designs or "shapes" $$\Shape$$$, $$\CAD\!: \parameters \mapsto \Shape$$.  We'll focus on simple dimensional and angular parameters as in parametric CAD, but other parameter types include the feature recipe, explicit positions of mesh vertices, density values on a voxel model, material selection, etc.  
+* Model creation tools, like CAD systems, that generate output like parts, assemblies, and manufacturing deliverables.  We can model CAD as a function from parameters $$\parameters$$ to CAD designs or "shapes" $$\Shape$$, $$\CAD\!: \parameters \mapsto \Shape$$.  We'll focus on simple dimensional and angular parameters as in parametric CAD, but other parameter types include the feature recipe, explicit positions of mesh vertices, density values on a voxel model, material selection, etc.  
 * Engineering (CAE) tools that measure various finesses $$\fitness$$ of CAD designs, such as mass properties, testing mechanical and other physical properties, cost, environmental impact, and aesthetics.  We can model engineering software as $$\CAE\!: \Shape \mapsto \fitness$$,
 * Finally, there is a designer interested in producing optimal designs by tuning the parameters to optimize fitness.  $$\MDA\!: \parameters \mapsto \fitness$$
 
@@ -115,7 +115,7 @@ Let's get a feel for rectangle field and its partial derivatives (click to sampl
 
 <iframe class="fullsize" frameborder="0" src="https://www.shadertoy.com/embed/4f2XzW?gui=false&t=10&paused=false&muted=false" allowfullscreen></iframe>
 
-What does it mean that the derivatives have value off of the boundary of the shape?  Isn't there only one shape?  Yes, but the offset of any shape by $$\lambda$$, $$\shape - \lambda$$, vanishes under derivatives (with $$\lambda$$ constant).  We achieve this magic X-ray vision (aka "first order approximation") via unit gradient magnitude fields (UGFs), a special case of which are SDFs.  The derivative fields are therefore radially constant, just like the gradient.  
+What does it mean that the derivatives have value off of the boundary of the shape?  Isn't there only one shape?  Yes, but under any offset of a shape by a constant, $$\Shape - \lambda$$, the derivative of the offset $$\lambda$$ vanishes.  This magic X-ray vision (aka "first order approximation") of derivative fields results in such constant values along streamlines of the gradient, creating a field *radiated* into and out of the shape from the boundary.  
 
 ### Deriving the derivatives
 
@@ -293,7 +293,9 @@ As artificial intelligence becomes increasingly present in our engineering tools
 
 With the launch of interactivity in [nTop](https://www.ntop.com) 3.0 three years ago, [George Allen](https://www.linkedin.com/in/george-allen-969078144/) and I shared some research around ["CodeReps"](https://www.ntop.com/resources/product-updates/codereps-a-better-way-to-communicate/), which showed how we could export nTop data as pure code.  [Sandy](https://www.linkedin.com/in/sandilya-kambampati-85595475/) from [Intact](https://www.intact-solutions.com/) not only performed simulations on these code reps, he also observed that we could take parametric derivatives of it for the purpose of optimization, should CodeReps become pervasive.  Trevor from nTop also saw potential of geometry to be a parametric black box for optimization routines.  [Matt Keeter](https://www.mattkeeter.com/) showed how to use such derivatives for parametric editing in [libfive studio](https://libfive.com/studio/) when explicitly declared, and Luke Church prototyped a 2D implicit modeler that provided UX on-the-fly with respect to local parametric sensitivities.  
 
-Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method. About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  Eventually, I test drove [Engineering Sketch Pad](https://acdl.mit.edu/ESP/ESP_flyer.pdf) and met [Afshawn](https://www.linkedin.com/in/afshawn-lotfi/) from [Open Orion](https://openorion.org/), who are making explicit differential tech usable for design engineers. 
+Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method. About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  
+
+In researching existing differentiable engineering tools, [Peter Harman](https://www.linkedin.com/in/peterharman/) explained the strengths and weaknesses of [FMI](https://fmi-standard.org/)'s approach to parametric, differentiable interop and shared his experiences with symbolic differentiation in [Modelica](https://modelica.org/).  Eventually, I test drove [Engineering Sketch Pad](https://acdl.mit.edu/ESP/ESP_flyer.pdf) and met [Afshawn](https://www.linkedin.com/in/afshawn-lotfi/) from [Open Orion](https://openorion.org/), who are making explicit differential tech usable for design engineers.  
 
 2024 appears to be a great year for differential engineering.  In addition to the emerging tech above, nTop's [new kernel](https://cdfam.com/ntop-siemens/) is built for derivatives, providing industrial strength support for automation and interop.  [Gradient Control Laboratories](https://www.gradientcontrol.com/)' meta-kernel generates forward-mode AD while generating other useful manipulations like symbolic derivatives and UGF transformations.  I expect both technologies to be used as black boxes to realize the first generation of differential interoperability.  
 
@@ -301,4 +303,4 @@ Please be in touch if you have have direct interest in getting started with diff
 
 ### Dedication
 
-As I was finishing this post, it crossed the wire that [Ken Versprille](https://www.cimdata.com/en/speaker-bios/versprille), [the father of NURBSs](https://blogs.sw.siemens.com/solidedge/just-how-did-nurbs-come-to-be-by-dr-ken-versprille/) and industry friend, has passed.  I would have enjoyed sharing this material with him.  
+As I was finishing this post, it crossed the wire that [Ken Versprille](https://www.cimdata.com/en/speaker-bios/versprille), [the father of NURBSs](https://blogs.sw.siemens.com/solidedge/just-how-did-nurbs-come-to-be-by-dr-ken-versprille/) and industry friend, has passed.  I would have enjoyed hearing his thoughts on this material.  
