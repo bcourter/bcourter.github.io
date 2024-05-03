@@ -9,13 +9,13 @@ tags: SDF UGF Differentiable AI/ML Management
 * Existing CAD, CAM, and CAE tools can speak this language by adding differential interoperability to their APIs.
 * We provide a visually compelling introduction to differential engineering using a cantilevered beam.
 * By examining the derivative of a rotation, we briefly unlock some deep math beauty and an application of [Unit Gradient Fields (UGFs)](https://www.blakecourter.com/2023/05/18/field-notation.html).
-* Differentiable engineering scales to product level systems engineering.
+* Differentiable engineering scales to product-level systems engineering.
 
-✏️ *Math advisory: this post assumes your okay with derivatives, the chain rule from basic calculus, and a little vector math.  We will introduce intuitive visual tools to illustrate such concepts in design engineering.  While I feel compelled to show the work, you can probably skim and glean the concepts from the illustrations.*
+✏️ *Math advisory: this post assumes you're okay with derivatives, the chain rule from basic calculus, and a little vector math.  We will introduce intuitive visual tools to illustrate such concepts in design engineering.  While I feel compelled to show the work, you can probably skim and glean the concepts from the illustrations.*
 
 👥 *Lots of credit: These ideas came from discussions with many people, including:*
 
-* {: style="font-size: 92%;"} [Sandilya Kambampati](https://www.linkedin.com/in/sandilya-kambampati-85595475/), [Intact Solutions](https://www.intact-solutions.com/)
+* {: style="font-size: 92%;"} [Sandilya (Sandy) Kambampati](https://www.linkedin.com/in/sandilya-kambampati-85595475/), [Intact Solutions](https://www.intact-solutions.com/)
 * {: style="font-size: 92%;"} [Luke Church](https://www.linkedin.com/in/lukechurch/), [Gradient Control Laboratories](https://www.gradientcontrol.com/)
 * {: style="font-size: 92%;"} [Trevor Laughlin](https://www.linkedin.com/in/trevorlaughlin/), [nTop](https://www.nTop.com/)
 * {: style="font-size: 92%;"} [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/), [PTC](https://www.ptc.com/)
@@ -23,18 +23,20 @@ tags: SDF UGF Differentiable AI/ML Management
 
 ## Introduction
 
-If AI and ML are to participate in the team sport known as "engineering," they will need not only to produce helpful results, but also fit in with the rest of the team, including human engineers.  The situation seems unworkable today, where AI and ML frameworks, emerging computational tools, and even traditional, feature-based CAD appear designed to be used by human operators.  For example:
-* Generative design for new components via topology optimization typically produces incomplete models that require manual rework.
-* The [exploding market](/2024/04/01/moat-map.html) of simulation tools mostly promises to accelerate simulation but still requires traditional, manual, validation.
-* Systems engineers can deploy MDO tools at product or subsystems levels, but such systems typically provide guidance during the concept phase and become reinterpreted by humans for detailed design.  
+Today, we appear to practice three paradigms of computer-aided design ("CAD") and engineering ("CAE"):
+* One-off design, where the focus is producing individual parts or products;
+* Parametric generative design, where the result is recipe to produce variants of similar parts or products; and
+* Computational generative design, where the final geometry is guided by simulation, often iteratively and with spatially-varying parameters.
 
-If AI and ML promises to increase the size of the design space that engineers can navigate, how can we bridge these human gaps in the process?  As generative design scales to the subsystem and product level, how can we connect all the pieces without the meaning becoming hidden in a nonintuitive latent space?  How will we ever achieve the sci-fi dream of synthetic, cyber-physical systems if there must always be humans in the loop?
+Although each of these generations built on earlier technology, the [emerging generation of engineering software](/2024/04/01/moat-map.html) powered by artificial intelligence and machine learning algorithms ("AI/ML") is mostly being trained on existing empirical, simulated, and textbook knowledge.  This new generation of tools promises ease-of-use, more accurate and precise results, and orders of magnitude faster performance, but no meaningful shift in interactions paradigm.  What must happen for us to achieve product-level generative co-designers as we've come to expect from science fiction?
+
+Let's examine how AI and ML can blend with today's optimization tech to expand the size of the design space that engineers can navigate.  As generative design scales to the subsystem and product level, we can delegate tasks to AI and ML without the meaning becoming hidden in a nonintuitive latent spaces, as with LLMs and generative art.  In particular, let's focus on the role of a designer, human or automated, expressed in the language of optimization and machine learning: a differentiable approach to engineering.  
 
 ## Abstracting the design engineer
 
 Let's propose a model for a design engineer, human or automated, which we'll call "Mechanical Design Automation (MDA)":
 
-<object data="/assets/blog/Differentiable/DifferentiableEngineeringTriangle.svg" type="image/svg+xml"></object>
+<div>{%- include extensions/svg.html href='/assets/blog/Differentiable/DifferentiableEngineeringTriangle.svg' scale='65%' -%}</div>
 
 <!--more-->
 
@@ -63,7 +65,15 @@ What is the map from fitnesses to parameters?  It's the inverse of MDA, the orig
 
 Therefore, the job of the designer is to find the magical set of parameters to achieve a set of fitnesses that pleases all stakeholders, while being unconcerned about the output shape.  Given any shape and fitnesses, the designer tweaks the design until it's optimal.  In such a world, it might be helpful to know in what direction and how far to turn a knob to get the intended result.  The tools of calculus provide such an estimate.  
 
+![Behavioral modeling Pareto front in Pro/E](/assets/blog/Differentiable/CreoBMX.png)
+
+*Behavioral modeling in Creo aka "Pro/E", courtesy of [PTC](https://www.ptc.com/en/blogs/cad/quick-intro-to-bmx).  The plot shows a Pareto front of the trade-offs between two different fitness components while varying spatially constant parameters.  Differentiable engineering can efficiently find and smooth such curves in a similar way to how CAD systems trace precise silhouette curves of curved surfaces in hidden-line views.  (Silhouette curves are Pareto fronts, trading off the surface's UV coordinates for coordinates on the projection target!)*
+
 When I was just out of college as an PTC application engineer selling [Pro/E](https://www.ptc.com/en/products/creo/parametric), I used to demo parametrically optimizing a part through FEA.  The first thing the solver would do is make a small change to the parameters to compute a slope to find the optimal value and iterate until it was close enough.  The terms "gradient descent" and "Newton's method" describe this process.  In those days, it would take some time to regenerate the CAD part for each parameter set, so you had to do some story telling while it was computing that slope.  In today's state of the art, like [nTop field optimization](https://www.ntop.com/software/capabilities/field-optimization/), we iterate over a similar loop, but with spatially varying fields, providing generalized shape and topology optimization for open-ended problems.
+
+![Field optimization varying wall thickness in block](/assets/blog/Differentiable/nTopFieldOptThickness.gif)
+
+*Field optimization in nTop, animated by [Brad Rothenberg](https://www.linkedin.com/in/bradleyrothenberg/).  One spatially varying parameter, wall thickness, minimizes the deflection of a cantilever (fixed on the left, loaded on the right).* 
 
 ### Enter the derivative
 
@@ -215,7 +225,7 @@ T\left(\alpha + \small{\frac{\pi}{2}}\right)
 T(\alpha) \; T\!\left(\small{\frac{\pi}{2}}\right) 
 \,. \end{align}$$
 
-Therefore, taking the derivative of a rotation is the same thing as adding a quarter turn to your rotation, evidence of some deeper math.  In complex analysis, we learn this operation as multiplying by $$i$$.  In differential forms, we have the complex structure $$J$$ that lets us perform rotations on surfaces.  Geometric algebra classifies when generalized *rotors* and the *pseudoscalar* $$I$$ square to -1.  
+Therefore, taking the derivative of a rotation is the same thing as adding a quarter turn to the rotation, evidence of some deeper math.  In complex analysis, we learn this operation as multiplying by $$i$$.  In differential forms, we have the complex structure $$J$$ that lets us perform rotations on surfaces.  Geometric algebra classifies when generalized *rotors* and the *pseudoscalar* $$I$$ square to -1.  
 
 Before we perform its derivation, let's take a look at $$\pdv{\shape{R}}{\alpha}$$ with fields rotated through the center of the image.  The animation shows the complex structure of the derivative of a rotation by superimposing it with the original field.  We illustrate the rotation by creating a family of ("[pencil](https://en.wikipedia.org/wiki/Pencil_(geometry))") from their *rotational interpolation*:
 
@@ -263,7 +273,7 @@ As our rotation $$T$$ is a rigid motion, if $$\nabla_{\p}\shape{R}$$ has the pro
 
 Once we have CAD and CAE systems wired to compute design Jacobians via $$\pdv{\fitness}{\parameters} = \pdv{\fitness}{\Shape} \pdv{\Shape}{\parameters}$$, we can connect them into PLM frameworks and consider systems models of process- and product-scale generative design.  For example, consider the problem of finding the optimal orientation to place a part in advanced manufacturing, where perhaps we want to minimize material consumption use while also minimizing deflection:
 
-<object data="/assets/blog/Differentiable/AdditiveSupportOpt.svg" type="image/svg+xml"></object>
+<div>{%- include extensions/svg.html href='/assets/blog/Differentiable/AdditiveSupportOpt.svg' scale='65%' -%}</div>
 
 Given our placed CAD part $$\Shape(w, h, \alpha, \ldots)$$, our supports $$\Psi(\Shape, \ldots)$$, and fitnesses such as volume of $$\Psi$$ and max deflection $$\delta$$, then:
 
@@ -273,7 +283,7 @@ When we derive one CAD model from another, as common in tooling like molding and
 
 What about derived parts through assembly and product structures?  How would such sensitivities propagate?   Multiple parts could contribute to parent CAD assemblies.  Consider, for example, parts $$\Shape_1(\parameters_1)$$ and $$\Shape_2(\parameters_2)$$ assembled into Assembly $$\Shape_A$$ via assembly placement parameters $$\parameters_A$$ including separation distance $$d$$:
 
-<object data="/assets/blog/Differentiable/DifferentiableAssembly.svg" type="image/svg+xml"></object>
+<div>{%- include extensions/svg.html href='/assets/blog/Differentiable/DifferentiableAssembly.svg' scale='65%' -%}</div>
 
 Then:
 
@@ -285,7 +295,7 @@ $$\fitness_A = \fitness_A(\Shape_A) = \fitness_A(\Shape_1, \Shape_2, \parameters
 
 This structure mirrors the [V model](https://en.wikipedia.org/wiki/V-model) of systems engineering, where a design process commences with high level fitness requirements, becomes subdivided into subsystems and subassemblies, finally designed at the individual component level at the bottom of the V.  Then integration and validation processes assure that the component-level fitnesses assemble into product-level fitnesses.  These differentiable engineering pipelines appear to fit naturally into PLM and other product development methodologies.  
 
-<object data="/assets/blog/Differentiable/DifferentiableVeeModel.svg" type="image/svg+xml"></object>
+<div>{%- include extensions/svg.html href='/assets/blog/Differentiable/DifferentiableVeeModel.svg' scale='65%' -%}</div>
 
 As artificial intelligence becomes increasingly present in our engineering tools processes, differentiable engineering's inherent compatibility with the V model may expedite integrating human engineers with artificial design aides to maximize product scale product fitness. 
 
@@ -293,7 +303,7 @@ As artificial intelligence becomes increasingly present in our engineering tools
 
 With the launch of interactivity in [nTop](https://www.ntop.com) 3.0 three years ago, [George Allen](https://www.linkedin.com/in/george-allen-969078144/) and I shared some research around ["CodeReps"](https://www.ntop.com/resources/product-updates/codereps-a-better-way-to-communicate/), which showed how we could export nTop data as pure code.  [Sandy](https://www.linkedin.com/in/sandilya-kambampati-85595475/) from [Intact](https://www.intact-solutions.com/) not only performed simulations on these code reps, he also observed that we could take parametric derivatives of it for the purpose of optimization, should CodeReps become pervasive.  Trevor from nTop also saw potential of geometry to be a parametric black box for optimization routines.  [Matt Keeter](https://www.mattkeeter.com/) showed how to use such derivatives for parametric editing in [libfive studio](https://libfive.com/studio/) when explicitly declared, and Luke Church prototyped a 2D implicit modeler that provided UX on-the-fly with respect to local parametric sensitivities.  
 
-Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method. About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  
+Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method.  As Sandy started to show differential results via adjoints, my friends at [Atomic Industries](https://www.atomic.industries/) started building a fully differentiable modeling-through-multiphysics pipeline to train their AI to optimize mold design.  About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  
 
 In researching existing differentiable engineering tools, [Peter Harman](https://www.linkedin.com/in/peterharman/) explained the strengths and weaknesses of [FMI](https://fmi-standard.org/)'s approach to parametric, differentiable interop and shared his experiences with symbolic differentiation in [Modelica](https://modelica.org/).  Eventually, I test drove [Engineering Sketch Pad](https://acdl.mit.edu/ESP/ESP_flyer.pdf) and met [Afshawn](https://www.linkedin.com/in/afshawn-lotfi/) from [Open Orion](https://openorion.org/), who are making explicit differential tech usable for design engineers.  
 
