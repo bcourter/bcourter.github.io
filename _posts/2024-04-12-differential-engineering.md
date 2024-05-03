@@ -297,7 +297,7 @@ This structure mirrors the [V model](https://en.wikipedia.org/wiki/V-model) of s
 
 <div>{%- include extensions/svg.html href='/assets/blog/Differentiable/DifferentiableVeeModel.svg' scale='65%' -%}</div>
 
-As artificial intelligence becomes increasingly present in our engineering tools processes, differentiable engineering's inherent compatibility with the V model may expedite integrating human engineers with artificial design aides to maximize product scale product fitness. 
+As artificial intelligence becomes increasingly present in our engineering tools processes, differentiable engineering's inherent compatibility with the V model may expedite integrating human engineers with artificial design aides to maximize product-scale product fitness.  By modeling not only product content but how it evolves though it's differentials, AI and ML may enable new paradigms of generative CAD and CAE.  I look forward to seeing what we make.  
 
 ## Background and credits
 
