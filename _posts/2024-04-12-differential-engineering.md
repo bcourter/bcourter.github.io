@@ -50,8 +50,8 @@ $$ \newcommand{\MDA}{\text{MDA}} $$
 
 There are three main roles in an engineering process:
 * Model creation tools, like CAD and CAM systems, generate output like parts, assemblies, and manufacturing deliverables.  We can model CAD as a function from parameters $$\parameters$$ to designs or "shapes" $$\Shape$$, $$\CAD\!: \parameters \mapsto \Shape$$.  We'll focus on simple dimensional and angular parameters as in parametric CAD, but other parameter types include the feature recipe, explicit positions of mesh vertices, density values on a voxel model, material selection, etc.  
-* Engineering (CAE) tools measure various finesses $$\fitness$$ of CAD designs, such as mass properties, testing mechanical and other physical properties, cost, environmental impact, and aesthetics.  We can model engineering software as $$\CAE\!: \Shape \mapsto \fitness$$.
-* Finally, there is a designer interested in producing optimal designs by tuning the parameters to optimize fitness.  $$\MDA\!: \parameters \mapsto \Shape \mapsto \fitness = \parameters \mapsto \fitness $$.  The *design Jacobian*, described below, models the behavior of the designer.  
+* Engineering (CAE) tools measure various fitnesses $$\fitness$$ of CAD designs, such as mass properties, testing mechanical and other physical properties, cost, environmental impact, and aesthetics.  We can model engineering software as $$\CAE\!: \Shape \mapsto \fitness$$.
+* Finally, there is a designer interested in producing optimal designs by tuning the parameters to optimize fitness.  $$\MDA\!: \parameters \mapsto \Shape \mapsto \fitness = \parameters \mapsto \fitness $$.  The *design Jacobian*, described below, informs the designer how to update parameters to improve fitness.  
 
 ✏️ *Math tip: the notation $$f: x \mapsto y$$ defines the function $$y = f(x)$$ and can be read as "maps to."*
 
@@ -63,7 +63,7 @@ On the other hand, this model shows that a designer is most interested in naviga
 
 What is the map from fitnesses to parameters?  It's the inverse of MDA, the origin story for the term "inverse engineering."  In many cases, we might optimize a design by minimizing a scalar "loss function."  Various optimization techniques such topology optimization and multi-disciplinary optimization (MDO) are examples of this setup.  
 
-Therefore, the job of the designer is to find the magical set of parameters to achieve a set of fitnesses that pleases all stakeholders, while being unconcerned about the output shape.  Given any shape and fitnesses, the designer tweaks the design until it's optimal.  In such a world, it might be helpful to know in what direction and how far to turn a knob to get the intended result.  The tools of calculus provide such an estimate.  
+How should a design engineer optimize a set of parameters to achieve the fitnesses that maximally satisfy all stakeholders, while also being theoretically unconcerned about the output shape?  Given any shape and fitnesses, the designer must tweaks the design until it's optimal.  In such a world, it might be helpful to know in what direction and how far to adjust a parameter for the intended result.  The tools of calculus provide such an estimate.  
 
 ![Behavioral modeling Pareto front in Pro/E](/assets/blog/Differentiable/CreoBMX.png)
 
@@ -77,10 +77,10 @@ When I was just out of college as an PTC application engineer selling [Pro/E](ht
 
 ### Enter the derivative
 
-It sure would have been nice if Pro/E knew that slope right away, so the FEA didn't need to compute an extra model.  Due to the advent of machine learning, we see many emerging solutions to this challenge.  Today, we have three commonly used forms of computational differentiation, the nuances of which we can ignore:
+It sure would have been nice if Pro/E knew that slope right away, freeing the optimizer from regenerating and simulating another variant just to estimate a derivative.  As popularized by recent trends in machine learning, three forms of *automatic differentiation* enable us to more efficiently compute such *parametric sensitivities*:
 * **Symbolic differentiation**: If we have a mathematical expression, we can differentiate it one variable at a time to produce a new function for each derivative of interest.  
 * **Forward mode automatic differentiation**: Equivalent to the fascinating [dual numbers](https://blog.demofox.org/2014/12/30/dual-numbers-automatic-differentiation/), we maintain and update each parameter's derivative with its value with every operation on its value.  It can be straightforward to convert conventional code to forward mode using types.  
-* **Reverse mode automatic differentiation**: When computing, we build a structure that can be used to compute derivatives later, which is efficient when you have many inputs and only a few outputs.  When differentiating though FEA and CFD simulations, a technique called the **adjoint method** makes reverse mode differentiable computationally efficient.
+* **Reverse mode automatic differentiation**: When computing, we build a structure that can be used to compute derivatives later, which is efficient when you have many inputs and only a few outputs.  When differentiating though FEA and CFD simulations, a technique called the **adjoint method** makes reverse mode computationally efficient.
 
 👥 For more nuance about automatic differentiation in optimization algorithms, see Nick McCleery's [thorough post on differentiable programming in engineering](https://nickmccleery.github.io/posts/05-differentiable-programming-in-engineering/). 
 
@@ -93,7 +93,7 @@ $$\Large{\pdv{\fitness}{\parameters} = \pdv{\fitness}{\Shape} \pdv{\Shape}{\para
 Speaking in the language of differentials (and linear algebra):
 * CAD systems are concerned with shapes' *parametric sensitivities* $$\pdv{\Shape}{\parameters}$$ (a row vector);
 * CAE systems determine shapes' *functional sensitivities* $$\pdv{\fitness}{\Shape}$$ (a column vector); and
-* Combined, the (outer) product of those two vectors becomes a matrix of derivatives that captures how each parameter contributes to each fitness.  A matrix of partial derivatives is called a "Jacobian", so it seems appropriate to call $$\pdv{\fitness}{\Shape} \pdv{\Shape}{\parameters}$$ the *design Jacobian*.  
+* MDA becomes the (outer) product of those two vectors, a matrix of derivatives that captures how each parameter contributes to each fitness.  Such a matrix of partial derivatives is called a "Jacobian", so it seems appropriate to call $$\pdv{\fitness}{\Shape} \pdv{\Shape}{\parameters}$$ the *design Jacobian*.  
 
 All design engineers, human or automated, serve to optimize the fitness of stakeholder deliverables via design Jacobians.
 
@@ -155,7 +155,7 @@ $$ \pdv{\shape{R}}{\point{s}_½} = \begin{cases}
 
 Why the negative values?  As the rectangle becomes bigger, the field values at locations on either side of it become smaller.  
 
-What if we want the derivatives with respect to $$$$ and $$h$$?  $$\pdv{\point{s}_½x}{w}$$ and $$\pdv{\point{s}_½y}{h}$$ are both $$\frac{1}{2}$$, so $$\pdv{\shape{R}}{\point{s}} = \frac{1}{2} \pdv{\shape{R}}{\point{s}_½}$$ .
+What if we want the derivatives with respect to $$w$$ and $$h$$?  $$\pdv{\point{s}_½x}{w}$$ and $$\pdv{\point{s}_½y}{h}$$ are both $$\frac{1}{2}$$, so $$\pdv{\shape{R}}{\point{s}} = \frac{1}{2} \pdv{\shape{R}}{\point{s}_½}$$ .
 
 ### Chaining in the fitness functions
 
@@ -176,7 +176,7 @@ $$\begin{align}
 \pdv{\delta}{\point{s}} &= \frac{12 f}{E d} \left(\frac{w^2}{h^3}, -\frac{w^3}{h^4}\right) \;.
 \end{align}$$
 
-These values, the rows of our design Jacobian $$\pdv{\fitness}{\parameters}$$, are constant with respect to spce.
+These values, the rows of our design Jacobian $$\pdv{\fitness}{\parameters}$$, are constant with respect to space.
 
 ### Shape, topology, and field optimization
 
@@ -200,23 +200,23 @@ As a casual mathematician, it's rare to get a window into the inner workings of 
 
 $$T(\alpha) \equiv 
 \begin{bmatrix}
-\cos(\alpha) & \sin(\alpha)\\
+\phantom{-}\cos(\alpha) & \sin(\alpha)\\
 -\sin(\alpha) & \cos(\alpha)
 \end{bmatrix} \,.$$
 
-Differentiating with respect to $$alpha$$:
+Differentiating with respect to $$\alpha$$:
 
 $$
 \begin{align}
 \pdv{T}{\alpha} 
 &= 
 \begin{bmatrix}
--\sin(\alpha) & \cos(\alpha)\\
+-\sin(\alpha) & \phantom{-}\cos(\alpha)\\
 -\cos(\alpha) & -\sin(\alpha)
 \end{bmatrix}  
 \\[1ex] &= 
 \begin{bmatrix}
-\cos\left(\alpha + \frac{\pi}{2}\right) & \sin\left(\alpha + \frac{\pi}{2}\right)\\
+\phantom{-}\cos\left(\alpha + \frac{\pi}{2}\right) & \sin\left(\alpha + \frac{\pi}{2}\right)\\
 -\sin\left(\alpha + \frac{\pi}{2}\right) & \cos\left(\alpha + \frac{\pi}{2}\right)
 \end{bmatrix} 
 \\[1ex] &=
@@ -227,7 +227,7 @@ T(\alpha) \; T\!\left(\small{\frac{\pi}{2}}\right)
 
 Therefore, taking the derivative of a rotation is the same thing as adding a quarter turn to the rotation, evidence of some deeper math.  In complex analysis, we learn this operation as multiplying by $$i$$.  In differential forms, we have the complex structure $$J$$ that lets us perform rotations on surfaces.  Geometric generalizes the notation to *rotors*.  All of these concepts square to $$-1$$.
 
-Before we perform its derivation, let's take a look at $$\pdv{\shape{R}}{\alpha}$$ with fields rotated through the center of the image.  The animation shows the complex structure of the derivative of a rotation by superimposing it with the original field.  We illustrate the rotation by creating a family of ("[pencil](https://en.wikipedia.org/wiki/Pencil_(geometry))") from their *rotational interpolation*:
+Before we perform its derivation, let's take a look at $$\pdv{\shape{R}}{\alpha}$$ with fields rotated through the center of the image.  The animation shows the complex structure of the derivative of a rotation by superimposing it with the original field.  We illustrate the rotation by creating a family of ("[pencil](https://en.wikipedia.org/wiki/Pencil_(geometry))") by performing *rotational interpolation* on $$\shape{R}$$ and $$\pdv{\shape{R}}{\alpha}$$:
 
 $$\shape{R} \cos(\phi) + \pdv{\shape{R}}{\alpha} \sin(\phi) \;,$$
 
@@ -256,7 +256,7 @@ $$\pdv{\shape{R}}{\alpha}
  = \pdv{\shape{R}}{\p'} \cdot T(\alpha) \p_i
  = \nabla_{\p'}\shape{R} \cdot T(\alpha) \p_i$$
 
- ✏️ *Math tip: $$\nabla_{\p'}\shape{R}$$ is just notation for $$\pdv{\shape{R}}{\p'}$$ that in this context emphasizes its spatial basis.*
+ ✏️ *Math tip: $$\nabla_{\p'}\shape{R}$$ shows the gradient $$\pdv{\shape{R}}{\p'}$$ that in the spatially transformed basis $${\p'}$$.*
 
 In 2D, $$T\!\left(\frac{\pi}{2}\right)\!: (x, y) \mapsto (-y, x)$$, the same operation as multiplying $$x + iy$$ by $$i$$.
 
@@ -287,9 +287,9 @@ What about derived parts through assembly and product structures?  How would suc
 
 Then:
 
-$$\Shape_A = \Shape_A(\Shape_1, \Shape_2, \parameters_A) \;,_$$
+$$\Shape_A = \Shape_A(\Shape_1, \Shape_2, \parameters_A) \;,$$
 
-Given analogously named fitnesses:
+and given analogously named fitnesses:
 
 $$\fitness_A = \fitness_A(\Shape_A) = \fitness_A(\Shape_1, \Shape_2, \parameters_A) \;.$$
 
@@ -297,19 +297,19 @@ This structure mirrors the [V model](https://en.wikipedia.org/wiki/V-model) of s
 
 <div>{%- include extensions/svg.html href='/assets/blog/Differentiable/DifferentiableVeeModel.svg' scale='65%' -%}</div>
 
-As artificial intelligence becomes increasingly present in our engineering tools processes, differentiable engineering's inherent compatibility with the V model may expedite integrating human engineers with artificial design aides to maximize product-scale product fitness.  By modeling not only product content but how it evolves though it's differentials, AI and ML may transform generative CAD and CAE into a new paradigm of mechanical design automation.  I look forward to seeing what we make.  
+As artificial intelligence becomes increasingly present in our engineering tools processes, differentiable engineering's inherent compatibility with the V model may expedite integrating human engineers with artificial design aides to maximize product-scale product fitness.  By modeling not only product content but how it evolves though it's differentials, AI and ML may transform generative CAD and CAE into a new paradigm of mechanical design automation.  While we are still imagining what form these new tools might take, it seems clear that they will connect via differentiable engineering.  
 
 ## Background and credits
 
 With the launch of interactivity in [nTop](https://www.ntop.com) 3.0 three years ago, [George Allen](https://www.linkedin.com/in/george-allen-969078144/) and I shared some research around ["CodeReps"](https://www.ntop.com/resources/product-updates/codereps-a-better-way-to-communicate/), which showed how we could export nTop data as pure code.  [Sandy](https://www.linkedin.com/in/sandilya-kambampati-85595475/) from [Intact](https://www.intact-solutions.com/) not only performed simulations on these code reps, he also observed that we could take parametric derivatives of it for the purpose of optimization, should CodeReps become pervasive.  Trevor from nTop also saw potential of geometry to be a parametric black box for optimization routines.  [Matt Keeter](https://www.mattkeeter.com/) showed how to use such derivatives for parametric editing in [libfive studio](https://libfive.com/studio/) when explicitly declared, and Luke Church prototyped a 2D implicit modeler that provided UX on-the-fly with respect to local parametric sensitivities.  
 
-Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method.  As Sandy started to show differential results via adjoints, my friends at [Atomic Industries](https://www.atomic.industries/) started building a fully differentiable modeling-through-multiphysics pipeline to train their AI to optimize mold design.  About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  
+Around that time I started to notice the use of differentiable simulation pipelines, both in open source packages like [FEniCS](https://fenicsproject.org/) and research using the adjoint method.  As Sandy started to show differential results via adjoints, my friends at [Atomic Industries](https://www.atomic.industries/) started building a fully differentiable modeling-through-multiphysics pipeline to train their AI to optimize mold design.  About a year ago, [Jon Hiller](https://www.linkedin.com/in/jonathan-hiller-6b7656123/) and I started regular conversations about the future of implicit modeling and generative design, and we became engaged in the challenge of federating separate CAD, CAM, and CAE tools through differentiable interfaces throughout PLM.  Would it be possible to design such APIs to support the different differentiation techniques, such as forward, reverse, and symbolic approaches in a manner that could scale to product definitions?  The 3D printed support challenge became our main working example.  
 
 In researching existing differentiable engineering tools, [Peter Harman](https://www.linkedin.com/in/peterharman/) explained the strengths and weaknesses of [FMI](https://fmi-standard.org/)'s approach to parametric, differentiable interop and shared his experiences with symbolic differentiation in [Modelica](https://modelica.org/).  Eventually, I test drove [Engineering Sketch Pad](https://acdl.mit.edu/ESP/ESP_flyer.pdf) and met [Afshawn](https://www.linkedin.com/in/afshawn-lotfi/) from [Open Orion](https://openorion.org/), who is making explicit differential tech usable for design engineers.  
 
 2024 appears to be a great year for differential engineering.  In addition to the emerging tech above, nTop's [new kernel](https://cdfam.com/ntop-siemens/) is built for derivatives, providing industrial strength support for automation and interop.  [Gradient Control Laboratories](https://www.gradientcontrol.com/)' meta-kernel generates forward-mode AD while generating other useful manipulations like symbolic derivatives and UGF transformations.  I expect both technologies to be used as black boxes to realize the first generation of differential interoperability.  
 
-Please be in touch if you have direct interest in getting started with differentiable engineering.  
+Are you interested in using differentiable engineering across engineering tool chains?  Please [get in touch](https://www.linkedin.com/in/blakecourter/)!
 
 ### Dedication
 
