@@ -61,7 +61,7 @@ This system suggests that a designer cares not about the shape of their design, 
 
 On the other hand, this model shows that a designer is most interested in navigating an available set of design parameters explore a large design space of shapes to achieve a fitness goal.  Somehow, the designer needs to use a set of fitnesses to update the set of parameters.  And we only have one shape $$\Shape$$ for every vector of input parameters $$\parameters$$ and vector of fitnesses $$\fitness$$.  
 
-What is the map from fitnesses to parameters?  It's the inverse of MDA, the origin story for the term "inverse engineering."  In many cases, we might optimize a design by minimizing a scalar "loss function."  Various optimization techniques such topology optimization and multi-disciplinary optimization (MDO) are examples of this setup.  
+What is the map from fitnesses to parameters?  It's the inverse of MDA, the origin story for the term "inverse engineering."  In many cases, we might optimize a design by minimizing a scalar "loss function."  Various optimization techniques such as topology optimization and multi-disciplinary optimization (MDO) are examples of this setup.  
 
 How should a design engineer optimize a set of parameters to achieve the fitnesses that maximally satisfy all stakeholders, while also being theoretically unconcerned about the output shape?  Given any shape and fitnesses, the designer must tweaks the design until it's optimal.  In such a world, it might be helpful to know in what direction and how far to adjust a parameter for the intended result.  The tools of calculus provide such an estimate.  
 
@@ -180,7 +180,7 @@ These values, the rows of our design Jacobian $$\pdv{\fitness}{\parameters}$$, a
 
 ### Shape, topology, and field optimization
 
-Modern optimization tools add more parameters to the model, for example this parameterized cantilever from Sandy at Intact, optimized using derivatives with respect to paameters at each arrow: 
+Modern optimization tools add more parameters to the model, for example this parameterized cantilever from Sandy at Intact, optimized using derivatives with respect to parameters at each arrow: 
 
 ![A cantilevered beam with several dimensions used to optimize its height over its length.](\assets\blog\Differentiable\IntactShapeOpt.png)
 
