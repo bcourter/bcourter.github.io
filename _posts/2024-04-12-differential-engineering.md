@@ -225,7 +225,7 @@ T\left(\alpha + \small{\frac{\pi}{2}}\right)
 T(\alpha) \; T\!\left(\small{\frac{\pi}{2}}\right) 
 \,. \end{align}$$
 
-Therefore, taking the derivative of a rotation is the same thing as adding a quarter turn to the rotation, evidence of some deeper math.  In complex analysis, we learn this operation as multiplying by $$i$$.  In differential forms, we have the complex structure $$J$$ that lets us perform rotations on surfaces.  Geometric generalizes the notation to *rotors*.  All of these concepts square to $$-1$$.
+Therefore, taking the derivative of a rotation is the same thing as adding a quarter turn to the rotation, evidence of some deeper math.  In complex analysis, we learn this operation as multiplying by $$i$$.  In differential forms, we have the complex structure $$J$$ that lets us perform rotations around surface normals.  Geometric Algebra generalizes the notation to *rotors*.  All of these concepts square to $$-1$$.
 
 Before we perform its derivation, let's take a look at $$\pdv{\shape{R}}{\alpha}$$ with fields rotated through the center of the image.  The animation shows the complex structure of the derivative of a rotation by superimposing it with the original field.  We illustrate the rotation by creating a family of ("[pencil](https://en.wikipedia.org/wiki/Pencil_(geometry))") by performing *rotational interpolation* on $$\shape{R}$$ and $$\pdv{\shape{R}}{\alpha}$$:
 

@@ -3,7 +3,7 @@ title: Knowing versus experiencing math
 tags: Education Geometry
 ---
 
-On the [Geometric Processing Worldwide](https://discord.gg/Bk5FZ7g4sv){:target="_blank"} Discord server, a frequent participant was lamenting the challenge of absorbing all the great work going on in computational geometry.  It caused me to consider my own challenges with learning math.
+On the Geometric Processing Worldwide Discord server (contact me for an invite), a frequent participant was lamenting the challenge of absorbing all the great work going on in computational geometry.  It caused me to consider my own challenges with learning math.
 
 For a long time I wanted to know math.  I thought that I could learn what was out there but by glossing over the text and seeing the ideas, maintaining some sort of mental index to the math I might someday need to use.  I would assume that the author's introductory instructions to do the exercises didn't apply to me.  I usually only made it a few chapters into such texts.
 
