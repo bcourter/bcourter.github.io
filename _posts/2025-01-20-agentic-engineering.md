@@ -7,7 +7,7 @@ tags: AI/ML Differentiable Engineering nTop
 
 At [Gradient Control Laboratories](https://gradientcontrol.com) (GCL), we have the privilege of seeing patterns emerging among the most innovative engineering software startups. Last year, we tracked the rise of [differentiable engineering](https://www.blakecourter.com/2024/04/12/differential-engineering.html) as the first differentiable CAD and CAE APIs appeared. Now, as we wire AI agents into PLM and BIM architectures, we're ready to share our expectations for 2025 and beyond.
 
-This post originated from conversations with Luke Church, GCL and Brad Rothenberg, nTop. It now includes significant contributions and feedback from: Mark Burhop, Sciath aiM (from whom we anticipate a nuanced paper on this topic); Jacomo Corbo, PhysicsX; Kiegan Lenihan, xNilio; Peter Harman, Infinitive; Saigopal Nelaturi, C-Infinity; Hugo Nordel, Encube; Alex Huckstepp, Uptool; Neel Kumar, Intact Solutions; Blake Reeves, Pasteur Labs; Andy Fine, Fine Physics; Kyle Bernhardt, Collectiv; and Claude 3.5 Sonnet.
+This post originated from conversations with Luke Church, GCL and Brad Rothenberg, nTop. It now includes significant contributions and feedback from: Mark Burhop, Sciath aiM (from whom we anticipate a nuanced paper on this topic); Jacomo Corbo, PhysicsX; Kiegan Lenihan, xNilio; Peter Harman, Infinitive; Saigopal Nelaturi, C-Infinity; Hugo Nordell, Encube; Alex Huckstepp, Uptool; Neel Goldy Kumar, Intact Solutions; Blake Reeves, Pasteur Labs; Andy Fine, Fine Physics; Kyle Bernhardt, Collectiv; and Claude 3.5 Sonnet.
 
 ## Executive Summary
 
@@ -152,7 +152,7 @@ Outside of mass customization and families of simple components like fasteners a
 
 In the architectural and design world, the "computational" design paradigm celebrated dataflow models starting with [Generative Components](https://www.bentley.com/software/generative-components/), [Dynamo](https://dynamobim.org/), and [Grasshopper](https://www.grasshopper3d.com/). Most modern architecture and industrial design with thematic, varying patterns result from artists exploring these tools. The "dataflow" environments navigated by computational designers descended from tools used by electronic musicians, such as [Max/MSP](https://cycling74.com/products/max), and foster subjective, experimental workflows.
 
-![Max/MSP Interface](/assets/blog/Agentic-Engineering/max-msp.png)
+![Max/MSP Interface](/assets/blog/Agentic-Engineering/DJ-vs-designer.jpg)
 
 *Max/MSP: [navigating the void](https://structure-void.com/training/max-8-max-msp/) between DJ and computational designer since 1985.*
 
