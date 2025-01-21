@@ -11,7 +11,7 @@ This post originated from conversations with Luke Church, GCL and Brad Rothenber
 
 ## Executive Summary
 
-The future of AI in engineering won't arrive as a single superintelligent design system. Instead, 2025 will see the rise of specialized AI agents that work alongside engineers throughout the product lifecycle - simulating assemblies, automating documentation, optimizing components, and configuring supply chains. These agents, operating both within existing tools and through new platforms, represent a fundamental shift in how we develop products, one that promises to dramatically accelerate and enhance the engineering process. Success will require solving key technical challenges around security and agent coordination. GCL is convening industry leaders this spring to tackle these challenges together.
+The future of AI in engineering won't arrive as a single superintelligent design system. Instead, 2025 will see the rise of specialized AI agents that work alongside engineers throughout the product lifecycle &mdash; simulating assemblies, automating documentation, optimizing components, and configuring supply chains. These agents, operating both within existing tools and through new platforms, represent a fundamental shift in how we develop products, one that promises to dramatically accelerate and enhance the engineering process. Success will require solving key technical challenges around security and agent coordination. GCL is convening industry leaders this spring to tackle these challenges together.
 
 ## Vision
 
@@ -23,7 +23,7 @@ The engineering industry's vision for AI-powered design tools seems to mirror sc
 
 ![Star Trek Scene](/assets/blog/Agentic-Engineering/star-trek-scene.jpg)
 
-*The crew of the Enterprise collaborate with The Computer to reconstruct a medical table in the Holodeck. Although [this episode](https://www.imdb.com/title/tt0708770/) of TNG jumped the shark, this scene influenced me greatly.*
+*The crew of the Enterprise collaborates with The Computer to reconstruct a medical table in the Holodeck. Although [this episode](https://www.imdb.com/title/tt0708770/) of TNG jumped the shark, this scene influenced me greatly.*
 
 <!--more-->
 
@@ -31,13 +31,13 @@ This vision parallels what we're seeing with AI art tools like MidJourney and St
 
 The path to this future builds on three generations of generative engineering software:
 
-1. Procedural Generation: Early automation such as [AutoLISP](https://en.m.wikipedia.org/wiki/AutoLISP) and [Pro/Engineer](https://www.ptc.com/en/products/creo) elevated geometry languages from low level modeling instructions to occasionally capturing true design intent, such business logic requires extensive programming or additional product layers like expert systems or configurators.
+1. Procedural Generation: While early automation such as [AutoLISP](https://en.m.wikipedia.org/wiki/AutoLISP) and [Pro/Engineer](https://www.ptc.com/en/products/creo) elevated geometry languages from low-level modeling instructions to occasionally capturing true design intent, such business logic requires extensive programming or additional product layers like expert systems or configurators.
 
 2. Topology Optimization: These tools synthesize geometry directly from engineering requirements and boundary conditions. While powerful for specific use cases like lightweighting parts, current systems require significant human effort to produce manufacture-ready designs.
 
 3. Machine Learning: Emerging ML approaches have shown promise in architectural applications like space planning and restoration. However, they've yet to achieve comparable success in mechanical engineering, where physical constraints and manufacturing requirements pose greater challenges.
 
-Each of these approaches will evolve into more sophisticated agents that proactively participate in the design process, as well as interfaces supporting such agents. But to understand how this transformation will actually unfold, we need to look beyond the Hollywood vision to the day-to-day realities of engineering work.
+Each of these approaches will evolve into more sophisticated agents that proactively participate in the design process as well as interfaces supporting such agents. But to understand how this transformation will actually unfold, we need to look beyond the Hollywood vision to the day-to-day realities of engineering work.
 
 ## Reality
 
