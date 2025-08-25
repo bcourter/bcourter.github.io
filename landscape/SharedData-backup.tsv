@@ -1,0 +1,238 @@
+Company	Stage	Description	AI_ML	Generative	MCAD	CAE	CFD	CAM_MES	EDA	AEC	IM_PM	PDM_PLM	VnV_SCM	Hardware	Ecosystem_Community	B_rep	Implicit	Physics	Components	Integrations	URL	Founded	Headquarters	Latitude	Longitude
+1000 Kelvin	Pre-seed	AI Copilot for engineering	1	1		1		1										1		Fusion	https://1000kelvin.com	2021	Berlin, Germany	52.338234	13.088346
+3D Systems	Public / PE	Large AM vendor with large software suite	1	1	Alibre	Amphyon		Oqton, 3DXpert					Geomagic	2			GLSL		Polygonica, Cimatron	3MF	https://3dsystems.com	1983	Rock Hill, SC	34.8708381	-81.1252191
+3MF	Open Source	Open source progressive interop with focus on AM						1								1	1			3MF	https://3mf.io/	2015	San Francisco, CA	37.7034	-122.527
+3yourmind	Series A	3yourmind is a company that provides solutions for additive manufacturing.																		3MF	https://3yourmind.com	2014	Berlin, Germany	52.338234	13.088346
+ABB																			ACIS						
+Abemis	Pre-seed	Load-driven structural tetrahedral lattices		1	1	1															https://www.abemis.com/				
+Adaxis																				3MF					
+AddiMap																									
+AI engineering	Tightly Held	SPH CFD on cloud					1														https://www.ai-engineering.co.uk/	2010	Dumfries, UK	55.0415437	-3.6594178
+Akselos	Tightly Held	Simulation with specialized elements				1						1						1			https://akselos.com/	2012	Lausanne, Switzerland	46.4548727	6.5838628
+Algoryx	Tightly Held	Rigid body dynamics				1												1			http://www.algoryx.se/	2007	Umeå, Sweden	63.777877	20.118188
+Alloy Enterprises	Series A	Unique AM process for high performance aluminium						1						1							 https://alloyenterprises.co/	2020	Burlington, MA	42.465796	-71.2409831
+Allspice	Seed	EDA collaboration based on git							1			1									https://www.allspice.io/	2019	Boston, MA	42.22788	-71.191113
+Altair	Public / PE	Large engineering software vendor	1	2	Inspire	HyperMesh, Optistruct	1							1					Parasolid		https://altair.com	1985	Troy, MI	42.5338001	-83.209216
+Altium	Public / PE	Leading PCB design suite							1			1							C3D		https://www.altium.com/	1985	La Jolla, CA	32.8053774	-117.2831297
+Ansys	Public / PE	Large engineering software vendor			SpaceClaim	Ansys	Fluent											2	Polygonica, OpenVDB, Parasolid	nvidia, Datakit	https://ansys.com	1970	Canonsberg, PA	40.248118	-80.2067079
+aPriori	Series D+	Manufacturing cost estimation			1			2				1									https://www.apriori.com/	2003	Concord, MA	42.4126909	-71.4302758
+Aras	Public / PE	Easy to customize PLM				Comet						2								Hoops Interop	http://www.aras.com/	2000	Andover, MA	42.5979589	-71.2561031
+Arcol																									
+Artec3D	Tightly Held	Reverse engineering hardware and software											1	1					C3D		https://www.artec3d.com/	2007	Luxembourg	49.447879	5.7356699
+Ascon	Tightly Held	CAD software suite			1	1	1		1	1									C3D		https://ascon.ru/	1989	Saint Peterspurg, Russia	59.634086	29.4247991
+Atlassian	Public / PE	Engineering productivity suite										1									https://atlassian.com	2002	Syndey, Australia	-34.118347	150.5209286
+Atomic Industries	Series A	High-performance generative tooling fabricator		1										1				1			https://www.atomic.industries/	2019	Los Angeles, CA	33.7036519	-118.6681759
+Authentise	Tightly Held	Additive workflow and AM process management	1					1				1								3MF	https://www.authentise.com/	2012	San Francisco, CA	37.7034	-122.527
+Autodesk	Public / PE	Large engineering software vendor		Dynamo	Fusion, Inventor	Moldflow	1	2	1	AutoCAD, Revit	1	2			1	ASM	Monolith		MachineWorks, Nastran	nTop Core, 3MF	https://autodesk.com	1982	San Francisco, CA	37.7034	-122.527
+Aveva	Public / PE	Leading vendor in O&G, process equipment									2	2								Hoops Interop	https://www.aveva.com/	1967	Cambridge, UK	52.133797	0.048047
+Axial3D	Seed	Patient-specific anatomy models			1	1								1							https://axial3d.com/	2015	Belfast, Northern Ireland	54.5947681	-6.0914374
+AxSTREAM						2																			
+Azimuth	Seed	AI-driven ICs	1						1					1							https://azimuth-ai.com/	2023	Folsom, CA	38.614876	-121.2072707
+Backflip AI	Series A	Greg Mark generative AI Startup	1	1																	https://backflip.ai/	2023	Menlo Park, CA	37.418539	-122.228677
+Bentley Systems	Public / PE	Large engineering software vendor		2						2	2							2	Parasolid		https://bentley.com	1984	Exton, PA	40.0149288	-75.6533699
+BeyondMath 	Seed	Something like PINNs but not PINNs	1			1															https://beyondmath.com/	2022	London 	51.3849401	-0.3514683
+Bild	Seed	Cloud-based PDM										1									https://www.getbild.com/	2020	San Francisco, CA	37.7034	-122.527
+BosonQ Psi	Pre-seed	Quantum-inspired optimization algorithm	1			1															https://www.bosonqpsi.com/	2020	Bhilai, India	21.13166	81.2415301
+Bricsys																			ACIS						
+C-inifinity	Pre-seed	Product level generative design	1	1	1			1													https://c-infinity.ai/	2023	San Francisco, CA	37.7034	-122.527
+C3D Labs	Tightly Held	B-rep modeling kernel														C3D					https://c3dlabs.com/	2012	Moscow, Russia	55.142591	36.8032249
+Cadence	Public / PE	Large engineering software vendor		1		Beta CAE	Fidelity		2							ANSA			ACIS		https://cadence.com	1988	San Jose, CA	37.1227134	-122.0460552
+Cadify.ai	Pre-seed	Text-to-cad and text cad modification	1	1	1																https://Cadify.ai	2024			
+CADS Additive		CADS Additive offers software solutions for additive manufacturing.																		3MF					
+CADY	Seed	AI inspection of electrical schematics	1						1																
+camfer	Pre-seed	Building the world’s first AI mechanical engineer.	1		1														SolidWorks		https://www.camfer.dev/	2024	San Francisco, CA	37.7034	-122.527
+CanvasX																				Hoops Interop					
+Carlson																				Hoops Interop					
+Castor	Seed	AM model optimization						1											Polygonica	Hoops Interop	https://www.3dcastor.com				
+CDS	Seed	Generative multiphysics		1	1	1		1												Synera, GrabCAD	https://www.cognitive-design-systems.com/	2021	Toulouse, France	43.5326929	1.3503291
+Cimatron	Public / PE	Tooling-oriented CAD/CAM			1	1		GibbsCAM											MachineWorks, ACIS		https://cimatron.com	1982	Givat Shmuel, Israel	32.065773	34.8432169
+Citrene Informatics	Series C	ML for materials synthesis	1	1							1										https://citrine.io/	2013	Redwood City, CA	37.4472127	-122.2884235
+CloudFluid	Pre-seed	LBM CFD on the cloud					1														https://www.cloudfluid.com/	2021	Karlsruhe, Germany	48.9404298	8.2774096
+CloudNC	Series B	Machined part manufacturer with advanced CAM												1							https://www.cloudfluid.com/	2015	London, UK	51.3849401	-0.3514683
+CNC Software	Public / PE	Leading independent subtractive CAM vendor						MasterCAM					1						Parasolid		https://www.mastercam.com/	1983	Tolland, CT	41.8254979	-72.4313279
+Cognasim	Pre-seed	Making simulation make sense	1			1															https://www.cognasim.com/	2024	Pittsburgh, PA		
+Collimator	Seed	1D simulation for controllers (Simulink replacement)	1	1					1		1										https://www.collimator.ai/	2020	Seattle, WA		
+COMSOL	Public / PE	Multiphysics software with academic tendencies				1	1											2	Parasolid	3MF	https://comsol.com	1986	Burlington, MA	42.465796	-71.2409831
+ConstructivIQ	Seed	Analytics for AEC procurement								1											https://constructiviq.com/	2022	Washington, DC	38.7916449	-77.119759
+Convergent Science																			CGM						
+CoreTechnologie	Tightly Held	Core Technologie provides solutions in an undisclosed field.																			https://www.coretechnologie.com/	1999	Mömbris, Germany	50.0669497	9.1628585
+Coreform	Tightly Held	Leader in isogeometric analysis and warped meshless simulation		1	1	2															https://coreform.com	2014	Orem, UT	40.2567399	-111.7563371
+CPFD Software																									
+Cybernet	Tightly Held	Leading MDAO workspace				Noesis Optimus						1								Ansys	http://www.cybernet.co.jp/	1985	Tokyo, Japan	34.5776326	138.2991098
+Dassault Systemes	Public / PE	Large engineering software vendor		1	CATIA, SolidWorks	Simulia	1	Delmia		1		Enovia	1			CGM, ACIS		Abaqus	MachineWorks		https://3ds.com	1981	Vélizy-Villacoublay, France	48.7694788	2.1619665
+Datakit	Tightly Held	B-rep interoperability vendor			2								1			2				3MF, Datakit	https://www.datakit.com/	1994	Lyon, France	45.76342	-4.834277
+Datamine	Tightly Held	Mining planning and management									1									Hoops Interop	https://www.dataminesoftware.com/	1981	Brisbane, Australia	-27.7674409	152.6685227
+Desktop Metal	Public / PE	Large additive vendor						1						1					Intact		https://desktopmetal.com	2015	Burlington, MA	42.465796	-71.2409831
+Diabatix	Tightly Held	Generative thermal design	1	1		1	1														https://www.diabatix.com/	2016	Leuven, Belgium	50.8242085	4.6403077
+dicehub																									
+Dirac	Seed	AI based assmbly validation and work instructions	1	1	1																https://www.diracinc.com/				
+DigiFabster	Seed	Sales quotes and e-commerce solution for job shop manufacturers						1													http://digifabster.com/	2014	Irvine, CA	33.5993914	-117.8687519
+Digimind Labs	Tightly Held	AI-driven packaging design	1		1	1															https://www.digimindlabs.com/	2022	Berlin, Germany	52.338234	13.088346
+Dirac	Pre-seed	Assembly work instructions from CAD			1			1													https://diracinc.com/	2022	New York, NY	40.4773991	-74.2590899
+Dive Solutions 	Pre-seed	SPH CFD on cloud					1											1			https://www.dive-solutions.de/	2017	Berlin 	52.338234	13.088346
+Drafter	Pre-seed	automatic generation of eng drawing 		1	1																(stealth)	2023	Denver, CO	39.614431	-105.109927
+Dyndrite	Series A	AM modeling library based on CUDA						1									2		CUDA		https://www.dyndrite.com/		United States	15.7760139	-173.2992296
+EasyEDA	Tightly Held	PCB design software							1												https://easyeda.com/	2015	Shenzen	22.3293893	113.7524414
+EOS	Public / PE	Leading  DMLS/LBPF vendor						1						2			1			nTop, 3MF	https://eos.info		Krailling, Germany	48.0697365	11.3132065
+ESS	Tightly Held	Industrial simulation				1	1													Hoops Interop	https://www.essteyr.com/alsim-merge	2015	Steyr, Austria	48.02356	14.3767201
+Esteco	Tightly Held	Leading MDAO workspace				Modefrontier						1								Hoops Interop	http://www.esteco.com/	1999	Trieste, Italy	45.6068433	13.7318673
+ExLattice	Pre-seed	Metal AM simulation				1		1													https://exlattice.com/		United States	15.7760139	-173.2992296
+Fab.ai	Seed	AI-based advanced manufacturing	1					1													https://fabai.com/	2023	San Francisco, CA	37.7034	-122.527
+Fabrio	Pre-seed	CAD enablement for EDU																			https://www.fabriodesign.com	2022	Birmingham, UK	52.385999	-2.0174336
+Fast Radius	Public / PE	Custom prototypes and parts						1						2						3MF					
+Fictiv														2					OpenCascade						
+FieldWire	Series C	AEC project management and visualization								1										Hoops Interop	https://www.fieldwire.com/	2013	San Francisco, CA	37.7034	-122.527
+FireCAD																				Hoops Interop					
+First Resonance 																					https://www.getperipheral.io/				
+FiveFlute	Pre-seed	Better design starts with better communication.																			https://www.fiveflute.com/				
+FlexCompute 	Series B	CFD on cloud																			https://www.flexcompute.com/	2015	Boston 	42.22788	-71.191113
+Flow3D																									
+Foundation LLM	Series A	CAD and CAM copilot	1																		(stealth)	2023	Cambridge, UK	52.133797	0.048047
+FreeCAD	Open Source	Leading GPL CAD system based on OpenCascade			1														OpenCascade		https://freecadweb.org	2001	Ulm, Germany	48.387589	9.9424448
+Frigate	Seed	AI-based cloud manufacturing	1					1													https://www.frigate.ai	2021	Trichy, India	10.7363442	78.6157607
+Gamma																									
+GE	Public / PE	Venerable capital equipment manufacturer												2						3MF	https://ge.com	1892	Boston, MA	42.22788	-71.191113
+Geminus.ai 	Series A	PINNs for process engineering	1			1					1										https://www.geminus.ai/	2018	Boston, MA	42.22788	-71.191113
+Generative Engineering	Pre-seed	Generative structural design combinations	1	1	1																https://generative.vision/	2021	London, UK	51.3849401	-0.3514683
+Go Additive	Pre-seed	Lattice optimizaiton for AM		1				1													https://goadditive.com/	2023	Italy	35.4897	6.6267201
+Google	Public / PE	Large cloud services provider	1									1		1	1						http://www.google.com	1998	Menlo Park, CA	37.418539	-122.228677
+Gradient Control Laboratories	Tightly Held	Startup service provider with advanced components to connect CAD to AI and ML applications	1	1	1												GCL Script		libfive		https://gradientcontrol.com	2023	Reading, MA	42.5006449	-71.1361789
+Hanomi	Pre-seed	CAD that co-designs with engineers	1		1	1													OpenCascade		hanomi.ai	2024	San Francisco	37.7034	-122.527
+Hexagon	Public / PE	Large engineering software vendor		1	1	MSC, Digimat	1	Esprit			2		Volume Graphics, Faro	1					Nastran, Parasolid, ACIS	Hoops Interop	https://hexagon.com/	1975	Sweden	55.0059799	10.5798
+HP	Public / PE	Leading 2D printer manufacturer with industrial AM																		3MF	https://hp.com		United States	15.7760139	-173.2992296
+Hyperganic	Series A	Full-stack generative		1	1	1	1	1									1	DirectFEM			https://www.hyperganic.com/	2016	Munich, Germany	48.0616018	11.360796
+InfinitForm	Seed	Rapid generative design for performance & manufacturability with CAD output	1	1	1	1															http://infinitform.com	2023	California	32.528832	-124.482003
+Infinitive	Pre-seed	ML-driven product configuration	1	1	1	1				1										OnShape	https://cae.tech/	2016	Leamington Spa, UK	52.2565389	-1.56145
+Innovana3D	Tightly Held	3D printing service						1						1							https://www.innovana3d.com/	2019	Forest Hills, NY	40.7043654	-73.8585218
+Intact Solutions	Tightly Held	Meshless FEA for any geometry		1	1	2											1	Intact		Rhino, Grasshopper, Synera, Houdini, OnShape	https://www.intact-solutions.com/	1999	Madison, WI	42.998071	-89.5663889
+Interspectral		AM Explorer: AM metals build data collection and analysis				1		1													https://interspectral.com/				
+Intuigence	Pre-seed										1										https://intuigence.ai/				
+IronCAD	Tightly Held	OG drag-and-drop MCAD																	Parasolid, ACIS		https://www.google.com/gasearch?q=ironcad&tbm=&source=sh/x/gs/m2/5	2001	Santa Clara, CA	37.322842	-122.00537
+Istari	Seed	Digital twins for aerospace			1																https://www.istaridigital.com/	2022	Cambridge, MA	42.3523968	-71.1603321
+Jiga 	Seed	Source custom parts directly with vetted manufacturers																			https://jiga.io/	2020	Tel-Aviv, Israel	32.029252	34.7425159
+Kenesto	Seed	Cloud-based PDM										1								Hoops Interop	https://www.kenesto.com/	2007	Boston, MA	42.22788	-71.191113
+Keysight																			ACIS						
+KeyWard	Pre-seed	Deep learning on fluids and other physics	1			1	1														https://www.keyward.io/	2022	Berlin, Germany	52.338234	13.088346
+Khronos AI	Pre-seed	AI Multiphysics with inverse engineering	1	1														1			https://kronosai.co/	2024	San Francisco, CA	37.7034	-122.527
+KiCAD	Open Source	Open EDA suite							1																
+Kubotek	Tightly Held	OG direct modeling software with strength in manufacturing			KeyCreator																https://www.kubotekkosmos.com/	1984	Marlborough, MA	42.311182	-71.6259809
+Lam Research	Public / PE	Semconductor technology leader							Coventor												https://www.lamresearch.com/	1980	Fremont, California	37.4541879	-122.1534331
+LatticeRobot	Pre-seed	Community-oriented inverse engineering of meso to macroscale materials	1	1	1	1											2		GCL Script, libfive		https://latticerobot.com/	2023	Dayton, OH	39.7018339	-84.3113769
+Leap71	Open Source	C# voxel modeling based on OpenVDB		1	PicoGK	1									1		2		OpenVDB		https://leap71.com/	2023	Dubai	24.7934842	54.8904543
+Leopoly	Seed	3D and virtual reality																			https://leopoly.com/	2013	Budapest, Hungary	47.349415	18.9261011
+libfive	Open Source	Pure implicit modeling with extraction															2				https://libfive.com/	2018	Cambridge, MA	42.3523968	-71.1603321
+Limitless CNC	Pre-seed							1													https://www.limitlesscnc.ai/				
+Lumafield	Series B	Mainstream CT scanning	1										1	1							https://lumafield.com	2019	Cambridge, MA	42.3523968	-71.1603321
+Lumerical																			OpenCascade						
+Luminary Cloud	Series B	Advanced CFD	1				1												Parasolid		https://www.luminarycloud.com/	2019	San Francisco, CA	37.7034	-122.527
+Machina Labs		Unique AM process for formed sheet metal						1						1							https://machinalabs.ai/	2019	Chatsworth, CA	34.2273538	-118.6533084
+Machine Metrics								1															Northampton, MA	42.283829	-72.741264
+MachineWorks	Tightly Held	Leading CAM and mesh modeling components														Polygonica		2			https://www.machineworks.com/		Sheffield, UK	53.3045505	-1.6639593
+Magma	Tightly Held	Optimization tool for improving metalcasting quality, optimizing process conditions and reducing production costs																	ACIS		https://www.magmasoft.com/en/	1988	Aachen, Germany	50.6618488	5.9748992
+Manufacturo								1																	
+Manukai	Pre-seed	Metal machining co-pilot						1													https://www.manukai.ch/		Ankara, Turkey	39.7304211	32.5184735
+Manus	Pre-seed	Cloud-based postprocessor creation						1													https://www.manusnc.com/	2008	Ankara, Turkey	39.7304211	32.5184735
+Markforged	Public / PE	Large composite and metal AM vendor						Eiger						1							https://markforged.com	2013	Watertown, MA	42.3580946	-71.2174629
+Materialise	Tightly Held	AM suite and leading mesh modeling			1			1				1	1			Proprietary Mesh			Parasolid	3MF, Datakit	https://materialise.com	1990	Leuven, Belgium	50.8242085	4.6403077
+Mattersmith	Tightly Held	Sales configurator for custom manufacturing with a focus on sheet goods		1	1																https://www.mattersmith.com/	2017	Fargo, ND	46.7314298	-96.9037708
+McNeel & Associates	Tightly Held	Leading mainstream surfacing and generative design		Grasshopper	Rhino					Rhino					2	OpenNURBS					https://www.rhino3d.com/	1980	Seattle, WA	47.4919119	-122.4596957
+Metafold	Seed	Cloud-based voxel modeling			1	1											2	1	CUDA		https://www.crunchbase.com/organization/metafold-3d	2020	Toronto, Canada	43.5810245	-79.639219
+Microsoft	Public / PE	Desktop 3D printing software						1												3MF	https://microsoft.com	1975	Redmond	47.6270218	-122.1646584
+Monolith	Series A	Battery pack AI design	1	1		1															https://www.monolithai.com/	2016	London 	51.3849401	-0.3514683
+Morphorm	Pre-seed	CAE	1	1	1	1	1														https://www.morphorm.com/	2023	Albuquerque, NM	34.9467659	-106.881796
+MTEK								1																	
+Nano Dimension	Public / PE	Large AM vendor with electronics specialization						Additive Flow						1							https://www.nano-di.com/	2012	Israel	29.4797	34.2673871
+nanoCAD	Tightly Held	Value-oriented CAD software suite			1					1									C3D		https://nanocad.com/	2008	Moscow, Russia	55.142591	36.8032249
+Nastran	Open Source	Open source FEM code																2			https://en.m.wikipedia.org/wiki/Nastran	1971	Los Angeles, CA	33.7036519	-118.6681759
+Navasto	Tightly Held	API toolkits for deep leaning surrgoates	1			1	1													Simscale	https://www.navasto.de/	2014	Berlin, Germany	52.338234	13.088346
+NavierAI	Pre-seed	Pre-trained DL fluids models	1				1														https://www.navier.ai	2023	San Francisco, CA	37.7034	-122.527
+nething.xyz	Seed	Text-to-shape via LLM	1	1																	https://nething.xyz/	2016	Berkeley, CA	37.8356375	-122.3686793
+Neural Concept	Series A	ML-accelerated simulation	1			1															https://www.neuralconcept.com/	2018	Lausanne, Switzerland	46.4548727	6.5838628
+Novarm DipTrace	Tightly Held	PCB design software																			https://diptrace.com/	2002	Ukraine	44.2924	22.1370556
+Novineer	Pre-seed	Topology optimization based on ML with B-rep output	1	1	1	1		1								1				3MF	https://novineer.com/	2022	Daytona Beach, FL	29.127476	-81.21031
+nTop	Series D+	Field-driven CAE, CAD, and CAM		2	2	2		1							1		nTop Core, nTop Kernel		OpenVDB, VKI	Parasolid, Intact, XFEM, Coreform, CloudFluid, libfive	https://www.ntop.com/	2016	New York, NY	40.4773991	-74.2590899
+NTT Data																			ACIS						
+Nullspace	Pre-seed	Electromagnetic simulation				1													CUDA		https://www.nullspaceinc.com/	2023	Irvine, CA	33.669445	-117.823059
+Nvidia	Public / PE	Leading graphics vendor with open source tools	2			1	1							1	Omniverse	UFC		CUDA, Modulus			https://nvidia.com	1993	Sunnyvale, CA	37.330236	-122.0650661
+Omax																			ACIS						
+Open Mind Technologies																				Hoops Interop					
+OpenBOM	Seed	BOM-centered product collaboration										1									https://www.openbom.com/	2015	Newton, MA	42.2827739	-71.270359
+OpenCascade	Open Source	Leading GPL B-rep kernel			1														OpenCascade	Datakit	https://opencascade.com	1980	Issy-Les-Moulineaux, France	48.8133083	2.2361072
+OpenFoam	Open Source	Leading open source CFD code					2											2			https://openfoam.org	2011	London, UK	51.3849401	-0.3514683
+OpenOrion	Pre-seed	Simulation-driven Design	1		1		1														https://openorion.org/	2023	San Francisco, CA	37.7034	-122.527
+OpenVDB	Open Source	Industry-leading voxel modeling and intero			1												OpenVDB				https://www.openvdb.org/	2012	Glendale, CA	34.118761	-118.3078491
+OpenVTK	Tightly Held	Leading vendor of toolkits for discrete geometry and post processing				Paraview												VTK							
+Oracle	Public / PE	Large database company										Cimmetry								Hoops Interop	https://www.oracle.com	1977	Santa Clara, CA	37.322842	-122.00537
+Pasteur Labs	Seed	Simulation	1			1															https://pasteurlabs.ai/	2020	New York, NY 	40.4773991	-74.2590899
+Parallel Fluidics	Pre-seed																				www.parallelfluidics.com				
+PhysicsX	Series A	Simulation foundation models	1			1	1														https://www.physicsx.ai/	2019	London 	51.3849401	-0.3514683
+Pico MES	Series A	Modern MES software						1													https://www.picomes.com/	2018	Redwood City, CA	37.4472127	-122.2884235
+Pictorus	Pre-seed	Dataflow environment for dynamic simulation		1		1							1								https://www.pictor.us/	2022	Oakland, CA	37.6320672	-122.3558276
+Planarific	Pre-seed	Automated generation of refit plans		1						1											https://planarific.com/	2023	Oxford	51.704532	-1.3199994
+Plasticity	Tightly Held	Entry-level B-rep modeling with Parasolid			1														Parasolid		https://www.plasticity.xyz/	2021	San Francisco, CA	37.7034	-122.527
+Protolabs	Public / PE	Custom prototypes and parts						1											Parasolid		https://protolabs.com	1999	Maple Plain, MN	45.00163	-93.6760208
+PrototypeHubs	Pre-seed	Quoting and MES software + digital mfg marketplace						1						1	1						https://prototypehubs.com/	2020	Alberta, Canada	48.9966671	-120.0026981
+PTC	Public / PE	Large engineering software vendor		2	Creo, OnShape	Mechanica		1	ThingWorx			Windchill, Arena	1			Granite	TruSolid	Mechanica	Ansys		https://ptc.com	1985	Boston, MA	42.22788	-71.191113
+Quanscient																									
+Quarter20	Seed	Technical documentation and collaboration for hardware development	1		1							1									https://www.buildquarter20.com/	2020	Los Angeles, CA	33.7036519	-118.6681759
+Rafinex			1																						
+Rangeview	Seed	Deliver cast parts through AM ceramic casts						1													https://rangeview.co/	2020	Glendale, CA	34.118761	-118.3078491
+Rapid Liquid Print	Seed	Zero-gravity manufacturing with sophisticated toolpathing		1				1													https://www.rapidliquidprint.co/	2023	Charlestown, MA	42.3685098	-71.0809716
+Replique		Your on-demand manufacturing platform for trusted parts for everyone, everywhere.																			https://replique.io/	2020	Mannheim, Germany		
+Reynko	Pre-seed	ML-accelerated simulation	1				1														https://reynko.com/	2022	New York, NY	40.4773991	-74.2590899
+RIB Software	Tightly Held	Clouds-based AEC visualization							1											Hoops Interop	https://www.rib-software.com/	1961	Stuttgart, Germany	48.6920187	9.0386053
+RS Components	Public / PE	Large European electrical and hardware component supplier			1				1										SpaceClaim		https://www.rs-online.com/	1937	Corby, UK	52.4609522	-0.7415966
+Secondmind	Series B	Gaussian uncertianty and Baysean optimization of design variables, focued on automotive	1			1													Google		https://www.secondmind.ai/	2016	Cambridge, UK	52.133797	0.048047
+Sedaro 	Seed	Cloud based systems enginering and simulation				1						1	1								https://www.sedaro.com/	2016	Washington, DC	38.7916449	-77.119759
+SeekMake	Series A	Community of manufacturers						1							1						https://seekmake.com/home	2019	Tallinn, Estonia	59.3518008	24.5501939
+Senvol	Tightly Held	Database of AM process parameters						1						1							https://senvol.com		New York, NY		
+ShapeSpace	Tightly Held	Geometric indexing	2		1			1				1		1				1		Aras	http://shapespace.com/	2006	Edinburgh, UK	55.9412059	-3.3613918
+Shapr3D	Series B	Accessible, cross platform MCAD and PDM			1							1							Parasolid	Hoops Interop	https://www.shapr3d.com	2015	Budapest, Hungary	47.349415	18.9261011
+SideFX	Public / PE	Entertainment software with reference implementation of OpenVDB			Houdini														OpenVDB				Toronto, Canada	43.5810245	-79.639219
+Siemens PLM	Public / PE	Large engineering software vendor			NX	LMS	1	2, Tecnomatix	Mentor Graphics		2	Teamcenter				Parasolid, Convergent Modeling, JT		Nastran, D-Cubed		Synera	https://siemens.com/plm	1963	Plano, TX	32.997253	-96.8602289
+Silsync	Pre-seed	Engineering workflow automation										1									https://www.silsync.com/	2019	Phoenix, AZ	33.2902598	-112.324056
+Simcon	Tightly Held	Injection molding simulation				1	1														https://www.simcon.com/	1988	Würselen, Germany	50.8028791	6.0865568
+Simerics							1											1							
+Siml	Seed	Bespoke surrogate workflows	1			1	1														https://www.siml.ai/	2021	Košice, Slovakia	48.57055	21.1199289
+Simscale	Series C	Cloud-based CAE suite	1	1		2	2		1	1		1			1			2	Parasolid		https://www.simscale.com	2012	Munich, Germany 	48.0616018	11.360796
+Slingshot Solutions		Digital twins of cities				1				1															
+SmartUQ	Seed	ML-powered uncertainty quantification	1										1								https://www.smartuq.com/	2014	Madison, WI	42.998071	-89.5663889
+Solo Lattices	Tightly Held	Lattice design component and add-in		1	1														OpenVDB	Synera	https://sololattices.com/				
+Spherene	Pre-seed	Field-driven structural spinodal foams		1	1																https://spherene.ch/				
+Stoke Fusion	Series B	Assembly floor product "geneology"										1		1							https://www.stokefusion.com/	2019	Seattle, WA	47.4919119	-122.4596957
+Stratasys	Public / PE	Large AM vendor with build prep and ecosystem						1						1	GrabCAD				Polygonica, Parasolid	3MF	https://stratasys.com	1989	Rehovot, IL	31.8659771	34.7619791
+Supplios	Tightly Held	Supplier collaboration platform											1								https://www.supplios.com/	2021	Copenhagen, Denmark	55.615441	12.4533824
+Synera	Series A	Dataflow-based generative environment		1	1	1		1							1		1		VKI, OpenVDB, Parasolid	MSC, Simcenter, Simulia, Ansys, Optistruct, Intact, Simscale, HyperMesh, ANSA, Materialise, Amphyon, EOS, Solo Lattices, Additive Design Toolkit, Moldflow, CDS, Windchill, Teamcenter, Hoops Interop	https://www.synera.io/	2018	Bremen, Germany	53.0111523	8.4817585
+Synopsys	Public / PE	Large engineering software vendor	1	1	Simpleware				2										ACIS		https://synopsys.com	1986	Sunnyvale, CA	37.330236	-122.0650661
+Tanso3D	Pre-seed	text-to-cad	1	1	1																https://tanso3d.com/	2023	Oakland, CA	37.6320672	-122.3558276
+TechSoft 3D	Public / PE	Largest independent CAD component provider														Hoops Interop, Hoops Viewer		VKI		3MF	https://techsoft3d.com	1996	Oakland, CA	37.6320672	-122.3558276
+Tecplot																									
+Thermoanalytics	Tightly Held	Thermal simualtion			1							1													
+ThinkDesign	Tightly Held	Industrial-design oriented CAD			1							1								Hoops Interop	https://www.dptcorporate.com/	1990	Bologna, Italy	44.4420735	11.2296541
+Third Wave Systems																									
+Threedy		Instant3DHub																			https://threedy.ai				
+TOffeeX	Series A	Generative design in heat transfer	1	1		1	1														https://www.toffeeam.co.uk/	2019	London 	51.3849401	-0.3514683
+Toolhouse	Pre-seed	Generative enclosures	1																		https://www.toolhouse.build/	2024	Oakland, CA		
+TopSolid	Public / PE	Tooling-oriented CAD/CAM			1			1											MachineWorks, Parasolid		https://topsolid.com	1984	France	40.8531652	-6.2726556
+Trimble	Public / PE	Large engineering software vendor								SketchUp	2										https://trimble.com	1978	Westminster, CO	15.7760139	-173.2992296
+Trinckle	Seed	Cloud-based parametric mesh modeling			1												1				https://www.trinckle.com/	2014	Berlin, Germany	52.338234	13.088346
+Trumpf	Public / PE	Industrial metal processing hardware						1					1	1					SpaceClaim, SolidWorks, ACIS		https://www.trumpf.com/en_US/	1923	Ditzingen, Germany	48.8374378	9.0252079
+TwinMo	Pre-seed	Twinmo empowers you to optimize design, ensure regulatory compliance, and monitor manufacturing quality with unprecedented speed and efficiency.	1										1								https://www.twinmo.ai/	2023	St. Joseph, Michigan	42.0686291	-86.5115291
+Ulitimaker	Series D+	Consumer AM vendor with leading open source software						Cura						MakerBot							https://ultimaker.com	2011	Netherlands	50.7503837	3.3316
+Uptool	Pre-seed	Smart software for machine shops	1					1													https://www.uptool.com/	2024			
+Vanellus 	Pre-seed	CFD with AI	1				1														https://vanellus.tech/	2022	Cambridge, UK	52.133797	0.048047
+Variant3D	Seed	Complete CAD ecosystem for textiles with focus on knitwear		1	1			1						1							https://www.variant3d.io/	2016	Malibu, CA	33.9997573	-118.9240831
+Vinci4D	Seed	Generative Thermal Design and CAE for heat sinks	1	1	1	1	1														https://vinci4d.ai/	2023	Redwood City, CA	37.4472127	-122.2884235
+Vitesse Automation																									
+Voxshell	Pre-seed	Hexahedral meshing for CFD					1													nTop Core	https://voxshell.com/	2023	Cranfield, UK		
+Volcano Platforms	Seed	Next gen CFD	1				1														https://www.volcanoplatforms.com/	2020	San Francisco, CA	37.7034	-122.527
+WAAM3D	Public / PE	AM vendor with focus on large scale extrusions						1													http://www.waam3d.com	2018	Milton Keynes, England	52.0235794	-0.7807044
+Wherobots	Pre-seed									1											https://wherobots.com/				
+XFEM	Open Source	Open source meshless simulation				1																			
+xNilio	Pre-seed	Product level optimization	1		1								1								(stealth)	2023	New York, NY	40.4773991	-74.2590899
+Xometry	Public / PE	Custom prototypes and parts						1						1						Hoops Interop	https://www.xometry.com/	2014	Gaithersburg, Maryland	39.1029124	-77.2582691
+Zea	Seed	3D interactive part catalogs										1				2	1			CGM, ACIS	https://www.zeaengine.com/	2015	Montréal, Canada	45.4145877	-73.9475431
+Zeiss	Public / PE	Global optics manufacturer				1							1						ACIS		https://www.zeiss.com/	1864	Oberkochen, Germany	48.7811379	10.1024573
+Zoo	Seed	CAD scripting with ML app	1		1										1	KittyCAD					https://zoo.dev/	2021	Malibu, CA	33.9997573	-118.9240831
+Zuken	Public / PE	Electronic design software							1											Hoops Interop	https://www.zuken.com/us	1976	Yokohama, Japan	35.3126113	139.4647646
+ZWSoft	Tightly Held	Mainstream CAD/CAM with focus on Chinese market			1			1											MachineWorks		https://zwsoft.com	1998	Guangzhou, China	22.6961015	112.7224731

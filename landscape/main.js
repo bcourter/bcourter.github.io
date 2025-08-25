@@ -4,6 +4,9 @@
 const url =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpp3EgZEXoDrQ8MVxr7AS2ifn3Efvlk7QFEEe9Z1iMtOXX7QX5ZK5XQg0EcrSun1umA0-nCr5BQFR/pub?gid=595724753&single=true&output=tsv";
 
+const backupData = 
+  "SharedData-backup.tsv"
+
 let enduserHCL = d3.hcl(0, 22, 88);
 let componentHCL = d3.hcl(0, 33, 66);
 
@@ -825,4 +828,4 @@ function resize() {
 // Redraw based on the new size whenever the browser window is resized.
 window.addEventListener("resize", resize);
 
-d3.tsv(url, processVendor).then(initialize);
+d3.tsv(backupData, processVendor).then(initialize);
