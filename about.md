@@ -33,6 +33,8 @@ comment: false
 
 ##### Advisor to:
 * [Variant3D](https://www.variant3d.io/)
+* [xNilio](https://xnilio.com/)
+* [Hanomi](https://www.hanomi.ai/)
 * [Atomic Industries](https://www.atomic.industries/)
 * [Zeroth](https://zeroth.oo)
 * [Shapr3D](https://shapr3d.com)
