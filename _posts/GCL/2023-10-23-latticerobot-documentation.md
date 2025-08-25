@@ -1,6 +1,6 @@
 ---
 title: Parameterizing LatticeRobot
-tags: Management SDF Interop 
+tags: Management SDF Interop GCL
 ---
 
 ![LatticeRobot Logo](https://latticerobot.com/assets/body_text-1e1a169c.png){: width="35%" height="35%"}

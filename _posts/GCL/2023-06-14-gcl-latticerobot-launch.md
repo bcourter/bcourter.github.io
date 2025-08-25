@@ -1,6 +1,6 @@
 ---
 title: Gradient Control Laboratories and LatticeRobot
-tags: Management SDF Interop 
+tags: Management SDF Interop GCL
 ---
 
 With the UGF research entering a public phase, some other collaborations from the background are entering the foreground.  In particular, some investigations with some friends have evolved into two new entities: an incubator, [Gradient Control Laboratories](https://www.gradientcontrol.com) and its first spinoff, [LatticeRobot](https://www.latticerobot.com)!

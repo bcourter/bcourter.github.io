@@ -2,7 +2,7 @@
 title: Agentic Engineering&#58; how AI automata will participate in engineering in 2025
 layout: article
 date: 2025-01-20
-tags: AI/ML Differentiable Engineering nTop
+tags: AI/ML Differentiable Engineering nTop GCL UGF
 ---
 
 At [Gradient Control Laboratories](https://gradientcontrol.com) (GCL), we have the privilege of seeing patterns emerging among the most innovative engineering software startups. Last year, we tracked the rise of [differentiable engineering](https://www.blakecourter.com/2024/04/12/differential-engineering.html) as the first differentiable CAD and CAE APIs appeared. Now, as we wire AI agents into PLM and BIM architectures, we're ready to share our expectations for 2025 and beyond.
