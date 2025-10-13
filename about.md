@@ -35,9 +35,11 @@ comment: false
 * Collective Member, [Baukunst](https://baukunst.co/)
 
 ##### Advisor to:
-* [Variant3D](https://www.variant3d.io/)
+* Mecado (stealth)
 * [xNilio](https://xnilio.com/)
+* [Variant3D](https://www.variant3d.io/)
 * [Hanomi](https://www.hanomi.ai/)
+* [Infinitive](https://infinitive.io/)
 * [Atomic Industries](https://www.atomic.industries/)
 * [Zeroth](https://zeroth.oo)
 * [Shapr3D](https://shapr3d.com)
@@ -45,9 +47,9 @@ comment: false
 ##### Formerly:
 * CTO, Advisor, [nTopology](https://ntopology.com)
 * Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
-* Collective Member, Redtail
 * Head of Software Research, [Stratasys](https://stratasys.com)
 * Director of Strategy, [GrabCAD](https://www.grabcad.com) (Acquired by Stratasys.)
+* Collective Member, Redtail
 * Founder, [SpaceClaim](www.spaceclaim.com) (Acquired by ANSYS.)
 * Director of Business Development, Product Manager, AE, [PTC](https://www.ptc.com)
 

@@ -1,6 +1,6 @@
 ---
 title: A Brief History and Future of Generative Design
-tags: UGF GCL nTop Interview Geometry
+tags: UGF GCL Geometry Video AI/ML
 ---
 
 Thanks to a prompt from [Synera](https://www.synera.io/), for the [Future of Engienering Summit](https://www.future-of-engineering-summit.com/) I've assembled a historical perspective on both the technology and user experience behind generative design to frame a conversation.  

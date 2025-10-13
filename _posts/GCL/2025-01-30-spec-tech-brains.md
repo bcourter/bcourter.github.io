@@ -1,5 +1,5 @@
 ---
-title: Joining Spectulative Technologies' Brains Accellerator
+title: Joining Spectulative Technologies' Brains Accelerator
 tags: UGF GCL Geometry
 ---
 
