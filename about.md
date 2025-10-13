@@ -26,10 +26,13 @@ comment: false
 
 ##### Currently:
 * Managing Director, [Gradient Control Laboratories](https://gradientcontrol.com)
+  * Head of Software (fractional), [Variant3D](https://www.variant3d.io/)
+  * Acting Head of Software (fractional), [Rapid Liquid Print](https://www.rapidliquidprint.com/)
 * Fellow, [nTopology](https://ntopology.com)
 * Independent Researcher of [UGFs](/2023/06/03/foreword.html)
 * Chair, [LatticeRobot](https://LatticeRobot.com)
 * Board Member, [Intact Solutions](https://intact-solutions.com)
+* Collective Member, [Baukunst](https://baukunst.co/)
 
 ##### Advisor to:
 * [Variant3D](https://www.variant3d.io/)
@@ -42,6 +45,7 @@ comment: false
 ##### Formerly:
 * CTO, Advisor, [nTopology](https://ntopology.com)
 * Advisor, Acting Head of Engineering, [FluidForm](https://fluidform.com)
+* Collective Member, Redtail
 * Head of Software Research, [Stratasys](https://stratasys.com)
 * Director of Strategy, [GrabCAD](https://www.grabcad.com) (Acquired by Stratasys.)
 * Founder, [SpaceClaim](www.spaceclaim.com) (Acquired by ANSYS.)
