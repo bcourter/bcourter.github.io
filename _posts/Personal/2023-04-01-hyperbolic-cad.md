@@ -27,9 +27,7 @@ At QE3D, we manifest our quantum technology through three regimes for AI-driven,
 
 Throwing differential geometry out the window, we apply variational analysis to fractal boundaries with fractional Hausdorff dimension, creating a countable class of nooks and crannies.  We can apply Stokes equations using Monte Carlo techniques, which speak the language of quantum.  This approach is particularly useful when combined with topology optimization, as realized in this lovely tufted furniture collection by [EvilRyu](https://www.shadertoy.com/user/EvilRyu){:target="_blank"}
 
-<div class="extensions extensions--video">
-  <iframe frameborder="0" src="https://www.shadertoy.com/embed/MdXSWn?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
-</div>
+<div>{%- include extensions/shadertoy.html id='MdXSWn' -%}</div>
 
 ### Conformal maps into hyperbolic embeddings
 

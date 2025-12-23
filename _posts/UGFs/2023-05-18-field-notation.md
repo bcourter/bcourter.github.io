@@ -7,7 +7,7 @@ sidebar:
 
 Many readers [of the last post](/2023/05/05/what-is-offset.html) requested a more formal definition of a UGF.  Let's look a bit more closely at the definition of an SDF and how it compares to UGFs and other useful fields in engineering applications.  Some readers may find the visual concepts more intuitive than the nuances, so let's get a feel for the territory first by examining the field at the intersection of two planes:
 
-<iframe class="fullsize" frameborder="0" src="https://www.shadertoy.com/embed/clV3Rz?gui=false&t=10&paused=false&muted=false" allowfullscreen></iframe>
+<div>{%- include extensions/shadertoy.html id='clV3Rz' -%}</div>
 
 <!--more-->
 
@@ -78,7 +78,7 @@ We will often generalize properties of planar intersections to behavior near the
 
 So far, we've seen minmax, distance-based, and, in the last post, chamfered Booleans that preserve UGFness.  There are also many useful fast and reliable Boolean operations that produce results that are not UGFs.  
 
-<iframe class="fullsize" frameborder="0" src="https://www.shadertoy.com/embed/dtVGRd?gui=false&t=10&paused=false&muted=false" allowfullscreen></iframe>
+<div>{%- include extensions/shadertoy.html id='dtVGRd' -%}</div>
 
 *[(Direct link to Shadertoy if preview failing.)](https://www.shadertoy.com/view/dtVGRd)*
 
