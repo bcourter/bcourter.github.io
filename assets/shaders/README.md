@@ -9,14 +9,18 @@ Shadertoy recently added CAPTCHA protection, which broke the iframe embeds used 
 ## File Structure
 
 Each shader is stored as a `.glsl` file with the Shadertoy shader ID as the filename:
-- `DssczX.glsl` - Two-Body Field visualization
-- `dd2cWy.glsl` - Rhombus Gradient Field
-- `cs2cW3.glsl` - Apollonian Circles / Conic Sections
-- `clV3Rz.glsl` - UGF Field Notation - Plane Intersection
-- `dtVGRd.glsl` - Boolean Operations Comparison
-- `4f2XzW.glsl` - Rectangle SDF with Derivatives
-- `mtKfWz.glsl` - Rotational Derivative Visualization
-- `MdXSWn.glsl` - Fractal Tufted Furniture
+
+### Real Shaders (from shaders_public.json)
+- `DssczX.glsl` ✓ Two-Body Field visualization - REAL CODE
+- `dd2cWy.glsl` ✓ Rhombus Gradient Field - REAL CODE
+- `cs2cW3.glsl` ✓ Apollonian Circles / Conic Sections - REAL CODE
+- `mtKfWz.glsl` ✓ Rotational Derivative Visualization - REAL CODE
+
+### Placeholder Shaders (need original code)
+- `clV3Rz.glsl` ⚠ UGF Field Notation - Plane Intersection - PLACEHOLDER
+- `dtVGRd.glsl` ⚠ Boolean Operations Comparison - PLACEHOLDER
+- `4f2XzW.glsl` ⚠ Rectangle SDF with Derivatives - PLACEHOLDER
+- `MdXSWn.glsl` ⚠ Fractal Tufted Furniture - PLACEHOLDER
 
 ## Shader Format
 
@@ -57,11 +61,19 @@ curl "https://www.shadertoy.com/api/v1/shaders/DssczX?key=YOUR_KEY" | jq -r '.Sh
 
 ## Current Status
 
-The current shader files are **placeholder implementations** that demonstrate the mathematical concepts but are not the original Shadertoy code. To get the full, original visualizations:
+### Real Shaders (Dec 24, 2024)
+Four shaders have been updated with **real code** extracted from `shaders_public.json`:
+- `DssczX.glsl`, `dd2cWy.glsl`, `cs2cW3.glsl`, `mtKfWz.glsl`
 
-1. Visit each Shadertoy link in the shader file header
-2. Copy the actual shader code
-3. Replace the placeholder content
+These shaders include the full Common code and adapted Image code that works with our custom viewer's `iParam1` uniforms instead of the original Buffer A-based sliders.
+
+### Placeholder Shaders
+The remaining shader files are **placeholder implementations** that demonstrate the mathematical concepts but are not the original Shadertoy code. To get the full, original visualizations:
+
+1. Visit each Shadertoy link (shown in shader file headers)
+2. View the shader source code
+3. Copy the `mainImage` function and any helper functions
+4. Replace the placeholder content in the `.glsl` file
 
 ## Adding New Shaders
 
