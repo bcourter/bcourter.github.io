@@ -62,11 +62,12 @@ curl "https://www.shadertoy.com/api/v1/shaders/DssczX?key=YOUR_KEY" | jq -r '.Sh
 ## Current Status
 
 ### Real Shaders (Dec 24, 2024) ✅
-Four shaders have been updated with **real code** extracted from `shaders_public.json`:
-- `DssczX.glsl` - Two-Body Field (works perfectly with dropdown controls)
-- `dd2cWy.glsl` - Rhombus Gradient Field (works perfectly with angle slider)
-- `cs2cW3.glsl` - Apollonian Circles (works perfectly with wiggle + mode dropdown)
-- `mtKfWz.glsl` - Rotational Derivative (works perfectly with wobble + shape dropdown)
+Five shaders have been updated with **real code**:
+- `DssczX.glsl` - Two-Body Field (works perfectly with dropdown controls) - from JSON
+- `dd2cWy.glsl` - Rhombus Gradient Field (works perfectly with angle slider) - from JSON
+- `cs2cW3.glsl` - Apollonian Circles (works perfectly with wiggle + mode dropdown) - from JSON
+- `mtKfWz.glsl` - Rotational Derivative (works perfectly with wobble + shape dropdown) - from JSON
+- `MdXSWn.glsl` - Mandelbulb Fractal by evilryu (pure animation, no controls needed) - from user
 
 These shaders include:
 - Full Common code with Implicit struct and UGF operations
@@ -80,7 +81,6 @@ The following shaders are **NOT in shaders_public.json** and need real code:
 - `clV3Rz.glsl` - UGF Field Notation (Plane Intersection)
 - `dtVGRd.glsl` - Boolean Operations Comparison
 - `4f2XzW.glsl` - Rectangle SDF with Derivatives
-- `MdXSWn.glsl` - Fractal Tufted Furniture
 
 **To add real code for these shaders:**
 1. Visit Shadertoy page (e.g., https://www.shadertoy.com/view/clV3Rz)
