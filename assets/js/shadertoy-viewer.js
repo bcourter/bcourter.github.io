@@ -153,11 +153,9 @@ void main() {
             const x = (e.clientX - rect.left) * pixelRatio;
             const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
 
-            if (this.mousePressed) {
-                this.uniforms.iMouse.value.set(x, y, x, y);
-            } else {
-                this.uniforms.iMouse.value.set(x, y, this.uniforms.iMouse.value.z, this.uniforms.iMouse.value.w);
-            }
+            // Update current position (xy), keep click position (zw) unchanged
+            this.uniforms.iMouse.value.x = x;
+            this.uniforms.iMouse.value.y = y;
         });
 
         canvas.addEventListener('mousedown', (e) => {
@@ -166,11 +164,26 @@ void main() {
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
             const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
+
+            // Set both current position and click position (positive values when pressed)
             this.uniforms.iMouse.value.set(x, y, x, y);
         });
 
         canvas.addEventListener('mouseup', () => {
             this.mousePressed = false;
+
+            // Negate click position (zw) when mouse is released (Shadertoy behavior)
+            this.uniforms.iMouse.value.z = -Math.abs(this.uniforms.iMouse.value.z);
+            this.uniforms.iMouse.value.w = -Math.abs(this.uniforms.iMouse.value.w);
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            if (this.mousePressed) {
+                this.mousePressed = false;
+                // Negate click position when mouse leaves while pressed
+                this.uniforms.iMouse.value.z = -Math.abs(this.uniforms.iMouse.value.z);
+                this.uniforms.iMouse.value.w = -Math.abs(this.uniforms.iMouse.value.w);
+            }
         });
 
         window.addEventListener('resize', () => {
@@ -201,6 +214,7 @@ void main() {
         this.gui.domElement.style.zIndex = '1000';
         this.gui.domElement.style.opacity = '0.8';
         this.gui.domElement.style.fontSize = '10px';
+        this.gui.domElement.style.height = 'auto';  // Auto-size to content
 
         this.container.appendChild(this.gui.domElement);
 
