@@ -61,19 +61,35 @@ curl "https://www.shadertoy.com/api/v1/shaders/DssczX?key=YOUR_KEY" | jq -r '.Sh
 
 ## Current Status
 
-### Real Shaders (Dec 24, 2024)
+### Real Shaders (Dec 24, 2024) ✅
 Four shaders have been updated with **real code** extracted from `shaders_public.json`:
-- `DssczX.glsl`, `dd2cWy.glsl`, `cs2cW3.glsl`, `mtKfWz.glsl`
+- `DssczX.glsl` - Two-Body Field (works perfectly with dropdown controls)
+- `dd2cWy.glsl` - Rhombus Gradient Field (works perfectly with angle slider)
+- `cs2cW3.glsl` - Apollonian Circles (works perfectly with wiggle + mode dropdown)
+- `mtKfWz.glsl` - Rotational Derivative (works perfectly with wobble + shape dropdown)
 
-These shaders include the full Common code and adapted Image code that works with our custom viewer's `iParam1` uniforms instead of the original Buffer A-based sliders.
+These shaders include:
+- Full Common code with Implicit struct and UGF operations
+- Adapted Image code using `iParam1-4` uniforms instead of Buffer A sliders
+- Shadertoy-accurate mouse behavior (iMouse.xy=position, iMouse.zw=click with sign for button state)
+- Auto-sizing, transparent GUI panel in lower left
+- Proper high-DPI/4K support with devicePixelRatio
 
-### Placeholder Shaders
-The remaining shader files are **placeholder implementations** that demonstrate the mathematical concepts but are not the original Shadertoy code. To get the full, original visualizations:
+### Placeholder Shaders ⚠️
+The following shaders are **NOT in shaders_public.json** and need real code:
+- `clV3Rz.glsl` - UGF Field Notation (Plane Intersection)
+- `dtVGRd.glsl` - Boolean Operations Comparison
+- `4f2XzW.glsl` - Rectangle SDF with Derivatives
+- `MdXSWn.glsl` - Fractal Tufted Furniture
 
-1. Visit each Shadertoy link (shown in shader file headers)
-2. View the shader source code
-3. Copy the `mainImage` function and any helper functions
-4. Replace the placeholder content in the `.glsl` file
+**To add real code for these shaders:**
+1. Visit Shadertoy page (e.g., https://www.shadertoy.com/view/clV3Rz)
+2. Log in and view the shader source
+3. Copy the Common tab code (if any) and Image tab code
+4. Replace the placeholder content in the corresponding `.glsl` file
+5. Update GUI controls in `/assets/js/shadertoy-viewer.js` if needed
+
+**Note:** Shadertoy blocks automated scraping with CAPTCHA (403 errors), so these must be manually copied.
 
 ## Adding New Shaders
 
