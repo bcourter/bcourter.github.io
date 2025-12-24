@@ -456,9 +456,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (!(a.Distance + b.Distance > 0.0))
         opColor = strokeImplicit(diff, 3.0, opColor);
 
-    // Only draw arrow when mouse button is pressed
-    if (iMouse.z > 0.0)
-        opColor = drawArrow(p, mouse, opColor);
+    opColor = drawArrow(p, mouse, opColor);
 
     fragColor = opColor;
 }
