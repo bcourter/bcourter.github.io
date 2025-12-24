@@ -379,8 +379,8 @@ vec4 drawFill(Implicit a, vec4 opColor) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
     
-    offset = iParam1 * 0.1; // Controlled by slider
-    viz = 0; // Fixed visualization mode
+    offset = iParam1;
+    viz = int(iParam2);
     
     vec2 p = fragCoord - 0.5 * iResolution.xy; // * iResolution.xy;
     

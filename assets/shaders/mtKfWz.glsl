@@ -412,8 +412,8 @@ vec4 drawFill(Implicit a, vec4 opColor) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
     
-    wobble = iParam1; // Controlled by slider 
-    shapeIndex = 0; // Fixed shape
+    wobble = iParam1; 
+    shapeIndex = int(iParam2 * 3.0);
 
     float halfGolden = 0.5*0.618;
     vec2 size = iResolution.x * 0.2 * vec2(1.0 + halfGolden * (1.0 + cos(iTime) * wobble), 1.0) + vec2(160.0 * wobble * cos(iTime * 0.5));

@@ -39,11 +39,11 @@ class ShadertoyViewer {
         };
 
         this.parameters = {
-            visualization: 4,  // Default for DssczX
-            wiggle: 0.2,       // For cs2cW3
-            wobble: 0.5,       // For mtKfWz
-            angle: 0.75,       // For dd2cWy
-            shape: 0,          // For mtKfWz
+            visualization: 0.8,  // Default for DssczX (4/5 = 0.8)
+            wiggle: 0.2,         // For cs2cW3
+            wobble: 0.5,         // For mtKfWz
+            angle: 0.75,         // For dd2cWy
+            shape: 0,            // For mtKfWz
             paused: !this.options.autoplay
         };
 
@@ -92,7 +92,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     setupRenderer() {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(this.options.width, this.options.height);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        // Don't use setPixelRatio - it causes coordinate scaling issues
+        // this.renderer.setPixelRatio(window.devicePixelRatio);
         this.container.appendChild(this.renderer.domElement);
     }
 
@@ -134,7 +135,7 @@ void main() {
         this.mesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.mesh);
 
-        // Fix: Set resolution to actual pixel dimensions
+        // Set resolution to match canvas size
         this.uniforms.iResolution.value.set(
             this.options.width,
             this.options.height,
@@ -209,81 +210,90 @@ void main() {
 
     addShaderSpecificControls() {
         // Shader-specific controls based on original Shadertoy sliders
+        // readFloat returns 0-1, so we map parameters accordingly
         switch(this.shaderId) {
-            case 'DssczX': // Two-body field - EASYCHOOSER(1,4.0,5) VISUALIZATION
-                this.parameters.visualization = 4;
-                this.uniforms.iParam1.value = 4;
-                this.gui.add(this.parameters, 'visualization', 0, 4, 1)
+            case 'DssczX': // Two-body field - viz = int(readFloat(1.) * 5.)
+                this.parameters.visualization = 0.8; // 4/5
+                this.uniforms.iParam1.value = this.parameters.visualization * 5.0;
+                this.gui.add(this.parameters, 'visualization', 0, 1, 0.2)
                     .name('Visualization')
+                    .onChange((value) => {
+                        this.uniforms.iParam1.value = value * 5.0;
+                    });
+                break;
+
+            case 'dd2cWy': // Rhombus gradient - angledot = readFloat(2.) - 0.5 + 0.1 * sin(iTime)
+                this.parameters.angle = 0.75;
+                this.uniforms.iParam1.value = this.parameters.angle;
+                this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
+                    .name('Angle')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
                     });
                 break;
 
-            case 'dd2cWy': // Rhombus gradient - EASYSLIDER(2,0.75) ANGLE
-                this.parameters.angle = 0.75;
-                this.uniforms.iParam1.value = 0.01 * this.parameters.angle;
-                this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
-                    .name('Angle')
-                    .onChange((value) => {
-                        this.uniforms.iParam1.value = value * 0.01;
-                    });
-                break;
-
-            case 'cs2cW3': // Apollonian circles - EASYCHOOSER(1,0.0,1) + EASYSLIDER(0,0.2) WIGGLE
-                this.parameters.visualization = 0;
+            case 'cs2cW3': // Apollonian circles
+                // offset = readFloat(0.)
                 this.parameters.wiggle = 0.2;
-                this.uniforms.iParam1.value = 0.1 * this.parameters.wiggle;
+                this.uniforms.iParam1.value = this.parameters.wiggle;
 
-                this.gui.add(this.parameters, 'visualization', 0, 1, 1)
-                    .name('Visualization')
-                    .onChange((value) => {
-                        // This would control viz mode, but it's set to 0 in our adaptation
-                    });
+                // viz = int(readFloat(1.) * 2.)
+                this.parameters.visualization = 0;
+                this.uniforms.iParam2.value = this.parameters.visualization * 2.0;
+
                 this.gui.add(this.parameters, 'wiggle', 0, 1, 0.01)
                     .name('Wiggle')
                     .onChange((value) => {
-                        this.uniforms.iParam1.value = value * 0.1;
+                        this.uniforms.iParam1.value = value;
+                    });
+                this.gui.add(this.parameters, 'visualization', 0, 1, 0.5)
+                    .name('Visualization')
+                    .onChange((value) => {
+                        this.uniforms.iParam2.value = value * 2.0;
                     });
                 break;
 
-            case 'mtKfWz': // Rotational derivative - EASYCHOOSER(1,0.0,3) SHAPE + EASYSLIDER(0,0.5) WOBBLE
-                this.parameters.shape = 0;
+            case 'mtKfWz': // Rotational derivative
+                // wobble = readFloat(0.)
                 this.parameters.wobble = 0.5;
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
-                this.gui.add(this.parameters, 'shape', 0, 2, 1)
-                    .name('Shape')
-                    .onChange((value) => {
-                        // Shape is fixed to 0 in our adaptation
-                    });
+                // shapeIndex = int(readFloat(1.) * 3.)
+                this.parameters.shape = 0;
+                this.uniforms.iParam2.value = this.parameters.shape / 3.0;
+
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
                     });
+                this.gui.add(this.parameters, 'shape', 0, 2, 1)
+                    .name('Shape')
+                    .onChange((value) => {
+                        this.uniforms.iParam2.value = value / 3.0;
+                    });
                 break;
 
             case 'clV3Rz': // Field notation - placeholder
             case 'dtVGRd':
-                this.gui.add(this.parameters, 'visualization', 0, 5, 1)
+                this.gui.add(this.parameters, 'visualization', 0, 1, 0.2)
                     .name('Mode')
                     .onChange((value) => {
-                        this.uniforms.iParam1.value = value;
+                        this.uniforms.iParam1.value = value * 5.0;
                     });
                 break;
 
             case '4f2XzW': // Differential engineering - placeholder
-                this.gui.add(this.parameters, 'visualization', 0, 3, 1)
+                this.gui.add(this.parameters, 'visualization', 0, 1, 0.25)
                     .name('Mode')
                     .onChange((value) => {
-                        this.uniforms.iParam1.value = value;
+                        this.uniforms.iParam1.value = value * 4.0;
                     });
                 break;
 
             default:
                 // Generic slider
-                this.gui.add(this.parameters, 'visualization', 0, 10, 0.1)
+                this.gui.add(this.parameters, 'visualization', 0, 1, 0.1)
                     .name('Parameter')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;

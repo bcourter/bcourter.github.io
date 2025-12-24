@@ -337,7 +337,7 @@ vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
     
-    float angledot = iParam1 * 0.01; // Controlled by slider
+    float angledot = iParam1 - 0.5 + 0.1 * sin(iTime);
     float angle = angledot * pi;
     direction = vec2(cos(angle), sin(angle));
     isSDF = true; // Always use SDF mode
