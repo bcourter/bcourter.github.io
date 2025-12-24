@@ -38,6 +38,9 @@ class ShadertoyViewer {
             iParam4: { value: 1.0 },
         };
 
+        // Hover text overlay
+        this.hoverText = null;
+
         this.parameters = {
             visualizationMode: 'Two-body field',  // For dropdowns
             wiggle: 0.2,         // For cs2cW3
@@ -59,11 +62,28 @@ class ShadertoyViewer {
         await this.loadShader();
         this.setupRenderer();
         this.setupScene();
+        this.setupHoverText();
         this.setupEventListeners();
         if (this.options.showGui) {
             this.setupGUI();
         }
         this.animate();
+    }
+
+    setupHoverText() {
+        // Create hover text overlay
+        this.hoverText = document.createElement('div');
+        this.hoverText.style.position = 'absolute';
+        this.hoverText.style.color = '#fff';
+        this.hoverText.style.fontSize = '12px';
+        this.hoverText.style.fontFamily = 'monospace';
+        this.hoverText.style.pointerEvents = 'none';
+        this.hoverText.style.display = 'none';
+        this.hoverText.style.background = 'rgba(0,0,0,0.7)';
+        this.hoverText.style.padding = '2px 6px';
+        this.hoverText.style.borderRadius = '3px';
+        this.hoverText.style.zIndex = '999';
+        this.container.appendChild(this.hoverText);
     }
 
     async loadShader() {
@@ -149,10 +169,27 @@ void main() {
         const canvas = this.renderer.domElement;
 
         canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+
+            // Show hover text with coordinates
+            if (this.hoverText && this.mouseEverClicked) {
+                this.hoverText.style.display = 'block';
+                this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
+                this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
+
+                const pixelRatio = this.renderer.getPixelRatio();
+                const x = (e.clientX - rect.left) * pixelRatio;
+                const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
+                const centerX = x - 0.5 * this.options.width * pixelRatio;
+                const centerY = y - 0.5 * this.options.height * pixelRatio;
+                const dist = Math.sqrt(centerX * centerX + centerY * centerY);
+
+                this.hoverText.textContent = `d: ${dist.toFixed(1)}`;
+            }
+
             // Only update mouse position while button is pressed (Shadertoy behavior)
             if (!this.mousePressed) return;
 
-            const rect = canvas.getBoundingClientRect();
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
             const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
@@ -160,6 +197,19 @@ void main() {
             // Update current position while dragging
             this.uniforms.iMouse.value.x = x;
             this.uniforms.iMouse.value.y = y;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            if (this.hoverText) {
+                this.hoverText.style.display = 'none';
+            }
+
+            if (this.mousePressed) {
+                this.mousePressed = false;
+                // Negate click position when mouse leaves while pressed
+                this.uniforms.iMouse.value.z = -Math.abs(this.uniforms.iMouse.value.z);
+                this.uniforms.iMouse.value.w = -Math.abs(this.uniforms.iMouse.value.w);
+            }
         });
 
         canvas.addEventListener('mousedown', (e) => {
@@ -180,15 +230,6 @@ void main() {
             // Negate click position (zw) when mouse is released (Shadertoy behavior)
             this.uniforms.iMouse.value.z = -Math.abs(this.uniforms.iMouse.value.z);
             this.uniforms.iMouse.value.w = -Math.abs(this.uniforms.iMouse.value.w);
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            if (this.mousePressed) {
-                this.mousePressed = false;
-                // Negate click position when mouse leaves while pressed
-                this.uniforms.iMouse.value.z = -Math.abs(this.uniforms.iMouse.value.z);
-                this.uniforms.iMouse.value.w = -Math.abs(this.uniforms.iMouse.value.w);
-            }
         });
 
         window.addEventListener('resize', () => {
