@@ -39,11 +39,11 @@ class ShadertoyViewer {
         };
 
         this.parameters = {
-            visualization: 0.8,  // Default for DssczX (4/5 = 0.8)
+            visualizationMode: 'Two-body field',  // For dropdowns
             wiggle: 0.2,         // For cs2cW3
             wobble: 0.5,         // For mtKfWz
             angle: 0.75,         // For dd2cWy
-            shape: 0,            // For mtKfWz
+            shapeMode: 'Rectangle',  // For mtKfWz dropdown
             paused: !this.options.autoplay
         };
 
@@ -92,8 +92,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     setupRenderer() {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(this.options.width, this.options.height);
-        // Don't use setPixelRatio - it causes coordinate scaling issues
-        // this.renderer.setPixelRatio(window.devicePixelRatio);
+        // Use devicePixelRatio for high-DPI displays
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.container.appendChild(this.renderer.domElement);
     }
 
@@ -135,10 +135,11 @@ void main() {
         this.mesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.mesh);
 
-        // Set resolution to match canvas size
+        // Set resolution to actual render size (accounting for devicePixelRatio)
+        const pixelRatio = this.renderer.getPixelRatio();
         this.uniforms.iResolution.value.set(
-            this.options.width,
-            this.options.height,
+            this.options.width * pixelRatio,
+            this.options.height * pixelRatio,
             1
         );
     }
@@ -148,8 +149,9 @@ void main() {
 
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = this.options.height - (e.clientY - rect.top);
+            const pixelRatio = this.renderer.getPixelRatio();
+            const x = (e.clientX - rect.left) * pixelRatio;
+            const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
 
             if (this.mousePressed) {
                 this.uniforms.iMouse.value.set(x, y, x, y);
@@ -161,8 +163,9 @@ void main() {
         canvas.addEventListener('mousedown', (e) => {
             this.mousePressed = true;
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = this.options.height - (e.clientY - rect.top);
+            const pixelRatio = this.renderer.getPixelRatio();
+            const x = (e.clientX - rect.left) * pixelRatio;
+            const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
             this.uniforms.iMouse.value.set(x, y, x, y);
         });
 
@@ -183,25 +186,29 @@ void main() {
             return;
         }
 
-        this.gui = new lil.GUI({ container: this.container, autoPlace: false, width: 200 });
+        this.gui = new lil.GUI({
+            container: this.container,
+            autoPlace: false,
+            width: 160  // Smaller width
+        });
 
-        // Position in lower left and make transparent
+        // Position in lower left and make transparent and compact
         this.gui.domElement.style.position = 'absolute';
         this.gui.domElement.style.bottom = '10px';
         this.gui.domElement.style.left = '10px';
         this.gui.domElement.style.top = 'auto';
         this.gui.domElement.style.right = 'auto';
         this.gui.domElement.style.zIndex = '1000';
-        this.gui.domElement.style.opacity = '0.7';
-        this.gui.domElement.style.fontSize = '11px';
+        this.gui.domElement.style.opacity = '0.8';
+        this.gui.domElement.style.fontSize = '10px';
 
         this.container.appendChild(this.gui.domElement);
 
         // Add parameter controls based on shader ID
         this.addShaderSpecificControls();
 
-        // Add common controls
-        this.gui.add(this.parameters, 'paused').name('Pause').onChange((value) => {
+        // Add pause control
+        this.gui.add(this.parameters, 'paused').name('⏸ Pause').onChange((value) => {
             if (!value) {
                 this.lastTime = performance.now();
             }
@@ -210,16 +217,21 @@ void main() {
 
     addShaderSpecificControls() {
         // Shader-specific controls based on original Shadertoy sliders
-        // readFloat returns 0-1, so we map parameters accordingly
+        // Use dropdowns for mode selection, sliders for continuous values
         switch(this.shaderId) {
             case 'DssczX': // Two-body field - viz = int(readFloat(1.) * 5.)
-                this.parameters.visualization = 0.8; // 4/5
-                this.uniforms.iParam1.value = this.parameters.visualization * 5.0;
-                this.gui.add(this.parameters, 'visualization', 0, 1, 0.2)
-                    .name('Visualization')
-                    .onChange((value) => {
-                        this.uniforms.iParam1.value = value * 5.0;
-                    });
+                this.parameters.visualizationMode = 'Two-body field';
+                this.uniforms.iParam1.value = 4.0;
+
+                this.gui.add(this.parameters, 'visualizationMode', {
+                    'Shapes': 0,
+                    'Clearance': 1,
+                    'Midsurface': 2,
+                    'Both': 3,
+                    'Two-body field': 4
+                }).name('Mode').onChange((value) => {
+                    this.uniforms.iParam1.value = parseFloat(value);
+                });
                 break;
 
             case 'dd2cWy': // Rhombus gradient - angledot = readFloat(2.) - 0.5 + 0.1 * sin(iTime)
@@ -233,67 +245,75 @@ void main() {
                 break;
 
             case 'cs2cW3': // Apollonian circles
-                // offset = readFloat(0.)
                 this.parameters.wiggle = 0.2;
                 this.uniforms.iParam1.value = this.parameters.wiggle;
 
-                // viz = int(readFloat(1.) * 2.)
-                this.parameters.visualization = 0;
-                this.uniforms.iParam2.value = this.parameters.visualization * 2.0;
+                this.parameters.visualizationMode = 'Circles';
+                this.uniforms.iParam2.value = 0;
 
                 this.gui.add(this.parameters, 'wiggle', 0, 1, 0.01)
                     .name('Wiggle')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
                     });
-                this.gui.add(this.parameters, 'visualization', 0, 1, 0.5)
-                    .name('Visualization')
-                    .onChange((value) => {
-                        this.uniforms.iParam2.value = value * 2.0;
-                    });
+                this.gui.add(this.parameters, 'visualizationMode', {
+                    'Circles': 0,
+                    'Lines': 2
+                }).name('Mode').onChange((value) => {
+                    this.uniforms.iParam2.value = parseFloat(value);
+                });
                 break;
 
             case 'mtKfWz': // Rotational derivative
-                // wobble = readFloat(0.)
                 this.parameters.wobble = 0.5;
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
-                // shapeIndex = int(readFloat(1.) * 3.)
-                this.parameters.shape = 0;
-                this.uniforms.iParam2.value = this.parameters.shape / 3.0;
+                this.parameters.shapeMode = 'Rectangle';
+                this.uniforms.iParam2.value = 0;
 
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
                     });
-                this.gui.add(this.parameters, 'shape', 0, 2, 1)
-                    .name('Shape')
-                    .onChange((value) => {
-                        this.uniforms.iParam2.value = value / 3.0;
-                    });
+                this.gui.add(this.parameters, 'shapeMode', {
+                    'Rectangle': 0,
+                    'Circle': 1,
+                    'Plane': 2
+                }).name('Shape').onChange((value) => {
+                    this.uniforms.iParam2.value = parseFloat(value) / 3.0;
+                });
                 break;
 
             case 'clV3Rz': // Field notation - placeholder
             case 'dtVGRd':
-                this.gui.add(this.parameters, 'visualization', 0, 1, 0.2)
-                    .name('Mode')
-                    .onChange((value) => {
-                        this.uniforms.iParam1.value = value * 5.0;
-                    });
+                this.parameters.visualizationMode = 'Mode 0';
+                this.gui.add(this.parameters, 'visualizationMode', {
+                    'Mode 0': 0,
+                    'Mode 1': 1,
+                    'Mode 2': 2,
+                    'Mode 3': 3,
+                    'Mode 4': 4
+                }).name('Mode').onChange((value) => {
+                    this.uniforms.iParam1.value = parseFloat(value);
+                });
                 break;
 
             case '4f2XzW': // Differential engineering - placeholder
-                this.gui.add(this.parameters, 'visualization', 0, 1, 0.25)
-                    .name('Mode')
-                    .onChange((value) => {
-                        this.uniforms.iParam1.value = value * 4.0;
-                    });
+                this.parameters.visualizationMode = 'Field';
+                this.gui.add(this.parameters, 'visualizationMode', {
+                    'Field': 0,
+                    'Grad X': 1,
+                    'Grad Y': 2,
+                    'Grad Mag': 3
+                }).name('Mode').onChange((value) => {
+                    this.uniforms.iParam1.value = parseFloat(value);
+                });
                 break;
 
             default:
                 // Generic slider
-                this.gui.add(this.parameters, 'visualization', 0, 1, 0.1)
+                this.gui.add(this.parameters, 'wiggle', 0, 1, 0.1)
                     .name('Parameter')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
@@ -306,7 +326,14 @@ void main() {
         const height = this.container.clientHeight || 450;
 
         this.renderer.setSize(width, height);
-        this.uniforms.iResolution.value.set(width, height, 1);
+
+        // Update resolution with devicePixelRatio
+        const pixelRatio = this.renderer.getPixelRatio();
+        this.uniforms.iResolution.value.set(
+            width * pixelRatio,
+            height * pixelRatio,
+            1
+        );
     }
 
     animate() {
