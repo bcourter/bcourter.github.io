@@ -3,10 +3,6 @@
 // Shadertoy: https://www.shadertoy.com/view/clV3Rz
 // Description: A sharp minmax intersection versus a true SDF intersection of two planes and their offset. All of the cases are UGFs (have unit gradient magnitude).  The SDF and UGF differ only in the normal cone of the original intersection.
 
-uniform float iParam1;
-uniform float iParam2;
-uniform float iParam3;
-
 // ===== Common Code =====
 
 

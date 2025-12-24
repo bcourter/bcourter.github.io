@@ -3,9 +3,6 @@
 // Shadertoy: https://www.shadertoy.com/view/4f2XzW
 // Description: Let's look at the derivatives of a rectangle.  In the SDF of the rectangle, we color by averaging in binary operations like sum, illustrating parameter contribution by count.  For the two derivatives, red is zero and blue is one.
 
-uniform float iParam1;
-uniform float iParam2;
-
 // ===== Common Code =====
 
 

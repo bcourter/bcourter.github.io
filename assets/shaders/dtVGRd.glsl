@@ -3,10 +3,6 @@
 // Shadertoy: https://www.shadertoy.com/view/dtVGRd
 // Description: A comparison of blending techniques. Full post here: https://www.blakecourter.com/2023/05/18/field-notation.html
 
-uniform float iParam1;
-uniform float iParam2;
-uniform float iParam3;
-
 // ===== Common Code =====
 
 
