@@ -149,15 +149,15 @@ void main() {
         const canvas = this.renderer.domElement;
 
         canvas.addEventListener('mousemove', (e) => {
-            // Only update mouse position after first click (Shadertoy behavior)
-            if (!this.mouseEverClicked) return;
+            // Only update mouse position while button is pressed (Shadertoy behavior)
+            if (!this.mousePressed) return;
 
             const rect = canvas.getBoundingClientRect();
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
             const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
 
-            // Update current position (xy), keep click position (zw) unchanged
+            // Update current position while dragging
             this.uniforms.iMouse.value.x = x;
             this.uniforms.iMouse.value.y = y;
         });
