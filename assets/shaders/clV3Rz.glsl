@@ -253,6 +253,8 @@ vec2 center = vec2(0.0);
 float offset = 0.0;
 vec2 direction = vec2(1.0, 1.0);
 bool isSDF = false;
+vec2 mouse = vec2(-180.0, 250.0);
+vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
 
@@ -352,16 +354,36 @@ vec4 drawArrow(vec2 p, vec2 mouse, vec4 opColor) {
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
-    
+
     offset = -iParam1 * 400.0 + 200.0;
     float angle = (-0.5 + iParam3) * pi;
     direction = vec2(cos(angle), sin(angle));
     isSDF = iParam2 > 0.5;
-    
-    vec2 p = (fragCoord - 0.5 * iResolution.xy); // * iResolution.xy;
-    
-    
-    
+
+    vec2 p = (fragCoord - 0.5 * iResolution.xy);
+
+    if (iMouse.x > bounds.x + bounds.z + 20.0 || iMouse.y > bounds.y + bounds.w + 20.0)
+        mouse = iMouse.xy - 0.5 * iResolution.xy;
+
+    vec3 p3 = vec3(p, 0.0);
+
+    Implicit a = Plane(p, center, vec2(0.0, 1.0), vec4(1.0, 0.0, 0.0, 1.0));
+    Implicit b = Plane(p, center, direction, vec4(0.0, 0.0, 1.0, 1.0));
+    Implicit abOrig = Max(a, b);
+    Implicit aNorm = Plane(p, center, vec2(a.Gradient.y, -a.Gradient.x), a.Color);
+    Implicit bNorm = Plane(p, center, vec2(-b.Gradient.y, b.Gradient.x), b.Color);
+
+    Implicit op = shape(p);
+
+    // normal cone
+    if (min(aNorm.Distance, bNorm.Distance) > 0.)
+        opColor = vec4(0.9, 1., 0.9, 1.);
+
+    if (abOrig.Distance > 0.0) {
+        opColor = drawLine(aNorm, opColor);
+        opColor = drawLine(bNorm, opColor);
+    }
+
     //detail
     opColor = drawImplicit(op, opColor);
 

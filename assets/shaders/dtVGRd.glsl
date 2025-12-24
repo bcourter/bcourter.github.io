@@ -310,6 +310,8 @@ vec2 center = vec2(0.0);
 float offset = 0.0;
 vec2 direction = vec2(1.0, 1.0);
 int blend = 0;
+vec2 mouse = vec2(-180.0, 250.0);
+vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
 
@@ -419,19 +421,35 @@ vec4 drawArrow(vec2 p, vec2 mouse, vec4 opColor) {
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
-    
+
     offset = -iParam1 * 400.0 + 200.0;
     float angle = (-0.5 + iParam3) * pi;
     direction = vec2(cos(angle), sin(angle));
     blend = int(iParam2 * 6.);
-    
-    vec2 p = (fragCoord - 0.5 * iResolution.xy); // * iResolution.xy;
-    
-    
-    
+
+    vec2 p = (fragCoord - 0.5 * iResolution.xy);
+
+    if (iMouse.x > bounds.x + bounds.z + 20.0 || iMouse.y > bounds.y + bounds.w + 20.0)
+        mouse = iMouse.xy - 0.5 * iResolution.xy;
+
+    vec3 p3 = vec3(p, 0.0);
+
+    Implicit a = Plane(p, center, vec2(0.0, 1.0), vec4(1.0, 0.0, 0.0, 1.0));
+    Implicit b = Plane(p, center, direction, vec4(0.0, 0.0, 1.0, 1.0));
+    Implicit abOrig = Max(a, b);
+    Implicit aNorm = Plane(p, center, vec2(a.Gradient.y, -a.Gradient.x), a.Color);
+    Implicit bNorm = Plane(p, center, vec2(-b.Gradient.y, b.Gradient.x), b.Color);
+
+    Implicit op = shape(p);
+    opColor = drawImplicit(op, opColor);
+
+    opColor = drawLine(a, opColor);
+    opColor = drawLine(b, opColor);
+
+    opColor = drawLine(aNorm, opColor);
+    opColor = drawLine(bNorm, opColor);
+
     vec2 newCenter = center - offset * normalize(a.Gradient + b.Gradient).xy / cos(0.5 * acos(dot(a.Gradient, b.Gradient)));
-    
-  
 
     Implicit diff = Divide(Subtract(a, b), length(a.Gradient - b.Gradient));
     diff.Color.a *= 0.5;

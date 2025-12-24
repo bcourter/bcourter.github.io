@@ -422,6 +422,8 @@ float pi = 3.1415926535;
 vec2 center = vec2(0.0);
 float wobble = 0.0;
 int shapeIndex = 0;
+vec2 mouse = vec2(0.0);
+vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // siders
 
@@ -482,32 +484,43 @@ vec4 drawFill(Implicit a, vec4 opColor) {
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
-    
-    wobble = iParam1; 
+
+    wobble = iParam1;
     shapeIndex = int(iParam2 * 3.);
-    
-    vec2 p = (fragCoord - 0.5 * iResolution.xy); // * iResolution.xy;
-     else {
+
+    vec2 p = (fragCoord - 0.5 * iResolution.xy);
+    if (iMouse.x > bounds.x + bounds.z + 20.0 || iMouse.y > bounds.y + (bounds.w + 20.0) * 3.0)
+        mouse = iMouse.xy - 0.5 * iResolution.xy;
+    else
+        mouse = shapeIndex == 0 ? vec2(0.0) : vec2(iResolution.x * 0.5, 0.0);
+
+    if (iMouse.xy == vec2(0.0))
+        mouse = vec2(0.0);
+
+    vec3 p3 = vec3(p, 0.0);
+
+    Implicit shape, XPlane, YPlane, shape_x, shape_y, spur;
+    shape = Shape(p, wobble, iResolution.x, iTime, XPlane, YPlane, shape_x, shape_y, spur);
+
+    if (shapeIndex == 0) {
+        opColor = colorImplicit(shape, opColor);
+    } else {
         shape.Color.a = 0.4;
         opColor = strokeImplicit(shape, widthThin, opColor);
-        
+
         if (shapeIndex == 1){
             opColor = colorDerivative(shape_x, opColor);
         } else {
             opColor = colorDerivative(shape_y, opColor);
         }
-        
-        opColor = strokeImplicit(Min(XPlane, YPlane), widthThin * 1.2, opColor);  // df on both sides to prevent flutter
+
+        opColor = strokeImplicit(Min(XPlane, YPlane), widthThin * 1.2, opColor);
     }
-    
-    
+
     // medial axis
-    if (shape.Distance < 0.0) 
+    if (shape.Distance < 0.0)
         opColor = strokeImplicit(spur, widthThin, opColor);
-    
-    
-    
-    
+
     fragColor = opColor;
 }
 
