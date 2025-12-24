@@ -61,35 +61,30 @@ curl "https://www.shadertoy.com/api/v1/shaders/DssczX?key=YOUR_KEY" | jq -r '.Sh
 
 ## Current Status
 
-### Real Shaders (Dec 24, 2024) ✅
-Five shaders have been updated with **real code**:
-- `DssczX.glsl` - Two-Body Field (works perfectly with dropdown controls) - from JSON
-- `dd2cWy.glsl` - Rhombus Gradient Field (works perfectly with angle slider) - from JSON
-- `cs2cW3.glsl` - Apollonian Circles (works perfectly with wiggle + mode dropdown) - from JSON
-- `mtKfWz.glsl` - Rotational Derivative (works perfectly with wobble + shape dropdown) - from JSON
-- `MdXSWn.glsl` - Mandelbulb Fractal by evilryu (pure animation, no controls needed) - from user
+### Real Shaders - All Complete! ✅ (Dec 24, 2024)
+All eight blog shaders have been updated with **real code**:
 
-These shaders include:
-- Full Common code with Implicit struct and UGF operations
-- Adapted Image code using `iParam1-4` uniforms instead of Buffer A sliders
-- Shadertoy-accurate mouse behavior (iMouse.xy=position, iMouse.zw=click with sign for button state)
-- Auto-sizing, transparent GUI panel in lower left
-- Proper high-DPI/4K support with devicePixelRatio
+**From original JSON dump:**
+- `DssczX.glsl` - Two-Body Field (dropdown: 5 visualization modes)
+- `dd2cWy.glsl` - Rhombus Gradient Field (slider: angle)
+- `cs2cW3.glsl` - Apollonian Circles (slider: wiggle + dropdown: circles/lines)
+- `mtKfWz.glsl` - Rotational Derivative (slider: wobble + dropdown: 3 shapes)
 
-### Placeholder Shaders ⚠️
-The following shaders are **NOT in shaders_public.json** and need real code:
-- `clV3Rz.glsl` - UGF Field Notation (Plane Intersection)
-- `dtVGRd.glsl` - Boolean Operations Comparison
-- `4f2XzW.glsl` - Rectangle SDF with Derivatives
+**From updated JSON dump:**
+- `clV3Rz.glsl` - UGF Intersection (slider: offset + toggle: SDF mode + slider: angle)
+- `dtVGRd.glsl` - UGF and Traditional Blends (slider: offset + dropdown: 7 blend modes + slider: angle)
+- `4f2XzW.glsl` - Derivatives of Rectangle (slider: wobble + dropdown: 4 derivative modes)
 
-**To add real code for these shaders:**
-1. Visit Shadertoy page (e.g., https://www.shadertoy.com/view/clV3Rz)
-2. Log in and view the shader source
-3. Copy the Common tab code (if any) and Image tab code
-4. Replace the placeholder content in the corresponding `.glsl` file
-5. Update GUI controls in `/assets/js/shadertoy-viewer.js` if needed
+**From user:**
+- `MdXSWn.glsl` - Mandelbulb Fractal by evilryu (pure animation, no controls)
 
-**Note:** Shadertoy blocks automated scraping with CAPTCHA (403 errors), so these must be manually copied.
+All shaders feature:
+- ✓ Full Common code with Implicit struct and UGF operations
+- ✓ Adapted Image code using `iParam1-4` uniforms instead of Buffer A sliders
+- ✓ Shadertoy-accurate mouse behavior (iMouse.xy=position, iMouse.zw=click with sign for button state)
+- ✓ Auto-sizing, transparent GUI panel in lower left
+- ✓ Proper high-DPI/4K support with devicePixelRatio
+- ✓ Appropriate controls (dropdowns for modes, sliders for continuous values, toggles for booleans)
 
 ## Adding New Shaders
 

@@ -299,29 +299,85 @@ void main() {
                 });
                 break;
 
-            case 'clV3Rz': // Field notation - placeholder
-            case 'dtVGRd':
-                this.parameters.visualizationMode = 'Mode 0';
-                this.gui.add(this.parameters, 'visualizationMode', {
-                    'Mode 0': 0,
-                    'Mode 1': 1,
-                    'Mode 2': 2,
-                    'Mode 3': 3,
-                    'Mode 4': 4
-                }).name('Mode').onChange((value) => {
-                    this.uniforms.iParam1.value = parseFloat(value);
-                });
+            case 'clV3Rz': // UGF Intersection - offset: -iParam1*400+200, SDF: iParam2>0.5, angle: (-0.5+iParam3)*π
+                this.parameters.offset = 0.5;
+                this.uniforms.iParam1.value = 0.5;
+
+                this.parameters.isSDF = false;
+                this.uniforms.iParam2.value = 0.0;
+
+                this.parameters.angle = 0.75;
+                this.uniforms.iParam3.value = 0.75;
+
+                this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
+                    .name('Offset')
+                    .onChange((value) => {
+                        this.uniforms.iParam1.value = value;
+                    });
+                this.gui.add(this.parameters, 'isSDF')
+                    .name('SDF Mode')
+                    .onChange((value) => {
+                        this.uniforms.iParam2.value = value ? 1.0 : 0.0;
+                    });
+                this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
+                    .name('Angle')
+                    .onChange((value) => {
+                        this.uniforms.iParam3.value = value;
+                    });
                 break;
 
-            case '4f2XzW': // Differential engineering - placeholder
-                this.parameters.visualizationMode = 'Field';
-                this.gui.add(this.parameters, 'visualizationMode', {
-                    'Field': 0,
-                    'Grad X': 1,
-                    'Grad Y': 2,
-                    'Grad Mag': 3
+            case 'dtVGRd': // UGF and Traditional Blends - offset, blend mode 0-6, angle
+                this.parameters.offset = 0.5;
+                this.uniforms.iParam1.value = 0.5;
+
+                this.parameters.blendMode = 'Min/Max';
+                this.uniforms.iParam2.value = 0.0;
+
+                this.parameters.angle = 0.75;
+                this.uniforms.iParam3.value = 0.75;
+
+                this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
+                    .name('Offset')
+                    .onChange((value) => {
+                        this.uniforms.iParam1.value = value;
+                    });
+                this.gui.add(this.parameters, 'blendMode', {
+                    'Min/Max': 0.000,
+                    'Distance': 0.167,
+                    'Euclidean': 0.333,
+                    'Mode 3': 0.500,
+                    'Mode 4': 0.667,
+                    'Mode 5': 0.833,
+                    'Mode 6': 1.000
+                }).name('Blend').onChange((value) => {
+                    this.uniforms.iParam2.value = parseFloat(value);
+                });
+                this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
+                    .name('Angle')
+                    .onChange((value) => {
+                        this.uniforms.iParam3.value = value;
+                    });
+                break;
+
+            case '4f2XzW': // Derivatives of Rectangle - wobble, shape 0-3
+                this.parameters.wobble = 0.0;
+                this.uniforms.iParam1.value = 0.0;
+
+                this.parameters.derivMode = 'Field';
+                this.uniforms.iParam2.value = 0.0;
+
+                this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
+                    .name('Wobble')
+                    .onChange((value) => {
+                        this.uniforms.iParam1.value = value;
+                    });
+                this.gui.add(this.parameters, 'derivMode', {
+                    'Field': 0.000,
+                    'Grad X': 0.333,
+                    'Grad Y': 0.667,
+                    'Grad Mag': 1.000
                 }).name('Mode').onChange((value) => {
-                    this.uniforms.iParam1.value = parseFloat(value);
+                    this.uniforms.iParam2.value = parseFloat(value);
                 });
                 break;
 
