@@ -48,6 +48,7 @@ class ShadertoyViewer {
         };
 
         this.mousePressed = false;
+        this.mouseEverClicked = false;
         this.lastTime = 0;
         this.frameCount = 0;
 
@@ -148,6 +149,9 @@ void main() {
         const canvas = this.renderer.domElement;
 
         canvas.addEventListener('mousemove', (e) => {
+            // Only update mouse position after first click (Shadertoy behavior)
+            if (!this.mouseEverClicked) return;
+
             const rect = canvas.getBoundingClientRect();
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
@@ -160,6 +164,7 @@ void main() {
 
         canvas.addEventListener('mousedown', (e) => {
             this.mousePressed = true;
+            this.mouseEverClicked = true;
             const rect = canvas.getBoundingClientRect();
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
