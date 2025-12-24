@@ -304,25 +304,25 @@ void main() {
                 });
                 break;
 
-            case 'clV3Rz': // UGF Intersection - offset: -iParam1*400+200, SDF: iParam2>0.5, angle: (-0.5+iParam3)*π
-                this.parameters.offset = 0.5;
-                this.uniforms.iParam1.value = 0.5;
-
+            case 'clV3Rz': // UGF Intersection - Buffer A order: SDF(1), Offset(0), Angle(2)
                 this.parameters.isSDF = false;
                 this.uniforms.iParam2.value = 0.0;
+
+                this.parameters.offset = 0.5;
+                this.uniforms.iParam1.value = 0.5;
 
                 this.parameters.angle = 0.75;
                 this.uniforms.iParam3.value = 0.75;
 
+                this.gui.add(this.parameters, 'isSDF')
+                    .name('SDF')
+                    .onChange((value) => {
+                        this.uniforms.iParam2.value = value ? 1.0 : 0.0;
+                    });
                 this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
                     .name('Offset')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
-                    });
-                this.gui.add(this.parameters, 'isSDF')
-                    .name('SDF Mode')
-                    .onChange((value) => {
-                        this.uniforms.iParam2.value = value ? 1.0 : 0.0;
                     });
                 this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
                     .name('Angle')
@@ -331,21 +331,16 @@ void main() {
                     });
                 break;
 
-            case 'dtVGRd': // UGF and Traditional Blends - offset, blend mode 0-6, angle
-                this.parameters.offset = 0.5;
-                this.uniforms.iParam1.value = 0.5;
-
+            case 'dtVGRd': // UGF and Traditional Blends - Buffer A order: Blend(1), Offset(0), Angle(2)
                 this.parameters.blendMode = 'Min/Max';
                 this.uniforms.iParam2.value = 0.0;
+
+                this.parameters.offset = 0.5;
+                this.uniforms.iParam1.value = 0.5;
 
                 this.parameters.angle = 0.75;
                 this.uniforms.iParam3.value = 0.75;
 
-                this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
-                    .name('Offset')
-                    .onChange((value) => {
-                        this.uniforms.iParam1.value = value;
-                    });
                 this.gui.add(this.parameters, 'blendMode', {
                     'Min/Max': 0.000,
                     'Distance': 0.167,
@@ -354,9 +349,14 @@ void main() {
                     'Mode 4': 0.667,
                     'Mode 5': 0.833,
                     'Mode 6': 1.000
-                }).name('Blend').onChange((value) => {
+                }).name('Blend Type').onChange((value) => {
                     this.uniforms.iParam2.value = parseFloat(value);
                 });
+                this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
+                    .name('Offset')
+                    .onChange((value) => {
+                        this.uniforms.iParam1.value = value;
+                    });
                 this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
                     .name('Angle')
                     .onChange((value) => {
@@ -364,26 +364,25 @@ void main() {
                     });
                 break;
 
-            case '4f2XzW': // Derivatives of Rectangle - wobble, shape 0-3
+            case '4f2XzW': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
+                this.parameters.shapeMode = 'Field';
+                this.uniforms.iParam2.value = 0.0;
+
                 this.parameters.wobble = 0.0;
                 this.uniforms.iParam1.value = 0.0;
 
-                this.parameters.derivMode = 'Field';
-                this.uniforms.iParam2.value = 0.0;
-
+                this.gui.add(this.parameters, 'shapeMode', {
+                    'Field': 0.000,
+                    'Grad X': 0.333,
+                    'Grad Y': 0.667
+                }).name('Shape').onChange((value) => {
+                    this.uniforms.iParam2.value = parseFloat(value);
+                });
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
                     .onChange((value) => {
                         this.uniforms.iParam1.value = value;
                     });
-                this.gui.add(this.parameters, 'derivMode', {
-                    'Field': 0.000,
-                    'Grad X': 0.333,
-                    'Grad Y': 0.667,
-                    'Grad Mag': 1.000
-                }).name('Mode').onChange((value) => {
-                    this.uniforms.iParam2.value = parseFloat(value);
-                });
                 break;
 
             default:
