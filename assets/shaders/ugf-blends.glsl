@@ -84,8 +84,8 @@ Implicit shape(vec2 p){
         return Add(IntersectionEuclidean(a, b, 0.0), offset);        
         
     // IQ Blend
-    if (blend == 2)
-        return Add(IntersectionSmooth(a, b, 0.), offset);
+    // if (blend == 2)
+    //     return Add(IntersectionSmooth(a, b, 0.), offset);
         
     // Rvachev Blend
     if (blend == 3)
@@ -101,7 +101,7 @@ Implicit shape(vec2 p){
     Implicit normalCone = Min(aNorm, bNorm);
 
     // DF-based intersection
-    if (blend == 0 && normalCone.Distance > 0.0)
+    if (blend == 2 && normalCone.Distance > 0.0)
         minmax = Circle(p, center, 0.0, 0.5 * (a.Color + b.Color));
         
         

@@ -461,11 +461,11 @@ void main() {
                 this.uniforms.iParam3.value = 0.75;
 
                 this.gui.add(this.parameters, 'blendMode', {
-                    'Max': 0.000,           // blend 0: Max (piecewise with Circle in normal cone)
-                    'Euclidean': 0.167,     // blend 1: IntersectionEuclidean
-                    'Smooth': 0.333,        // blend 2: IntersectionSmooth
-                    'Rvachev': 0.500,       // blend 3: IntersectionRvachev
-                    'Exponential': 0.667    // blend 4: IntersectionSmoothExp
+                    'Max': 0,           // blend 0: Max (piecewise with Circle in normal cone)
+                    'Euclidean': 1,     // blend 1: IntersectionEuclidean
+                    'Distance': 2,        // blend 2: IntersectionSmooth
+                    'Rvachev': 3,       // blend 3: IntersectionRvachev
+                    'Exponential': 4    // blend 4: IntersectionSmoothExp
                 }).name('Blend Type').onChange((value) => {
                     this.uniforms.iParam2.value = parseFloat(value);
                 });
