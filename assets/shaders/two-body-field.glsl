@@ -1,5 +1,5 @@
-// Original Shadertoy: https://www.shadertoy.com/view/DssczX
-// Adapted for standalone viewer from shaders_public.json
+// Shader: Two-Body Field
+// Adapted for standalone viewer
 
 // ===== Common Code =====
 vec4 bounds = vec4(30,70,160,18);

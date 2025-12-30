@@ -1,5 +1,5 @@
-// Original Shadertoy: https://www.shadertoy.com/view/cs2cW3
-// Adapted for standalone viewer from shaders_public.json
+// Shader: Apollonian Circles
+// Adapted for standalone viewer
 
 // ===== Common Code =====
 vec4 bounds = vec4(30,100,160,18);

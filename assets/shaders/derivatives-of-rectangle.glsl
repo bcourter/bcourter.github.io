@@ -1,6 +1,5 @@
 // Shader: Derivatives of Rectangle
 // Author: bcourter
-// Shadertoy: https://www.shadertoy.com/view/4f2XzW
 // Description: Let's look at the derivatives of a rectangle.  In the SDF of the rectangle, we color by averaging in binary operations like sum, illustrating parameter contribution by count.  For the two derivatives, red is zero and blue is one.
 
 // ===== Shader-Specific Code =====
@@ -241,9 +240,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         if (shapeIndex == 0) {
             hoverValue = mouseShape.Distance / bandWidth;
         } else if (shapeIndex == 1) {
-            hoverValue = mouseShape_x.Distance;
+            hoverValue = mouseShape_y.Distance;  // Grad X uses Y derivative
         } else {
-            hoverValue = mouseShape_y.Distance;
+            hoverValue = mouseShape_x.Distance;  // Grad Y uses X derivative
         }
 
         // Calculate text scale based on resolution (matches display pixel ratio)
@@ -260,7 +259,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         int decimals = (shapeIndex == 0) ? 1 : 2;
         float text = printFloat(fragCoord, textPos, hoverValue, textScale, decimals);
         if (text > 0.5) {
-            opColor = mix(opColor, colorBlack, 1.0);
+            opColor = vec4(1.0, 1.0, 1.0, 1.0);
         }
     }
 

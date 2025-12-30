@@ -1,6 +1,5 @@
 // Shader: UGF and Traditional Blends
 // Author: bcourter
-// Shadertoy: https://www.shadertoy.com/view/dtVGRd
 // Description: A comparison of blending techniques. Full post here: https://www.blakecourter.com/2023/05/18/field-notation.html
 
 // ===== Common Code =====
@@ -198,7 +197,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         // Draw white text on top
         float text = printFloat(fragCoord, textPos, hoverValue, textScale);
         if (text > 0.5) {
-            opColor = vec4(1.0);
+            opColor = vec4(1.0, 1.0, 1.0, 1.0);
         }
     }
 

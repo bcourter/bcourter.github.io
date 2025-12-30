@@ -1,5 +1,4 @@
-// Mandelbulb Fractal
-// Original Shadertoy: https://www.shadertoy.com/view/MdXSWn
+// Shader: Mandelbulb Fractal
 // Created by evilryu
 // License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
 

@@ -1,4 +1,4 @@
-// Original Shadertoy: https://www.shadertoy.com/view/mtKfWz
+// Shader: Rotational Derivative
 // Adapted for standalone viewer from shaders_public.json
 
 // ===== Common Code =====

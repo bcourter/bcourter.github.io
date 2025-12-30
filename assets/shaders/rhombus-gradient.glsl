@@ -1,4 +1,4 @@
-// Original Shadertoy: https://www.shadertoy.com/view/dd2cWy
+// Shader: Rhombus Gradient
 // Adapted for standalone viewer from shaders_public.json
 
 // ===== Common Code =====
