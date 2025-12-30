@@ -62,7 +62,10 @@ class ShadertoyViewer {
         await this.loadShader();
         this.setupRenderer();
         this.setupScene();
-        this.setupHoverText();
+        // Hover text now rendered in shader for 4f2XzW
+        if (this.shaderId !== '4f2XzW') {
+            this.setupHoverText();
+        }
         this.setupEventListeners();
         if (this.options.showGui) {
             this.setupGUI();
@@ -202,8 +205,8 @@ void main() {
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
 
-            // Show hover text with distance value
-            if (this.hoverText) {
+            // Show hover text with distance value (for shaders that don't render it themselves)
+            if (this.hoverText && this.shaderId !== '4f2XzW') {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
                 this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';

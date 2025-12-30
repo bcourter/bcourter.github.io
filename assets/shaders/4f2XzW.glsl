@@ -425,7 +425,68 @@ int shapeIndex = 0;
 vec2 mouse = vec2(0.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
-// siders
+// Text rendering - bitmap font for digits
+float digit(vec2 p, int d) {
+    // 4x5 bitmap font for digits 0-9
+    p = floor(p);
+    if (p.x < 0.0 || p.x >= 4.0 || p.y < 0.0 || p.y >= 5.0) return 0.0;
+
+    int i = int(p.x) + int(p.y) * 4;
+
+    // Bitmaps stored as integers (each row is 4 bits)
+    int bits[10];
+    bits[0] = 0x6996; // 0
+    bits[1] = 0x2262; // 1
+    bits[2] = 0xE9E9; // 2
+    bits[3] = 0xE3E9; // 3
+    bits[4] = 0x99F1; // 4
+    bits[5] = 0xF8E9; // 5
+    bits[6] = 0x68E9; // 6
+    bits[7] = 0xE111; // 7
+    bits[8] = 0xE9E9; // 8
+    bits[9] = 0xE9F1; // 9
+
+    return float((bits[d] >> i) & 1);
+}
+
+float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
+    vec2 p = (fragCoord - pos) / scale;
+    float result = 0.0;
+
+    // Handle negative
+    float absValue = abs(value);
+    float offset = 0.0;
+    if (value < 0.0) {
+        // Draw minus sign
+        if (p.x >= 0.0 && p.x < 3.0 && p.y >= 2.0 && p.y < 3.0) result = 1.0;
+        offset = 4.0;
+    }
+
+    // Get integer and decimal parts
+    float intPart = floor(absValue);
+    float decPart = fract(absValue);
+
+    // Draw integer part
+    int numDigits = int(max(1.0, floor(log(max(intPart, 1.0)) / log(10.0)) + 1.0));
+    for (int i = 0; i < 5; i++) {
+        if (i >= numDigits) break;
+        float digitPos = offset + float(numDigits - i - 1) * 5.0;
+        int d = int(mod(intPart / pow(10.0, float(numDigits - i - 1)), 10.0));
+        result = max(result, digit(p - vec2(digitPos, 0.0), d));
+    }
+
+    offset += float(numDigits) * 5.0;
+
+    // Draw decimal point
+    if (p.x >= offset && p.x < offset + 2.0 && p.y >= 0.0 && p.y < 1.0) result = 1.0;
+    offset += 2.0;
+
+    // Draw one decimal digit
+    int dec = int(decPart * 10.0);
+    result = max(result, digit(p - vec2(offset, 0.0), dec));
+
+    return result;
+}
 
 
 
@@ -520,6 +581,15 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // medial axis
     if (shape.Distance < 0.0)
         opColor = strokeImplicit(spur, widthThin, opColor);
+
+    // Draw distance value as text near mouse
+    if (iMouse.xy != vec2(0.0)) {
+        vec2 textPos = iMouse.xy + vec2(15.0, -10.0);
+        float text = printFloat(fragCoord, textPos, shape.Distance, 2.0);
+        if (text > 0.5) {
+            opColor = mix(opColor, vec4(1.0), 0.8);
+        }
+    }
 
     fragColor = opColor;
 }
