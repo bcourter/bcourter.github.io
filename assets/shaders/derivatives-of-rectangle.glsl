@@ -622,16 +622,19 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
             hoverValue = mouseShape_y.Distance;
         }
 
+        // Calculate text scale based on resolution (matches display pixel ratio)
+        float textScale = iResolution.x / 960.0;
+
         vec2 textPos = iMouse.xy + vec2(20.0, -15.0);
 
-        // Draw white circle background first
-        float circle = 1.0 - smoothstep(0.0, 3.0, length(fragCoord - iMouse.xy) - 24.0);
-        opColor = mix(opColor, vec4(1.0), circle * 0.85);
+        // Draw black circle background first
+        float circle = 1.0 - smoothstep(0.0, 3.0, length(fragCoord - iMouse.xy) - 6.0);
+        opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), circle * 0.85);
 
-        // Draw black text on top (8x8 font with scale 3.0)
-        float text = printFloat(fragCoord, textPos, hoverValue, 3.0);
+        // Draw white text on top (8x8 font with dynamic scale)
+        float text = printFloat(fragCoord, textPos, hoverValue, textScale);
         if (text > 0.5) {
-            opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 1.0);
+            opColor = mix(opColor, vec4(1.0), 1.0);
         }
     }
 
