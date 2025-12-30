@@ -584,16 +584,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // Draw distance value as text near mouse
     if (iMouse.xy != vec2(0.0)) {
-        vec2 textPos = iMouse.xy + vec2(15.0, -10.0);
+        vec2 textPos = iMouse.xy + vec2(20.0, -15.0);
 
-        // Draw white circle background first
-        float circle = 1.0 - smoothstep(0.0, 2.0, length(fragCoord - iMouse.xy) - 8.0);
-        opColor = mix(opColor, vec4(1.0), circle * 0.7);
+        // Draw white circle background first (larger)
+        float circle = 1.0 - smoothstep(0.0, 3.0, length(fragCoord - iMouse.xy) - 20.0);
+        opColor = mix(opColor, vec4(1.0), circle * 0.8);
 
-        // Draw black text on top
-        float text = printFloat(fragCoord, textPos, shape.Distance, 2.0);
+        // Draw black text on top (scale 4.0 for better legibility)
+        float text = printFloat(fragCoord, textPos, shape.Distance, 4.0);
         if (text > 0.5) {
-            opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 0.9);
+            opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 1.0);
         }
     }
 
