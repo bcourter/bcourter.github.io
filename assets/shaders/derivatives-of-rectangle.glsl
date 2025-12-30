@@ -607,6 +607,21 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // Draw distance value as text near mouse
     if (iMouse.xy != vec2(0.0)) {
+        // Calculate shape at MOUSE position, not current pixel position
+        vec2 mouseP = iMouse.xy - 0.5 * iResolution.xy;
+        Implicit mouseShape, mouseXPlane, mouseYPlane, mouseShape_x, mouseShape_y, mouseSpur;
+        mouseShape = Shape(mouseP, wobble, iResolution.x, iTime, mouseXPlane, mouseYPlane, mouseShape_x, mouseShape_y, mouseSpur);
+
+        // Get the distance value at mouse position
+        float hoverValue;
+        if (shapeIndex == 0) {
+            hoverValue = mouseShape.Distance / bandWidth;
+        } else if (shapeIndex == 1) {
+            hoverValue = mouseShape_x.Distance;
+        } else {
+            hoverValue = mouseShape_y.Distance;
+        }
+
         vec2 textPos = iMouse.xy + vec2(20.0, -15.0);
 
         // Draw white circle background first
@@ -614,7 +629,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         opColor = mix(opColor, vec4(1.0), circle * 0.85);
 
         // Draw black text on top (8x8 font with scale 3.0)
-        float text = printFloat(fragCoord, textPos, shape.Distance, 3.0);
+        float text = printFloat(fragCoord, textPos, hoverValue, 3.0);
         if (text > 0.5) {
             opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 1.0);
         }
