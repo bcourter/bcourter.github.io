@@ -425,65 +425,79 @@ int shapeIndex = 0;
 vec2 mouse = vec2(0.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
-// Text rendering - bitmap font for digits
-float digit(vec2 p, int d) {
-    // 4x5 bitmap font for digits 0-9
-    p = floor(p);
-    if (p.x < 0.0 || p.x >= 4.0 || p.y < 0.0 || p.y >= 5.0) return 0.0;
+// 8x8 font rendering - cleaner array-based approach
+// Returns 1.0 if pixel is part of character, 0.0 otherwise
+float char8x8(vec2 p, int b1, int b2, int b3, int b4) {
+    if (p.x < 0.0 || p.x >= 8.0 || p.y < 0.0 || p.y >= 8.0) return 0.0;
 
-    int i = int(p.x) + int(p.y) * 4;
+    vec2 pf = floor(8.0 - p);
+    int row = int(pf.y / 2.0);
+    int bin = (row == 0) ? b1 : (row == 1) ? b2 : (row == 2) ? b3 : b4;
 
-    // Bitmaps stored as integers (each row is 4 bits)
-    int bits[10];
-    bits[0] = 0x6996; // 0
-    bits[1] = 0x2262; // 1
-    bits[2] = 0xE9E9; // 2
-    bits[3] = 0xE3E9; // 3
-    bits[4] = 0x99F1; // 4
-    bits[5] = 0xF8E9; // 5
-    bits[6] = 0x68E9; // 6
-    bits[7] = 0xE111; // 7
-    bits[8] = 0xE9E9; // 8
-    bits[9] = 0xE9F1; // 9
+    float xOffset = (int(mod(pf.y, 2.0)) == 0) ? 8.0 : 0.0;
+    return mod(floor(float(bin) / pow(2.0, pf.x + xOffset)), 2.0);
+}
 
-    return float((bits[d] >> i) & 1);
+// Digit bitmaps (0-9) from 8x8 font
+void getDigitBitmap(int digit, out int b1, out int b2, out int b3, out int b4) {
+    if (digit == 0) { b1 = 0x384C; b2 = 0xC6C6; b3 = 0xC664; b4 = 0x3800; }
+    else if (digit == 1) { b1 = 0x1838; b2 = 0x1818; b3 = 0x1818; b4 = 0x7E00; }
+    else if (digit == 2) { b1 = 0x7CC6; b2 = 0x0E3C; b3 = 0x78E0; b4 = 0xFE00; }
+    else if (digit == 3) { b1 = 0x7E0C; b2 = 0x183C; b3 = 0x06C6; b4 = 0x7C00; }
+    else if (digit == 4) { b1 = 0x1C3C; b2 = 0x6CCC; b3 = 0xFE0C; b4 = 0x0C00; }
+    else if (digit == 5) { b1 = 0xFCC0; b2 = 0xFC06; b3 = 0x06C6; b4 = 0x7C00; }
+    else if (digit == 6) { b1 = 0x3C60; b2 = 0xC0FC; b3 = 0xC6C6; b4 = 0x7C00; }
+    else if (digit == 7) { b1 = 0xFEC6; b2 = 0x0C18; b3 = 0x3030; b4 = 0x3000; }
+    else if (digit == 8) { b1 = 0x78C4; b2 = 0xE478; b3 = 0x9E86; b4 = 0x7C00; }
+    else if (digit == 9) { b1 = 0x7CC6; b2 = 0xC67E; b3 = 0x060C; b4 = 0x7800; }
 }
 
 float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
     vec2 p = (fragCoord - pos) / scale;
     float result = 0.0;
+    float xOffset = 0.0;
 
-    // Handle negative
-    float absValue = abs(value);
-    float offset = 0.0;
+    // Handle negative numbers
     if (value < 0.0) {
-        // Draw minus sign
-        if (p.x >= 0.0 && p.x < 3.0 && p.y >= 2.0 && p.y < 3.0) result = 1.0;
-        offset = 4.0;
+        // Minus sign: horizontal line at y=4
+        if (p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
+            result = 1.0;
+        }
+        xOffset = 9.0;
+        value = -value;
     }
 
-    // Get integer and decimal parts
-    float intPart = floor(absValue);
-    float decPart = fract(absValue);
+    float intPart = floor(value);
+    float fracPart = fract(value);
 
-    // Draw integer part
-    int numDigits = int(max(1.0, floor(log(max(intPart, 1.0)) / log(10.0)) + 1.0));
+    // Calculate number of integer digits
+    float numDigits = (intPart == 0.0) ? 1.0 : floor(log(intPart) / 2.302585) + 1.0;
+
+    // Draw integer digits
     for (int i = 0; i < 5; i++) {
-        if (i >= numDigits) break;
-        float digitPos = offset + float(numDigits - i - 1) * 5.0;
-        int d = int(mod(intPart / pow(10.0, float(numDigits - i - 1)), 10.0));
-        result = max(result, digit(p - vec2(digitPos, 0.0), d));
+        if (float(i) >= numDigits) break;
+
+        float digitPow = pow(10.0, numDigits - float(i) - 1.0);
+        int digit = int(floor(intPart / digitPow));
+        intPart -= float(digit) * digitPow;
+
+        int b1, b2, b3, b4;
+        getDigitBitmap(digit, b1, b2, b3, b4);
+        result = max(result, char8x8(p - vec2(xOffset, 0.0), b1, b2, b3, b4));
+        xOffset += 9.0;
     }
 
-    offset += float(numDigits) * 5.0;
+    // Decimal point
+    if (p.x >= xOffset && p.x < xOffset + 2.0 && p.y >= 0.0 && p.y < 2.0) {
+        result = 1.0;
+    }
+    xOffset += 4.0;
 
-    // Draw decimal point
-    if (p.x >= offset && p.x < offset + 2.0 && p.y >= 0.0 && p.y < 1.0) result = 1.0;
-    offset += 2.0;
-
-    // Draw one decimal digit
-    int dec = int(decPart * 10.0);
-    result = max(result, digit(p - vec2(offset, 0.0), dec));
+    // One decimal digit
+    int decDigit = int(fracPart * 10.0);
+    int b1, b2, b3, b4;
+    getDigitBitmap(decDigit, b1, b2, b3, b4);
+    result = max(result, char8x8(p - vec2(xOffset, 0.0), b1, b2, b3, b4));
 
     return result;
 }
@@ -586,12 +600,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (iMouse.xy != vec2(0.0)) {
         vec2 textPos = iMouse.xy + vec2(20.0, -15.0);
 
-        // Draw white circle background first (larger)
-        float circle = 1.0 - smoothstep(0.0, 3.0, length(fragCoord - iMouse.xy) - 20.0);
-        opColor = mix(opColor, vec4(1.0), circle * 0.8);
+        // Draw white circle background first
+        float circle = 1.0 - smoothstep(0.0, 3.0, length(fragCoord - iMouse.xy) - 24.0);
+        opColor = mix(opColor, vec4(1.0), circle * 0.85);
 
-        // Draw black text on top (scale 4.0 for better legibility)
-        float text = printFloat(fragCoord, textPos, shape.Distance, 4.0);
+        // Draw black text on top (8x8 font with scale 3.0)
+        float text = printFloat(fragCoord, textPos, shape.Distance, 3.0);
         if (text > 0.5) {
             opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 1.0);
         }
