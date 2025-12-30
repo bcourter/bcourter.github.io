@@ -428,14 +428,17 @@ vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 // 8x8 font rendering - cleaner array-based approach
 // Returns 1.0 if pixel is part of character, 0.0 otherwise
 float char8x8(vec2 p, int b1, int b2, int b3, int b4) {
+    // Check bounds before flooring
     if (p.x < 0.0 || p.x >= 8.0 || p.y < 0.0 || p.y >= 8.0) return 0.0;
 
+    // Floor and flip coordinates to match bitmap layout
     vec2 pf = floor(8.0 - p);
     int row = int(pf.y / 2.0);
     int bin = (row == 0) ? b1 : (row == 1) ? b2 : (row == 2) ? b3 : b4;
 
-    float xOffset = (int(mod(pf.y, 2.0)) == 0) ? 8.0 : 0.0;
-    return mod(floor(float(bin) / pow(2.0, pf.x + xOffset)), 2.0);
+    // Determine which half of the row (even/odd y values share same integer)
+    float bitOffset = (int(mod(pf.y, 2.0)) == 0) ? 8.0 : 0.0;
+    return mod(floor(float(bin) / pow(2.0, pf.x + bitOffset)), 2.0);
 }
 
 // Digit bitmaps (0-9) from 8x8 font
