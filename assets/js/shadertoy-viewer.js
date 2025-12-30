@@ -172,7 +172,7 @@ void main() {
             const rect = canvas.getBoundingClientRect();
 
             // Show hover text with coordinates
-            if (this.hoverText && this.mouseEverClicked) {
+            if (this.hoverText) {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
                 this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
@@ -329,7 +329,7 @@ void main() {
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
                 this.parameters.shapeMode = 'Rectangle';
-                this.uniforms.iParam2.value = 0;
+                this.uniforms.iParam2.value = 0.5 / 3.0;
 
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
@@ -337,11 +337,11 @@ void main() {
                         this.uniforms.iParam1.value = value;
                     });
                 this.gui.add(this.parameters, 'shapeMode', {
-                    'Rectangle': 0,
-                    'Circle': 1,
-                    'Plane': 2
+                    'Rectangle': 0.5 / 3.0,  // int(0.5) = 0
+                    'Circle': 1.5 / 3.0,     // int(1.5) = 1
+                    'Plane': 2.5 / 3.0       // int(2.5) = 2
                 }).name('Shape').onChange((value) => {
-                    this.uniforms.iParam2.value = parseFloat(value) / 3.0;
+                    this.uniforms.iParam2.value = value;
                 });
                 break;
 
@@ -407,17 +407,17 @@ void main() {
 
             case '4f2XzW': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
                 this.parameters.shapeMode = 'Field';
-                this.uniforms.iParam2.value = 0.0;
+                this.uniforms.iParam2.value = 0.5 / 3.0;
 
                 this.parameters.wobble = 0.0;
                 this.uniforms.iParam1.value = 0.0;
 
                 this.gui.add(this.parameters, 'shapeMode', {
-                    'Field': 0.000,
-                    'Grad X': 0.333,
-                    'Grad Y': 0.667
+                    'Field': 0.5 / 3.0,      // 0.1667 * 3 = 0.5 -> int(0.5) = 0
+                    'Grad X': 1.5 / 3.0,     // 0.5000 * 3 = 1.5 -> int(1.5) = 1
+                    'Grad Y': 2.5 / 3.0      // 0.8333 * 3 = 2.5 -> int(2.5) = 2
                 }).name('Shape').onChange((value) => {
-                    this.uniforms.iParam2.value = parseFloat(value);
+                    this.uniforms.iParam2.value = value;
                 });
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
