@@ -396,9 +396,9 @@ void main() {
                     });
                 this.gui.add(this.parameters, 'visualizationMode', {
                     'Circles': 0,
-                    'Lines': 2
+                    'Lines': 1
                 }).name('Mode').onChange((value) => {
-                    this.uniforms.iParam2.value = parseFloat(value);
+                    this.uniforms.iParam2.value = value;
                 });
                 break;
 
@@ -407,7 +407,7 @@ void main() {
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
                 this.parameters.shapeMode = 'Rectangle';
-                this.uniforms.iParam2.value = 0.5 / 3.0;
+                this.uniforms.iParam2.value = 0;
 
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)
                     .name('Wobble')
@@ -415,9 +415,9 @@ void main() {
                         this.uniforms.iParam1.value = value;
                     });
                 this.gui.add(this.parameters, 'shapeMode', {
-                    'Rectangle': 0.5 / 3.0,  // int(0.5) = 0
-                    'Circle': 1.5 / 3.0,     // int(1.5) = 1
-                    'Plane': 2.5 / 3.0       // int(2.5) = 2
+                    'Rectangle': 0,
+                    'Circle': 1,
+                    'Plane': 2
                 }).name('Shape').onChange((value) => {
                     this.uniforms.iParam2.value = value;
                 });
@@ -452,7 +452,7 @@ void main() {
 
             case 'ugf-blends': // UGF and Traditional Blends - Buffer A order: Blend(1), Offset(0), Angle(2)
                 this.parameters.blendMode = 'Max';
-                this.uniforms.iParam2.value = 0.0;
+                this.uniforms.iParam2.value = 0;
 
                 this.parameters.offset = 0.5;
                 this.uniforms.iParam1.value = 0.5;
@@ -461,13 +461,13 @@ void main() {
                 this.uniforms.iParam3.value = 0.75;
 
                 this.gui.add(this.parameters, 'blendMode', {
-                    'Max': 0,           // blend 0: Max (piecewise with Circle in normal cone)
-                    'Euclidean': 1,     // blend 1: IntersectionEuclidean
-                    'Distance': 2,        // blend 2: IntersectionSmooth
-                    'Rvachev': 3,       // blend 3: IntersectionRvachev
-                    'Exponential': 4    // blend 4: IntersectionSmoothExp
+                    'Max': 0,
+                    'Euclidean': 1,
+                    'Distance': 2,
+                    'Rvachev': 3,
+                    'Exponential': 4
                 }).name('Blend Type').onChange((value) => {
-                    this.uniforms.iParam2.value = parseFloat(value);
+                    this.uniforms.iParam2.value = value;
                 });
                 this.gui.add(this.parameters, 'offset', 0, 1, 0.01)
                     .name('Offset')

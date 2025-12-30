@@ -6,17 +6,6 @@
 
 // Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
 
-// Shader-specific exponential smooth blends
-Implicit UnionSmoothExp(Implicit a, Implicit b, float k ) {
-    Implicit res = Add(Exp(Multiply(a, -1./k)), Exp(Multiply(b, -1./k)));
-    return Multiply(Log(res), -k);
-}
-
-Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k ) {
-    Implicit res = Add(Exp(Multiply(a, 1./k)), Exp(Multiply(b, 1./k)));
-    return Multiply(Log(res), k);
-}
-
 // ===== Image Code =====
 // UGF intersection demo
 // Post 1: https://www.blakecourter.com/2023/05/18/field-notation.html
@@ -146,7 +135,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     offset = -iParam1 * 400.0 + 200.0;
     float angle = (-0.5 + iParam3) * pi;
     direction = vec2(cos(angle), sin(angle));
-    blend = int(iParam2 * 6.);
+    blend = int(iParam2);
 
     vec2 p = (fragCoord - 0.5 * iResolution.xy);
 

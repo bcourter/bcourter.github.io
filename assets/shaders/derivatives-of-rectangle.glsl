@@ -193,7 +193,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
 
     wobble = iParam1;
-    shapeIndex = int(iParam2 * 3.);
+    shapeIndex = int(iParam2);
 
     vec2 p = (fragCoord - 0.5 * iResolution.xy);
     if (iMouse.x > bounds.x + bounds.z + 20.0 || iMouse.y > bounds.y + (bounds.w + 20.0) * 3.0)

@@ -238,6 +238,17 @@ Implicit IntersectionRvachev(Implicit iA, Implicit iB, float k){
     return Negate(UnionRvachev(Negate(iA), Negate(iB), k));
 }
 
+// Exponential smooth blends
+Implicit UnionSmoothExp(Implicit a, Implicit b, float k ) {
+    Implicit res = Add(Exp(Multiply(a, -1./k)), Exp(Multiply(b, -1./k)));
+    return Multiply(Log(res), -k);
+}
+
+Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k ) {
+    Implicit res = Add(Exp(Multiply(a, 1./k)), Exp(Multiply(b, 1./k)));
+    return Multiply(Log(res), k);
+}
+
 //////////////////
 // Primitives
 //////////////////
