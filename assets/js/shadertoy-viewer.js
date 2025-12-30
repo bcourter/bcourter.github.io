@@ -43,10 +43,10 @@ class ShadertoyViewer {
 
         this.parameters = {
             visualizationMode: 'Two-body field',  // For dropdowns
-            wiggle: 0.2,         // For cs2cW3
-            wobble: 0.5,         // For mtKfWz
-            angle: 0.75,         // For dd2cWy
-            shapeMode: 'Rectangle',  // For mtKfWz dropdown
+            wiggle: 0.2,         // For apollonian-circles
+            wobble: 0.5,         // For rotational-derivative
+            angle: 0.75,         // For rhombus-gradient
+            shapeMode: 'Rectangle',  // For rotational-derivative dropdown
             paused: !this.options.autoplay
         };
 
@@ -62,8 +62,8 @@ class ShadertoyViewer {
         await this.loadShader();
         this.setupRenderer();
         this.setupScene();
-        // Hover text now rendered in shader for 4f2XzW
-        if (this.shaderId !== '4f2XzW') {
+        // Hover text now rendered in shader for derivatives-of-rectangle
+        if (this.shaderId !== 'derivatives-of-rectangle') {
             this.setupHoverText();
         }
         this.setupEventListeners();
@@ -92,8 +92,8 @@ class ShadertoyViewer {
     calculateShaderDistance(px, py, time) {
         // Shader-specific distance field calculations
         switch(this.shaderId) {
-            case '4f2XzW': {
-                // Replicate the Shape() function from 4f2XzW.glsl
+            case 'derivatives-of-rectangle': {
+                // Replicate the Shape() function from derivatives-of-rectangle.glsl
                 const wobble = this.uniforms.iParam1.value;
                 const len = this.options.width * this.renderer.getPixelRatio();
                 const halfGolden = 0.5 * 0.618;
@@ -121,26 +121,36 @@ class ShadertoyViewer {
     }
 
     async loadShader() {
-        // Map shader IDs to human-readable filenames
-        const shaderFilenames = {
-            'DssczX': 'two-body-field',
-            'dd2cWy': 'rhombus-gradient',
-            'cs2cW3': 'apollonian-circles',
-            'mtKfWz': 'rotational-derivative',
-            'clV3Rz': 'ugf-intersection',
-            'dtVGRd': 'ugf-blends',
-            '4f2XzW': 'derivatives-of-rectangle',
-            'MdXSWn': 'mandelbulb'
-        };
-
-        const filename = shaderFilenames[this.shaderId] || this.shaderId;
+        // Shaders that need the library (all except mandelbulb)
+        const shadersNeedingLibrary = [
+            'two-body-field',
+            'rhombus-gradient',
+            'apollonian-circles',
+            'rotational-derivative',
+            'ugf-intersection',
+            'ugf-blends',
+            'derivatives-of-rectangle'
+        ];
 
         try {
-            const response = await fetch(`/assets/shaders/${filename}.glsl`);
+            // Load library.glsl if needed
+            let libraryCode = '';
+            if (shadersNeedingLibrary.includes(this.shaderId)) {
+                const libraryResponse = await fetch('/assets/shaders/library.glsl');
+                if (libraryResponse.ok) {
+                    libraryCode = await libraryResponse.text() + '\n\n';
+                }
+            }
+
+            // Load the main shader
+            const response = await fetch(`/assets/shaders/${this.shaderId}.glsl`);
             if (!response.ok) {
                 throw new Error(`Failed to load shader: ${this.shaderId}`);
             }
-            this.fragmentShader = await response.text();
+            const shaderCode = await response.text();
+
+            // Combine library + shader
+            this.fragmentShader = libraryCode + shaderCode;
         } catch (error) {
             console.error(error);
             // Fallback to a simple shader
@@ -220,7 +230,7 @@ void main() {
             const rect = canvas.getBoundingClientRect();
 
             // Show hover text with distance value (for shaders that don't render it themselves)
-            if (this.hoverText && this.shaderId !== '4f2XzW') {
+            if (this.hoverText && this.shaderId !== 'derivatives-of-rectangle') {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
                 this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
@@ -327,7 +337,7 @@ void main() {
         // Shader-specific controls based on original Shadertoy sliders
         // Use dropdowns for mode selection, sliders for continuous values
         switch(this.shaderId) {
-            case 'DssczX': // Two-body field - viz = int(readFloat(1.) * 5.)
+            case 'two-body-field': // Two-body field - viz = int(readFloat(1.) * 5.)
                 this.parameters.visualizationMode = 'Two-body field';
                 this.uniforms.iParam1.value = 4.0;
 
@@ -342,7 +352,7 @@ void main() {
                 });
                 break;
 
-            case 'dd2cWy': // Rhombus gradient - angledot = readFloat(2.) - 0.5 + 0.1 * sin(iTime)
+            case 'rhombus-gradient': // Rhombus gradient - angledot = readFloat(2.) - 0.5 + 0.1 * sin(iTime)
                 this.parameters.angle = 0.75;
                 this.uniforms.iParam1.value = this.parameters.angle;
                 this.gui.add(this.parameters, 'angle', 0, 1, 0.01)
@@ -352,7 +362,7 @@ void main() {
                     });
                 break;
 
-            case 'cs2cW3': // Apollonian circles
+            case 'apollonian-circles': // Apollonian circles
                 this.parameters.wiggle = 0.2;
                 this.uniforms.iParam1.value = this.parameters.wiggle;
 
@@ -372,7 +382,7 @@ void main() {
                 });
                 break;
 
-            case 'mtKfWz': // Rotational derivative
+            case 'rotational-derivative': // Rotational derivative
                 this.parameters.wobble = 0.5;
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
@@ -393,7 +403,7 @@ void main() {
                 });
                 break;
 
-            case 'clV3Rz': // UGF Intersection - Buffer A order: SDF(1), Offset(0), Angle(2)
+            case 'ugf-intersection': // UGF Intersection - Buffer A order: SDF(1), Offset(0), Angle(2)
                 this.parameters.isSDF = false;
                 this.uniforms.iParam2.value = 0.0;
 
@@ -420,7 +430,7 @@ void main() {
                     });
                 break;
 
-            case 'dtVGRd': // UGF and Traditional Blends - Buffer A order: Blend(1), Offset(0), Angle(2)
+            case 'ugf-blends': // UGF and Traditional Blends - Buffer A order: Blend(1), Offset(0), Angle(2)
                 this.parameters.blendMode = 'Min/Max';
                 this.uniforms.iParam2.value = 0.0;
 
@@ -453,7 +463,7 @@ void main() {
                     });
                 break;
 
-            case '4f2XzW': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
+            case 'derivatives-of-rectangle': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
                 this.parameters.shapeMode = 'Field';
                 this.uniforms.iParam2.value = 0;
 
