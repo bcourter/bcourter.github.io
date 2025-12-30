@@ -8,6 +8,22 @@ class ShadertoyViewer {
     constructor(containerId, shaderId, options = {}) {
         this.containerId = containerId;
         this.shaderId = shaderId;
+
+        // Map old Shadertoy IDs to human-readable filenames for backward compatibility
+        const shaderFilenames = {
+            'DssczX': 'two-body-field',
+            'dd2cWy': 'rhombus-gradient',
+            'cs2cW3': 'apollonian-circles',
+            'mtKfWz': 'rotational-derivative',
+            'clV3Rz': 'ugf-intersection',
+            'dtVGRd': 'ugf-blends',
+            '4f2XzW': 'derivatives-of-rectangle',
+            'MdXSWn': 'mandelbulb'
+        };
+
+        // Store normalized shader filename
+        this.shaderFilename = shaderFilenames[shaderId] || shaderId;
+
         this.container = document.getElementById(containerId);
 
         if (!this.container) {
@@ -63,7 +79,7 @@ class ShadertoyViewer {
         this.setupRenderer();
         this.setupScene();
         // Hover text now rendered in shader for derivatives-of-rectangle
-        if (this.shaderId !== 'derivatives-of-rectangle') {
+        if (this.shaderFilename !== 'derivatives-of-rectangle') {
             this.setupHoverText();
         }
         this.setupEventListeners();
@@ -91,7 +107,7 @@ class ShadertoyViewer {
 
     calculateShaderDistance(px, py, time) {
         // Shader-specific distance field calculations
-        switch(this.shaderId) {
+        switch(this.shaderFilename) {
             case 'derivatives-of-rectangle': {
                 // Replicate the Shape() function from derivatives-of-rectangle.glsl
                 const wobble = this.uniforms.iParam1.value;
@@ -121,6 +137,8 @@ class ShadertoyViewer {
     }
 
     async loadShader() {
+        const filename = this.shaderFilename;
+
         // Shaders that need the library (all except mandelbulb)
         const shadersNeedingLibrary = [
             'two-body-field',
@@ -135,7 +153,7 @@ class ShadertoyViewer {
         try {
             // Load library.glsl if needed
             let libraryCode = '';
-            if (shadersNeedingLibrary.includes(this.shaderId)) {
+            if (shadersNeedingLibrary.includes(filename)) {
                 const libraryResponse = await fetch('/assets/shaders/library.glsl');
                 if (libraryResponse.ok) {
                     libraryCode = await libraryResponse.text() + '\n\n';
@@ -143,9 +161,9 @@ class ShadertoyViewer {
             }
 
             // Load the main shader
-            const response = await fetch(`/assets/shaders/${this.shaderId}.glsl`);
+            const response = await fetch(`/assets/shaders/${filename}.glsl`);
             if (!response.ok) {
-                throw new Error(`Failed to load shader: ${this.shaderId}`);
+                throw new Error(`Failed to load shader: ${filename}`);
             }
             const shaderCode = await response.text();
 
@@ -230,7 +248,7 @@ void main() {
             const rect = canvas.getBoundingClientRect();
 
             // Show hover text with distance value (for shaders that don't render it themselves)
-            if (this.hoverText && this.shaderId !== 'derivatives-of-rectangle') {
+            if (this.hoverText && this.shaderFilename !== 'derivatives-of-rectangle') {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
                 this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
@@ -336,7 +354,7 @@ void main() {
     addShaderSpecificControls() {
         // Shader-specific controls based on original Shadertoy sliders
         // Use dropdowns for mode selection, sliders for continuous values
-        switch(this.shaderId) {
+        switch(this.shaderFilename) {
             case 'two-body-field': // Two-body field - viz = int(readFloat(1.) * 5.)
                 this.parameters.visualizationMode = 'Two-body field';
                 this.uniforms.iParam1.value = 4.0;
