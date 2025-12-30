@@ -455,15 +455,15 @@ void main() {
 
             case '4f2XzW': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
                 this.parameters.shapeMode = 'Field';
-                this.uniforms.iParam2.value = 0.5 / 3.0;
+                this.uniforms.iParam2.value = 0;
 
-                this.parameters.wobble = 0.0;
-                this.uniforms.iParam1.value = 0.0;
+                this.parameters.wobble = 1.0;
+                this.uniforms.iParam1.value = this.parameters.wobble;
 
                 this.gui.add(this.parameters, 'shapeMode', {
-                    'Field': 0.5 / 3.0,      // 0.1667 * 3 = 0.5 -> int(0.5) = 0
-                    'Grad X': 1.5 / 3.0,     // 0.5000 * 3 = 1.5 -> int(1.5) = 1
-                    'Grad Y': 2.5 / 3.0      // 0.8333 * 3 = 2.5 -> int(2.5) = 2
+                    'Distance': 0,      // 0.1667 * 3 = 0.5 -> int(0.5) = 0
+                    'Grad X': 1,     // 0.5000 * 3 = 1.5 -> int(1.5) = 1
+                    'Grad Y': 2      // 0.8333 * 3 = 2.5 -> int(2.5) = 2
                 }).name('Shape').onChange((value) => {
                     this.uniforms.iParam2.value = value;
                 });
