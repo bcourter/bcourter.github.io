@@ -121,8 +121,22 @@ class ShadertoyViewer {
     }
 
     async loadShader() {
+        // Map shader IDs to human-readable filenames
+        const shaderFilenames = {
+            'DssczX': 'two-body-field',
+            'dd2cWy': 'rhombus-gradient',
+            'cs2cW3': 'apollonian-circles',
+            'mtKfWz': 'rotational-derivative',
+            'clV3Rz': 'ugf-intersection',
+            'dtVGRd': 'ugf-blends',
+            '4f2XzW': 'derivatives-of-rectangle',
+            'MdXSWn': 'mandelbulb'
+        };
+
+        const filename = shaderFilenames[this.shaderId] || this.shaderId;
+
         try {
-            const response = await fetch(`/assets/shaders/${this.shaderId}.glsl`);
+            const response = await fetch(`/assets/shaders/${filename}.glsl`);
             if (!response.ok) {
                 throw new Error(`Failed to load shader: ${this.shaderId}`);
             }

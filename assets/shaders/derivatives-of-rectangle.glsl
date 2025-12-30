@@ -587,7 +587,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         vec2 textPos = iMouse.xy + vec2(15.0, -10.0);
         float text = printFloat(fragCoord, textPos, shape.Distance, 2.0);
         if (text > 0.5) {
-            opColor = mix(opColor, vec4(1.0), 0.8);
+            opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), 0.8);
         }
     }
 
