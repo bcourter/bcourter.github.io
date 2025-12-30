@@ -78,8 +78,9 @@ class ShadertoyViewer {
         await this.loadShader();
         this.setupRenderer();
         this.setupScene();
-        // Hover text now rendered in shader for derivatives-of-rectangle
-        if (this.shaderFilename !== 'derivatives-of-rectangle') {
+        // Hover text now rendered in shader for some shaders
+        const shadersWithGLSLText = ['derivatives-of-rectangle', 'rotational-derivative', 'ugf-intersection', 'ugf-blends'];
+        if (!shadersWithGLSLText.includes(this.shaderFilename)) {
             this.setupHoverText();
         }
         this.setupEventListeners();
@@ -248,7 +249,8 @@ void main() {
             const rect = canvas.getBoundingClientRect();
 
             // Show hover text with distance value (for shaders that don't render it themselves)
-            if (this.hoverText && this.shaderFilename !== 'derivatives-of-rectangle') {
+            const shadersWithGLSLText = ['derivatives-of-rectangle', 'rotational-derivative', 'ugf-intersection', 'ugf-blends'];
+            if (this.hoverText && !shadersWithGLSLText.includes(this.shaderFilename)) {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
                 this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
@@ -482,17 +484,17 @@ void main() {
                 break;
 
             case 'derivatives-of-rectangle': // Derivatives of Rectangle - Buffer A order: Shape(1), Wobble(0)
-                this.parameters.shapeMode = 'Field';
+                this.parameters.shapeMode = 'Distance';
                 this.uniforms.iParam2.value = 0;
 
                 this.parameters.wobble = 1.0;
                 this.uniforms.iParam1.value = this.parameters.wobble;
 
                 this.gui.add(this.parameters, 'shapeMode', {
-                    'Distance': 0,      // 0.1667 * 3 = 0.5 -> int(0.5) = 0
-                    'Grad X': 1,     // 0.5000 * 3 = 1.5 -> int(1.5) = 1
-                    'Grad Y': 2      // 0.8333 * 3 = 2.5 -> int(2.5) = 2
-                }).name('Shape').onChange((value) => {
+                    'Distance': 0,
+                    'Grad X': 1,
+                    'Grad Y': 2
+                }).name('Field').onChange((value) => {
                     this.uniforms.iParam2.value = value;
                 });
                 this.gui.add(this.parameters, 'wobble', 0, 1, 0.01)

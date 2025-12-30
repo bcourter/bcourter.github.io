@@ -256,7 +256,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         opColor = mix(opColor, colorBlack, circle * 0.85);
 
         // Draw white text on top (8x8 font with dynamic scale)
-        float text = printFloat(fragCoord, textPos, hoverValue, textScale);
+        // Use 2 decimal places for gradients, 1 for distance
+        int decimals = (shapeIndex == 0) ? 1 : 2;
+        float text = printFloat(fragCoord, textPos, hoverValue, textScale, decimals);
         if (text > 0.5) {
             opColor = mix(opColor, colorBlack, 1.0);
         }

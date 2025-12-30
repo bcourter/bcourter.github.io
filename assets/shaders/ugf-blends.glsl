@@ -7,7 +7,16 @@
 
 // Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
 
+// Shader-specific exponential smooth blends
+Implicit UnionSmoothExp(Implicit a, Implicit b, float k ) {
+    Implicit res = Add(Exp(Multiply(a, -1./k)), Exp(Multiply(b, -1./k)));
+    return Multiply(Log(res), -k);
+}
 
+Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k ) {
+    Implicit res = Add(Exp(Multiply(a, 1./k)), Exp(Multiply(b, 1./k)));
+    return Multiply(Log(res), k);
+}
 
 // ===== Image Code =====
 // UGF intersection demo
@@ -170,6 +179,28 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         opColor = strokeImplicit(diff, 3.0, opColor);
 
     opColor = drawArrow(p, mouse, opColor);
+
+    // Draw distance value as text near mouse
+    if (iMouse.xy != vec2(0.0)) {
+        // Calculate shape at MOUSE position
+        vec2 mouseP = iMouse.xy - 0.5 * iResolution.xy;
+        Implicit mouseOp = shape(mouseP);
+        float hoverValue = mouseOp.Distance;
+
+        // Calculate text scale based on resolution
+        float textScale = iResolution.x / 960.0;
+        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * textScale;
+
+        // Draw black circle background
+        float circle = 1.0 - smoothstep(0.0, 1.0, length(fragCoord - iMouse.xy) - 2.0 * textScale);
+        opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), circle * 0.85);
+
+        // Draw white text on top
+        float text = printFloat(fragCoord, textPos, hoverValue, textScale);
+        if (text > 0.5) {
+            opColor = vec4(1.0);
+        }
+    }
 
     fragColor = opColor;
 }

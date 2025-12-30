@@ -388,3 +388,67 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
 
     return result;
 }
+
+// Print a floating point number with variable decimal places
+float printFloat(vec2 fragCoord, vec2 pos, float value, float scale, int decimals) {
+    vec2 p = (fragCoord - pos) / scale;
+    float result = 0.0;
+    float xOffset = 0.0;
+
+    // Handle negative numbers
+    if (value < 0.0) {
+        // Minus sign: horizontal line
+        if (p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
+            result = 1.0;
+        }
+        xOffset = 9.0;
+        value = -value;
+    }
+
+    // Calculate number of integer digits
+    float intPart = floor(value);
+    float fracPart = fract(value);
+    float numDigits = (intPart == 0.0) ? 1.0 : floor(log(intPart) / 2.302585) + 1.0;
+
+    // Declare bitmap variables once
+    int bitmap1, bitmap2, bitmap3, bitmap4;
+
+    // Draw integer digits
+    for (int i = 0; i < 5; i++) {
+        if (float(i) >= numDigits) break;
+
+        // Extract digit using mod to avoid precision issues
+        float digitPow = pow(10.0, numDigits - float(i) - 1.0);
+        int digitValue = int(mod(floor(intPart / digitPow), 10.0));
+
+        getDigitBitmap(digitValue, bitmap1, bitmap2, bitmap3, bitmap4);
+
+        vec2 charPos = p - vec2(xOffset, 0.0);
+        result = max(result, char8x8(charPos, bitmap1, bitmap2, bitmap3, bitmap4));
+
+        xOffset += 9.0;
+    }
+
+    // Decimal point (check relative to offset)
+    vec2 dotPos = p - vec2(xOffset, 0.0);
+    if (dotPos.x >= 0.0 && dotPos.x < 2.0 && dotPos.y >= 0.0 && dotPos.y < 2.0) {
+        result = 1.0;
+    }
+    xOffset += 4.0;
+
+    // Draw decimal digits
+    for (int i = 0; i < 3; i++) {
+        if (i >= decimals) break;
+
+        float digitPow = pow(10.0, float(i + 1));
+        int decDigit = int(mod(floor(fracPart * digitPow), 10.0));
+        getDigitBitmap(decDigit, bitmap1, bitmap2, bitmap3, bitmap4);
+
+        vec2 decCharPos = p - vec2(xOffset, 0.0);
+        result = max(result, char8x8(decCharPos, bitmap1, bitmap2, bitmap3, bitmap4));
+
+        xOffset += 9.0;
+    }
+
+    return result;
+}
