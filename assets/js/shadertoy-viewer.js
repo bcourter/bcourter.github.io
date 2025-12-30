@@ -86,6 +86,37 @@ class ShadertoyViewer {
         this.container.appendChild(this.hoverText);
     }
 
+    calculateShaderDistance(px, py, time) {
+        // Shader-specific distance field calculations
+        switch(this.shaderId) {
+            case '4f2XzW': {
+                // Replicate the Shape() function from 4f2XzW.glsl
+                const wobble = this.uniforms.iParam1.value;
+                const len = this.options.width * this.renderer.getPixelRatio();
+                const halfGolden = 0.5 * 0.618;
+
+                const sizeX = len * 0.2 * (1.0 + halfGolden * (1.0 + Math.cos(time) * wobble)) + 140.0 * wobble * Math.cos(time * 0.5);
+                const sizeY = len * 0.2 * 1.0 + 140.0 * wobble * Math.cos(time * 0.5);
+
+                const pCenterX = Math.abs(px) - sizeX * 0.5;
+                const pCenterY = Math.abs(py) - sizeY * 0.5;
+
+                // Rectangle SDF logic from Shape()
+                if (Math.min(pCenterX, pCenterY) >= 0.0) {
+                    // Outside corner: Euclidean distance
+                    return Math.sqrt(pCenterX * pCenterX + pCenterY * pCenterY);
+                } else if (pCenterX > pCenterY) {
+                    return pCenterX;
+                } else {
+                    return pCenterY;
+                }
+            }
+            default:
+                // Fallback: distance from center
+                return Math.sqrt(px * px + py * py);
+        }
+    }
+
     async loadShader() {
         try {
             const response = await fetch(`/assets/shaders/${this.shaderId}.glsl`);
@@ -171,7 +202,7 @@ void main() {
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
 
-            // Show hover text with coordinates
+            // Show hover text with distance value
             if (this.hoverText) {
                 this.hoverText.style.display = 'block';
                 this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
@@ -180,10 +211,10 @@ void main() {
                 const pixelRatio = this.renderer.getPixelRatio();
                 const x = (e.clientX - rect.left) * pixelRatio;
                 const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
-                const centerX = x - 0.5 * this.options.width * pixelRatio;
-                const centerY = y - 0.5 * this.options.height * pixelRatio;
-                const dist = Math.sqrt(centerX * centerX + centerY * centerY);
+                const px = x - 0.5 * this.options.width * pixelRatio;
+                const py = y - 0.5 * this.options.height * pixelRatio;
 
+                const dist = this.calculateShaderDistance(px, py, this.uniforms.iTime.value);
                 this.hoverText.textContent = `d: ${dist.toFixed(1)}`;
             }
 
