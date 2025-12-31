@@ -240,9 +240,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         if (shapeIndex == 0) {
             hoverValue = mouseShape.Distance / bandWidth;
         } else if (shapeIndex == 1) {
-            hoverValue = mouseShape_y.Distance;  // Grad X uses Y derivative
+            hoverValue = mouseShape_x.Distance; 
         } else {
-            hoverValue = mouseShape_x.Distance;  // Grad Y uses X derivative
+            hoverValue = mouseShape_y.Distance; 
         }
 
         // Text scale at 2x
@@ -258,7 +258,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         int decimals = (shapeIndex == 0) ? 1 : 2;
         float text = printFloat(fragCoord, textPos, hoverValue, iTextScale, decimals);
         if (text > 0.5) {
-            opColor = vec4(1.0, 1.0, 1.0, 1.0);
+            opColor = colorBlack;
         }
     }
 

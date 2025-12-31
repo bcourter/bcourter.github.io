@@ -20,7 +20,7 @@ vec2 center = vec2(0.0);
 float offset = 0.0;
 vec2 direction = vec2(1.0, 1.0);
 int blend = 0;
-vec2 mouse = vec2(-180.0, 250.0);
+vec2 mouse = vec2(-180.0, 150.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
@@ -177,7 +177,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         // Text scale at 2x
         float iTextScale = 2.0;
-        vec2 textPos = iMouse.xy + vec2(20.0, -8.0) * iTextScale;
+        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * iTextScale;
 
         // Draw black text
         float text = printFloat(fragCoord, textPos, hoverValue, iTextScale);

@@ -22,7 +22,7 @@ vec2 center = vec2(0.0);
 float offset = 0.0;
 vec2 direction = vec2(1.0, 1.0);
 bool isSDF = false;
-vec2 mouse = vec2(-180.0, 250.0);
+vec2 mouse = vec2(-180.0, 150.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
@@ -33,8 +33,6 @@ vec4 strokeImplicit(Implicit a, float width, vec4 base) {
     vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
     float interp = clamp(width * 0.5 - abs(a.Distance), 0.0, 1.0);
     return mix(base, color, color.a * interp);
-    
-    return base;
 }
 
 vec4 drawImplicit(Implicit a, vec4 base) {
@@ -192,7 +190,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         // Text scale at 2x
         float iTextScale = 2.0;
-        vec2 textPos = iMouse.xy + vec2(20.0, -8.0) * iTextScale;
+        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * iTextScale;
 
         // Draw black text
         float text = printFloat(fragCoord, textPos, hoverValue, iTextScale);
