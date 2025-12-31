@@ -2,9 +2,9 @@
 // Author: bcourter
 // Description: A sharp minmax intersection versus a true SDF intersection of two planes and their offset. All of the cases are UGFs (have unit gradient magnitude).  The SDF and UGF differ only in the normal cone of the original intersection.
 
-// ===== Common Code =====
+#include "library.glsl"
 
-// Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
+// ===== Common Code =====
 
 
 

@@ -2,9 +2,9 @@
 // Author: bcourter
 // Description: A comparison of blending techniques. Full post here: https://www.blakecourter.com/2023/05/18/field-notation.html
 
-// ===== Common Code =====
+#include "library.glsl"
 
-// Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
+// ===== Common Code =====
 
 // ===== Image Code =====
 // UGF intersection demo

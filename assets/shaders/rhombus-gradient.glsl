@@ -1,10 +1,10 @@
 // Shader: Rhombus Gradient
 // Adapted for standalone viewer from shaders_public.json
 
+#include "library.glsl"
+
 // ===== Common Code =====
 vec4 bounds = vec4(30,70,160,18);
-
-// Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
 
 // Shader-specific function
 Implicit Sampson(Implicit a) {

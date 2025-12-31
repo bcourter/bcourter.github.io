@@ -1,10 +1,10 @@
 // Shader: Rotational Derivative
 // Adapted for standalone viewer from shaders_public.json
 
+#include "library.glsl"
+
 // ===== Common Code =====
 vec4 bounds = vec4(30,70,160,18);
-
-// Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
 
 // Shader-specific primitives
 Implicit RectangleCenterRotatedExp(vec2 p, vec2 center, vec2 size, float angle, vec4 color)

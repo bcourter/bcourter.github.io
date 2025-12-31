@@ -1,10 +1,10 @@
 // Shader: Apollonian Circles
 // Adapted for standalone viewer
 
+#include "library.glsl"
+
 // ===== Common Code =====
 vec4 bounds = vec4(30,100,160,18);
-
-// Note: Common Implicit code is in library.glsl, automatically included by shadertoy-viewer.js
 
 
 // Viz

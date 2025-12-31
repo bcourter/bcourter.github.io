@@ -2,10 +2,9 @@
 // Author: bcourter
 // Description: Let's look at the derivatives of a rectangle.  In the SDF of the rectangle, we color by averaging in binary operations like sum, illustrating parameter contribution by count.  For the two derivatives, red is zero and blue is one.
 
-// ===== Shader-Specific Code =====
+#include "library.glsl"
 
-// Note: Common Implicit code and text rendering functions are in library.glsl
-// which is automatically included by shadertoy-viewer.js
+// ===== Shader-Specific Code =====
 
 // Primitives specific to this shader
 
