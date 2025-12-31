@@ -73,8 +73,8 @@ Implicit shape(vec2 p){
         return Add(IntersectionEuclidean(a, b, 0.0), offset);        
         
     // IQ Blend
-    // if (blend == 2)
-    //     return Add(IntersectionSmooth(a, b, 0.), offset);
+    if (blend == 2)
+        return Add(IntersectionSmooth(a, b, 0.), offset);
         
     // Rvachev Blend
     if (blend == 3)
@@ -90,10 +90,10 @@ Implicit shape(vec2 p){
     Implicit normalCone = Min(aNorm, bNorm);
 
     // DF-based intersection
-    if (blend == 2 && normalCone.Distance > 0.0)
+    if (blend == 0 && normalCone.Distance > 0.0)
         minmax = Circle(p, center, 0.0, 0.5 * (a.Color + b.Color));
         
-        
+    // Default is max 
     return Implicit(minmax.Distance + offset, minmax.Gradient, minmax.Color);
 }
 
@@ -177,7 +177,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         // Calculate text scale based on resolution
         float textScale = iResolution.x / 960.0;
-        vec2 textPos = iMouse.xy + vec2(20.0, -8.0) * textScale;
+        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * textScale;
 
         // Draw black text
         float text = printFloat(fragCoord, textPos, hoverValue, textScale);

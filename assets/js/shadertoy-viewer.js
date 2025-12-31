@@ -451,7 +451,7 @@ void main() {
                 break;
 
             case 'ugf-blends': // UGF and Traditional Blends - Buffer A order: Blend(1), Offset(0), Angle(2)
-                this.parameters.blendMode = 'Max';
+                this.parameters.blendMode = 'Distance';
                 this.uniforms.iParam2.value = 0;
 
                 this.parameters.offset = 0.5;
@@ -461,11 +461,12 @@ void main() {
                 this.uniforms.iParam3.value = 0.75;
 
                 this.gui.add(this.parameters, 'blendMode', {
-                    'Max': 0,
+                    'Distance': 0,
                     'Euclidean': 1,
-                    'Distance': 2,
+                    'Quilez': 2,
                     'Rvachev': 3,
-                    'Exponential': 4
+                    'Exponential': 4,
+                    'Max': 5
                 }).name('Blend Type').onChange((value) => {
                     this.uniforms.iParam2.value = value;
                 });
