@@ -243,8 +243,22 @@ void main() {
             1
         );
 
-        // Calculate text scale based on actual width
-        this.uniforms.iTextScale.value = this.options.width / 960.0;
+        // Calculate text scale based on actual font metrics
+        this.uniforms.iTextScale.value = this.calculateTextScale();
+    }
+
+    calculateTextScale() {
+        // Create temporary canvas to measure font metrics
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.font = '8px monospace';  // Our shader uses 8x8 bitmap font
+
+        // Measure the height of a capital letter
+        const metrics = ctx.measureText('X');
+        const fontHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+        // Calculate scale factor: actual rendered height / 8px reference
+        return Math.round(fontHeight) / 8.0;
     }
 
     setupEventListeners() {
@@ -532,8 +546,8 @@ void main() {
             1
         );
 
-        // Update text scale based on new width
-        this.uniforms.iTextScale.value = width / 960.0;
+        // Update text scale based on actual font metrics
+        this.uniforms.iTextScale.value = this.calculateTextScale();
     }
 
     animate() {
