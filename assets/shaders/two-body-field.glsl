@@ -136,10 +136,43 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (shapes.Distance < 0.)
         opColor.rgb = min(opColor.rgb, opColor.rgb * 0.65 + shapes.Color.rgb * 0.2);
 
-    // UI overlay removed
-    
- //   opColor = DrawVectorField(p3, Divide(shape, length(shape.Gradient)), opColor, 25., 1.);
-    
+    // Draw distance value as text near mouse
+    if (iMouse.xy != vec2(0.0)) {
+        vec2 mouseP = iMouse.xy - 0.5 * iResolution.xy;
+
+        // Recalculate shapes at mouse position
+        Implicit mouseA = RectangleUGFSDFCenterRotated(iMouse.xy, vec2(padding, iResolution.y / 2.0), size * 1.8, iTime * 0.1, vec4(1., 0., 0., 1));
+        Implicit mouseB = Circle(iMouse.xy, vec2(iResolution.x - padding, iResolution.y / 2.0), size, vec4(0., 0., 1., 1));
+
+        float hoverValue;
+        if (viz == 0) {
+            hoverValue = min(mouseA.Distance, mouseB.Distance);
+        } else if (viz == 1) {
+            hoverValue = (mouseA.Distance + mouseB.Distance) * 0.5;
+        } else if (viz == 2) {
+            hoverValue = (mouseA.Distance - mouseB.Distance) * 0.5;
+        } else if (viz == 3) {
+            hoverValue = (mouseA.Distance + mouseB.Distance) * 0.5;
+        } else {
+            Implicit mouseInterp = Divide(Subtract(mouseA, mouseB), Add(mouseA, mouseB));
+            hoverValue = mouseInterp.Distance * 100.0;
+        }
+
+        // Text scale at 2x
+        float iTextScale = 2.0;
+        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * iTextScale;
+
+        // Draw black circle background
+        float circle = 1.0 - smoothstep(0.0, 1.0, length(fragCoord - iMouse.xy) - 2.0 * iTextScale);
+        opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), circle * 0.85);
+
+        // Draw white text
+        float text = printFloat(fragCoord, textPos, hoverValue, iTextScale);
+        if (text > 0.5) {
+            opColor = vec4(1.0, 1.0, 1.0, 1.0);
+        }
+    }
+
     fragColor = opColor;
 }
 

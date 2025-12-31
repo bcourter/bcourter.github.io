@@ -54,9 +54,6 @@ class ShadertoyViewer {
             iParam4: { value: 1.0 },
         };
 
-        // Hover text overlay
-        this.hoverText = null;
-
         this.parameters = {
             visualizationMode: 'Two-body field',  // For dropdowns
             wiggle: 0.2,         // For apollonian-circles
@@ -78,63 +75,11 @@ class ShadertoyViewer {
         await this.loadShader();
         this.setupRenderer();
         this.setupScene();
-        // Hover text now rendered in shader for some shaders
-        const shadersWithGLSLText = ['derivatives-of-rectangle', 'rotational-derivative', 'ugf-intersection', 'ugf-blends'];
-        if (!shadersWithGLSLText.includes(this.shaderFilename)) {
-            this.setupHoverText();
-        }
         this.setupEventListeners();
         if (this.options.showGui) {
             this.setupGUI();
         }
         this.animate();
-    }
-
-    setupHoverText() {
-        // Create hover text overlay
-        this.hoverText = document.createElement('div');
-        this.hoverText.style.position = 'absolute';
-        this.hoverText.style.color = '#fff';
-        this.hoverText.style.fontSize = '12px';
-        this.hoverText.style.fontFamily = 'monospace';
-        this.hoverText.style.pointerEvents = 'none';
-        this.hoverText.style.display = 'none';
-        this.hoverText.style.background = 'rgba(0,0,0,0.7)';
-        this.hoverText.style.padding = '2px 6px';
-        this.hoverText.style.borderRadius = '3px';
-        this.hoverText.style.zIndex = '999';
-        this.container.appendChild(this.hoverText);
-    }
-
-    calculateShaderDistance(px, py, time) {
-        // Shader-specific distance field calculations
-        switch(this.shaderFilename) {
-            case 'derivatives-of-rectangle': {
-                // Replicate the Shape() function from derivatives-of-rectangle.glsl
-                const wobble = this.uniforms.iParam1.value;
-                const len = this.options.width * this.renderer.getPixelRatio();
-                const halfGolden = 0.5 * 0.618;
-
-                const sizeX = len * 0.2 * (1.0 + halfGolden * (1.0 + Math.cos(time) * wobble)) + 140.0 * wobble * Math.cos(time * 0.5);
-                const sizeY = len * 0.2 * 1.0 + 140.0 * wobble * Math.cos(time * 0.5);
-
-                const pCenterX = Math.abs(px) - sizeX * 0.5;
-                const pCenterY = Math.abs(py) - sizeY * 0.5;
-
-                // Rectangle SDF logic from Shape()
-                if (Math.min(pCenterX, pCenterY) >= 0.0) {
-                    // Outside corner: Euclidean distance
-                    return Math.sqrt(pCenterX * pCenterX + pCenterY * pCenterY);
-                } else if (pCenterX > pCenterY) {
-                    return pCenterX;
-                } else {
-                    return pCenterY;
-                }
-            }
-            default:
-                // Fallback: distance from center
-                return Math.sqrt(px * px + py * py);
-        }
     }
 
     async loadShader() {
@@ -248,23 +193,6 @@ void main() {
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
 
-            // Show hover text with distance value (for shaders that don't render it themselves)
-            const shadersWithGLSLText = ['derivatives-of-rectangle', 'rotational-derivative', 'ugf-intersection', 'ugf-blends'];
-            if (this.hoverText && !shadersWithGLSLText.includes(this.shaderFilename)) {
-                this.hoverText.style.display = 'block';
-                this.hoverText.style.left = (e.clientX - rect.left + 15) + 'px';
-                this.hoverText.style.top = (e.clientY - rect.top - 10) + 'px';
-
-                const pixelRatio = this.renderer.getPixelRatio();
-                const x = (e.clientX - rect.left) * pixelRatio;
-                const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
-                const px = x - 0.5 * this.options.width * pixelRatio;
-                const py = y - 0.5 * this.options.height * pixelRatio;
-
-                const dist = this.calculateShaderDistance(px, py, this.uniforms.iTime.value);
-                this.hoverText.textContent = `d: ${dist.toFixed(1)}`;
-            }
-
             // Only update mouse position while button is pressed (Shadertoy behavior)
             if (!this.mousePressed) return;
 
@@ -278,10 +206,6 @@ void main() {
         });
 
         canvas.addEventListener('mouseleave', () => {
-            if (this.hoverText) {
-                this.hoverText.style.display = 'none';
-            }
-
             if (this.mousePressed) {
                 this.mousePressed = false;
                 // Negate click position when mouse leaves while pressed
@@ -395,8 +319,8 @@ void main() {
                         this.uniforms.iParam1.value = value;
                     });
                 this.gui.add(this.parameters, 'visualizationMode', {
-                    'Circles': 0,
-                    'Lines': 1
+                    'Points': 0,
+                    'Point and Line': 1
                 }).name('Mode').onChange((value) => {
                     this.uniforms.iParam2.value = value;
                 });
