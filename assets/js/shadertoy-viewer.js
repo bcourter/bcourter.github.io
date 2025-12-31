@@ -85,27 +85,7 @@ class ShadertoyViewer {
     async loadShader() {
         const filename = this.shaderFilename;
 
-        // Shaders that need the library (all except mandelbulb)
-        const shadersNeedingLibrary = [
-            'two-body-field',
-            'rhombus-gradient',
-            'apollonian-circles',
-            'rotational-derivative',
-            'ugf-intersection',
-            'ugf-blends',
-            'derivatives-of-rectangle'
-        ];
-
         try {
-            // Load library.glsl if needed
-            let libraryCode = '';
-            if (shadersNeedingLibrary.includes(filename)) {
-                const libraryResponse = await fetch('/assets/shaders/library.glsl');
-                if (libraryResponse.ok) {
-                    libraryCode = await libraryResponse.text() + '\n\n';
-                }
-            }
-
             // Load the main shader
             const response = await fetch(`/assets/shaders/${filename}.glsl`);
             if (!response.ok) {
@@ -113,12 +93,101 @@ class ShadertoyViewer {
             }
             const shaderCode = await response.text();
 
-            // Combine library + shader
-            this.fragmentShader = libraryCode + shaderCode;
+            // Process #include directives
+            this.fragmentShader = await this.preprocessIncludes(shaderCode, `/assets/shaders/${filename}.glsl`);
         } catch (error) {
             console.error(error);
             // Fallback to a simple shader
             this.fragmentShader = this.getDefaultShader();
+        }
+    }
+
+    async preprocessIncludes(source, currentPath) {
+        // Cache to prevent loading the same file multiple times
+        if (!this.includeCache) {
+            this.includeCache = new Map();
+        }
+
+        // Regular expression to match #include directives
+        const includeRegex = /#include\s+["<]([^">]+)[">]/g;
+
+        let result = source;
+        let match;
+
+        // Find all includes
+        const includes = [];
+        while ((match = includeRegex.exec(source)) !== null) {
+            includes.push({
+                fullMatch: match[0],
+                path: match[1],
+                index: match.index
+            });
+        }
+
+        // Process includes in reverse order to maintain correct positions
+        for (let i = includes.length - 1; i >= 0; i--) {
+            const include = includes[i];
+
+            // Resolve relative path
+            const includePath = this.resolveIncludePath(currentPath, include.path);
+
+            // Check cache first
+            let includeContent;
+            if (this.includeCache.has(includePath)) {
+                includeContent = this.includeCache.get(includePath);
+            } else {
+                // Load the include file
+                try {
+                    const response = await fetch(includePath);
+                    if (!response.ok) {
+                        console.warn(`Failed to load include: ${includePath}`);
+                        continue;
+                    }
+                    includeContent = await response.text();
+
+                    // Recursively process nested includes
+                    includeContent = await this.preprocessIncludes(includeContent, includePath);
+
+                    // Cache the processed content
+                    this.includeCache.set(includePath, includeContent);
+                } catch (error) {
+                    console.warn(`Error loading include ${includePath}:`, error);
+                    continue;
+                }
+            }
+
+            // Replace the #include directive with the file content
+            result = result.substring(0, include.index) +
+                     `\n// BEGIN INCLUDE: ${include.path}\n` +
+                     includeContent +
+                     `\n// END INCLUDE: ${include.path}\n` +
+                     result.substring(include.index + include.fullMatch.length);
+        }
+
+        return result;
+    }
+
+    resolveIncludePath(currentPath, includePath) {
+        // Get directory of current file
+        const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
+
+        // Handle relative paths
+        if (includePath.startsWith('./')) {
+            return currentDir + '/' + includePath.substring(2);
+        } else if (includePath.startsWith('../')) {
+            const parts = currentDir.split('/');
+            const includeParts = includePath.split('/');
+
+            // Remove ../ and corresponding directory
+            while (includeParts[0] === '..') {
+                includeParts.shift();
+                parts.pop();
+            }
+
+            return parts.join('/') + '/' + includeParts.join('/');
+        } else {
+            // Absolute path from shaders directory
+            return '/assets/shaders/' + includePath;
         }
     }
 
