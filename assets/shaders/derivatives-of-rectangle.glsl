@@ -245,7 +245,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
             hoverValue = mouseShape_x.Distance;  // Grad Y uses X derivative
         }
 
-        // Use text scale from uniform
+        // Text scale at 2x
+        float iTextScale = 2.0;
         vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * iTextScale;
 
         // Draw black circle background first

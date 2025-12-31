@@ -52,7 +52,6 @@ class ShadertoyViewer {
             iParam2: { value: 0.0 },
             iParam3: { value: 0.0 },
             iParam4: { value: 1.0 },
-            iTextScale: { value: 1.0 },
         };
 
         // Hover text overlay
@@ -213,7 +212,6 @@ uniform float iParam1;
 uniform float iParam2;
 uniform float iParam3;
 uniform float iParam4;
-uniform float iTextScale;
 
 ${this.fragmentShader}
 
@@ -242,23 +240,6 @@ void main() {
             this.options.height * pixelRatio,
             1
         );
-
-        // Calculate text scale based on actual font metrics
-        this.uniforms.iTextScale.value = this.calculateTextScale();
-    }
-
-    calculateTextScale() {
-        // Create temporary canvas to measure font metrics
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.font = '8px monospace';  // Our shader uses 8x8 bitmap font
-
-        // Measure the height of a capital letter
-        const metrics = ctx.measureText('X');
-        const fontHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-
-        // Calculate scale factor: actual rendered height / 8px reference
-        return Math.round(fontHeight) / 8.0;
     }
 
     setupEventListeners() {
@@ -545,9 +526,6 @@ void main() {
             height * pixelRatio,
             1
         );
-
-        // Update text scale based on actual font metrics
-        this.uniforms.iTextScale.value = this.calculateTextScale();
     }
 
     animate() {

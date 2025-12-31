@@ -190,7 +190,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         Implicit mouseOp = shape(mouseP);
         float hoverValue = mouseOp.Distance;
 
-        // Use text scale from uniform
+        // Text scale at 2x
+        float iTextScale = 2.0;
         vec2 textPos = iMouse.xy + vec2(20.0, -8.0) * iTextScale;
 
         // Draw black text
