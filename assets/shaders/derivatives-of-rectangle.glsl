@@ -23,20 +23,7 @@ Implicit RectangleCenterRotatedExp(vec2 p, vec2 center, vec2 size, float angle, 
 	return IntersectionExponential(xPlane, yPlane, 20.0);
 }
 
-Implicit RectangleUGFSDFCenterRotated(vec2 p, vec2 center, float size, float angle, vec4 color)
-{
-	vec2 centered = p - center;
-    mat2 rot = Rotate2(-angle);
- //   centered = rot * centered;
-    size *= 0.5;
-
-    Implicit x = Plane(centered, vec2(0.), rot * vec2(-1., 0.), color);
-    Implicit y = Plane(centered, vec2(0.), rot * vec2(0., -1.), color);
-    Implicit cornerA = Subtract(Max(x, y), size);
-    Implicit cornerB = Subtract(Max(Negate(x), Negate(y)), size);
-
-	return IntersectionEuclidean(cornerA, cornerB, 0.);
-}
+// Note: RectangleUGFSDFCenterRotated is now in library.glsl
 
 // Viz
 vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)

@@ -301,6 +301,21 @@ Implicit RectangleCenterRotated(vec2 p, vec2 center, vec2 size, float angle, vec
 	return Implicit(dist, vec3(grad * rot, 0.0), color);
 }
 
+Implicit RectangleUGFSDFCenterRotated(vec2 p, vec2 center, float size, float angle, vec4 color)
+{
+	vec2 centered = p - center;
+    mat2 rot = Rotate2(-angle);
+ //   centered = rot * centered;
+    size *= 0.5;
+
+    Implicit x = Plane(centered, vec2(0.), rot * vec2(-1., 0.), color);
+    Implicit y = Plane(centered, vec2(0.), rot * vec2(0., -1.), color);
+    Implicit cornerA = Subtract(Max(x, y), size);
+    Implicit cornerB = Subtract(Max(Negate(x), Negate(y)), size);
+
+	return IntersectionEuclidean(cornerA, cornerB, 0.);
+}
+
 Implicit TriangleWaveEvenPositive(Implicit param, float period, vec4 color)
 {
 	float halfPeriod = 0.5 * period;
