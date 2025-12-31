@@ -52,6 +52,7 @@ class ShadertoyViewer {
             iParam2: { value: 0.0 },
             iParam3: { value: 0.0 },
             iParam4: { value: 1.0 },
+            iTextScale: { value: 1.0 },
         };
 
         // Hover text overlay
@@ -212,6 +213,7 @@ uniform float iParam1;
 uniform float iParam2;
 uniform float iParam3;
 uniform float iParam4;
+uniform float iTextScale;
 
 ${this.fragmentShader}
 
@@ -240,6 +242,9 @@ void main() {
             this.options.height * pixelRatio,
             1
         );
+
+        // Calculate text scale based on actual width
+        this.uniforms.iTextScale.value = this.options.width / 960.0;
     }
 
     setupEventListeners() {
@@ -526,6 +531,9 @@ void main() {
             height * pixelRatio,
             1
         );
+
+        // Update text scale based on new width
+        this.uniforms.iTextScale.value = width / 960.0;
     }
 
     animate() {
