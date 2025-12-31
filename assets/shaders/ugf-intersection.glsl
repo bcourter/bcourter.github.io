@@ -192,16 +192,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         // Calculate text scale based on resolution
         float textScale = iResolution.x / 960.0;
-        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * textScale;
+        vec2 textPos = iMouse.xy + vec2(20.0, -8.0) * textScale;
 
-        // Draw black circle background
-        float circle = 1.0 - smoothstep(0.0, 1.0, length(fragCoord - iMouse.xy) - 2.0 * textScale);
-        opColor = mix(opColor, vec4(0.0, 0.0, 0.0, 1.0), circle * 0.85);
-
-        // Draw white text on top
+        // Draw black text
         float text = printFloat(fragCoord, textPos, hoverValue, textScale);
         if (text > 0.5) {
-            opColor = vec4(1.0, 1.0, 1.0, 1.0);
+            opColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
     }
 
