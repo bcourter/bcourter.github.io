@@ -57,10 +57,6 @@ vec2 center = vec2(0.0);
 float wobble = 0.0;
 int shapeIndex = 0;
 
-vec4 colorWarm = vec4(1, 0, 0, 1);
-vec4 colorCool = vec4(0, 0, 1, 1);
-vec4 colorBlack = vec4(0, 0, 0, 1);
-
 // Sliders
 // Slider functions removed - using iParam uniforms
 

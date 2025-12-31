@@ -310,7 +310,7 @@ void main() {
                 this.parameters.wiggle = 0.2;
                 this.uniforms.iParam1.value = this.parameters.wiggle;
 
-                this.parameters.visualizationMode = 'Circles';
+                this.parameters.visualizationMode = 'Points';
                 this.uniforms.iParam2.value = 0;
 
                 this.gui.add(this.parameters, 'wiggle', 0, 1, 0.01)

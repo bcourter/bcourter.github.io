@@ -47,15 +47,6 @@ vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, fl
 
 
 // Shape
-
-const vec4 colorWarm = vec4(1., 0., 0., 1);
-const vec4 colorCool = vec4(0., 0., 1., 1);
-const vec4 colorBlack = vec4(0, 0, 0, 1);
-
-const vec3 xDir = vec3(1, 0, 0);    
-const vec3 yDir = vec3(0, 1, 0);
-const vec3 zero = vec3(0);
-
 const float bandWidth = 20.0;
 const float falloff = 150.0;
 const float widthThin = 2.0;

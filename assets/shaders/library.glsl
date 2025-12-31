@@ -1,6 +1,16 @@
 // Shared library for Shadertoy shaders
 // Common Implicit struct and operations, text rendering functions
 
+const vec4 colorWarm = vec4(1, 0, 0, 1);
+const vec4 colorCool = vec4(0, 0, 1, 1);
+const vec4 colorBlack = vec4(0, 0, 0, 1);
+
+const vec3 xDir = vec3(1, 0, 0);    
+const vec3 yDir = vec3(0, 1, 0);    
+const vec3 zDir = vec3(0, 0, 1);    
+const vec3 zero = vec3(0);
+
+
 //////////////////
 // Implicit Struct and Basic Operations
 //////////////////
