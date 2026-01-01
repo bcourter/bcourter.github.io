@@ -4,28 +4,8 @@
 #include "library.glsl"
 
 // ===== Common Code =====
+// Note: Drawing functions (DrawVectorField, strokeImplicit, drawImplicit, drawLine, drawFill) are in library.glsl
 vec4 bounds = vec4(30,100,160,18);
-
-
-// Viz
-vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)
-{
-	vec2 spacingVec = vec2(iSpacing);
-	vec2 param = mod(p.xy, spacingVec);
-	vec2 center = p.xy - param + 0.5 * spacingVec;
-	vec2 toCenter = p.xy - center;
-
-	float gradParam = dot(toCenter, iImplicit.Gradient.xy) / length(iImplicit.Gradient);
-	float gradLength = length(iImplicit.Gradient);
-	
-	bool isInCircle = length(p.xy - center) < iSpacing * 0.45 * max(length(iImplicit.Gradient.xy) / gradLength, 0.2);
-	bool isNearLine = abs(dot(toCenter, vec2(-iImplicit.Gradient.y, iImplicit.Gradient.x))) / gradLength < iLineHalfThick + (-gradParam + iSpacing * 0.5) * 0.125;
-	
-	if (isInCircle && isNearLine)
-		return vec4(iColor.rgb * 0.5, 1.);
-
-	return iColor;
-}
 
 // ===== Adapted Image Code =====
 // Apollonian and conic two-body fields
@@ -44,44 +24,6 @@ int viz = 0;
 
 // Sliders
 // Slider functions removed - using iParam uniforms
-
-
-vec4 strokeImplicit(Implicit a, float width, vec4 base) {
-    vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
-    
-    float interp = clamp(width * 0.5 - abs(a.Distance) / length(a.Gradient), 0.0, 1.);
-    return mix(base, color, color.a * interp);
-    
-    return base;
-}
-
-vec4 drawImplicit(Implicit a, vec4 base) {
-    float bandWidth = 20.0;
-    float falloff = 150.0;
-    float widthThin = 2.0;
-    float widthThick = 4.0;
-
-    vec4 opColor = mix(base, a.Color, (a.Distance < 0.0 ? a.Color.a * 0.1 : 0.0));
-    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);  
-
-    wave.Color.a = max(0.2, 1.0 - abs(a.Distance) / falloff);
-    opColor = strokeImplicit(wave, widthThin, opColor);
-    opColor = strokeImplicit(a, widthThick, opColor);
-    
-    return opColor;
-}
-
-vec4 drawLine(Implicit a, vec4 opColor) {
-    a.Color.a = 0.75;
-    return strokeImplicit(a, 2.0, opColor);
-}
-
-vec4 drawFill(Implicit a, vec4 opColor) {
-    if (a.Distance <= 0.0)
-        return mix(opColor, a.Color, a.Color.a);
-
-    return opColor;
-}
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);

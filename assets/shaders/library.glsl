@@ -488,3 +488,102 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale, int decimal
 
     return result;
 }
+
+//////////////////
+// Drawing Functions
+//////////////////
+
+// Stroke an implicit with a given width
+vec4 strokeImplicit(Implicit a, float width, vec4 base) {
+    vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
+
+    float interp = clamp(width * 0.5 - abs(a.Distance) / length(a.Gradient), 0.0, 1.);
+    return mix(base, color, color.a * interp);
+}
+
+// Draw an implicit with contour lines
+vec4 drawImplicit(Implicit a, vec4 base) {
+    float bandWidth = 20.0;
+    float falloff = 150.0;
+    float widthThin = 2.0;
+    float widthThick = 4.0;
+
+    vec4 color = a.Distance > 0.0 ? colorWarm : colorCool;
+    vec4 opColor = mix(base, color, 0.1);
+    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);
+
+    wave.Color.a = max(0.2, 1.0 - abs(a.Distance) / falloff);
+    opColor = strokeImplicit(wave, widthThin, opColor);
+    opColor = strokeImplicit(a, widthThick, opColor);
+
+    return opColor;
+}
+
+// Draw a line (thin stroke)
+vec4 drawLine(Implicit a, vec4 opColor) {
+    a.Color.a = 0.75;
+    return strokeImplicit(a, 2.0, opColor);
+}
+
+// Fill an implicit shape
+vec4 drawFill(Implicit a, vec4 opColor) {
+    float clamped = 0.5 - clamp(a.Distance / length(a.Gradient), -0.5, 0.5);
+    return mix(opColor, a.Color, a.Color.a * clamped);
+}
+
+// Draw a vector field visualization
+vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)
+{
+    vec2 spacingVec = vec2(iSpacing);
+    vec2 param = mod(p.xy, spacingVec);
+    vec2 center = p.xy - param + 0.5 * spacingVec;
+    vec2 toCenter = p.xy - center;
+
+    float gradParam = dot(toCenter, iImplicit.Gradient.xy) / length(iImplicit.Gradient);
+    float gradLength = length(iImplicit.Gradient);
+
+    bool isInCircle = length(p.xy - center) < iSpacing * 0.45 * max(length(iImplicit.Gradient.xy) / gradLength, 0.2);
+    bool isNearLine = abs(dot(toCenter, vec2(-iImplicit.Gradient.y, iImplicit.Gradient.x))) / gradLength < iLineHalfThick + (-gradParam + iSpacing * 0.5) * 0.125;
+
+    if (isInCircle && isNearLine)
+        return vec4(iColor.rgb * 0.5, 1.);
+
+    return iColor;
+}
+
+// Draw a point (circle with outline)
+vec4 drawPoint(vec2 p, vec2 center, float pointRadius, vec4 opColor) {
+    vec4 white = vec4(1.0);
+    vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+    Implicit circle = Circle(p, center, pointRadius, white);
+    opColor = drawFill(circle, opColor);
+    circle.Color = black;
+    return strokeImplicit(circle, 3.0, opColor);
+}
+
+// Draw an arrow from start to end point
+vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
+    float arrowSize = 30.0;
+    float pi = 3.1415926535;
+
+    vec2 delta = startPt - endPt;
+    vec2 arrowNormal = vec2(delta.y, -delta.x);
+    Implicit arrowSpine = Plane(p, endPt, arrowNormal, color);
+    mat2 arrowSideRotation = Rotate2(pi / 12.0);
+    Implicit arrowTip = Max(
+        Plane(p, endPt, -arrowNormal * arrowSideRotation, color),
+        Plane(p, endPt, arrowNormal * inverse(arrowSideRotation), color)
+    );
+
+    vec2 spineDir = normalize(delta);
+    vec2 arrowBackPt = endPt + arrowSize * spineDir;
+    vec2 arrowTailPt = startPt;
+
+    arrowTip = Max(arrowTip, Plane(p, arrowBackPt, delta, color));
+
+    Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, color), length(arrowBackPt - arrowTailPt), 0.0);
+    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
+        opColor = strokeImplicit(arrowSpine, 4.0, opColor);
+
+    return drawFill(arrowTip, opColor);
+}

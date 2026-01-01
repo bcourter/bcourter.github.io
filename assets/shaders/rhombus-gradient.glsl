@@ -27,84 +27,13 @@ bool isSDF = false;
 
 // Sliders
 // Slider functions removed - using iParam uniforms
-
-
-vec4 strokeImplicit(Implicit a, float width, vec4 base) {
-    vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
-    float interp = clamp(width * 0.5 - abs(a.Distance), 0.0, 1.0);
-    return mix(base, color, color.a * interp);
-    
-    return base;
-}
-
-vec4 drawImplicit(Implicit a, vec4 base) {
-    float bandWidth = 20.0;
-    float falloff = 150.0;
-    float widthThin = 2.0;
-    float widthThick = 4.0;
-
-    vec4 opColor = mix(base, a.Color, (a.Distance < 0.0 ? a.Color.a * 0.1 : 0.0));
-    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);    
-
-    wave.Color.a = 0.5 * max(0.2, 1.0 - abs(a.Distance) / falloff);
-    opColor = strokeImplicit(wave, widthThin, opColor);
-    opColor = strokeImplicit(a, widthThick, opColor);
-    
-    return opColor;
-}
+// Note: Drawing functions (strokeImplicit, drawImplicit, drawLine, drawFill, drawPoint, drawArrow) are in library.glsl
 
 vec4 blend(vec4 c, vec4 base) {
     return mix(base, c, c.a);
 }
 
-vec4 drawLine(Implicit a, vec4 opColor) {
-    a.Color.a = 0.75;
-    return strokeImplicit(a, 2.0, opColor);
-}
-
-vec4 drawFill(Implicit a, vec4 opColor) {
-  //  if (a.Distance <= 0.0)
-    float d = clamp(a.Distance + 0.5, 0., 1.);
-    return mix(opColor, a.Color, mix(a.Color.a, 0., d));
-
-    return opColor;
-}
-
-vec4 white = vec4(1.);
-vec4 black = vec4(vec3(0.), 1.);   
-float pointRadius = 5.0;  
-float arrowRadius = 8.0;
-float arrowSize = 30.0;
-    
-vec4 drawPoint(vec2 p, vec2 center, vec4 opColor) {
-    Implicit circle = Circle(p, center, pointRadius, white);
-    opColor = drawFill(circle, opColor);
-    circle.Color = black;
-    return strokeImplicit(circle, 3.0, opColor);
-}
-
-vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
-    vec2 delta = startPt - endPt;
-    vec2 arrowNormal = vec2(delta.y, -delta.x);
-    Implicit arrowSpine = Plane(p, endPt, arrowNormal, color);
-    mat2 arrowSideRotation = Rotate2(pi / 12.0);
-    Implicit arrowTip = Max(
-        Plane(p, endPt, -arrowNormal * arrowSideRotation, color),
-        Plane(p, endPt, arrowNormal * inverse(arrowSideRotation), color)
-    );
-    
-    vec2 spineDir = normalize(delta);
-    vec2 arrowBackPt = endPt + arrowSize * spineDir;
-    vec2 arrowTailPt = startPt;
-
-    arrowTip = Max(arrowTip, Plane(p, arrowBackPt, delta, color));
-    
-    Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, color), length(arrowBackPt - arrowTailPt), 0.0);
-    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
-        opColor = strokeImplicit(arrowSpine, 4.0, opColor);
-    
-    return drawFill(arrowTip, opColor);
-}
+float pointRadius = 5.0;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
@@ -166,10 +95,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         opColor = drawArrow(p, pointB, pointA, black, opColor); // diff
     }
     
-    opColor = drawPoint(p, center, opColor);    
-    opColor = drawPoint(p, pointA, opColor);    
-    opColor = drawPoint(p, pointB, opColor);    
-    opColor = drawPoint(p, pointAB, opColor);
+    opColor = drawPoint(p, center, pointRadius, opColor);
+    opColor = drawPoint(p, pointA, pointRadius, opColor);
+    opColor = drawPoint(p, pointB, pointRadius, opColor);
+    opColor = drawPoint(p, pointAB, pointRadius, opColor);
     
     // perp square
     float perpSize = 12.;

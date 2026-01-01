@@ -24,45 +24,8 @@ vec2 mouse = vec2(-180.0, 150.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
+// Note: Drawing functions (strokeImplicit, drawImplicit, drawLine, drawFill) are in library.glsl
 
-
-
-vec4 strokeImplicit(Implicit a, float width, vec4 base) {
-    vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
-    float interp = clamp(width * 0.5 - abs(a.Distance / length(a.Gradient)), 0.0, 1.0);
-    return mix(base, color, color.a * interp);
-    
-    return base;
-}
-
-vec4 drawImplicit(Implicit a, vec4 base) {
-    float bandWidth = 20.0;
-    float falloff = 150.0;
-    float widthThin = 2.0;
-    float widthThick = 4.0;
-
-    vec4 opColor = mix(base, a.Color, (a.Distance < 0.0 ? a.Color.a * 0.1 : 0.0));
-    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);    
-
-    wave.Color.a = 0.5 * max(0.2, 1.0 - abs(a.Distance) / falloff);
-    opColor = strokeImplicit(wave, widthThin, opColor);
-    opColor = strokeImplicit(a, widthThick, opColor);
-    
-    return opColor;
-}
-
-vec4 drawLine(Implicit a, vec4 opColor) {
-    a.Color.a = 0.75;
-    return strokeImplicit(a, 2.0, opColor);
-}
-
-vec4 drawFill(Implicit a, vec4 opColor) {
-    if (a.Distance <= 0.0)
-        return mix(opColor, a.Color, a.Color.a);
-
-    return opColor;
-}
-    
 Implicit shape(vec2 p){
     Implicit a = Plane(p, center, vec2(0.0, 1.0), vec4(1.0, 0.0, 0.0, 1.0));
     Implicit b = Plane(p, center, direction, vec4(0.0, 0.0, 1.0, 1.0));   

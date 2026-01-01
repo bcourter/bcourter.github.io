@@ -108,29 +108,7 @@ int shapeIndex = 0;
 vec2 mouse = vec2(0.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
-// Note: Text rendering functions (char8x8, getDigitBitmap, printFloat) are in library.glsl
-
-
-vec4 strokeImplicit(Implicit a, float width, vec4 base) {
-    vec4 color = vec4(a.Color.rgb * 0.25, a.Color.a);
-    
-    float interp = clamp(width * 0.5 - abs(a.Distance) / length(a.Gradient), 0.0, 1.);
-    return mix(base, color, color.a * interp);
-    
-    return base;
-}
-
-vec4 drawImplicit(Implicit a, vec4 base) {
-    vec4 color = a.Distance > 0.0 ? colorWarm : colorCool;
-    vec4 opColor = mix(base, color, 0.1);
-    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);  
-
-    wave.Color.a = max(0.2, 1.0 - abs(a.Distance) / falloff);
-    opColor = strokeImplicit(wave, widthThin, opColor);
-    opColor = strokeImplicit(a, widthThick, opColor);
-    
-    return opColor;
-}
+// Note: Text rendering and drawing functions (strokeImplicit, drawImplicit, drawLine, drawFill, DrawVectorField) are in library.glsl
 
 vec4 colorImplicit(Implicit a, vec4 base) {
     vec4 opColor = mix(base, a.Color, 0.1);
@@ -149,18 +127,6 @@ vec4 colorDerivative(Implicit a, vec4 base) {
 
     opColor = strokeImplicit(wave, widthThin, opColor);
     
-    return opColor;
-}
-
-vec4 drawLine(Implicit a, vec4 opColor) {
-    a.Color.a = 0.75;
-    return strokeImplicit(a, 2.0, opColor);
-}
-
-vec4 drawFill(Implicit a, vec4 opColor) {
-    float clamped = 0.5 - clamp(a.Distance / length(a.Gradient), -0.5, 0.5);
-    return mix(opColor, a.Color, a.Color.a * clamped);
-
     return opColor;
 }
 
