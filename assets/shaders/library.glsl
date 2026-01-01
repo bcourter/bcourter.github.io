@@ -587,3 +587,54 @@ vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
 
     return drawFill(arrowTip, opColor);
 }
+
+// Draw boundary map arrow showing where gradient points (used in field notation shaders)
+// Displays cursor circle, arrow from mouse to boundary, and optional distance text
+vec4 drawBoundaryMapArrow(vec2 p, vec2 fragCoord, vec2 mouse, Implicit mouseOp, vec4 opColor, bool drawText) {
+    float arrowRadius = 8.0;
+    float arrowSize = 30.0;
+    float pi = 3.1415926535;
+
+    vec4 annotationColor = vec4(vec3(0.0), 1.0);
+
+    // Draw cursor circle at mouse position
+    Implicit cursor = Circle(p, mouse, arrowRadius, annotationColor);
+    opColor = strokeImplicit(cursor, 3.0, opColor);
+
+    // Calculate boundary point using the boundary map: mouse - distance * gradient
+    vec2 delta = (mouseOp.Distance * mouseOp.Gradient).xy;
+    vec2 boundPt = mouse - delta;
+
+    // Draw arrow from mouse to boundary point
+    vec2 arrowNormal = vec2(delta.y, -delta.x);
+    Implicit arrowSpine = Plane(p, boundPt, arrowNormal, annotationColor);
+    mat2 arrowSideRotation = Rotate2(pi / 12.0);
+    Implicit arrowTip = Max(
+        Plane(p, boundPt, -arrowNormal * arrowSideRotation, annotationColor),
+        Plane(p, boundPt, arrowNormal * inverse(arrowSideRotation), annotationColor)
+    );
+
+    vec2 spineDir = normalize(delta);
+    vec2 arrowBackPt = boundPt + arrowSize * spineDir;
+    vec2 arrowTailPt = mouse - arrowRadius * spineDir;
+    arrowTip = Max(arrowTip, Max(Negate(cursor), Plane(p, arrowBackPt, delta, annotationColor)));
+
+    Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, annotationColor), length(arrowBackPt - arrowTailPt), 0.0);
+    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
+        opColor = strokeImplicit(arrowSpine, 4.0, opColor);
+
+    opColor = drawFill(arrowTip, opColor);
+
+    // Optionally draw distance value as text near mouse
+    if (drawText) {
+        float iTextScale = 2.0;
+        vec2 textPos = (mouse + 0.5 * vec2(iResolution.x, iResolution.y)) + vec2(10.0, -4.0) * iTextScale;
+
+        float text = printFloat(fragCoord, textPos, mouseOp.Distance, iTextScale);
+        if (text > 0.5) {
+            opColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+    }
+
+    return opColor;
+}

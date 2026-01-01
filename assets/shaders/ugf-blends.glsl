@@ -24,7 +24,7 @@ vec2 mouse = vec2(-180.0, 150.0);
 vec4 bounds = vec4(0.0, 0.0, 0.0, 0.0);
 
 // Sliders
-// Note: Drawing functions (strokeImplicit, drawImplicit, drawLine, drawFill) are in library.glsl
+// Note: Drawing functions (strokeImplicit, drawImplicit, drawLine, drawFill, drawBoundaryMapArrow) are in library.glsl
 
 Implicit shape(vec2 p){
     Implicit a = Plane(p, center, vec2(0.0, 1.0), vec4(1.0, 0.0, 0.0, 1.0));
@@ -56,40 +56,8 @@ Implicit shape(vec2 p){
     if (blend == 0 && normalCone.Distance > 0.0)
         minmax = Circle(p, center, 0.0, 0.5 * (a.Color + b.Color));
         
-    // Default is max 
+    // Default is max
     return Implicit(minmax.Distance + offset, minmax.Gradient, minmax.Color);
-}
-
-vec4 drawArrow(vec2 p, vec2 mouse, vec4 opColor) {
-    float arrowRadius = 8.0;
-    float arrowSize = 30.0;
-    
-    vec4 annotationColor = vec4(vec3(0.0), 1.0);
-    Implicit cursor = Circle(p, mouse, arrowRadius, annotationColor);
-    opColor = strokeImplicit(cursor, 3.0, opColor);
-    
-    Implicit opMouse = shape(mouse);
-    vec2 delta = (opMouse.Distance * opMouse.Gradient).xy;
-    vec2 boundPt = mouse - delta;
-    
-    vec2 arrowNormal = vec2(delta.y, -delta.x);
-    Implicit arrowSpine = Plane(p, boundPt, arrowNormal, annotationColor);
-    mat2 arrowSideRotation = Rotate2(pi / 12.0);
-    Implicit arrowTip = Max(
-        Plane(p, boundPt, -arrowNormal * arrowSideRotation, annotationColor),
-        Plane(p, boundPt, arrowNormal * inverse(arrowSideRotation), annotationColor)
-    );
-    
-    vec2 spineDir = normalize(delta);
-    vec2 arrowBackPt = boundPt + arrowSize * spineDir;
-    vec2 arrowTailPt = mouse - arrowRadius * spineDir;
-    arrowTip = Max(arrowTip, Max(Negate(cursor), Plane(p, arrowBackPt, delta, annotationColor)));
-    
-    Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, annotationColor), length(arrowBackPt - arrowTailPt), 0.0);
-    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
-        opColor = strokeImplicit(arrowSpine, 4.0, opColor);
-    
-    return drawFill(arrowTip, opColor);
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
@@ -129,24 +97,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (!(a.Distance + b.Distance > 0.0))
         opColor = strokeImplicit(diff, 3.0, opColor);
 
-    opColor = drawArrow(p, mouse, opColor);
-
-    // Draw distance value as text near mouse
+    // Draw boundary map arrow with distance text
     if (iMouse.xy != vec2(0.0)) {
-        // Calculate shape at MOUSE position
-        vec2 mouseP = iMouse.xy - 0.5 * iResolution.xy;
-        Implicit mouseOp = shape(mouseP);
-        float hoverValue = mouseOp.Distance;
-
-        // Text scale at 2x
-        float iTextScale = 2.0;
-        vec2 textPos = iMouse.xy + vec2(10.0, -4.0) * iTextScale;
-
-        // Draw black text
-        float text = printFloat(fragCoord, textPos, hoverValue, iTextScale);
-        if (text > 0.5) {
-            opColor = vec4(0.0, 0.0, 0.0, 1.0);
-        }
+        Implicit mouseOp = shape(mouse);
+        opColor = drawBoundaryMapArrow(p, fragCoord, mouse, mouseOp, opColor, true);
     }
 
     fragColor = opColor;
