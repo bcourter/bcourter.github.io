@@ -76,12 +76,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 pRot = vec2(p.y, -p.x);
     vec3 gradRot = vec3(shape.Gradient.y, -shape.Gradient.x, 0.0);
     
-    //    opColor = drawImplicit(shape, opColor);    
+    //    opColor = drawImplicit(shape, opColor);
     Implicit grad = Implicit(dot(pRot, shape.Gradient.xy), gradRot, vec4(0., 0., 0., 1));
     float rotateTime = iTime * 0.25;
     Implicit pencilA = Add(Multiply(cos(rotateTime), shape), Multiply(sin(rotateTime), grad));
     Implicit pencilB = Add(Multiply(-sin(rotateTime), shape), Multiply(cos(rotateTime), grad));
-    
+
+    // Color the rotational derivatives: one red, one blue
+    pencilA.Color = colorWarm;  // red
+    pencilB.Color = colorCool;  // blue
+
     opColor = drawImplicit(pencilA, opColor);
     opColor = drawImplicit(pencilB, opColor);
     opColor = strokeImplicit(shape, 5.0, opColor);

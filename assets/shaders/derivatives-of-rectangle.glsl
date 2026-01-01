@@ -22,27 +22,6 @@ Implicit RectangleCenterRotatedExp(vec2 p, vec2 center, vec2 size, float angle, 
 	return IntersectionExponential(xPlane, yPlane, 20.0);
 }
 
-// Viz
-vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)
-{
-	vec2 spacingVec = vec2(iSpacing);
-	vec2 param = mod(p.xy, spacingVec);
-	vec2 center = p.xy - param + 0.5 * spacingVec;
-	vec2 toCenter = p.xy - center;
-
-	float gradParam = dot(toCenter, iImplicit.Gradient.xy) / length(iImplicit.Gradient);
-	float gradLength = length(iImplicit.Gradient);
-	
-	bool isInCircle = length(p.xy - center) < iSpacing * 0.45 * max(length(iImplicit.Gradient.xy) / gradLength, 0.2);
-	bool isNearLine = abs(dot(toCenter, vec2(-iImplicit.Gradient.y, iImplicit.Gradient.x))) / gradLength < iLineHalfThick + (-gradParam + iSpacing * 0.5) * 0.125;
-	
-	if (isInCircle && isNearLine)
-		return vec4(iColor.rgb * 0.5, 1.);
-
-	return iColor;
-}
-
-
 // Shape
 const float bandWidth = 20.0;
 const float falloff = 150.0;
