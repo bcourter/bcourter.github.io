@@ -501,15 +501,15 @@ vec4 strokeImplicit(Implicit a, float width, vec4 base) {
     return mix(base, color, color.a * interp);
 }
 
-// Draw an implicit with contour lines
+// Draw an implicit with contour lines (uses implicit's own color)
 vec4 drawImplicit(Implicit a, vec4 base) {
     float bandWidth = 20.0;
     float falloff = 150.0;
     float widthThin = 2.0;
     float widthThick = 4.0;
 
-    vec4 color = a.Distance > 0.0 ? colorWarm : colorCool;
-    vec4 opColor = mix(base, color, 0.1);
+    // Use the implicit's color for the filled region (when distance < 0)
+    vec4 opColor = mix(base, a.Color, (a.Distance < 0.0 ? a.Color.a * 0.1 : 0.0));
     Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);
 
     wave.Color.a = max(0.2, 1.0 - abs(a.Distance) / falloff);

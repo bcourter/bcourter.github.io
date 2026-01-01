@@ -33,6 +33,7 @@ vec4 blend(vec4 c, vec4 base) {
     return mix(base, c, c.a);
 }
 
+vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
 float pointRadius = 5.0;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
