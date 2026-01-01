@@ -120,7 +120,7 @@ There are few concepts to unpack.  First, lets just get a feel for why the sum a
 </table>
 </div>	
 
-Clearly, the sum indicates the clearance.  The difference is the midsurface field, but scaled by a factor of two.  If one zooms out of the sum field to the far side of either shape, the sum also doubles up far from the midsurface, so we normalize by two in the Shadertoy above.  
+Clearly, the sum indicates the clearance.  The difference is the midsurface field, but scaled by a factor of two.  If one zooms out of the sum field to the far side of either shape, the sum also doubles up far from the midsurface, so we normalize by two in the animation above.  
 
 The two-body field, $$\twobody{\ugf{A}}{\ugf{B}} \equiv \frac{\ugf{A} - \ugf{B}}{\ugf{A} + \ugf{B}}$$, clearly ranges in $$ [-1, 1] $$ in the region not contained in either of the shapes, creating a predictable parametric space for modulation, interpolation, and remapping.  
 

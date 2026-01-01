@@ -13,8 +13,6 @@ Many readers [of the last post](/2023/05/05/what-is-offset.html) requested a mor
 
 {% include math.html %}
 
-*If the controls aren't working on your device, click through to [ShaderToy](https://www.shadertoy.com/view/clV3Rz)*
-
 With `SDF` enabled and `offset` non-negative, the *boundary map* arrow always points to the boundary, via the distance intersection of two planes, $$ \df{F} = \plane{A} \distanceCap \plane{B} $$ .  With `SDF` disabled, the points in a region opposite of the vertex, the *normal cone* of the intersection, fail to point at the boundary.  The normal cone, shown in green, is the set of points closest to the sharp intersection.  Similarly, with `SDF` enabled and negative `offset`, the boundary map of points in the normal cone of the intersection trace out the classic *swallowtail* failure mode of offsetting chains of curves with fillets.  
 
 [![Swallowtail bird](https://ofbirdsandb.files.wordpress.com/2015/09/stki.jpg)
@@ -80,9 +78,7 @@ So far, we've seen minmax, distance-based, and, in the last post, chamfered Bool
 
 <div>{%- include extensions/shadertoy.html id='dtVGRd' -%}</div>
 
-*[(Direct link to Shadertoy if preview failing.)](https://www.shadertoy.com/view/dtVGRd)*
-
-We're going to need some notation to keep the different flavors of Booleans straight.  Let's focus on the Union or $$\min$$ operation, as the intersection can be defined as the complement of the union of the complement of the inputs:
+We're going to need some notation to keep the different flavors of Booleans straight.  Let's focus on the Union or $$\min$$ operation, as the intersection can be defined as the complement of the union of the complement of the inputs via De Morgan's law:
 
 $$ \max(A, B) = -\min(-A, -B) \;. $$
 
