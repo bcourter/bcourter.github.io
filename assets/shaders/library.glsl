@@ -1,5 +1,5 @@
-// Shared library for Shadertoy shaders
-// Common Implicit struct and operations, text rendering functions
+// Shared library for 2D shader visualizations
+// Implicit struct with color, operations, primitives, and text rendering
 
 const vec4 colorWarm = vec4(1, 0, 0, 1);
 const vec4 colorCool = vec4(0, 0, 1, 1);

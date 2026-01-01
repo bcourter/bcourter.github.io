@@ -8,21 +8,7 @@ class ShadertoyViewer {
     constructor(containerId, shaderId, options = {}) {
         this.containerId = containerId;
         this.shaderId = shaderId;
-
-        // Map old Shadertoy IDs to human-readable filenames for backward compatibility
-        const shaderFilenames = {
-            'DssczX': 'two-body-field',
-            'dd2cWy': 'rhombus-gradient',
-            'cs2cW3': 'apollonian-circles',
-            'mtKfWz': 'rotational-derivative',
-            'clV3Rz': 'ugf-intersection',
-            'dtVGRd': 'ugf-blends',
-            '4f2XzW': 'derivatives-of-rectangle',
-            'MdXSWn': 'mandelbulb'
-        };
-
-        // Store normalized shader filename
-        this.shaderFilename = shaderFilenames[shaderId] || shaderId;
+        this.shaderFilename = shaderId; // Use shader ID directly as filename
 
         this.container = document.getElementById(containerId);
 

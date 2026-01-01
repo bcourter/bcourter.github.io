@@ -22,8 +22,6 @@ Implicit RectangleCenterRotatedExp(vec2 p, vec2 center, vec2 size, float angle, 
 	return IntersectionExponential(xPlane, yPlane, 20.0);
 }
 
-// Note: RectangleUGFSDFCenterRotated is now in library.glsl
-
 // Viz
 vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)
 {

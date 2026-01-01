@@ -123,7 +123,7 @@ $$ \shape{R} = \begin{cases}
 
 Let's get a feel for rectangle field and its partial derivatives (click to sample the field):
 
-<div>{%- include extensions/shadertoy.html id='4f2XzW' -%}</div>
+<div>{%- include extensions/shadertoy.html id='derivatives-of-rectangle' -%}</div>
 
 What does it mean that the derivatives have value off of the boundary of the shape?  Isn't there only one shape?  Yes, but under any offset of a shape by a constant, $$\Shape - \lambda$$, the derivative of the offset $$\lambda$$ vanishes.  This magic X-ray vision (aka "first order approximation") of derivative fields results in such constant values along streamlines of the gradient, creating a field *radiated* into and out of the shape from the boundary.  
 
@@ -233,7 +233,7 @@ $$\shape{R} \cos(\phi) + \pdv{\shape{R}}{\alpha} \sin(\phi) \;,$$
 
 while animating $$\phi$$:
 
-<div>{%- include extensions/shadertoy.html id='mtKfWz' -%}</div>
+<div>{%- include extensions/shadertoy.html id='rotational-derivative' -%}</div>
 
 How to interpret the animation?  It's similar to the rotating box, but we are holding the shape fixed and rotating space around it, which seems to me to be the nature of the complex structure induced by a rotation.  Observe that the rotating space passes through the boundary almost as if we were observing the wind on the rotating box, but from the reference frame of our rectangle.  
 
