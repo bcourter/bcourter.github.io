@@ -321,15 +321,9 @@ void main() {
 
         this.container.appendChild(this.gui.domElement);
 
-        // Add parameter controls from config or fallback to generic slider
+        // Add parameter controls from config if provided
         if (this.options.controls !== undefined) {
             this.addControlsFromConfig(this.options.controls);
-        } else {
-            this.gui.add(this.parameters, 'wiggle', 0, 1, 0.1)
-                .name('Parameter')
-                .onChange((value) => {
-                    this.uniforms.iParam1.value = value;
-                });
         }
 
         // Add pause control
