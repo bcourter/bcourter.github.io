@@ -334,7 +334,7 @@ void main() {
 
     addShaderSpecificControls() {
         // Use controls configuration from options if provided
-        if (this.options.controls) {
+        if (this.options.controls !== undefined) {
             this.addControlsFromConfig(this.options.controls);
             return;
         }
