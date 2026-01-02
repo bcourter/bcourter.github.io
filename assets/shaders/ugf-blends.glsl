@@ -97,11 +97,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (!(a.Distance + b.Distance > 0.0))
         opColor = strokeImplicit(diff, 3.0, opColor);
 
-    // Draw boundary map arrow with distance text
-    if (iMouse.xy != vec2(0.0)) {
-        Implicit mouseOp = shape(mouse);
-        opColor = drawBoundaryMapArrow(p, fragCoord, mouse, mouseOp, opColor, true);
-    }
+    // Draw boundary map arrow (always), with distance text (only on mouse hover)
+    Implicit mouseOp = shape(mouse);
+    opColor = drawBoundaryMapArrow(p, fragCoord, mouse, mouseOp, opColor, iMouse.xy != vec2(0.0));
 
     fragColor = opColor;
 }
