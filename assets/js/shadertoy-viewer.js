@@ -362,7 +362,7 @@ void main() {
                 break;
 
             case 'apollonian-circles': // Apollonian circles
-                this.parameters.wiggle = 0.2;
+                this.parameters.wiggle = 1;
                 this.uniforms.iParam1.value = this.parameters.wiggle;
 
                 this.parameters.visualizationMode = 'Points';
