@@ -20,8 +20,8 @@
         container.dataset.initialized = 'true';
 
         var options = {
-          autoplay: true,
-          showGui: true
+          autoplay: {{ include.autoplay | default: true }},
+          showGui: {{ include.gui | default: true }}
         };
 
         // Add controls configuration if provided
