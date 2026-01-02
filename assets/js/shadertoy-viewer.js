@@ -321,8 +321,16 @@ void main() {
 
         this.container.appendChild(this.gui.domElement);
 
-        // Add parameter controls based on shader ID
-        this.addShaderSpecificControls();
+        // Add parameter controls from config or fallback to generic slider
+        if (this.options.controls !== undefined) {
+            this.addControlsFromConfig(this.options.controls);
+        } else {
+            this.gui.add(this.parameters, 'wiggle', 0, 1, 0.1)
+                .name('Parameter')
+                .onChange((value) => {
+                    this.uniforms.iParam1.value = value;
+                });
+        }
 
         // Add pause control
         this.gui.add(this.parameters, 'paused').name('⏸ Pause').onChange((value) => {
@@ -330,21 +338,6 @@ void main() {
                 this.lastTime = performance.now();
             }
         });
-    }
-
-    addShaderSpecificControls() {
-        // Use controls configuration from options if provided
-        if (this.options.controls !== undefined) {
-            this.addControlsFromConfig(this.options.controls);
-            return;
-        }
-
-        // Fallback: generic slider for shaders without explicit controls
-        this.gui.add(this.parameters, 'wiggle', 0, 1, 0.1)
-            .name('Parameter')
-            .onChange((value) => {
-                this.uniforms.iParam1.value = value;
-            });
     }
 
     addControlsFromConfig(controls) {
