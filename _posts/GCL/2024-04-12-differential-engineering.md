@@ -123,7 +123,7 @@ $$ \shape{R} = \begin{cases}
 
 Let's get a feel for rectangle field and its partial derivatives (click to sample the field):
 
-<div>{%- include extensions/shadertoy.html id='derivatives-of-rectangle' -%}</div>
+<div>{%- include extensions/shadertoy.html id='derivatives-of-rectangle' controls='[{"type":"dropdown","param":"iParam2","name":"Field","default":0,"options":{"Distance":0,"Grad X":1,"Grad Y":2}},{"type":"slider","param":"iParam1","name":"Wobble","default":1.0,"min":0,"max":1,"step":0.01}]' -%}</div>
 
 What does it mean that the derivatives have value off of the boundary of the shape?  Isn't there only one shape?  Yes, but under any offset of a shape by a constant, $$\Shape - \lambda$$, the derivative of the offset $$\lambda$$ vanishes.  This magic X-ray vision (aka "first order approximation") of derivative fields results in such constant values along streamlines of the gradient, creating a field *radiated* into and out of the shape from the boundary.  
 
@@ -233,7 +233,7 @@ $$\shape{R} \cos(\phi) + \pdv{\shape{R}}{\alpha} \sin(\phi) \;,$$
 
 while animating $$\phi$$:
 
-<div>{%- include extensions/shadertoy.html id='rotational-derivative' -%}</div>
+<div>{%- include extensions/shadertoy.html id='rotational-derivative' controls='[{"type":"slider","param":"iParam1","name":"Wobble","default":0.5,"min":0,"max":1,"step":0.01},{"type":"dropdown","param":"iParam2","name":"Shape","default":0,"options":{"Rectangle":0,"Circle":1,"Plane":2}}]' -%}</div>
 
 How to interpret the animation?  It's similar to the rotating box, but we are holding the shape fixed and rotating space around it, which seems to me to be the nature of the complex structure induced by a rotation.  Observe that the rotating space passes through the boundary almost as if we were observing the wind on the rotating box, but from the reference frame of our rectangle.  
 

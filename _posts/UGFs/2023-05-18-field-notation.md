@@ -7,7 +7,7 @@ sidebar:
 
 Many readers [of the last post](/2023/05/05/what-is-offset.html) requested a more formal definition of a UGF.  Let's look a bit more closely at the definition of an SDF and how it compares to UGFs and other useful fields in engineering applications.  Some readers may find the visual concepts more intuitive than the nuances, so let's get a feel for the territory first by examining the field at the intersection of two planes:
 
-<div>{%- include extensions/shadertoy.html id='ugf-intersection' -%}</div>
+<div>{%- include extensions/shadertoy.html id='ugf-intersection' controls='[{"type":"checkbox","param":"iParam2","name":"SDF","default":0},{"type":"slider","param":"iParam1","name":"Offset","default":0.5,"min":0,"max":1,"step":0.01},{"type":"slider","param":"iParam3","name":"Angle","default":0.75,"min":0,"max":1,"step":0.01}]' -%}</div>
 
 <!--more-->
 
@@ -76,7 +76,7 @@ We will often generalize properties of planar intersections to behavior near the
 
 So far, we've seen minmax, distance-based, and, in the last post, chamfered Booleans that preserve UGFness.  There are also many useful fast and reliable Boolean operations that produce results that are not UGFs.  
 
-<div>{%- include extensions/shadertoy.html id='ugf-blends' -%}</div>
+<div>{%- include extensions/shadertoy.html id='ugf-blends' controls='[{"type":"dropdown","param":"iParam2","name":"Blend Type","default":0,"options":{"Distance":0,"Euclidean":1,"Quilez":2,"Rvachev":3,"Exponential":4,"Max":5}},{"type":"slider","param":"iParam1","name":"Offset","default":0.5,"min":0,"max":1,"step":0.01},{"type":"slider","param":"iParam3","name":"Angle","default":0.75,"min":0,"max":1,"step":0.01}]' -%}</div>
 
 We're going to need some notation to keep the different flavors of Booleans straight.  Let's focus on the Union or $$\min$$ operation, as the intersection can be defined as the complement of the union of the complement of the inputs via De Morgan's law:
 

@@ -137,7 +137,7 @@ $$  \begin{aligned}
 
 However, those of us from the [Tristan Needham](https://en.wikipedia.org/wiki/Tristan_Needham) school of analysis might prefer a more geometric explanation:  
 
-<div>{%- include extensions/shadertoy.html id='rhombus-gradient' -%}</div>
+<div>{%- include extensions/shadertoy.html id='rhombus-gradient' controls='[{"type":"slider","param":"iParam1","name":"Angle","default":0.75,"min":0,"max":1,"step":0.01}]' -%}</div>
 
 The key observation is that when $$ \ugf{A}\, $$ and $$ \ugf{B}\, $$ are UGFs, the sum and difference gradient vectors form the diagonals of a rhombus, and therefore, are orthogonal.  Note that this rhombus is contained in the normal cone of the fields' intersection (green).
 
@@ -163,7 +163,7 @@ If working with oriented open or nested shapes, several two-body fields map be c
 
 When observing the two-body field above, you might have noticed that the circles inside the blue circle aren't concentric.  Let's simplify the situation down to the two-body field of two points:
 
-<div>{%- include extensions/shadertoy.html id='apollonian-circles' -%}</div>
+<div>{%- include extensions/shadertoy.html id='apollonian-circles' controls='[{"type":"slider","param":"iParam1","name":"Wiggle","default":1.0,"min":0,"max":1,"step":0.01},{"type":"dropdown","param":"iParam2","name":"Mode","default":0,"options":{"Points":0,"Point and Line":1}}]' -%}</div>
 
 *Apollonian circles and conic sections.  Only between two points to we see an Apollonian family of circles, but between a circle and a line, we see the full family of conic sections: ellipses occur near the circle, hyperbola occur near the line, and a parabola appears at $$ \Xi = 0 $$.  Observe that the two-body parameterization creates constant spacing along the horizontal axis containing the circle centers.*
 
