@@ -9,7 +9,7 @@ So far in the series, we've defined the basic idea that [UGFs generalize SDFs](/
 
 *Use the slider to change viewing modes:*
 
-<div>{%- include extensions/shadertoy.html id='two-body-field' -%}</div>
+<div>{%- include extensions/shadertoy.html id='two-body-field' controls='[{"type":"dropdown","param":"iParam1","name":"Mode","default":4,"options":{"Shapes":0,"Clearance":1,"Midsurface":2,"Both":3,"Two-body field":4}}]' -%}</div>
 
 {% include math.html %}
 

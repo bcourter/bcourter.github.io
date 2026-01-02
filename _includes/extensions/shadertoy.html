@@ -19,10 +19,17 @@
       if (container && !container.dataset.initialized) {
         container.dataset.initialized = 'true';
 
-        new ShadertoyViewer(containerId, shaderId, {
+        var options = {
           autoplay: true,
           showGui: true
-        });
+        };
+
+        // Add controls configuration if provided
+        {% if include.controls %}
+        options.controls = {{ include.controls }};
+        {% endif %}
+
+        new ShadertoyViewer(containerId, shaderId, options);
       }
     }
 

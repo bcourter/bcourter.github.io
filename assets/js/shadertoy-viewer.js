@@ -333,6 +333,13 @@ void main() {
     }
 
     addShaderSpecificControls() {
+        // Use controls configuration from options if provided
+        if (this.options.controls) {
+            this.addControlsFromConfig(this.options.controls);
+            return;
+        }
+
+        // Fallback to hardcoded controls for backward compatibility
         // Shader-specific controls based on original Shadertoy sliders
         // Use dropdowns for mode selection, sliders for continuous values
         switch(this.shaderFilename) {
@@ -490,6 +497,53 @@ void main() {
                         this.uniforms.iParam1.value = value;
                     });
         }
+    }
+
+    addControlsFromConfig(controls) {
+        // Add controls from configuration array
+        controls.forEach(control => {
+            const paramName = control.param; // e.g., 'iParam1'
+            const defaultValue = control.default;
+            const name = control.name; // Display name
+
+            // Set initial value
+            this.uniforms[paramName].value = defaultValue;
+
+            if (control.type === 'slider') {
+                // Slider control
+                const propName = control.property || name.toLowerCase();
+                this.parameters[propName] = defaultValue;
+
+                this.gui.add(this.parameters, propName, control.min, control.max, control.step || 0.01)
+                    .name(name)
+                    .onChange((value) => {
+                        this.uniforms[paramName].value = value;
+                    });
+            } else if (control.type === 'dropdown') {
+                // Dropdown control
+                const propName = control.property || name.toLowerCase();
+                const defaultOption = Object.keys(control.options).find(
+                    key => control.options[key] === defaultValue
+                ) || Object.keys(control.options)[0];
+                this.parameters[propName] = defaultOption;
+
+                this.gui.add(this.parameters, propName, control.options)
+                    .name(name)
+                    .onChange((value) => {
+                        this.uniforms[paramName].value = parseFloat(value);
+                    });
+            } else if (control.type === 'checkbox') {
+                // Checkbox control
+                const propName = control.property || name.toLowerCase();
+                this.parameters[propName] = defaultValue !== 0;
+
+                this.gui.add(this.parameters, propName)
+                    .name(name)
+                    .onChange((value) => {
+                        this.uniforms[paramName].value = value ? 1.0 : 0.0;
+                    });
+            }
+        });
     }
 
     onResize() {
