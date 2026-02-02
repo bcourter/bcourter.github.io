@@ -7,5 +7,8 @@ Thanks to a prompt from [Synera](https://www.synera.io/), for the [Future of Eng
 
 Spoiler: it ends with category theory.
 
-Will update with more info after the event.
+<div>{%- include extensions/youtube.html id='Q8cCk3_8Q60' -%}</div>
+
+[Slides are here.](https://docs.google.com/presentation/d/1-OJSMkXlAypVs_gP3Zfe00vy8ix_XtUYi4lkxB9v3gI/edit?usp=sharing)
+
 
