@@ -17,6 +17,8 @@
         #container {
             width: 100%;
             height: 100%;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         /* Person link hover: color shift instead of underline */
@@ -70,45 +72,47 @@
             };
 
             //
-            // Node data — positions scaled to 0.6x to fit embedded viewports
+            // Node data — positions estimated from reference layout
             //
             const nodes = [
                 // Origin
                 { id: "Gradient Control Laboratories", type: "origin", ix: 0, iy: 0 },
 
                 // People
-                { id: "Blake Courter", type: "person", ix: -132, iy: -156 },
-                { id: "Luke Church, PhD", type: "person", ix: 96, iy: -156 },
-                { id: "Dan Rubel", type: "person", ix: 120, iy: -48 },
-                { id: "Steve DeMai", type: "person", ix: -150, iy: 48 },
-                { id: "Keegan McNamara", type: "person", ix: -132, iy: 150 },
-                { id: "Robert Iannuzzo", type: "person", ix: 18, iy: 150 },
-                { id: "Emma Brennan", type: "person", ix: 180, iy: 72 },
-                { id: "Mariana Marasoiu, PhD", type: "person", ix: 258, iy: 156 },
+                { id: "Blake Courter", type: "person", ix: -280, iy: -230 },
+                { id: "Luke Church, PhD", type: "person", ix: 250, iy: -220 },
+                { id: "Dan Rubel", type: "person", ix: 520, iy: 10 },
+                { id: "Steve DeMai", type: "person", ix: -260, iy: 110 },
+                { id: "Keegan McNamara", type: "person", ix: -320, iy: 270 },
+                { id: "Robert Iannuzzo", type: "person", ix: 80, iy: 320 },
+                { id: "Emma Brennan", type: "person", ix: 260, iy: 50 },
+                { id: "Mariana Marasoiu, PhD", type: "person", ix: 340, iy: 270 },
 
-                // Organizations (merged Google (Dart) + Google into single Google node)
-                { id: "PTC", type: "org", category: "CAD", ix: -276, iy: -222 },
-                { id: "SpaceClaim", type: "org", category: "CAD", ix: -162, iy: -228 },
-                { id: "nTop", type: "org", category: "CAD", ix: -60, iy: -228 },
-                { id: "Autodesk", type: "org", category: "CAD", ix: 72, iy: -228 },
-                { id: "Thales", type: "org", category: "CAD", ix: 168, iy: -228 },
-                { id: "Vibe", type: "org", category: "CAD", ix: 252, iy: -228 },
-                { id: "GrabCAD", type: "org", category: "CAD", ix: -168, iy: -66 },
-                { id: "Stratasys", type: "org", category: "Hardware", ix: -174, iy: -30 },
-                { id: "SolidWorks", type: "org", category: "CAD", ix: -264, iy: 12 },
-                { id: "Avid", type: "org", category: "Hardware", ix: -288, iy: 84 },
-                { id: "Google", type: "org", category: "Software", ix: 190, iy: -40 },
-                { id: "Eclipse", type: "org", category: "Software", ix: 162, iy: -6 },
-                { id: "Instantiations", type: "org", category: "Software", ix: 170, iy: -80 },
-                { id: "Lark Systems", type: "org", category: "Collective", ix: 252, iy: -90 },
-                { id: "Cambridge University", type: "org", category: "Academia", ix: 336, iy: -186 },
-                { id: "PPIG", type: "org", category: "Academia", ix: 348, iy: 48 },
-                { id: "AWS", type: "org", category: "Software", ix: -258, iy: 186 },
-                { id: "VC", type: "org", category: "Collective", ix: -168, iy: 198 },
-                { id: "Arkham", type: "org", category: "Software", ix: -72, iy: 198 },
-                { id: "Mythic", type: "org", category: "Software", ix: 36, iy: 198 },
-                { id: "NATION", type: "org", category: "Software", ix: -100, iy: 175 },
-                { id: "Comcast", type: "org", category: "Hardware", ix: 186, iy: 126 }
+                // Organizations
+                { id: "PTC", type: "org", category: "CAD", ix: -530, iy: -160 },
+                { id: "SpaceClaim", type: "org", category: "CAD", ix: -470, iy: -280 },
+                { id: "nTop", type: "org", category: "CAD", ix: -100, iy: -310 },
+                { id: "Autodesk", type: "org", category: "CAD", ix: 40, iy: -310 },
+                { id: "Thales", type: "org", category: "CAD", ix: 400, iy: -290 },
+                { id: "Vibe", type: "org", category: "CAD", ix: 450, iy: -230 },
+                { id: "GrabCAD", type: "org", category: "CAD", ix: -380, iy: -160 },
+                { id: "Stratasys", type: "org", category: "Hardware", ix: -250, iy: -60 },
+                { id: "SolidWorks", type: "org", category: "CAD", ix: -380, iy: 60 },
+                { id: "Avid", type: "org", category: "Hardware", ix: -490, iy: 150 },
+                { id: "Google", type: "org", category: "Software", ix: 550, iy: 50 },
+                { id: "Eclipse", type: "org", category: "Software", ix: 380, iy: 50 },
+                { id: "Instantiations", type: "org", category: "Software", ix: 530, iy: -50 },
+                { id: "Lark Systems", type: "org", category: "Collective", ix: 380, iy: -150 },
+                { id: "Cambridge University", type: "org", category: "Academia", ix: 620, iy: -280 },
+                { id: "PPIG", type: "org", category: "Academia", ix: 420, iy: 340 },
+                { id: "AWS", type: "org", category: "Software", ix: -490, iy: 320 },
+                { id: "VC", type: "org", category: "Collective", ix: -50, iy: 170 },
+                { id: "Arkham", type: "org", category: "Software", ix: -50, iy: 330 },
+                { id: "Mythic", type: "org", category: "Hardware", ix: -80, iy: 270 },
+                { id: "NATION", type: "org", category: "Software", ix: -200, iy: 330 },
+                { id: "Comcast", type: "org", category: "Hardware", ix: 200, iy: 130 },
+                { id: "FluidForm", type: "org", category: "Hardware", ix: -350, iy: -310 },
+                { id: "ConstructivIQ", type: "org", category: "CAD", ix: 300, iy: -310 }
             ];
 
             // Initialize simulation positions from compact coordinates
@@ -140,6 +144,7 @@
                 { source: "Blake Courter", target: "nTop" },
                 { source: "Blake Courter", target: "GrabCAD" },
                 { source: "Blake Courter", target: "Stratasys" },
+                { source: "Blake Courter", target: "FluidForm" },
 
                 // Luke Church, PhD
                 { source: "Luke Church, PhD", target: "Autodesk" },
@@ -148,6 +153,7 @@
                 { source: "Luke Church, PhD", target: "Google" },
                 { source: "Luke Church, PhD", target: "Lark Systems" },
                 { source: "Luke Church, PhD", target: "Cambridge University" },
+                { source: "Luke Church, PhD", target: "ConstructivIQ" },
 
                 // Dan Rubel
                 { source: "Dan Rubel", target: "Eclipse" },
@@ -258,7 +264,7 @@
             const legendSwatchW = 22;
             const legendSwatchH = 17;
             const legendEntries = Object.entries(categories);
-            const legendH = legendEntries.length * legendItemH + legendPadding * 2;
+            const legendH = (legendEntries.length + 1) * legendItemH + legendPadding * 2;
             const legendW = 120;
             const legendTotalW = legendW + legendPadding * 2;
             const legendTotalH = legendH;
@@ -539,6 +545,20 @@
                 .attr("fill", "#444")
                 .text(d => d[0]);
 
+            // "Exit" legend item — arrow triangle as key
+            const exitItem = legend.append("g")
+                .attr("transform", `translate(0, ${legendEntries.length * legendItemH})`);
+            exitItem.append("path")
+                .attr("d", `M2,1 L${legendSwatchW - 2},${legendSwatchH / 2} L2,${legendSwatchH - 1} Z`)
+                .attr("fill", "#999");
+            exitItem.append("text")
+                .attr("x", legendSwatchW + 8)
+                .attr("y", legendSwatchH / 2)
+                .attr("dominant-baseline", "central")
+                .attr("font-size", "14px")
+                .attr("fill", "#444")
+                .text("Exit");
+
             // Legend drag — moves legend, does NOT affect simulation nodes
             legend.call(d3.drag()
                 .on("start", function () {
@@ -591,6 +611,29 @@
                                 a.y -= sign * overlapY / 2;
                                 b.y += sign * overlapY / 2;
                             }
+                        }
+                    }
+                }
+
+                // Hard legend separation — push nodes away from legend with half-height padding
+                const lcx = legendBox.x + legendBox.w / 2;
+                const lcy = legendBox.y + legendBox.h / 2;
+                for (const a of nodes) {
+                    if (a.type === "origin") continue;
+                    const ha = getNodeHeight(a);
+                    const wa = getNodeWidth(a);
+                    const padH = ha / 2;
+                    const reqDx = wa / 2 + legendBox.w / 2 + padH;
+                    const reqDy = ha / 2 + legendBox.h / 2 + padH;
+                    const dx = Math.abs(a.x - lcx);
+                    const dy = Math.abs(a.y - lcy);
+                    if (dx < reqDx && dy < reqDy) {
+                        const overlapX = reqDx - dx;
+                        const overlapY = reqDy - dy;
+                        if (overlapX < overlapY) {
+                            a.x += (Math.sign(a.x - lcx) || -1) * overlapX;
+                        } else {
+                            a.y += (Math.sign(a.y - lcy) || -1) * overlapY;
                         }
                     }
                 }
