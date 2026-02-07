@@ -272,9 +272,11 @@
             const legendTotalH = legendH;
 
             // Legend position in SVG coordinates (bottom-left)
+            // Edge gap matches org half-height padding (~21px)
+            const legendEdgePad = 21;
             const legendPos = {
-                x: -width / 2 + 15,
-                y: height / 2 - legendTotalH - 15
+                x: -width / 2 + legendEdgePad + legendPadding,
+                y: height / 2 - legendTotalH - legendEdgePad + legendPadding
             };
 
             // Bounding box of the legend in SVG coords
@@ -601,7 +603,7 @@
                         if (a === draggedNode || b === draggedNode) continue;
                         const ha = getNodeHeight(a), hb = getNodeHeight(b);
                         const padH = (ha + hb) / 4; // half average height
-                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH * 0.5;
+                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2;
                         const reqDy = (ha + hb) / 2 + padH;
                         const dx = Math.abs(b.x - a.x);
                         const dy = Math.abs(b.y - a.y);
@@ -723,6 +725,8 @@
                 event.subject.fx = event.subject.x;
                 event.subject.fy = event.subject.y;
                 draggedNode = event.subject;
+                // Zero collide radius so dragged node passes through others
+                simulation.force("collide").radius(d => d === draggedNode ? 0 : getCollisionRadius(d));
                 d3.select(this).style("cursor", "grabbing");
             }
 
@@ -736,6 +740,8 @@
                 event.subject.fx = null;
                 event.subject.fy = null;
                 draggedNode = null;
+                // Restore normal collide radii
+                simulation.force("collide").radius(d => getCollisionRadius(d));
                 d3.select(this).style("cursor", "grab");
             }
 
