@@ -47,9 +47,9 @@
             // Category definitions and colors
             //
             const categories = {
-                "Software": { color: "#c5d5ea", border: "#9bb5d4" },
+                "Software": { color: "#f5e8c0", border: "#d8c898" },
                 "Hardware": { color: "#c9e8c9", border: "#9bca9b" },
-                "CAD": { color: "#f5e8c0", border: "#d8c898" },
+                "CAD": { color: "#c5d5ea", border: "#9bb5d4" },
                 "Academia": { color: "#f2c8d4", border: "#d4a0b0" },
                 "Collective": { color: "#d8c8e8", border: "#b8a0d0" }
             };
@@ -105,9 +105,9 @@
                 { id: "PPIG", type: "org", category: "Academia", ix: 348, iy: 48 },
                 { id: "AWS", type: "org", category: "Hardware", ix: -258, iy: 186 },
                 { id: "VC", type: "org", category: "Collective", ix: -168, iy: 198 },
-                { id: "Arkham", type: "org", category: "Collective", ix: -72, iy: 198 },
+                { id: "Arkham", type: "org", category: "Software", ix: -72, iy: 198 },
                 { id: "Mythic", type: "org", category: "CAD", ix: 36, iy: 198 },
-                { id: "NATION", type: "org", category: "Collective", ix: -100, iy: 175 },
+                { id: "NATION", type: "org", category: "Software", ix: -100, iy: 175 },
                 { id: "Comcast", type: "org", category: "Hardware", ix: 186, iy: 126 }
             ];
 
@@ -317,7 +317,7 @@
                 let simNodes;
 
                 function force(alpha) {
-                    const s = Math.max(alpha, 0.15) * 2.0;
+                    const s = Math.max(alpha, 0.15) * 4.0;
                     const lcx = legendBox.x + legendBox.w / 2;
                     const lcy = legendBox.y + legendBox.h / 2;
 
@@ -350,9 +350,14 @@
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink(links)
                     .id(d => d.id)
-                    .strength(d => d.linkType === "acquisition" ? 0.8 : 0.04)
+                    .strength(d => d.linkType === "acquisition" ? 0.8 : 0.025)
                     .distance(d => {
-                        if (d.linkType === "acquisition") return 10;
+                        if (d.linkType === "acquisition") {
+                            // Target distance ≈ current settled length (sum of collision radii)
+                            const sr = getCollisionRadius(nodeMap[d.source.id || d.source]);
+                            const tr = getCollisionRadius(nodeMap[d.target.id || d.target]);
+                            return sr + tr;
+                        }
                         if (d.linkType === "person-origin") return 180;
                         return 130;
                     }))
@@ -379,15 +384,15 @@
                 .attr("stroke-width", d => d.linkType === "person-origin" ? 2.5 : 1.5)
                 .attr("stroke-opacity", 0.5);
 
-            // Render acquisition arrows
+            // Render acquisition arrows — thick center-to-center like person-origin links
             const acqLink = svg.append("g")
                 .attr("class", "acquisition-links")
                 .selectAll("line")
                 .data(acquisitionLinkData)
                 .join("line")
                 .attr("stroke", "#999")
-                .attr("stroke-width", 2)
-                .attr("stroke-opacity", 0.7)
+                .attr("stroke-width", 2.5)
+                .attr("stroke-opacity", 0.5)
                 .attr("marker-end", "url(#arrow)");
 
             //
@@ -568,22 +573,12 @@
                     .attr("x2", d => d.target.x)
                     .attr("y2", d => d.target.y);
 
-                // Acquisition arrows: shorten to node boundaries
-                acqLink.each(function (d) {
-                    const dx = d.target.x - d.source.x;
-                    const dy = d.target.y - d.source.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 1) return;
-                    const nx = dx / dist;
-                    const ny = dy / dist;
-                    const sr = getCollisionRadius(d.source);
-                    const tr = getCollisionRadius(d.target);
-                    d3.select(this)
-                        .attr("x1", d.source.x + nx * sr)
-                        .attr("y1", d.source.y + ny * sr)
-                        .attr("x2", d.target.x - nx * tr)
-                        .attr("y2", d.target.y - ny * tr);
-                });
+                // Acquisition arrows: center-to-center like person-origin links
+                acqLink
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
 
                 node.attr("transform", d => `translate(${d.x},${d.y})`);
             });
