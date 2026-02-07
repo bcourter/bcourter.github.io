@@ -30,19 +30,25 @@ If you have not used CAD daily, you might not know the big secret of engineering
 
 CAD systems tend to work best when creating models. Although they tend to say "no" more than one would expect, it's mostly tractable to just keep adding and subtracting from one's CAD part, without ever moving a curve or surface once placed. For this reason, "feature-based" (aka "history-based", "generative", and "computational") CAD uses visual or code-based scripts to automate such forward-moving operations.
 
+![Traditional CAD creation workflow](/assets/blog/Geometry-as-Code/cad-creation.svg){: width="50%"}
+
 You can stop reading now. This lone reality explains CAD's fundamental flaw: a single opinion on design intent cannot possibly capture all stakeholders' interests in a part.
 
-### CAD Editing
+### CAD editing
 
 Yet history-based systems create recipes that users struggle to understand or edit. It's common for users to paint themselves into a corner and need to start over, minutes after thinking a design was complete. Editing other users' designs, reuse without anticipation, and other normal design work has proven impossible.
 
 What about more interactive techniques? My first startup, SpaceClaim (currently thriving as [ANSYS Discovery](https://www.ansys.com/products/3d-design/ansys-discovery)), successfully confronted the history-based setup, but we also found that editing fully featured CAD parts directly did not scale as well as excellently constructed feature-based models.
 
-### Machine Learning
+![CAD editing challenges](/assets/blog/Geometry-as-Code/cad-editing.svg){: width="50%"}
+
+### Machine learning
 
 Now let's say you're the Cursor guys. You can see what appears to be programs generating what appears to be complex shapes. Seems like a no-brainer application for machine learning: learn the outputs from the inputs and invert! We've solved the $Ax = b$ of CAD.
 
 Unfortunately, missing is the engineering knowledge context to make any sense of such geometry, and worse, it's just not the case that the dimensions and constraints used in CAD reliably relate in any way to any stakeholder's intent.
+
+![AI and ML learning challenge](/assets/blog/Geometry-as-Code/ai-learning.svg){: width="50%"}
 
 ## Traditional geometry is hard for AI
 
@@ -97,7 +103,7 @@ This isn't a new idea, but only recently have computers become powerful enough t
 
 **Today**, modern GPUs can process millions of points in parallel, making real-time interaction possible. Entertainment software like Adobe's tools already use these techniques—they're just not precise enough for engineering yet.
 
-## The Omega Vision: Software Engineering Meets Engineering Software
+## The Omega vision: software engineering meets engineering software
 
 At Gradient Control Laboratories, we're building **Omega**, a complete reimagining of engineering software built on geometry as pure code.
 
@@ -123,7 +129,7 @@ Over the holiday break, Dan prompt injected the language spec into Gemini 3 prom
 
 NASA seemed to like it, so we figured we might as well tell everyone else about it too.
 
-## Why This Matters: Democratizing Engineering Intelligence
+## Why this matters: democratizing engineering intelligence
 
 The ultimate goal isn't just better CAD software. It's creating a world where engineering knowledge becomes portable, reusable, and understandable by AI. Where the intelligence behind design decisions lives in the geometry itself, not locked away in proprietary algorithms.
 
