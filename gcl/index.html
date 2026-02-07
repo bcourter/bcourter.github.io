@@ -243,7 +243,7 @@
             let width = container.clientWidth;
             let height = container.clientHeight;
 
-            const sizeThreshold = 900;
+            const sizeThreshold = 600;
             function computeVirtual(w, h) {
                 const minDim = Math.min(w, h);
                 const scale = minDim >= sizeThreshold ? 1 : minDim / sizeThreshold;
