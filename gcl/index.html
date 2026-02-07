@@ -18,6 +18,23 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Person link hover: color shift instead of underline */
+        .person-link {
+            text-decoration: none;
+        }
+
+        .person-link text {
+            transition: fill 0.2s ease;
+        }
+
+        .person-link:hover text {
+            fill: #0057b8 !important;
+        }
+
+        .person-link:hover .person-bg {
+            fill: #eef4ff !important;
+        }
     </style>
 </head>
 
@@ -39,6 +56,18 @@
 
             const originColor = "#c8c0e0";
             const originBorder = "#a098c0";
+
+            //
+            // People URLs from NSF Tech Labs RFI Response
+            //
+            const personUrls = {
+                "Blake Courter": "https://www.blakecourter.com/",
+                "Luke Church, PhD": "https://www.linkedin.com/in/lukechurch/",
+                "Dan Rubel": "https://www.linkedin.com/in/danrubel/",
+                "Steve DeMai": "https://www.linkedin.com/in/stephen-demai-a5ba2b4/",
+                "Keegan McNamara": "https://www.linkedin.com/in/keeganmcnamara/",
+                "Mariana Marasoiu, PhD": "https://www.linkedin.com/in/marianamarasoiu/"
+            };
 
             //
             // Node data — positions scaled to 0.6x to fit embedded viewports
@@ -64,8 +93,8 @@
                 { id: "Autodesk", type: "org", category: "Software", ix: 72, iy: -228 },
                 { id: "Thales", type: "org", category: "Software", ix: 168, iy: -228 },
                 { id: "Vibe", type: "org", category: "Software", ix: 252, iy: -228 },
-                { id: "GrabCAD", type: "org", category: "Software", ix: -162, iy: -96 },
-                { id: "Stratasys", type: "org", category: "Hardware", ix: -168, iy: -30 },
+                { id: "GrabCAD", type: "org", category: "Software", ix: -168, iy: -66 },
+                { id: "Stratasys", type: "org", category: "Hardware", ix: -174, iy: -30 },
                 { id: "SolidWorks", type: "org", category: "Software", ix: -264, iy: 12 },
                 { id: "Avid", type: "org", category: "Hardware", ix: -288, iy: 84 },
                 { id: "Google (Dart)", type: "org", category: "CAD", ix: 96, iy: -102 },
@@ -118,18 +147,19 @@
                 // Dan Rubel
                 { source: "Dan Rubel", target: "Eclipse" },
                 { source: "Dan Rubel", target: "Lark Systems" },
+                { source: "Dan Rubel", target: "Google (Dart)" },
 
                 // Steve DeMai
                 { source: "Steve DeMai", target: "SolidWorks" },
                 { source: "Steve DeMai", target: "Avid" },
+                { source: "Steve DeMai", target: "GrabCAD" },
+                { source: "Steve DeMai", target: "Stratasys" },
 
                 // Keegan McNamara
                 { source: "Keegan McNamara", target: "AWS" },
                 { source: "Keegan McNamara", target: "VC" },
                 { source: "Keegan McNamara", target: "Arkham" },
-
-                // Robert Iannuzzo
-                { source: "Robert Iannuzzo", target: "Mythic" },
+                { source: "Keegan McNamara", target: "Mythic" },
 
                 // Emma Brennan
                 { source: "Emma Brennan", target: "Lark Systems" },
@@ -139,18 +169,21 @@
                 { source: "Mariana Marasoiu, PhD", target: "Cambridge University" },
                 { source: "Mariana Marasoiu, PhD", target: "PPIG" },
                 { source: "Mariana Marasoiu, PhD", target: "Google" },
-                { source: "Mariana Marasoiu, PhD", target: "Lark Systems" }
+                { source: "Mariana Marasoiu, PhD", target: "Lark Systems" },
+
+                // Acquisition: Stratasys acquired GrabCAD
+                { source: "Stratasys", target: "GrabCAD", linkType: "acquisition" }
             ];
 
             //
-            // Layout constants — scaled 1.5x from original
+            // Layout constants — scaled ~1.25x from original
             //
-            const orgFontSize = 21;
-            const personFontSize = 27;
-            const originFontSize = 42;
-            const padX = 21;
-            const padY = 12;
-            const lineHeight = 27;
+            const orgFontSize = 18;
+            const personFontSize = 22;
+            const originFontSize = 35;
+            const padX = 18;
+            const padY = 10;
+            const lineHeight = 22;
 
             function getLines(d) {
                 if (d.type === "origin") return ["Gradient", "Control", "Laboratories"];
@@ -159,27 +192,27 @@
             }
 
             function getNodeWidth(d) {
-                if (d.type === "origin") return 330;
+                if (d.type === "origin") return 275;
                 const lines = getLines(d);
                 const fs = d.type === "person" ? personFontSize : orgFontSize;
                 const cw = fs * 0.58;
                 const maxLen = Math.max(...lines.map(l => l.length));
-                if (d.type === "person") return maxLen * cw + 12;
+                if (d.type === "person") return maxLen * cw + 16;
                 return maxLen * cw + padX * 2;
             }
 
             function getNodeHeight(d) {
-                if (d.type === "origin") return 225;
-                if (d.type === "person") return personFontSize + 8;
+                if (d.type === "origin") return 188;
+                if (d.type === "person") return personFontSize + 10;
                 const lines = getLines(d);
                 return lines.length * lineHeight + padY * 2;
             }
 
             function getCollisionRadius(d) {
-                if (d.type === "origin") return 180;
+                if (d.type === "origin") return 150;
                 const w = getNodeWidth(d) / 2;
                 const h = getNodeHeight(d) / 2;
-                return Math.sqrt(w * w + h * h) + 8;
+                return Math.sqrt(w * w + h * h) + 6;
             }
 
             //
@@ -196,15 +229,17 @@
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
             //
-            // Custom boundary repulsion force
+            // Custom boundary repulsion force — uses container div dimensions
             //
             function forceBoundary() {
                 let nodes;
                 let boundW = width, boundH = height;
-                const padding = 20;
-                const strength = 1.0;
+                const padding = 10;
+                const strength = 1.2;
 
                 function force(alpha) {
+                    // Use floor alpha so boundary always has effect, even as sim cools
+                    const s = Math.max(alpha, 0.1) * strength;
                     for (const d of nodes) {
                         const r = getCollisionRadius(d);
                         const left = -boundW / 2 + padding + r;
@@ -212,10 +247,10 @@
                         const top = -boundH / 2 + padding + r;
                         const bottom = boundH / 2 - padding - r;
 
-                        if (d.x < left) d.vx += (left - d.x) * strength * alpha;
-                        if (d.x > right) d.vx += (right - d.x) * strength * alpha;
-                        if (d.y < top) d.vy += (top - d.y) * strength * alpha;
-                        if (d.y > bottom) d.vy += (bottom - d.y) * strength * alpha;
+                        if (d.x < left) d.vx += (left - d.x) * s;
+                        if (d.x > right) d.vx += (right - d.x) * s;
+                        if (d.y < top) d.vy += (top - d.y) * s;
+                        if (d.y > bottom) d.vy += (bottom - d.y) * s;
                     }
                 }
 
@@ -232,9 +267,13 @@
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink(links)
                     .id(d => d.id)
-                    .strength(0.04)
-                    .distance(d => d.linkType === "person-origin" ? 220 : 160))
-                .force("charge", d3.forceManyBody().strength(-200))
+                    .strength(d => d.linkType === "acquisition" ? 0.8 : 0.04)
+                    .distance(d => {
+                        if (d.linkType === "acquisition") return 5;
+                        if (d.linkType === "person-origin") return 180;
+                        return 130;
+                    }))
+                .force("charge", d3.forceManyBody().strength(-150))
                 .force("collide", d3.forceCollide(d => getCollisionRadius(d)).strength(0.9))
                 .force("x", d3.forceX(d => d.ix).strength(0.15))
                 .force("y", d3.forceY(d => d.iy).strength(0.15))
@@ -249,7 +288,10 @@
                 .data(links)
                 .join("line")
                 .attr("stroke", "#b8b8b8")
-                .attr("stroke-width", d => d.linkType === "person-origin" ? 3 : 2)
+                .attr("stroke-width", d => {
+                    if (d.linkType === "acquisition") return 0;
+                    return d.linkType === "person-origin" ? 2.5 : 1.5;
+                })
                 .attr("stroke-opacity", 0.5);
 
             //
@@ -270,11 +312,11 @@
             const originNode = node.filter(d => d.type === "origin");
 
             originNode.append("ellipse")
-                .attr("rx", 172)
-                .attr("ry", 120)
+                .attr("rx", 144)
+                .attr("ry", 100)
                 .attr("fill", originColor)
                 .attr("stroke", originBorder)
-                .attr("stroke-width", 3)
+                .attr("stroke-width", 2.5)
                 .attr("opacity", 0.75);
 
             const originText = originNode.append("text")
@@ -298,11 +340,11 @@
                 .attr("y", d => -getNodeHeight(d) / 2)
                 .attr("width", d => getNodeWidth(d))
                 .attr("height", d => getNodeHeight(d))
-                .attr("rx", 8)
-                .attr("ry", 8)
+                .attr("rx", 7)
+                .attr("ry", 7)
                 .attr("fill", d => categories[d.category].color)
                 .attr("stroke", d => categories[d.category].border)
-                .attr("stroke-width", 2);
+                .attr("stroke-width", 1.5);
 
             const orgText = orgNodes.append("text")
                 .attr("text-anchor", "middle")
@@ -317,26 +359,55 @@
                 .attr("y", (d, i, nodes) => `${(i - (nodes.length - 1) / 2) * 1.2}em`)
                 .text(d => d);
 
-            // --- Person nodes: bold text labels ---
-            node.filter(d => d.type === "person")
-                .append("text")
-                .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "central")
-                .attr("font-size", `${personFontSize}px`)
-                .attr("font-weight", "bold")
-                .attr("fill", "#222")
-                .text(d => d.id);
+            // --- Person nodes: bold text with white background and optional link ---
+            const personNodes = node.filter(d => d.type === "person");
+
+            // Wrap persons that have URLs in an <a> element
+            personNodes.each(function (d) {
+                const g = d3.select(this);
+                const url = personUrls[d.id];
+                const wrapper = url
+                    ? g.append("a")
+                        .attr("href", url)
+                        .attr("target", "_blank")
+                        .attr("class", "person-link")
+                    : g;
+
+                // White background rect
+                const w = getNodeWidth(d);
+                const h = getNodeHeight(d);
+                wrapper.append("rect")
+                    .attr("class", "person-bg")
+                    .attr("x", -w / 2)
+                    .attr("y", -h / 2)
+                    .attr("width", w)
+                    .attr("height", h)
+                    .attr("rx", 4)
+                    .attr("ry", 4)
+                    .attr("fill", "white")
+                    .attr("opacity", 0.9);
+
+                // Text label
+                wrapper.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "central")
+                    .attr("font-size", `${personFontSize}px`)
+                    .attr("font-weight", "bold")
+                    .attr("fill", "#222")
+                    .style("pointer-events", "none")
+                    .text(d.id);
+            });
 
             //
             // Legend — bottom right corner
             //
-            const legendPadding = 14;
-            const legendItemH = 32;
-            const legendSwatchW = 26;
-            const legendSwatchH = 20;
+            const legendPadding = 12;
+            const legendItemH = 28;
+            const legendSwatchW = 22;
+            const legendSwatchH = 17;
             const legendEntries = Object.entries(categories);
             const legendH = legendEntries.length * legendItemH + legendPadding * 2;
-            const legendW = 140;
+            const legendW = 120;
             const legendTotalW = legendW + legendPadding * 2;
             const legendTotalH = legendH;
 
@@ -375,17 +446,25 @@
                 .attr("stroke-width", 1);
 
             legendItem.append("text")
-                .attr("x", legendSwatchW + 10)
+                .attr("x", legendSwatchW + 8)
                 .attr("y", legendSwatchH / 2)
                 .attr("dominant-baseline", "central")
-                .attr("font-size", "15px")
+                .attr("font-size", "14px")
                 .attr("fill", "#444")
                 .text(d => d[0]);
 
             //
-            // Simulation tick
+            // Simulation tick — includes hard boundary clamping as safety net
             //
             simulation.on("tick", () => {
+                // Hard clamp to container bounds
+                const pad = 10;
+                nodes.forEach(d => {
+                    const r = getCollisionRadius(d);
+                    d.x = Math.max(-width / 2 + pad + r, Math.min(width / 2 - pad - r, d.x));
+                    d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
+                });
+
                 link
                     .attr("x1", d => d.source.x)
                     .attr("y1", d => d.source.y)
@@ -418,7 +497,7 @@
             }
 
             //
-            // Responsive resize
+            // Responsive resize — updates boundary force with new container dimensions
             //
             function resize() {
                 width = container.clientWidth;
