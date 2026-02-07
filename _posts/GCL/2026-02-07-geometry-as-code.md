@@ -30,7 +30,7 @@ If you have not used CAD daily, you might not know the big secret of engineering
 
 CAD systems tend to work best when creating models. Although they tend to say "no" more than one would expect, it's mostly tractable to just keep adding and subtracting from one's CAD part, without ever moving a curve or surface once placed. For this reason, "feature-based" (aka "history-based", "generative", and "computational") CAD uses visual or code-based scripts to automate such forward-moving operations.
 
-![Traditional CAD creation workflow](/assets/blog/Geometry-as-Code/cad-creation.svg){: width="50%"}
+![Traditional CAD creation workflow](/assets/blog/Geometry-as-Code/cad-creation.png){: style="width: 50%; display: block; margin-left: auto; margin-right: auto"}
 
 You can stop reading now. This lone reality explains CAD's fundamental flaw: a single opinion on design intent cannot possibly capture all stakeholders' interests in a part.
 
@@ -40,7 +40,7 @@ Yet history-based systems create recipes that users struggle to understand or ed
 
 What about more interactive techniques? My first startup, SpaceClaim (currently thriving as [ANSYS Discovery](https://www.ansys.com/products/3d-design/ansys-discovery)), successfully confronted the history-based setup, but we also found that editing fully featured CAD parts directly did not scale as well as excellently constructed feature-based models.
 
-![CAD editing challenges](/assets/blog/Geometry-as-Code/cad-editing.svg){: width="50%"}
+![CAD editing challenges](/assets/blog/Geometry-as-Code/cad-editing.png){: style="width: 50%; display: block; margin-left: auto; margin-right: auto"}
 
 ### Machine learning
 
@@ -48,7 +48,7 @@ Now let's say you're the Cursor guys. You can see what appears to be programs ge
 
 Unfortunately, missing is the engineering knowledge context to make any sense of such geometry, and worse, it's just not the case that the dimensions and constraints used in CAD reliably relate in any way to any stakeholder's intent.
 
-![AI and ML learning challenge](/assets/blog/Geometry-as-Code/ai-learning.svg){: width="50%"}
+![AI and ML learning challenge](/assets/blog/Geometry-as-Code/ai-learning.png){: style="width: 50%; display: block; margin-left: auto; margin-right: auto"}
 
 ## Traditional geometry is hard for AI
 
@@ -123,7 +123,7 @@ Meanwhile, [Dan Rubel](https://www.linkedin.com/in/danrubel/) treated LatticeRob
 
 Over the holiday break, Dan prompt injected the language spec into Gemini 3 prompts, and we were all surprised by the results. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), just winding down with our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models. I visited the [NASA Text-to-Spaceship symposium](https://ntrs.nasa.gov/) with OmegaAI in tow and generated highly conceptual rockets, rovers, glide vehicles, and even a F1 steering wheel while watching the excellent array of speakers.
 
-![Goddard rocket visualization - placeholder]()
+![OmegaAI Falcon 9 rocket](/assets/blog/Geometry-as-Code/omega-ai-rocket.png){: style="width: 50%; display: block; margin-left: auto; margin-right: auto"}
 
 *(The trivial rocket we designed live at the NASA Text-to-Spaceship symposium.)*
 
@@ -139,7 +139,7 @@ This could fundamentally change how we approach engineering problems. Instead of
 
 And when that happens, we'll finally have tools worthy of human creativity enhanced by AI diligence. And perhaps AI creativity as well. While working on this post, OmegaAI made itself a logo and a soliloquy to celebrate!
 
-![Omega logo - placeholder]()
+![OmegaAI Omega logo](/assets/blog/Geometry-as-Code/omega-logo.png){: style="width: 50%; display: block; margin-left: auto; margin-right: auto"}
 
 ## Can I try Omega or OmegaAI?
 
