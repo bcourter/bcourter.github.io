@@ -41,46 +41,47 @@
             const originBorder = "#a098c0";
 
             //
-            // Node data with initial positions (ix, iy) derived from the reference image
+            // Node data — positions scaled to 0.6x to fit embedded viewports
             //
             const nodes = [
                 // Origin
                 { id: "Gradient Control Laboratories", type: "origin", ix: 0, iy: 0 },
 
                 // People
-                { id: "Blake Courter", type: "person", ix: -220, iy: -260 },
-                { id: "Luke Church, PhD", type: "person", ix: 160, iy: -260 },
-                { id: "Dan Rubel", type: "person", ix: 200, iy: -80 },
-                { id: "Steve DeMai", type: "person", ix: -250, iy: 80 },
-                { id: "Keegan McNamara", type: "person", ix: -220, iy: 250 },
-                { id: "Robert Iannuzzo", type: "person", ix: 30, iy: 250 },
-                { id: "Emma Brennan", type: "person", ix: 300, iy: 120 },
-                { id: "Mariana Marasoiu, PhD", type: "person", ix: 430, iy: 260 },
+                { id: "Blake Courter", type: "person", ix: -132, iy: -156 },
+                { id: "Luke Church, PhD", type: "person", ix: 96, iy: -156 },
+                { id: "Dan Rubel", type: "person", ix: 120, iy: -48 },
+                { id: "Steve DeMai", type: "person", ix: -150, iy: 48 },
+                { id: "Keegan McNamara", type: "person", ix: -132, iy: 150 },
+                { id: "Robert Iannuzzo", type: "person", ix: 18, iy: 150 },
+                { id: "Emma Brennan", type: "person", ix: 180, iy: 72 },
+                { id: "Mariana Marasoiu, PhD", type: "person", ix: 258, iy: 156 },
 
                 // Organizations
-                { id: "PTC", type: "org", category: "Software", ix: -460, iy: -370 },
-                { id: "SpaceClaim", type: "org", category: "Software", ix: -270, iy: -380 },
-                { id: "nTop", type: "org", category: "Software", ix: -100, iy: -380 },
-                { id: "Autodesk", type: "org", category: "Software", ix: 120, iy: -380 },
-                { id: "Thales", type: "org", category: "Software", ix: 280, iy: -380 },
-                { id: "Vibe", type: "org", category: "Software", ix: 420, iy: -380 },
-                { id: "GrabCAD", type: "org", category: "Software", ix: -270, iy: -160 },
-                { id: "Stratasys", type: "org", category: "Hardware", ix: -280, iy: -50 },
-                { id: "SolidWorks", type: "org", category: "Software", ix: -440, iy: 20 },
-                { id: "Avid", type: "org", category: "Hardware", ix: -480, iy: 140 },
-                { id: "Google (Dart)", type: "org", category: "CAD", ix: 160, iy: -170 },
-                { id: "Eclipse", type: "org", category: "CAD", ix: 270, iy: -10 },
-                { id: "Lark Systems", type: "org", category: "Collective", ix: 420, iy: -150 },
-                { id: "Cambridge University", type: "org", category: "Academia", ix: 560, iy: -310 },
-                { id: "PPIG", type: "org", category: "Academia", ix: 580, iy: 80 },
-                { id: "Google", type: "org", category: "CAD", ix: 580, iy: 200 },
-                { id: "AWS", type: "org", category: "Hardware", ix: -430, iy: 310 },
-                { id: "VC", type: "org", category: "Collective", ix: -280, iy: 330 },
-                { id: "Arkham", type: "org", category: "Collective", ix: -120, iy: 330 },
-                { id: "Mythic", type: "org", category: "CAD", ix: 60, iy: 330 }
+                { id: "PTC", type: "org", category: "Software", ix: -276, iy: -222 },
+                { id: "SpaceClaim", type: "org", category: "Software", ix: -162, iy: -228 },
+                { id: "nTop", type: "org", category: "Software", ix: -60, iy: -228 },
+                { id: "Autodesk", type: "org", category: "Software", ix: 72, iy: -228 },
+                { id: "Thales", type: "org", category: "Software", ix: 168, iy: -228 },
+                { id: "Vibe", type: "org", category: "Software", ix: 252, iy: -228 },
+                { id: "GrabCAD", type: "org", category: "Software", ix: -162, iy: -96 },
+                { id: "Stratasys", type: "org", category: "Hardware", ix: -168, iy: -30 },
+                { id: "SolidWorks", type: "org", category: "Software", ix: -264, iy: 12 },
+                { id: "Avid", type: "org", category: "Hardware", ix: -288, iy: 84 },
+                { id: "Google (Dart)", type: "org", category: "CAD", ix: 96, iy: -102 },
+                { id: "Eclipse", type: "org", category: "CAD", ix: 162, iy: -6 },
+                { id: "Lark Systems", type: "org", category: "Collective", ix: 252, iy: -90 },
+                { id: "Cambridge University", type: "org", category: "Academia", ix: 336, iy: -186 },
+                { id: "PPIG", type: "org", category: "Academia", ix: 348, iy: 48 },
+                { id: "Google", type: "org", category: "CAD", ix: 348, iy: 120 },
+                { id: "AWS", type: "org", category: "Hardware", ix: -258, iy: 186 },
+                { id: "VC", type: "org", category: "Collective", ix: -168, iy: 198 },
+                { id: "Arkham", type: "org", category: "Collective", ix: -72, iy: 198 },
+                { id: "Mythic", type: "org", category: "CAD", ix: 36, iy: 198 },
+                { id: "Comcast", type: "org", category: "Hardware", ix: 186, iy: 126 }
             ];
 
-            // Initialize simulation positions from image-derived coordinates
+            // Initialize simulation positions from compact coordinates
             nodes.forEach(n => { n.x = n.ix; n.y = n.iy; });
 
             //
@@ -132,6 +133,7 @@
 
                 // Emma Brennan
                 { source: "Emma Brennan", target: "Lark Systems" },
+                { source: "Emma Brennan", target: "Comcast" },
 
                 // Mariana Marasoiu, PhD
                 { source: "Mariana Marasoiu, PhD", target: "Cambridge University" },
@@ -141,14 +143,14 @@
             ];
 
             //
-            // Layout constants
+            // Layout constants — scaled 1.5x from original
             //
-            const orgFontSize = 14;
-            const personFontSize = 18;
-            const originFontSize = 28;
-            const padX = 14;
-            const padY = 8;
-            const lineHeight = 18;
+            const orgFontSize = 21;
+            const personFontSize = 27;
+            const originFontSize = 42;
+            const padX = 21;
+            const padY = 12;
+            const lineHeight = 27;
 
             function getLines(d) {
                 if (d.type === "origin") return ["Gradient", "Control", "Laboratories"];
@@ -157,27 +159,27 @@
             }
 
             function getNodeWidth(d) {
-                if (d.type === "origin") return 220;
+                if (d.type === "origin") return 330;
                 const lines = getLines(d);
                 const fs = d.type === "person" ? personFontSize : orgFontSize;
                 const cw = fs * 0.58;
                 const maxLen = Math.max(...lines.map(l => l.length));
-                if (d.type === "person") return maxLen * cw + 8;
+                if (d.type === "person") return maxLen * cw + 12;
                 return maxLen * cw + padX * 2;
             }
 
             function getNodeHeight(d) {
-                if (d.type === "origin") return 150;
-                if (d.type === "person") return personFontSize + 6;
+                if (d.type === "origin") return 225;
+                if (d.type === "person") return personFontSize + 8;
                 const lines = getLines(d);
                 return lines.length * lineHeight + padY * 2;
             }
 
             function getCollisionRadius(d) {
-                if (d.type === "origin") return 120;
+                if (d.type === "origin") return 180;
                 const w = getNodeWidth(d) / 2;
                 const h = getNodeHeight(d) / 2;
-                return Math.sqrt(w * w + h * h) + 5;
+                return Math.sqrt(w * w + h * h) + 8;
             }
 
             //
@@ -194,17 +196,49 @@
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
             //
+            // Custom boundary repulsion force
+            //
+            function forceBoundary() {
+                let nodes;
+                let boundW = width, boundH = height;
+                const padding = 20;
+                const strength = 1.0;
+
+                function force(alpha) {
+                    for (const d of nodes) {
+                        const r = getCollisionRadius(d);
+                        const left = -boundW / 2 + padding + r;
+                        const right = boundW / 2 - padding - r;
+                        const top = -boundH / 2 + padding + r;
+                        const bottom = boundH / 2 - padding - r;
+
+                        if (d.x < left) d.vx += (left - d.x) * strength * alpha;
+                        if (d.x > right) d.vx += (right - d.x) * strength * alpha;
+                        if (d.y < top) d.vy += (top - d.y) * strength * alpha;
+                        if (d.y > bottom) d.vy += (bottom - d.y) * strength * alpha;
+                    }
+                }
+
+                force.initialize = function (_) { nodes = _; };
+                force.resize = function (w, h) { boundW = w; boundH = h; return force; };
+                return force;
+            }
+
+            const boundary = forceBoundary();
+
+            //
             // Force simulation
             //
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink(links)
                     .id(d => d.id)
                     .strength(0.04)
-                    .distance(d => d.linkType === "person-origin" ? 180 : 120))
-                .force("charge", d3.forceManyBody().strength(-80))
+                    .distance(d => d.linkType === "person-origin" ? 220 : 160))
+                .force("charge", d3.forceManyBody().strength(-200))
                 .force("collide", d3.forceCollide(d => getCollisionRadius(d)).strength(0.9))
-                .force("x", d3.forceX(d => d.ix).strength(0.25))
-                .force("y", d3.forceY(d => d.iy).strength(0.25));
+                .force("x", d3.forceX(d => d.ix).strength(0.15))
+                .force("y", d3.forceY(d => d.iy).strength(0.15))
+                .force("boundary", boundary);
 
             //
             // Render links
@@ -215,7 +249,7 @@
                 .data(links)
                 .join("line")
                 .attr("stroke", "#b8b8b8")
-                .attr("stroke-width", d => d.linkType === "person-origin" ? 2.5 : 1.5)
+                .attr("stroke-width", d => d.linkType === "person-origin" ? 3 : 2)
                 .attr("stroke-opacity", 0.5);
 
             //
@@ -236,11 +270,11 @@
             const originNode = node.filter(d => d.type === "origin");
 
             originNode.append("ellipse")
-                .attr("rx", 115)
-                .attr("ry", 80)
+                .attr("rx", 172)
+                .attr("ry", 120)
                 .attr("fill", originColor)
                 .attr("stroke", originBorder)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", 3)
                 .attr("opacity", 0.75);
 
             const originText = originNode.append("text")
@@ -264,11 +298,11 @@
                 .attr("y", d => -getNodeHeight(d) / 2)
                 .attr("width", d => getNodeWidth(d))
                 .attr("height", d => getNodeHeight(d))
-                .attr("rx", 6)
-                .attr("ry", 6)
+                .attr("rx", 8)
+                .attr("ry", 8)
                 .attr("fill", d => categories[d.category].color)
                 .attr("stroke", d => categories[d.category].border)
-                .attr("stroke-width", 1.5);
+                .attr("stroke-width", 2);
 
             const orgText = orgNodes.append("text")
                 .attr("text-anchor", "middle")
@@ -294,24 +328,31 @@
                 .text(d => d.id);
 
             //
-            // Legend
+            // Legend — bottom right corner
             //
-            const legendPadding = 12;
-            const legendItemH = 26;
-            const legendSwatchW = 22;
-            const legendSwatchH = 16;
+            const legendPadding = 14;
+            const legendItemH = 32;
+            const legendSwatchW = 26;
+            const legendSwatchH = 20;
             const legendEntries = Object.entries(categories);
             const legendH = legendEntries.length * legendItemH + legendPadding * 2;
-            const legendW = 120;
+            const legendW = 140;
+            const legendTotalW = legendW + legendPadding * 2;
+            const legendTotalH = legendH;
 
-            const legend = svg.append("g")
-                .attr("transform", `translate(${-width / 2 + 30}, ${-height / 2 + 30})`);
+            const legend = svg.append("g");
+
+            function updateLegendPosition() {
+                legend.attr("transform",
+                    `translate(${width / 2 - legendTotalW - 15}, ${height / 2 - legendTotalH - 15})`);
+            }
+            updateLegendPosition();
 
             legend.append("rect")
                 .attr("x", -legendPadding)
                 .attr("y", -legendPadding)
-                .attr("width", legendW + legendPadding * 2)
-                .attr("height", legendH)
+                .attr("width", legendTotalW)
+                .attr("height", legendTotalH)
                 .attr("rx", 8)
                 .attr("ry", 8)
                 .attr("fill", "white")
@@ -327,17 +368,17 @@
             legendItem.append("rect")
                 .attr("width", legendSwatchW)
                 .attr("height", legendSwatchH)
-                .attr("rx", 3)
-                .attr("ry", 3)
+                .attr("rx", 4)
+                .attr("ry", 4)
                 .attr("fill", d => d[1].color)
                 .attr("stroke", d => d[1].border)
                 .attr("stroke-width", 1);
 
             legendItem.append("text")
-                .attr("x", legendSwatchW + 8)
+                .attr("x", legendSwatchW + 10)
                 .attr("y", legendSwatchH / 2)
                 .attr("dominant-baseline", "central")
-                .attr("font-size", "13px")
+                .attr("font-size", "15px")
                 .attr("fill", "#444")
                 .text(d => d[0]);
 
@@ -386,6 +427,10 @@
                     .attr("width", width)
                     .attr("height", height)
                     .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+                boundary.resize(width, height);
+                updateLegendPosition();
+                simulation.alpha(0.3).restart();
             }
 
             window.addEventListener("resize", resize);
