@@ -87,26 +87,26 @@
                 { id: "Mariana Marasoiu, PhD", type: "person", ix: 258, iy: 156 },
 
                 // Organizations (merged Google (Dart) + Google into single Google node)
-                { id: "PTC", type: "org", category: "Software", ix: -276, iy: -222 },
-                { id: "SpaceClaim", type: "org", category: "Software", ix: -162, iy: -228 },
-                { id: "nTop", type: "org", category: "Software", ix: -60, iy: -228 },
-                { id: "Autodesk", type: "org", category: "Software", ix: 72, iy: -228 },
-                { id: "Thales", type: "org", category: "Software", ix: 168, iy: -228 },
-                { id: "Vibe", type: "org", category: "Software", ix: 252, iy: -228 },
-                { id: "GrabCAD", type: "org", category: "Software", ix: -168, iy: -66 },
+                { id: "PTC", type: "org", category: "CAD", ix: -276, iy: -222 },
+                { id: "SpaceClaim", type: "org", category: "CAD", ix: -162, iy: -228 },
+                { id: "nTop", type: "org", category: "CAD", ix: -60, iy: -228 },
+                { id: "Autodesk", type: "org", category: "CAD", ix: 72, iy: -228 },
+                { id: "Thales", type: "org", category: "CAD", ix: 168, iy: -228 },
+                { id: "Vibe", type: "org", category: "CAD", ix: 252, iy: -228 },
+                { id: "GrabCAD", type: "org", category: "CAD", ix: -168, iy: -66 },
                 { id: "Stratasys", type: "org", category: "Hardware", ix: -174, iy: -30 },
-                { id: "SolidWorks", type: "org", category: "Software", ix: -264, iy: 12 },
+                { id: "SolidWorks", type: "org", category: "CAD", ix: -264, iy: 12 },
                 { id: "Avid", type: "org", category: "Hardware", ix: -288, iy: 84 },
-                { id: "Google", type: "org", category: "CAD", ix: 190, iy: -40 },
-                { id: "Eclipse", type: "org", category: "CAD", ix: 162, iy: -6 },
-                { id: "Instantiations", type: "org", category: "CAD", ix: 170, iy: -80 },
+                { id: "Google", type: "org", category: "Software", ix: 190, iy: -40 },
+                { id: "Eclipse", type: "org", category: "Software", ix: 162, iy: -6 },
+                { id: "Instantiations", type: "org", category: "Software", ix: 170, iy: -80 },
                 { id: "Lark Systems", type: "org", category: "Collective", ix: 252, iy: -90 },
                 { id: "Cambridge University", type: "org", category: "Academia", ix: 336, iy: -186 },
                 { id: "PPIG", type: "org", category: "Academia", ix: 348, iy: 48 },
-                { id: "AWS", type: "org", category: "Hardware", ix: -258, iy: 186 },
+                { id: "AWS", type: "org", category: "Software", ix: -258, iy: 186 },
                 { id: "VC", type: "org", category: "Collective", ix: -168, iy: 198 },
                 { id: "Arkham", type: "org", category: "Software", ix: -72, iy: 198 },
-                { id: "Mythic", type: "org", category: "CAD", ix: 36, iy: 198 },
+                { id: "Mythic", type: "org", category: "Software", ix: 36, iy: 198 },
                 { id: "NATION", type: "org", category: "Software", ix: -100, iy: 175 },
                 { id: "Comcast", type: "org", category: "Hardware", ix: 186, iy: 126 }
             ];
@@ -237,14 +237,14 @@
                 .attr("height", height)
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
-            // Arrow marker for acquisition links
+            // Arrow marker for acquisition links (centered at midpoint)
             svg.append("defs").append("marker")
                 .attr("id", "arrow")
                 .attr("viewBox", "0 0 10 6")
-                .attr("refX", 10)
+                .attr("refX", 5)
                 .attr("refY", 3)
-                .attr("markerWidth", 8)
-                .attr("markerHeight", 6)
+                .attr("markerWidth", 10)
+                .attr("markerHeight", 7)
                 .attr("orient", "auto")
                 .append("path")
                 .attr("d", "M0,0 L10,3 L0,6 Z")
@@ -384,16 +384,17 @@
                 .attr("stroke-width", d => d.linkType === "person-origin" ? 2.5 : 1.5)
                 .attr("stroke-opacity", 0.5);
 
-            // Render acquisition arrows — thick center-to-center like person-origin links
+            // Render acquisition arrows — thick center-to-center with midpoint arrowhead
             const acqLink = svg.append("g")
                 .attr("class", "acquisition-links")
-                .selectAll("line")
+                .selectAll("path")
                 .data(acquisitionLinkData)
-                .join("line")
+                .join("path")
                 .attr("stroke", "#999")
                 .attr("stroke-width", 2.5)
                 .attr("stroke-opacity", 0.5)
-                .attr("marker-end", "url(#arrow)");
+                .attr("fill", "none")
+                .attr("marker-mid", "url(#arrow)");
 
             //
             // Render nodes
@@ -555,8 +556,10 @@
                 }));
 
             //
-            // Simulation tick — boundary clamping + arrow endpoint shortening
+            // Simulation tick — boundary clamping + org separation
             //
+            const orgList = nodes.filter(n => n.type === "org");
+
             simulation.on("tick", () => {
                 // Hard clamp to container bounds
                 const pad = 10;
@@ -566,6 +569,32 @@
                     d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
                 });
 
+                // Hard rectangular separation for org nodes — half-height padding
+                for (let i = 0; i < orgList.length; i++) {
+                    for (let j = i + 1; j < orgList.length; j++) {
+                        const a = orgList[i], b = orgList[j];
+                        const ha = getNodeHeight(a), hb = getNodeHeight(b);
+                        const padH = (ha + hb) / 4; // half average height
+                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH;
+                        const reqDy = (ha + hb) / 2 + padH;
+                        const dx = Math.abs(b.x - a.x);
+                        const dy = Math.abs(b.y - a.y);
+                        if (dx < reqDx && dy < reqDy) {
+                            const overlapX = reqDx - dx;
+                            const overlapY = reqDy - dy;
+                            if (overlapX < overlapY) {
+                                const sign = Math.sign(b.x - a.x) || 1;
+                                a.x -= sign * overlapX / 2;
+                                b.x += sign * overlapX / 2;
+                            } else {
+                                const sign = Math.sign(b.y - a.y) || 1;
+                                a.y -= sign * overlapY / 2;
+                                b.y += sign * overlapY / 2;
+                            }
+                        }
+                    }
+                }
+
                 // Regular links: center-to-center
                 link
                     .attr("x1", d => d.source.x)
@@ -573,12 +602,12 @@
                     .attr("x2", d => d.target.x)
                     .attr("y2", d => d.target.y);
 
-                // Acquisition arrows: center-to-center like person-origin links
-                acqLink
-                    .attr("x1", d => d.source.x)
-                    .attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x)
-                    .attr("y2", d => d.target.y);
+                // Acquisition arrows: center-to-center path with midpoint for arrowhead
+                acqLink.attr("d", d => {
+                    const mx = (d.source.x + d.target.x) / 2;
+                    const my = (d.source.y + d.target.y) / 2;
+                    return `M${d.source.x},${d.source.y} L${mx},${my} L${d.target.x},${d.target.y}`;
+                });
 
                 node.attr("transform", d => `translate(${d.x},${d.y})`);
             });
