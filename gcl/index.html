@@ -580,8 +580,9 @@
             //
             // Simulation tick — boundary clamping + overlap separation
             //
-            const orgList = nodes.filter(n => n.type === "org");
+            const solidList = nodes.filter(n => n.type === "org" || n.type === "origin");
             const personList = nodes.filter(n => n.type === "person");
+            let draggedNode = null;
 
             simulation.on("tick", () => {
                 // Hard clamp to container bounds
@@ -592,10 +593,11 @@
                     d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
                 });
 
-                // Hard rectangular separation for org nodes — half-height padding
-                for (let i = 0; i < orgList.length; i++) {
-                    for (let j = i + 1; j < orgList.length; j++) {
-                        const a = orgList[i], b = orgList[j];
+                // Hard rectangular separation for solid nodes (orgs + origin) — half-height padding
+                for (let i = 0; i < solidList.length; i++) {
+                    for (let j = i + 1; j < solidList.length; j++) {
+                        const a = solidList[i], b = solidList[j];
+                        if (a === draggedNode || b === draggedNode) continue;
                         const ha = getNodeHeight(a), hb = getNodeHeight(b);
                         const padH = (ha + hb) / 4; // half average height
                         const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH;
@@ -620,10 +622,11 @@
 
                 // Hard separation for person nodes — no padding, just prevent overlap
                 for (const p of personList) {
+                    if (p === draggedNode) continue;
                     const pw = getNodeWidth(p);
                     const ph = getNodeHeight(p);
                     for (const other of nodes) {
-                        if (other === p || other.type === "origin") continue;
+                        if (other === p || other === draggedNode) continue;
                         const ow = getNodeWidth(other);
                         const oh = getNodeHeight(other);
                         const reqDx = (pw + ow) / 2;
@@ -650,7 +653,7 @@
                 const lcx = legendBox.x + legendBox.w / 2;
                 const lcy = legendBox.y + legendBox.h / 2;
                 for (const a of nodes) {
-                    if (a.type === "origin") continue;
+                    if (a.type === "origin" || a === draggedNode) continue;
                     const ha = getNodeHeight(a);
                     const wa = getNodeWidth(a);
                     const padH = ha / 2;
@@ -676,10 +679,13 @@
                     .attr("x2", d => d.target.x)
                     .attr("y2", d => d.target.y);
 
-                // Acquisition arrows: center-to-center path with midpoint for arrowhead
+                // Acquisition arrows: midpoint weighted by collision radii
                 acqLink.attr("d", d => {
-                    const mx = (d.source.x + d.target.x) / 2;
-                    const my = (d.source.y + d.target.y) / 2;
+                    const sr = getCollisionRadius(d.source);
+                    const tr = getCollisionRadius(d.target);
+                    const t = sr / (sr + tr);
+                    const mx = d.source.x + t * (d.target.x - d.source.x);
+                    const my = d.source.y + t * (d.target.y - d.source.y);
                     return `M${d.source.x},${d.source.y} L${mx},${my} L${d.target.x},${d.target.y}`;
                 });
 
@@ -693,6 +699,7 @@
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 event.subject.fx = event.subject.x;
                 event.subject.fy = event.subject.y;
+                draggedNode = event.subject;
                 d3.select(this).style("cursor", "grabbing");
             }
 
@@ -705,6 +712,7 @@
                 if (!event.active) simulation.alphaTarget(0);
                 event.subject.fx = null;
                 event.subject.fy = null;
+                draggedNode = null;
                 d3.select(this).style("cursor", "grab");
             }
 
