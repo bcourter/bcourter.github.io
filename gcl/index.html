@@ -237,17 +237,25 @@
             }
 
             //
-            // SVG setup
+            // SVG setup — virtual viewport scales down on small screens
             //
             const container = document.getElementById("container");
             let width = container.clientWidth;
             let height = container.clientHeight;
 
+            const sizeThreshold = 900;
+            function computeVirtual(w, h) {
+                const minDim = Math.min(w, h);
+                const scale = minDim >= sizeThreshold ? 1 : minDim / sizeThreshold;
+                return { vw: w / scale, vh: h / scale };
+            }
+            let { vw, vh } = computeVirtual(width, height);
+
             const svg = d3.select("#container")
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height)
-                .attr("viewBox", [-width / 2, -height / 2, width, height]);
+                .attr("viewBox", [-vw / 2, -vh / 2, vw, vh]);
 
             // Arrow marker for acquisition links (centered at midpoint)
             svg.append("defs").append("marker")
@@ -279,8 +287,8 @@
             // Edge gap matches org half-height padding (~21px)
             const legendEdgePad = 21;
             const legendPos = {
-                x: -width / 2 + legendEdgePad + legendPadding,
-                y: height / 2 - legendTotalH - legendEdgePad + legendPadding
+                x: -vw / 2 + legendEdgePad + legendPadding,
+                y: vh / 2 - legendTotalH - legendEdgePad + legendPadding
             };
 
             // Bounding box of the legend in SVG coords
@@ -297,7 +305,7 @@
             //
             function forceBoundary() {
                 let simNodes;
-                let boundW = width, boundH = height;
+                let boundW = vw, boundH = vh;
                 const padding = 10;
                 const strength = 1.2;
 
@@ -619,12 +627,12 @@
             let draggedNode = null;
 
             simulation.on("tick", () => {
-                // Hard clamp to container bounds
+                // Hard clamp to virtual container bounds
                 const pad = 10;
                 nodes.forEach(d => {
                     const r = getCollisionRadius(d);
-                    d.x = Math.max(-width / 2 + pad + r, Math.min(width / 2 - pad - r, d.x));
-                    d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
+                    d.x = Math.max(-vw / 2 + pad + r, Math.min(vw / 2 - pad - r, d.x));
+                    d.y = Math.max(-vh / 2 + pad + r, Math.min(vh / 2 - pad - r, d.y));
                 });
 
                 // Hard rectangular separation for org nodes — equal padding, biased toward side-by-side
@@ -783,12 +791,20 @@
             function resize() {
                 width = container.clientWidth;
                 height = container.clientHeight;
+                ({ vw, vh } = computeVirtual(width, height));
                 svg
                     .attr("width", width)
                     .attr("height", height)
-                    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+                    .attr("viewBox", [-vw / 2, -vh / 2, vw, vh]);
 
-                boundary.resize(width, height);
+                boundary.resize(vw, vh);
+
+                // Reposition legend for new virtual dimensions
+                legendPos.x = -vw / 2 + legendEdgePad + legendPadding;
+                legendPos.y = vh / 2 - legendTotalH - legendEdgePad + legendPadding;
+                updateLegendBox();
+                legend.attr("transform", `translate(${legendPos.x}, ${legendPos.y})`);
+
                 simulation.alpha(0.3).restart();
             }
 
