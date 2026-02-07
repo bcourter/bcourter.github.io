@@ -79,14 +79,14 @@
                 { id: "Gradient Control Laboratories", type: "origin", ix: 0, iy: 0 },
 
                 // People
-                { id: "Blake Courter", type: "person", ix: -205, iy: -185 },
-                { id: "Luke Church, PhD", type: "person", ix: 190, iy: -225 },
-                { id: "Dan Rubel", type: "person", ix: 350, iy: 5 },
-                { id: "Steve DeMai", type: "person", ix: -270, iy: 30 },
-                { id: "Keegan McNamara", type: "person", ix: -280, iy: 260 },
-                { id: "Robert Iannuzzo", type: "person", ix: 50, iy: 270 },
-                { id: "Emma Brennan", type: "person", ix: 170, iy: 120 },
-                { id: "Mariana Marasoiu, PhD", type: "person", ix: 390, iy: 170 },
+                { id: "Blake Courter", type: "person", ix: -200, iy: -215 },
+                { id: "Luke Church, PhD", type: "person", ix: 205, iy: -240 },
+                { id: "Dan Rubel", type: "person", ix: 290, iy: -35 },
+                { id: "Steve DeMai", type: "person", ix: -290, iy: 100 },
+                { id: "Keegan McNamara", type: "person", ix: -170, iy: 250 },
+                { id: "Robert Iannuzzo", type: "person", ix: 30, iy: 265 },
+                { id: "Emma Brennan", type: "person", ix: 190, iy: 120 },
+                { id: "Mariana Marasoiu, PhD", type: "person", ix: 500, iy: 210 },
 
                 // Organizations
                 { id: "PTC", type: "org", category: "CAD", ix: -520, iy: -295 },
@@ -580,8 +580,9 @@
             //
             // Simulation tick — boundary clamping + overlap separation
             //
-            const solidList = nodes.filter(n => n.type === "org" || n.type === "origin");
+            const orgList = nodes.filter(n => n.type === "org");
             const personList = nodes.filter(n => n.type === "person");
+            const originNode_ = nodes.find(n => n.type === "origin");
             let draggedNode = null;
 
             simulation.on("tick", () => {
@@ -593,14 +594,14 @@
                     d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
                 });
 
-                // Hard rectangular separation for solid nodes (orgs + origin) — half-height padding
-                for (let i = 0; i < solidList.length; i++) {
-                    for (let j = i + 1; j < solidList.length; j++) {
-                        const a = solidList[i], b = solidList[j];
+                // Hard rectangular separation for org nodes — half-height padding, halved horizontally
+                for (let i = 0; i < orgList.length; i++) {
+                    for (let j = i + 1; j < orgList.length; j++) {
+                        const a = orgList[i], b = orgList[j];
                         if (a === draggedNode || b === draggedNode) continue;
                         const ha = getNodeHeight(a), hb = getNodeHeight(b);
                         const padH = (ha + hb) / 4; // half average height
-                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH;
+                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH * 0.5;
                         const reqDy = (ha + hb) / 2 + padH;
                         const dx = Math.abs(b.x - a.x);
                         const dy = Math.abs(b.y - a.y);
@@ -620,13 +621,35 @@
                     }
                 }
 
-                // Hard separation for person nodes — no padding, just prevent overlap
+                // Hard circular separation for origin vs all other nodes
+                if (originNode_ !== draggedNode) {
+                    const oRad = 150; // origin collision radius (ellipse)
+                    for (const other of nodes) {
+                        if (other === originNode_ || other === draggedNode) continue;
+                        const otherRad = getCollisionRadius(other);
+                        const minDist = oRad + otherRad;
+                        const dx = other.x - originNode_.x;
+                        const dy = other.y - originNode_.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < minDist && dist > 0) {
+                            const overlap = minDist - dist;
+                            const nx = dx / dist;
+                            const ny = dy / dist;
+                            other.x += nx * overlap / 2;
+                            other.y += ny * overlap / 2;
+                            originNode_.x -= nx * overlap / 2;
+                            originNode_.y -= ny * overlap / 2;
+                        }
+                    }
+                }
+
+                // Hard separation for person nodes vs orgs — no padding, just prevent overlap
                 for (const p of personList) {
                     if (p === draggedNode) continue;
                     const pw = getNodeWidth(p);
                     const ph = getNodeHeight(p);
-                    for (const other of nodes) {
-                        if (other === p || other === draggedNode) continue;
+                    for (const other of orgList) {
+                        if (other === draggedNode) continue;
                         const ow = getNodeWidth(other);
                         const oh = getNodeHeight(other);
                         const reqDx = (pw + ow) / 2;
