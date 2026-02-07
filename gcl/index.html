@@ -86,7 +86,7 @@
                 { id: "Emma Brennan", type: "person", ix: 180, iy: 72 },
                 { id: "Mariana Marasoiu, PhD", type: "person", ix: 258, iy: 156 },
 
-                // Organizations
+                // Organizations (merged Google (Dart) + Google into single Google node)
                 { id: "PTC", type: "org", category: "Software", ix: -276, iy: -222 },
                 { id: "SpaceClaim", type: "org", category: "Software", ix: -162, iy: -228 },
                 { id: "nTop", type: "org", category: "Software", ix: -60, iy: -228 },
@@ -97,21 +97,26 @@
                 { id: "Stratasys", type: "org", category: "Hardware", ix: -174, iy: -30 },
                 { id: "SolidWorks", type: "org", category: "Software", ix: -264, iy: 12 },
                 { id: "Avid", type: "org", category: "Hardware", ix: -288, iy: 84 },
-                { id: "Google (Dart)", type: "org", category: "CAD", ix: 96, iy: -102 },
+                { id: "Google", type: "org", category: "CAD", ix: 190, iy: -40 },
                 { id: "Eclipse", type: "org", category: "CAD", ix: 162, iy: -6 },
+                { id: "Instantiations", type: "org", category: "CAD", ix: 170, iy: -80 },
                 { id: "Lark Systems", type: "org", category: "Collective", ix: 252, iy: -90 },
                 { id: "Cambridge University", type: "org", category: "Academia", ix: 336, iy: -186 },
                 { id: "PPIG", type: "org", category: "Academia", ix: 348, iy: 48 },
-                { id: "Google", type: "org", category: "CAD", ix: 348, iy: 120 },
                 { id: "AWS", type: "org", category: "Hardware", ix: -258, iy: 186 },
                 { id: "VC", type: "org", category: "Collective", ix: -168, iy: 198 },
                 { id: "Arkham", type: "org", category: "Collective", ix: -72, iy: 198 },
                 { id: "Mythic", type: "org", category: "CAD", ix: 36, iy: 198 },
+                { id: "NATION", type: "org", category: "Collective", ix: -100, iy: 175 },
                 { id: "Comcast", type: "org", category: "Hardware", ix: 186, iy: 126 }
             ];
 
             // Initialize simulation positions from compact coordinates
             nodes.forEach(n => { n.x = n.ix; n.y = n.iy; });
+
+            // Build node map for quick lookup
+            const nodeMap = {};
+            nodes.forEach(n => { nodeMap[n.id] = n; });
 
             //
             // Link data
@@ -140,14 +145,15 @@
                 { source: "Luke Church, PhD", target: "Autodesk" },
                 { source: "Luke Church, PhD", target: "Thales" },
                 { source: "Luke Church, PhD", target: "Vibe" },
-                { source: "Luke Church, PhD", target: "Google (Dart)" },
+                { source: "Luke Church, PhD", target: "Google" },
                 { source: "Luke Church, PhD", target: "Lark Systems" },
                 { source: "Luke Church, PhD", target: "Cambridge University" },
 
                 // Dan Rubel
                 { source: "Dan Rubel", target: "Eclipse" },
                 { source: "Dan Rubel", target: "Lark Systems" },
-                { source: "Dan Rubel", target: "Google (Dart)" },
+                { source: "Dan Rubel", target: "Google" },
+                { source: "Dan Rubel", target: "Instantiations" },
 
                 // Steve DeMai
                 { source: "Steve DeMai", target: "SolidWorks" },
@@ -160,6 +166,7 @@
                 { source: "Keegan McNamara", target: "VC" },
                 { source: "Keegan McNamara", target: "Arkham" },
                 { source: "Keegan McNamara", target: "Mythic" },
+                { source: "Keegan McNamara", target: "NATION" },
 
                 // Emma Brennan
                 { source: "Emma Brennan", target: "Lark Systems" },
@@ -171,8 +178,10 @@
                 { source: "Mariana Marasoiu, PhD", target: "Google" },
                 { source: "Mariana Marasoiu, PhD", target: "Lark Systems" },
 
-                // Acquisition: Stratasys acquired GrabCAD
-                { source: "Stratasys", target: "GrabCAD", linkType: "acquisition" }
+                // Acquisitions (source was acquired by target)
+                { source: "GrabCAD", target: "Stratasys", linkType: "acquisition" },
+                { source: "Instantiations", target: "Google", linkType: "acquisition" },
+                { source: "Lark Systems", target: "Gradient Control Laboratories", linkType: "acquisition" }
             ];
 
             //
@@ -228,19 +237,59 @@
                 .attr("height", height)
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
+            // Arrow marker for acquisition links
+            svg.append("defs").append("marker")
+                .attr("id", "arrow")
+                .attr("viewBox", "0 0 10 6")
+                .attr("refX", 10)
+                .attr("refY", 3)
+                .attr("markerWidth", 8)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto")
+                .append("path")
+                .attr("d", "M0,0 L10,3 L0,6 Z")
+                .attr("fill", "#999");
+
+            //
+            // Legend — draggable, repels nodes, not affected by forces
+            //
+            const legendPadding = 12;
+            const legendItemH = 28;
+            const legendSwatchW = 22;
+            const legendSwatchH = 17;
+            const legendEntries = Object.entries(categories);
+            const legendH = legendEntries.length * legendItemH + legendPadding * 2;
+            const legendW = 120;
+            const legendTotalW = legendW + legendPadding * 2;
+            const legendTotalH = legendH;
+
+            // Legend position in SVG coordinates (top-left of the group's local origin)
+            const legendPos = {
+                x: width / 2 - legendTotalW - 15,
+                y: height / 2 - legendTotalH - 15
+            };
+
+            // Bounding box of the legend in SVG coords
+            const legendBox = { x: 0, y: 0, w: legendTotalW, h: legendTotalH };
+
+            function updateLegendBox() {
+                legendBox.x = legendPos.x - legendPadding;
+                legendBox.y = legendPos.y - legendPadding;
+            }
+            updateLegendBox();
+
             //
             // Custom boundary repulsion force — uses container div dimensions
             //
             function forceBoundary() {
-                let nodes;
+                let simNodes;
                 let boundW = width, boundH = height;
                 const padding = 10;
                 const strength = 1.2;
 
                 function force(alpha) {
-                    // Use floor alpha so boundary always has effect, even as sim cools
                     const s = Math.max(alpha, 0.1) * strength;
-                    for (const d of nodes) {
+                    for (const d of simNodes) {
                         const r = getCollisionRadius(d);
                         const left = -boundW / 2 + padding + r;
                         const right = boundW / 2 - padding - r;
@@ -254,12 +303,46 @@
                     }
                 }
 
-                force.initialize = function (_) { nodes = _; };
+                force.initialize = function (_) { simNodes = _; };
                 force.resize = function (w, h) { boundW = w; boundH = h; return force; };
                 return force;
             }
 
             const boundary = forceBoundary();
+
+            //
+            // Legend repulsion force — pushes nodes away from legend rectangle
+            //
+            function forceLegendRepel() {
+                let simNodes;
+
+                function force(alpha) {
+                    const s = Math.max(alpha, 0.15) * 2.0;
+                    const lcx = legendBox.x + legendBox.w / 2;
+                    const lcy = legendBox.y + legendBox.h / 2;
+
+                    for (const d of simNodes) {
+                        const r = getCollisionRadius(d);
+                        const dx = d.x - lcx;
+                        const dy = d.y - lcy;
+                        const halfW = legendBox.w / 2 + r + 5;
+                        const halfH = legendBox.h / 2 + r + 5;
+
+                        if (Math.abs(dx) < halfW && Math.abs(dy) < halfH) {
+                            const overlapX = halfW - Math.abs(dx);
+                            const overlapY = halfH - Math.abs(dy);
+                            if (overlapX < overlapY) {
+                                d.vx += Math.sign(dx || 1) * overlapX * s;
+                            } else {
+                                d.vy += Math.sign(dy || 1) * overlapY * s;
+                            }
+                        }
+                    }
+                }
+
+                force.initialize = function (_) { simNodes = _; };
+                return force;
+            }
 
             //
             // Force simulation
@@ -269,7 +352,7 @@
                     .id(d => d.id)
                     .strength(d => d.linkType === "acquisition" ? 0.8 : 0.04)
                     .distance(d => {
-                        if (d.linkType === "acquisition") return 5;
+                        if (d.linkType === "acquisition") return 10;
                         if (d.linkType === "person-origin") return 180;
                         return 130;
                     }))
@@ -277,22 +360,35 @@
                 .force("collide", d3.forceCollide(d => getCollisionRadius(d)).strength(0.9))
                 .force("x", d3.forceX(d => d.ix).strength(0.15))
                 .force("y", d3.forceY(d => d.iy).strength(0.15))
-                .force("boundary", boundary);
+                .force("boundary", boundary)
+                .force("legendRepel", forceLegendRepel());
 
             //
-            // Render links
+            // Separate regular links from acquisition links for rendering
             //
+            const regularLinkData = links.filter(l => l.linkType !== "acquisition");
+            const acquisitionLinkData = links.filter(l => l.linkType === "acquisition");
+
+            // Render regular links
             const link = svg.append("g")
                 .attr("class", "links")
                 .selectAll("line")
-                .data(links)
+                .data(regularLinkData)
                 .join("line")
                 .attr("stroke", "#b8b8b8")
-                .attr("stroke-width", d => {
-                    if (d.linkType === "acquisition") return 0;
-                    return d.linkType === "person-origin" ? 2.5 : 1.5;
-                })
+                .attr("stroke-width", d => d.linkType === "person-origin" ? 2.5 : 1.5)
                 .attr("stroke-opacity", 0.5);
+
+            // Render acquisition arrows
+            const acqLink = svg.append("g")
+                .attr("class", "acquisition-links")
+                .selectAll("line")
+                .data(acquisitionLinkData)
+                .join("line")
+                .attr("stroke", "#999")
+                .attr("stroke-width", 2)
+                .attr("stroke-opacity", 0.7)
+                .attr("marker-end", "url(#arrow)");
 
             //
             // Render nodes
@@ -362,7 +458,6 @@
             // --- Person nodes: bold text with white background and optional link ---
             const personNodes = node.filter(d => d.type === "person");
 
-            // Wrap persons that have URLs in an <a> element
             personNodes.each(function (d) {
                 const g = d3.select(this);
                 const url = personUrls[d.id];
@@ -373,7 +468,6 @@
                         .attr("class", "person-link")
                     : g;
 
-                // White background rect
                 const w = getNodeWidth(d);
                 const h = getNodeHeight(d);
                 wrapper.append("rect")
@@ -387,7 +481,6 @@
                     .attr("fill", "white")
                     .attr("opacity", 0.9);
 
-                // Text label
                 wrapper.append("text")
                     .attr("text-anchor", "middle")
                     .attr("dominant-baseline", "central")
@@ -399,25 +492,12 @@
             });
 
             //
-            // Legend — bottom right corner
+            // Legend — rendered last so it draws on top
             //
-            const legendPadding = 12;
-            const legendItemH = 28;
-            const legendSwatchW = 22;
-            const legendSwatchH = 17;
-            const legendEntries = Object.entries(categories);
-            const legendH = legendEntries.length * legendItemH + legendPadding * 2;
-            const legendW = 120;
-            const legendTotalW = legendW + legendPadding * 2;
-            const legendTotalH = legendH;
+            const legend = svg.append("g")
+                .style("cursor", "grab");
 
-            const legend = svg.append("g");
-
-            function updateLegendPosition() {
-                legend.attr("transform",
-                    `translate(${width / 2 - legendTotalW - 15}, ${height / 2 - legendTotalH - 15})`);
-            }
-            updateLegendPosition();
+            legend.attr("transform", `translate(${legendPos.x}, ${legendPos.y})`);
 
             legend.append("rect")
                 .attr("x", -legendPadding)
@@ -453,8 +533,24 @@
                 .attr("fill", "#444")
                 .text(d => d[0]);
 
+            // Legend drag — moves legend, does NOT affect simulation nodes
+            legend.call(d3.drag()
+                .on("start", function () {
+                    d3.select(this).style("cursor", "grabbing");
+                })
+                .on("drag", function (event) {
+                    legendPos.x += event.dx;
+                    legendPos.y += event.dy;
+                    legend.attr("transform", `translate(${legendPos.x}, ${legendPos.y})`);
+                    updateLegendBox();
+                    simulation.alpha(0.3).restart();
+                })
+                .on("end", function () {
+                    d3.select(this).style("cursor", "grab");
+                }));
+
             //
-            // Simulation tick — includes hard boundary clamping as safety net
+            // Simulation tick — boundary clamping + arrow endpoint shortening
             //
             simulation.on("tick", () => {
                 // Hard clamp to container bounds
@@ -465,17 +561,35 @@
                     d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
                 });
 
+                // Regular links: center-to-center
                 link
                     .attr("x1", d => d.source.x)
                     .attr("y1", d => d.source.y)
                     .attr("x2", d => d.target.x)
                     .attr("y2", d => d.target.y);
 
+                // Acquisition arrows: shorten to node boundaries
+                acqLink.each(function (d) {
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 1) return;
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+                    const sr = getCollisionRadius(d.source);
+                    const tr = getCollisionRadius(d.target);
+                    d3.select(this)
+                        .attr("x1", d.source.x + nx * sr)
+                        .attr("y1", d.source.y + ny * sr)
+                        .attr("x2", d.target.x - nx * tr)
+                        .attr("y2", d.target.y - ny * tr);
+                });
+
                 node.attr("transform", d => `translate(${d.x},${d.y})`);
             });
 
             //
-            // Drag behavior
+            // Drag behavior for nodes
             //
             function dragstarted(event) {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -497,7 +611,7 @@
             }
 
             //
-            // Responsive resize — updates boundary force with new container dimensions
+            // Responsive resize
             //
             function resize() {
                 width = container.clientWidth;
@@ -508,7 +622,6 @@
                     .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
                 boundary.resize(width, height);
-                updateLegendPosition();
                 simulation.alpha(0.3).restart();
             }
 
