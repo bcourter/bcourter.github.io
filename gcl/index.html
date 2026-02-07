@@ -360,7 +360,11 @@
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink(links)
                     .id(d => d.id)
-                    .strength(d => d.linkType === "acquisition" ? 0.8 : 0.025)
+                    .strength(d => {
+                        if (d.linkType === "acquisition") return 0.8;
+                        if (d.linkType === "person-origin") return 0.025;
+                        return 0; // person-org handled by custom max-metric force
+                    })
                     .distance(d => {
                         if (d.linkType === "acquisition") {
                             // Target distance ≈ current settled length (sum of collision radii)
@@ -377,6 +381,29 @@
                 .force("y", d3.forceY(d => d.iy).strength(0.15))
                 .force("boundary", boundary)
                 .force("legendRepel", forceLegendRepel());
+
+            // Custom max-metric (Chebyshev) force for person-org links
+            // dist = max(|dx|, |dy|) so horizontal spread doesn't fight the link
+            const personOrgLinkData = links.filter(l => !l.linkType);
+            simulation.force("personOrgMax", function () {
+                function force(alpha) {
+                    const s = alpha * 0.025;
+                    for (const l of personOrgLinkData) {
+                        const dx = l.target.x - l.source.x;
+                        const dy = l.target.y - l.source.y;
+                        const dist = Math.max(Math.abs(dx), Math.abs(dy)) || 1;
+                        const delta = (dist - 130) / dist * s;
+                        const fx = dx * delta;
+                        const fy = dy * delta;
+                        l.source.vx += fx;
+                        l.target.vx -= fx;
+                        l.source.vy += fy;
+                        l.target.vy -= fy;
+                    }
+                }
+                force.initialize = function () { };
+                return force;
+            }());
 
             //
             // Separate regular links from acquisition links for rendering
