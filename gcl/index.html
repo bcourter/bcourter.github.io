@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gradient Control Laboratories</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        (function () {
+            //
+            // Category definitions and colors
+            //
+            const categories = {
+                "Software": { color: "#c5d5ea", border: "#9bb5d4" },
+                "Hardware": { color: "#c9e8c9", border: "#9bca9b" },
+                "CAD": { color: "#f5e8c0", border: "#d8c898" },
+                "Academia": { color: "#f2c8d4", border: "#d4a0b0" },
+                "Collective": { color: "#d8c8e8", border: "#b8a0d0" }
+            };
+
+            const originColor = "#c8c0e0";
+            const originBorder = "#a098c0";
+
+            //
+            // Node data with initial positions (ix, iy) derived from the reference image
+            //
+            const nodes = [
+                // Origin
+                { id: "Gradient Control Laboratories", type: "origin", ix: 0, iy: 0 },
+
+                // People
+                { id: "Blake Courter", type: "person", ix: -220, iy: -260 },
+                { id: "Luke Church, PhD", type: "person", ix: 160, iy: -260 },
+                { id: "Dan Rubel", type: "person", ix: 200, iy: -80 },
+                { id: "Steve DeMai", type: "person", ix: -250, iy: 80 },
+                { id: "Keegan McNamara", type: "person", ix: -220, iy: 250 },
+                { id: "Robert Iannuzzo", type: "person", ix: 30, iy: 250 },
+                { id: "Emma Brennan", type: "person", ix: 300, iy: 120 },
+                { id: "Mariana Marasoiu, PhD", type: "person", ix: 430, iy: 260 },
+
+                // Organizations
+                { id: "PTC", type: "org", category: "Software", ix: -460, iy: -370 },
+                { id: "SpaceClaim", type: "org", category: "Software", ix: -270, iy: -380 },
+                { id: "nTop", type: "org", category: "Software", ix: -100, iy: -380 },
+                { id: "Autodesk", type: "org", category: "Software", ix: 120, iy: -380 },
+                { id: "Thales", type: "org", category: "Software", ix: 280, iy: -380 },
+                { id: "Vibe", type: "org", category: "Software", ix: 420, iy: -380 },
+                { id: "GrabCAD", type: "org", category: "Software", ix: -270, iy: -160 },
+                { id: "Stratasys", type: "org", category: "Hardware", ix: -280, iy: -50 },
+                { id: "SolidWorks", type: "org", category: "Software", ix: -440, iy: 20 },
+                { id: "Avid", type: "org", category: "Hardware", ix: -480, iy: 140 },
+                { id: "Google (Dart)", type: "org", category: "CAD", ix: 160, iy: -170 },
+                { id: "Eclipse", type: "org", category: "CAD", ix: 270, iy: -10 },
+                { id: "Lark Systems", type: "org", category: "Collective", ix: 420, iy: -150 },
+                { id: "Cambridge University", type: "org", category: "Academia", ix: 560, iy: -310 },
+                { id: "PPIG", type: "org", category: "Academia", ix: 580, iy: 80 },
+                { id: "Google", type: "org", category: "CAD", ix: 580, iy: 200 },
+                { id: "AWS", type: "org", category: "Hardware", ix: -430, iy: 310 },
+                { id: "VC", type: "org", category: "Collective", ix: -280, iy: 330 },
+                { id: "Arkham", type: "org", category: "Collective", ix: -120, iy: 330 },
+                { id: "Mythic", type: "org", category: "CAD", ix: 60, iy: 330 }
+            ];
+
+            // Initialize simulation positions from image-derived coordinates
+            nodes.forEach(n => { n.x = n.ix; n.y = n.iy; });
+
+            //
+            // Link data
+            //
+            const people = [
+                "Blake Courter", "Luke Church, PhD", "Dan Rubel", "Steve DeMai",
+                "Keegan McNamara", "Robert Iannuzzo", "Emma Brennan", "Mariana Marasoiu, PhD"
+            ];
+
+            const links = [
+                // All people connect to GCL
+                ...people.map(p => ({
+                    source: p,
+                    target: "Gradient Control Laboratories",
+                    linkType: "person-origin"
+                })),
+
+                // Blake Courter
+                { source: "Blake Courter", target: "PTC" },
+                { source: "Blake Courter", target: "SpaceClaim" },
+                { source: "Blake Courter", target: "nTop" },
+                { source: "Blake Courter", target: "GrabCAD" },
+                { source: "Blake Courter", target: "Stratasys" },
+
+                // Luke Church, PhD
+                { source: "Luke Church, PhD", target: "Autodesk" },
+                { source: "Luke Church, PhD", target: "Thales" },
+                { source: "Luke Church, PhD", target: "Vibe" },
+                { source: "Luke Church, PhD", target: "Google (Dart)" },
+                { source: "Luke Church, PhD", target: "Lark Systems" },
+                { source: "Luke Church, PhD", target: "Cambridge University" },
+
+                // Dan Rubel
+                { source: "Dan Rubel", target: "Eclipse" },
+                { source: "Dan Rubel", target: "Lark Systems" },
+
+                // Steve DeMai
+                { source: "Steve DeMai", target: "SolidWorks" },
+                { source: "Steve DeMai", target: "Avid" },
+
+                // Keegan McNamara
+                { source: "Keegan McNamara", target: "AWS" },
+                { source: "Keegan McNamara", target: "VC" },
+                { source: "Keegan McNamara", target: "Arkham" },
+
+                // Robert Iannuzzo
+                { source: "Robert Iannuzzo", target: "Mythic" },
+
+                // Emma Brennan
+                { source: "Emma Brennan", target: "Lark Systems" },
+
+                // Mariana Marasoiu, PhD
+                { source: "Mariana Marasoiu, PhD", target: "Cambridge University" },
+                { source: "Mariana Marasoiu, PhD", target: "PPIG" },
+                { source: "Mariana Marasoiu, PhD", target: "Google" },
+                { source: "Mariana Marasoiu, PhD", target: "Lark Systems" }
+            ];
+
+            //
+            // Layout constants
+            //
+            const orgFontSize = 14;
+            const personFontSize = 18;
+            const originFontSize = 28;
+            const padX = 14;
+            const padY = 8;
+            const lineHeight = 18;
+
+            function getLines(d) {
+                if (d.type === "origin") return ["Gradient", "Control", "Laboratories"];
+                if (d.type === "person") return [d.id];
+                return d.id.split(" ");
+            }
+
+            function getNodeWidth(d) {
+                if (d.type === "origin") return 220;
+                const lines = getLines(d);
+                const fs = d.type === "person" ? personFontSize : orgFontSize;
+                const cw = fs * 0.58;
+                const maxLen = Math.max(...lines.map(l => l.length));
+                if (d.type === "person") return maxLen * cw + 8;
+                return maxLen * cw + padX * 2;
+            }
+
+            function getNodeHeight(d) {
+                if (d.type === "origin") return 150;
+                if (d.type === "person") return personFontSize + 6;
+                const lines = getLines(d);
+                return lines.length * lineHeight + padY * 2;
+            }
+
+            function getCollisionRadius(d) {
+                if (d.type === "origin") return 120;
+                const w = getNodeWidth(d) / 2;
+                const h = getNodeHeight(d) / 2;
+                return Math.sqrt(w * w + h * h) + 5;
+            }
+
+            //
+            // SVG setup
+            //
+            const container = document.getElementById("container");
+            let width = container.clientWidth;
+            let height = container.clientHeight;
+
+            const svg = d3.select("#container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+            //
+            // Force simulation
+            //
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links)
+                    .id(d => d.id)
+                    .strength(0.04)
+                    .distance(d => d.linkType === "person-origin" ? 180 : 120))
+                .force("charge", d3.forceManyBody().strength(-80))
+                .force("collide", d3.forceCollide(d => getCollisionRadius(d)).strength(0.9))
+                .force("x", d3.forceX(d => d.ix).strength(0.25))
+                .force("y", d3.forceY(d => d.iy).strength(0.25));
+
+            //
+            // Render links
+            //
+            const link = svg.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(links)
+                .join("line")
+                .attr("stroke", "#b8b8b8")
+                .attr("stroke-width", d => d.linkType === "person-origin" ? 2.5 : 1.5)
+                .attr("stroke-opacity", 0.5);
+
+            //
+            // Render nodes
+            //
+            const node = svg.append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(nodes)
+                .join("g")
+                .style("cursor", "grab")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            // --- Origin node: large ellipse ---
+            const originNode = node.filter(d => d.type === "origin");
+
+            originNode.append("ellipse")
+                .attr("rx", 115)
+                .attr("ry", 80)
+                .attr("fill", originColor)
+                .attr("stroke", originBorder)
+                .attr("stroke-width", 2)
+                .attr("opacity", 0.75);
+
+            const originText = originNode.append("text")
+                .attr("text-anchor", "middle")
+                .attr("font-size", `${originFontSize}px`)
+                .attr("font-weight", "bold")
+                .attr("fill", "#333");
+
+            originText.selectAll("tspan")
+                .data(d => getLines(d))
+                .join("tspan")
+                .attr("x", 0)
+                .attr("y", (d, i, nodes) => `${(i - (nodes.length - 1) / 2) * 1.25}em`)
+                .text(d => d);
+
+            // --- Organization nodes: rounded rectangles ---
+            const orgNodes = node.filter(d => d.type === "org");
+
+            orgNodes.append("rect")
+                .attr("x", d => -getNodeWidth(d) / 2)
+                .attr("y", d => -getNodeHeight(d) / 2)
+                .attr("width", d => getNodeWidth(d))
+                .attr("height", d => getNodeHeight(d))
+                .attr("rx", 6)
+                .attr("ry", 6)
+                .attr("fill", d => categories[d.category].color)
+                .attr("stroke", d => categories[d.category].border)
+                .attr("stroke-width", 1.5);
+
+            const orgText = orgNodes.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .attr("font-size", `${orgFontSize}px`)
+                .attr("fill", "#333");
+
+            orgText.selectAll("tspan")
+                .data(d => getLines(d))
+                .join("tspan")
+                .attr("x", 0)
+                .attr("y", (d, i, nodes) => `${(i - (nodes.length - 1) / 2) * 1.2}em`)
+                .text(d => d);
+
+            // --- Person nodes: bold text labels ---
+            node.filter(d => d.type === "person")
+                .append("text")
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .attr("font-size", `${personFontSize}px`)
+                .attr("font-weight", "bold")
+                .attr("fill", "#222")
+                .text(d => d.id);
+
+            //
+            // Legend
+            //
+            const legendPadding = 12;
+            const legendItemH = 26;
+            const legendSwatchW = 22;
+            const legendSwatchH = 16;
+            const legendEntries = Object.entries(categories);
+            const legendH = legendEntries.length * legendItemH + legendPadding * 2;
+            const legendW = 120;
+
+            const legend = svg.append("g")
+                .attr("transform", `translate(${-width / 2 + 30}, ${-height / 2 + 30})`);
+
+            legend.append("rect")
+                .attr("x", -legendPadding)
+                .attr("y", -legendPadding)
+                .attr("width", legendW + legendPadding * 2)
+                .attr("height", legendH)
+                .attr("rx", 8)
+                .attr("ry", 8)
+                .attr("fill", "white")
+                .attr("stroke", "#ccc")
+                .attr("stroke-width", 1);
+
+            const legendItem = legend.selectAll(".legend-item")
+                .data(legendEntries)
+                .join("g")
+                .attr("class", "legend-item")
+                .attr("transform", (d, i) => `translate(0, ${i * legendItemH})`);
+
+            legendItem.append("rect")
+                .attr("width", legendSwatchW)
+                .attr("height", legendSwatchH)
+                .attr("rx", 3)
+                .attr("ry", 3)
+                .attr("fill", d => d[1].color)
+                .attr("stroke", d => d[1].border)
+                .attr("stroke-width", 1);
+
+            legendItem.append("text")
+                .attr("x", legendSwatchW + 8)
+                .attr("y", legendSwatchH / 2)
+                .attr("dominant-baseline", "central")
+                .attr("font-size", "13px")
+                .attr("fill", "#444")
+                .text(d => d[0]);
+
+            //
+            // Simulation tick
+            //
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+
+            //
+            // Drag behavior
+            //
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+                d3.select(this).style("cursor", "grabbing");
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+                d3.select(this).style("cursor", "grab");
+            }
+
+            //
+            // Responsive resize
+            //
+            function resize() {
+                width = container.clientWidth;
+                height = container.clientHeight;
+                svg
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+            }
+
+            window.addEventListener("resize", resize);
+        })();
+    </script>
+</body>
+
+</html>
