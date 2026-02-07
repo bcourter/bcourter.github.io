@@ -596,21 +596,22 @@
                     d.y = Math.max(-height / 2 + pad + r, Math.min(height / 2 - pad - r, d.y));
                 });
 
-                // Hard rectangular separation for org nodes — half-height padding, halved horizontally
+                // Hard rectangular separation for org nodes — equal padding, biased toward side-by-side
                 for (let i = 0; i < orgList.length; i++) {
                     for (let j = i + 1; j < orgList.length; j++) {
                         const a = orgList[i], b = orgList[j];
                         if (a === draggedNode || b === draggedNode) continue;
                         const ha = getNodeHeight(a), hb = getNodeHeight(b);
                         const padH = (ha + hb) / 4; // half average height
-                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2;
+                        const reqDx = (getNodeWidth(a) + getNodeWidth(b)) / 2 + padH;
                         const reqDy = (ha + hb) / 2 + padH;
                         const dx = Math.abs(b.x - a.x);
                         const dy = Math.abs(b.y - a.y);
                         if (dx < reqDx && dy < reqDy) {
                             const overlapX = reqDx - dx;
                             const overlapY = reqDy - dy;
-                            if (overlapX < overlapY) {
+                            // Bias: prefer horizontal push (side-by-side) unless vertical overlap is much smaller
+                            if (overlapX * 0.5 < overlapY) {
                                 const sign = Math.sign(b.x - a.x) || 1;
                                 a.x -= sign * overlapX / 2;
                                 b.x += sign * overlapX / 2;
