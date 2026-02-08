@@ -21,8 +21,8 @@ vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
 
     // Two thin rectangles unioned into a cross
     vec2 armSize = vec2(R * 1.8, 7.0);
-    Implicit arm1 = RectangleCenterRotated(p, pos, armSize, angle, xColor);
-    Implicit arm2 = RectangleCenterRotated(p, pos, armSize, angle + pi * 0.5, xColor);
+    Implicit arm1 = RectangleCenterRotated(p, pos, armSize, -angle, xColor);
+    Implicit arm2 = RectangleCenterRotated(p, pos, armSize, -angle + pi * 0.5, xColor);
     Implicit cross = Min(arm1, arm2);
 
     opColor = drawFill(cross, opColor);
@@ -44,7 +44,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 seamPt = center + vec2(radius, 0.0);
 
     // Arrow length
-    float rayLen = iResolution.x * 0.55;
+    float rayLen = iResolution.x * 0.4;
 
     // Fixed point p, above-left of circle, shifted down 20% and left for visual centering
     vec2 pointP = center + vec2(-radius * 0.55 - 0.25 * rayLen, radius * 1.2 - 0.2 * iResolution.y);
@@ -73,10 +73,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         // Wobble sweeps the ray from missing (above tangent) through to seam
         vec2 toSeam = seamPt - pointP;
         float seamAngle = atan(toSeam.y, toSeam.x);
-        float sweepRange = 2.0 * (upperTangent - seamAngle);
+        float sweepRange = 2.5 * (upperTangent - seamAngle);
 
         float t = sin(iTime * 0.5);
-        float angle = upperTangent - sweepRange * (0.5 + 0.5 * t * wobble);
+        float angle = dirToCenter - sweepRange * t * wobble;
         dir = vec2(cos(angle), sin(angle));
         arrowEnd = pointP + dir * rayLen;
     }
@@ -104,14 +104,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // Determine circle fill: light green normally, light red for edge cases
     bool isEdgeCase = false;
+    float animR = mouseActive ? R : 2.0 * R;
+
     if (endpointInside) {
         isEdgeCase = true;
     } else {
         if (hasHit1 && hasHit2) {
-            if (length(hit1 - hit2) < 4.0 * R) isEdgeCase = true;
+            if (length(hit1 - hit2) < 4.0 * animR) isEdgeCase = true;
         }
-        if (hasHit1 && length(hit1 - seamPt) < R) isEdgeCase = true;
-        if (hasHit2 && length(hit2 - seamPt) < R) isEdgeCase = true;
+        if (hasHit1 && length(hit1 - seamPt) < animR) isEdgeCase = true;
+        if (hasHit2 && length(hit2 - seamPt) < animR) isEdgeCase = true;
     }
 
     vec4 greenFill = vec4(0.88, 1.0, 0.88, 1.0);
