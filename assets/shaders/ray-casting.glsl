@@ -11,22 +11,23 @@ float pi = 3.1415926535;
 // Radius of the periodic (seam) point marker and X markers
 float R = 10.0;
 
-// X marker colors matching the PNG
-vec4 xStroke = vec4(0.78, 0.38, 0.38, 1.0);
+// X marker color - red to match the PNG
+vec4 xColor = vec4(0.9, 0.2, 0.2, 1.0);
 
 // Draw an X marker using two rectangles rotated to tangent/normal of the circle
 vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
-    // Angle of the radial (normal) direction at this point on the circle
+    // Angle of the radial (normal) direction, plus 45 degrees to form an X
     vec2 radial = pos - circleCenter;
-    float angle = atan(radial.y, radial.x);
+    float angle = atan(radial.y, radial.x) + pi * 0.25;
 
-    // Two thin rectangles forming a cross aligned to tangent/normal
+    // Two thin rectangles unioned into a cross
     vec2 armSize = vec2(R * 1.8, 3.0);
-    Implicit arm1 = RectangleCenterRotated(p, pos, armSize, angle, xStroke);
-    Implicit arm2 = RectangleCenterRotated(p, pos, armSize, angle + pi * 0.5, xStroke);
+    Implicit arm1 = RectangleCenterRotated(p, pos, armSize, angle, xColor);
+    Implicit arm2 = RectangleCenterRotated(p, pos, armSize, angle + pi * 0.5, xColor);
     Implicit cross = Min(arm1, arm2);
 
-    opColor = strokeImplicit(cross, 2.5, opColor);
+    opColor = drawFill(cross, opColor);
+    opColor = strokeImplicit(cross, 2.0, opColor);
     return opColor;
 }
 
@@ -43,8 +44,11 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // Periodic (seam) point on the right side of the circle
     vec2 seamPt = center + vec2(radius, 0.0);
 
-    // Fixed point p, above-left of the circle
-    vec2 pointP = center + vec2(-radius * 0.55, radius * 1.2);
+    // Arrow length
+    float rayLen = iResolution.x * 0.55;
+
+    // Fixed point p, above-left of the circle, shifted left for visual centering
+    vec2 pointP = center + vec2(-radius * 0.55 - 0.25 * rayLen, radius * 1.2);
 
     // Compute tangent angle from p to circle to set sweep range
     vec2 toCenter = center - pointP;
@@ -82,10 +86,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // Determine circle fill: light green normally, light red for edge cases
     bool isEdgeCase = false;
     if (hasHit1 && hasHit2) {
-        if (length(hit1 - hit2) < 2.0 * R) isEdgeCase = true;
+        if (length(hit1 - hit2) < 4.0 * R) isEdgeCase = true;
     }
-    if (hasHit1 && length(hit1 - seamPt) < R) isEdgeCase = true;
-    if (hasHit2 && length(hit2 - seamPt) < R) isEdgeCase = true;
+    if (hasHit1 && length(hit1 - seamPt) < 2.0 * R) isEdgeCase = true;
+    if (hasHit2 && length(hit2 - seamPt) < 2.0 * R) isEdgeCase = true;
 
     vec4 greenFill = vec4(0.88, 1.0, 0.88, 1.0);
     vec4 redFill = vec4(1.0, 0.88, 0.88, 1.0);
@@ -96,13 +100,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float fill = 0.5 - clamp(circle.Distance / length(circle.Gradient), -0.5, 0.5);
     opColor = mix(opColor, fillColor, fill);
 
-    // Draw the ray as an arrow, shifted 25% of its length in -x to center visually
-    float rayLen = iResolution.x * 0.55;
-    vec2 shift = vec2(-0.25 * rayLen, 0.0);
-    vec2 arrowStart = pointP + shift;
-    vec2 arrowEnd = pointP + dir * rayLen + shift;
+    // Draw the ray as an arrow from pointP
+    vec2 arrowEnd = pointP + dir * rayLen;
     vec4 rayColor = vec4(0.3, 0.3, 0.3, 1.0);
-    opColor = drawArrow(p, arrowStart, arrowEnd, rayColor, opColor);
+    opColor = drawArrow(p, pointP, arrowEnd, rayColor, opColor);
 
     // Stroke the circle outline
     opColor = strokeImplicit(circle, 4.0, opColor);
