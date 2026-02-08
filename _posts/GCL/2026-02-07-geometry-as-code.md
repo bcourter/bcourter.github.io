@@ -60,9 +60,9 @@ Now, we might want to know whether a given point is inside or outside of our sha
 
 One algorithm might be to pretend that the point is like a cow in a fenced-in pasture and to test if it can escape. We could shoot a ray from the point off to infinity in one direction. If we cross the boundary of the shape an odd number of times, we must be inside the fence, and if an even number, outside.
 
-![ShaderToy visualization](https://shadertoy.com/)
-
 But does the algorithm always work? What if one of the rays is just tangent to the shape? What if we make a mistake around the parametric seam? Apparently arbitrary cases cause us to get the answer wrong. And indeed, most traditional CAD kernels answer this kind of question incorrectly often enough to cause issues that require the attention of CAD specialists.
+
+<div>{%- include extensions/shadertoy.html id='ray-casting' controls='[{"type":"slider","param":"iParam1","name":"Wobble","default":0.5,"min":0,"max":1,"step":0.01}]' -%}</div>
 
 All this arbitrariness becomes an impediment to training AI models on CAD data. Not only does the AI need to understand the design, but also, to do anything more than produce output, it needs to understand how the geometry engine will manipulate the geometry, blowing up the latent space.
 
