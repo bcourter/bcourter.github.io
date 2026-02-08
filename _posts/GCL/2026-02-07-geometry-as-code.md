@@ -83,7 +83,7 @@ These kinds of implicit models are incredibly robust because it uses basic compu
 
 More subtly, the code that describes the shape fully defines not only just the shape, but also both its range of parametric variations and what happens when offset in either direction. While algorithms are needed to display and interoperate with the code, the code itself describes all of the object's design intent.
 
-[Claude put the new image here]
+![Geometry as code or as data](/assets/blog/Geometry-as-Code/geometry-as-data-or-code.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
 
 ## Introducing machine learning
 
@@ -124,6 +124,10 @@ This isn't just about better CAD tools. When geometry becomes code, we unlock th
 ## State of the art
 
 We're not just theorizing. For three years, Gradient Control Laboratories has been navigating towards this moment. [LatticeRobot](https://www.latticerobot.com) proved our compilation strategy via the prototype GCL Scripting language by compiling to [ShaderToy](https://www.shadertoy.com/), [Metafold](https://www.metafold3d.com/), and [Oqton](https://oqton.com/), in addition to providing reverse engineering via simulation and data science. From there, our interns [Daniel Motilla](https://www.linkedin.com/in/daniel-motilla/) and [Robert Iannuzzo](https://www.linkedin.com/in/robert-iannuzzo/) built an internal tool, "UGF Toy," to exercise the UGF modeling libraries. For [Variant3D's LOOP knitting software](https://www.variant3d.io/), we ported our UGF modeling libraries to Python to afford straightforward geodesic field modeling in its interactive computational structure programming environment.
+
+![Variant3D LOOP with the geometry-as-code development environment](/assets/blog/Geometry-as-Code/variant-inner.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
+
+*Variant3D uses GCL's Omega libraries to enable generative knitting design on curved surfaces via geodesic distance fields.*
 
 Meanwhile, [Dan Rubel](https://www.linkedin.com/in/danrubel/) treated LatticeRobot as a training mission and used our Alpha approach SaaS architecture, now well exercised in [Rapid Liquid Print's VEER ON](https://www.rapidliquidprint.com), to host a new compiler for a refined language along with a WebGPU front end and [Matt Keeter's](https://www.mattkeeter.com/) [Fidget] instead of [libfive] for meshing, etc.
 
