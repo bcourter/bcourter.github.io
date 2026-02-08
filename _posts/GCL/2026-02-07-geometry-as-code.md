@@ -4,7 +4,7 @@ layout: article
 tags: SDF UGF Differentiable AI/ML GCL
 ---
 
-Includes contributions from [Luke Church](https://www.linkedin.com/in/luke-church/), [Dan Rubel](https://www.linkedin.com/in/danrubel/), [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), and the Gradient Control team and extended family.  
+Includes contributions from [Luke Church](https://www.linkedin.com/in/luke-church/), [Dan Rubel](https://www.linkedin.com/in/danrubel/), [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), and the extended Gradient Control team.  
 
 ## Executive summary
 
@@ -23,6 +23,8 @@ Thirty years later, we're still searching for this mystical "design intent." Our
 The team at Cursor reapplied their LLM tech to IDEs and built one of the most successful startups in recent memory. If we could represent geometry as code, could we perhaps achieve a Cursor for CAD?
 
 At [Gradient Control Laboratories](https://www.gradientcontrol.com), we are building Omega: a new suite of modeling tools for CAD that manipulate geometry as code. With Omega, engineering knowledge becomes portable, reusable, and understandable by AI. CAD models become free and open software that places equity with creators, just as IDEs do for software developers.
+
+ <!--more-->
 
 ## Why traditional CAD defies AI
 

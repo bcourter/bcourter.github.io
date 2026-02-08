@@ -7,7 +7,7 @@
 vec4 bounds = vec4(30,70,160,18);
 
 // Radius used for X marker sizing and edge case proximity tests
-float R = 15.0;
+float R = 6.0;
 
 // X marker color - muted pink-red to match the PNG
 vec4 xColor = vec4(0.78, 0.38, 0.38, 1.0);
@@ -18,7 +18,7 @@ vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
     vec2 radial = pos - circleCenter;
     float angle = atan(radial.y, radial.x) + pi * 0.25;
 
-    vec2 armSize = vec2(R * 1.8, 7.0);
+    vec2 armSize = vec2(25.0, 7.0);
     Implicit arm1 = RectangleCenterRotated(p, pos, armSize, -angle, xColor);
     Implicit arm2 = RectangleCenterRotated(p, pos, armSize, -angle + pi * 0.5, xColor);
     Implicit cross = Min(arm1, arm2);
@@ -101,7 +101,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // Determine circle fill: light green normally, light red for edge cases
     bool isEdgeCase = false;
-    float animR = mouseActive ? R : 2.0 * R;
+    float animR = mouseActive ? R : 4.0 * R;
 
     if (endpointInside) {
         isEdgeCase = true;
@@ -130,14 +130,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     opColor = strokeImplicit(circle, 4.0, opColor);
 
     // Periodic (seam) point - same radius as pivot point
-    opColor = drawPoint(p, seamPt, 6.0, opColor);
+    opColor = drawPoint(p, seamPt, R, opColor);
 
     // X markers drawn after periodic point so they render on top
     if (hasHit1) opColor = drawXMarker(p, hit1, center, opColor);
     if (hasHit2 && !endpointInside) opColor = drawXMarker(p, hit2, center, opColor);
 
     // Draw point p
-    opColor = drawPoint(p, pointP, 6.0, opColor);
+    opColor = drawPoint(p, pointP, R, opColor);
 
     fragColor = opColor;
 }
