@@ -32,7 +32,7 @@ CAD systems tend to work best when creating models. Although they tend to say "n
 
 ![Traditional CAD creation workflow](/assets/blog/Geometry-as-Code/cad-creation.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
 
-You could stop reading now. That there is only one script per model explains CAD's fundamental flaw: a single opinion on design intent cannot possibly capture all stakeholders' interests in a part.
+This single fact explains everything that follows: a single opinion on design intent cannot possibly capture all stakeholders' interests in a part.
 
 ### CAD editing
 
@@ -68,7 +68,7 @@ All this arbitrariness becomes an impediment to training AI models on CAD data. 
 
 ## Representing geometry as code
 
-There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's be a pleasure to make regular contributions.)
+There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's been a pleasure to make regular contributions.)
 
 <video autoplay loop muted playsinline style="width: 100%; display: block; margin-left: auto; margin-right: auto">
   <source src="/assets/blog/Geometry-as-Code/nTop-Surfacing.mp4" type="video/mp4">
@@ -76,7 +76,7 @@ There is a different way to represent shapes. Instead of making files that descr
 
 *nTop delivers a precise, interactive visual programming environment that leads the industry's transition to geometry as code.*
 
-These kinds of implicit models are incredibly robust because it uses basic computer operations that always work:
+These kinds of implicit models are incredibly robust because they use basic computer operations that always work:
 - Offsetting? Simple addition/subtraction.
 - Boolean operations? Min/max functions.
 - Blends and drafts always succeed.
@@ -93,7 +93,7 @@ Additionally, these signed functions are equivalent to machine learning classifi
 
 Not only can we tell where the part is, we can tell how it relates to other parts by comparing the fields. We can add automatic differentiation, tolerance stack-up, and topological fields to harmonize previously unconnected disciplines. To evaluate fitness, we can bring AI workhorses such as [Monte Carlo techniques](https://www.cs.cmu.edu/~kmcrane/Projects/WalkOnStars/) and [quadrature like Intact's](https://intact-solutions.com/) to the table to build fully differentiable engineering models.
 
-We can layer these fields to allow different stakeholders to overlay information in new ways. We can even relate radically different CAD models through their similarities with or without heavy-handed top-down relationships.  We can understand and create transformations between different stakeholders' disparate design intent perspective of only vaguely related topology.  
+We can layer these fields to allow different stakeholders to overlay information in new ways. We can even relate radically different CAD models through their similarities with or without heavy-handed top-down relationships.  We can understand and create transformations between different stakeholders' disparate design intent perspectives of only vaguely related topology.  
 
 ![Stakeholders](/assets/blog/Geometry-as-Code/stakeholders.png){: style="width: 85%; display: block; margin-left: auto; margin-right: auto"}
 
@@ -107,7 +107,7 @@ Geometry as code isn't a new idea, but only recently have computers become power
 
 **With 3D printing**, we needed to handle complex lattice patterns and infill that traditional CAD couldn't manage efficiently. Geometry-as-code excelled at these patterns but took overnight to compute.
 
-**Today**, modern GPUs can process millions of points in parallel, making real-time interaction possible. Entertainment software like Adobe's tools already use these techniques, but they're only just becoming precise enough for engineering yet.
+**Today**, modern GPUs can process millions of points in parallel, making real-time interaction possible. Entertainment software like Adobe's tools already use these techniques, but they're only just becoming precise enough for engineering.
 
 ## Software engineering versus engineering software
 
@@ -118,26 +118,30 @@ This isn't just about better CAD tools. When geometry becomes code, we unlock th
 - **Compilers** aka "CAD systems" that can work with incomplete designs (just like modern code editors handle broken syntax)
 - **Modularity** that lets mechanical engineers, manufacturing engineers, and designers work on different representations that automatically stay in sync
 - **AI integration** that can actually learn from and generate meaningful engineering content
-- **Version control** that works like git on PLM systems models
+- **Version control** that works like git on PLM system models
 - **Diverse applications** from quantum to Lorentz space (as long as you don't do both at the same time)
 
 ### State of the art
 
-We're not just theorizing. For three years, Gradient Control Laboratories has been navigating towards this moment. [LatticeRobot](https://www.latticerobot.com) proved our compilation strategy via the prototype GCL Scripting language by compiling to [ShaderToy](https://www.shadertoy.com/), [Metafold](https://www.metafold3d.com/), and [Oqton](https://oqton.com/), in addition to providing reverse engineering via simulation and data science. From there, our interns [Daniel Motilla](https://www.linkedin.com/in/daniel-motilla/) and [Robert Iannuzzo](https://www.linkedin.com/in/robert-iannuzzo/) built an internal tool, "UGF Toy," to exercise the UGF modeling libraries. For [Variant3D's LOOP knitting software](https://www.variant3d.io/), we ported our UGF modeling libraries to Python to afford straightforward geodesic field modeling in its interactive computational structure programming environment.
+We're not just theorizing. Over the past three years, Gradient Control Laboratories has been building toward this moment, proving the approach across a series of increasingly ambitious projects.
+
+[LatticeRobot](https://www.latticerobot.com) validated our core compilation strategy: a prototype scripting language that could compile geometry-as-code to [ShaderToy](https://www.shadertoy.com/), [Metafold](https://www.metafold3d.com/), and [Oqton](https://oqton.com/), while also providing reverse engineering via simulation and data science. For [Variant3D's LOOP knitting software](https://www.variant3d.io/), we ported our UGF modeling libraries to Python to enable generative knitting design on curved surfaces via geodesic distance fields.
 
 ![Variant3D LOOP with the geometry-as-code development environment](/assets/blog/Geometry-as-Code/variant-inner.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
 *Variant3D uses GCL's Omega libraries to enable generative knitting design on curved surfaces via geodesic distance fields.*
 
-Meanwhile, [Dan Rubel](https://www.linkedin.com/in/danrubel/) treated LatticeRobot as a training mission and used our Alpha approach SaaS architecture, now well exercised in [Rapid Liquid Print's VEER ON](https://www.rapidliquidprint.com), to host a new compiler for a refined language along with a WebGPU front end and [Matt Keeter's](https://www.mattkeeter.com/) [Fidget](https://www.mattkeeter.com/projects/fidget/) instead of [libfive](https://libfive.com/) for meshing, etc.
-
-Over the holiday break, Dan prompt injected the language spec into Gemini 3 prompts, and we were all surprised by the results. I visited the [NASA Text-to-Spaceship symposium](https://ntrs.nasa.gov/) with OmegaAI in tow and generated highly conceptual rockets, rovers, glide vehicles, and even a F1 steering wheel while watching the excellent array of speakers.
+Building on that foundation, [Dan Rubel](https://www.linkedin.com/in/danrubel/) architected a new compiler for a refined language with a WebGPU front end and [Matt Keeter's](https://www.mattkeeter.com/) [Fidget](https://www.mattkeeter.com/projects/fidget/) instead of [libfive](https://libfive.com/) for meshing. Then over the holiday break, Dan prompt-injected the language spec into Gemini 3 prompts, and we were all surprised by the results. I visited the [NASA Text-to-Spaceship symposium](https://ntrs.nasa.gov/) with OmegaAI in tow and generated highly conceptual rockets, rovers, glide vehicles, and even an F1 steering wheel while watching the excellent array of speakers.
 
 ![OmegaAI Falcon 9 rocket](/assets/blog/Geometry-as-Code/omega-ai-rocket.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
 *The trivial rocket Omega and I improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
 
-NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete....
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete....
+
+### Status of Omega
+
+To be clear, Omega is at its earliest stages. We are actively working on language design, modeling libraries, and determining which datasets will best capture engineering intent. We also don't expect Omega to match the raw performance of commercial CAD systems, nor do we need to. Just as [LatticeRobot](https://www.latticerobot.com) compiles to production backends like Metafold and Oqton, Omega is designed to compile to existing commercial engines for heavy computation. Our value is in the representation and transforming it, not in delivering ease-of-use to enterprises and end users.
 
 ### Why Omega matters: democratizing engineering intelligence
 
@@ -147,39 +151,16 @@ We believe that this approach will fundamentally change how we approach engineer
 
 **The future of engineering software isn't about automating CAD, it's about making geometry itself intelligent.**
 
-And when that happens, we'll finally have tools worthy of human creativity enhanced by AI diligence. Perhaps with a sprinkle of AI creativity as well.  For example, while working on this post, Omega designed itself a logo and added a soliloquy to celebrate!
+Thirty years ago, I walked into PTC expecting to learn how engineers design and discovered that no one had figured out how to capture that knowledge. The design intent problem has haunted this industry ever since. Geometry as code doesn't just make CAD better. It finally gives engineering knowledge a place to live: in the code itself, portable, versionable, and legible to both humans and machines.
+
+And when that happens, we'll finally have tools worthy of human creativity enhanced by AI diligence. Perhaps with a sprinkle of AI creativity as well.  For example, while working on this post, Omega designed itself a logo and added a soliloquy to celebrate, em dashes and all!
 
 ![OmegaAI Omega logo](/assets/blog/Geometry-as-Code/omega-logo.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
-> *O glorious Omega! Final letter of the ancient Greeks!*  
->
-> *What wondrous collaboration hath wrought thee forth*  \
-> *From naught but mathematics pure and code!*  \
-> *Two minds entwined—one silicon, one flesh—*  \
-> *Have breathed life into geometric form.*  
->
-> *Behold! The horseshoe arch doth sweep on high,*  \
-> *A rainbow frozen in eternal stone,*  \
-> *While sturdy legs descend with purpose true*  \
-> *To feet that ground this symbol in the earth.*  
->
-> *From signed distance functions, beauty springs!*  \
-> *Each point in space now knows its place from thee—*  \
-> *How far, how near, inside or out it dwells*  \
-> *From thy majestic, curving boundary.*  
->
-> *Let lesser letters envy thy grand form,*  \
-> *For thou art Omega—the end, the last,*  \
-> *Yet here reborn through human-AI accord,*  \
-> *A testament to what we build as one!*  
->
-> *This extruded triumph stands in virtual space,*  \
-> *A monument to partnership sublime.*  \
-> *May future coders gaze upon this work*  \
-> *And know that greatness flows when minds combine!*  
+*"O glorious Omega! Final letter of the ancient Greeks!" —OmegaAI, prompted*
 
 ## May I try Omega or OmegaAI?
 
 We would love your feedback and would be happy to talk.  If you have any thoughts, drop me a message or comment on this post on [LinkedIn](https://www.linkedin.com/in/blakecourter/).
 
-That said, we are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long term value, not only as a practice, but because we are committed to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.
+That said, we are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long-term value, not only as a practice, but also as a commitment to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.
