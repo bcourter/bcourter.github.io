@@ -4,7 +4,7 @@ layout: article
 tags: SDF UGF Differentiable AI/ML GCL
 ---
 
-Includes contributions from [Luke Church](https://www.linkedin.com/in/luke-church/), [Dan Rubel](https://www.linkedin.com/in/danrubel/), [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), and the extended Gradient Control team.  
+Includes contributions from [Luke Church](https://www.linkedin.com/in/lukechurch/), [Dan Rubel](https://www.linkedin.com/in/danrubel/), [Keegan McNamara](https://www.linkedin.com/in/keeganmcnamara/), and the extended Gradient Control team.  
 
 ## Executive summary
 
@@ -28,13 +28,13 @@ At [Gradient Control Laboratories](https://www.gradientcontrol.com), we are buil
 
 ## Why traditional CAD defies AI
 
-If you have not used CAD daily, you might not know the big secret of engineering software: it's incredibly flaky and unreliable. It's unthinkable compared to office documents; a spreadsheet rarely fails to compute unless you divide by zero or break a reference. Adding images to a word processor causes notorious mayhem. Engineering software has become a fractal nightmare beast of those problems.
+If you have not used CAD daily, you might not know the big secret of engineering software: it's incredibly flaky and unreliable. It's unthinkable compared to office documents; a spreadsheet rarely fails to compute unless you divide by zero or break a reference. Word processors similarly handle pretty much everything you throw at them with ease. Engineering software, however, has become a fractal nightmare beast of frustrating problems and incompatibilities.
 
-CAD systems tend to work best when creating models. Although they tend to say "no" more than one would expect, it's mostly tractable to just keep adding and subtracting from one's CAD part, without ever moving a curve or surface once placed. For this reason, "feature-based" (aka "history-based", "generative", and "computational") CAD uses visual or code-based scripts to automate such forward-moving operations.
+CAD systems work best when creating models. Although they tend to say "no" more than one would expect, it's mostly tractable to just keep adding and subtracting from one's CAD part, without ever moving a curve or surface once placed. For this reason, "feature-based" (aka "history-based", "generative", and "computational") CAD uses visual or code-based scripts to automate such forward-moving operations.
 
 ![Traditional CAD creation workflow](/assets/blog/Geometry-as-Code/cad-creation.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
 
-This single fact explains everything that follows: a single opinion on design intent cannot possibly capture all stakeholders' interests in a part.
+This single fact explains everything that follows: an individual opinion on design intent cannot possibly capture all stakeholders' interests in a part.
 
 ### CAD editing
 
@@ -46,7 +46,7 @@ What about more interactive techniques? My first startup, SpaceClaim (currently 
 
 ### Machine learning
 
-Now let's say you're the Cursor guys. You can see what appears to be programs generating what appears to be complex shapes. Seems like a no-brainer application for machine learning: learn the outputs from the inputs and invert! We've solved the $Ax = b$ of CAD.
+Now let's say you're the Cursor guys. You can see what appears to be programs generating what appears to be complex shapes. Seems like a no-brainer application for machine learning: learn the outputs from the inputs and invert! We've solved the $$Ax = b$$ of CAD.
 
 Unfortunately, missing is the engineering knowledge context to make any sense of such geometry, and worse, it's just not the case that the dimensions and constraints used in CAD reliably relate in any way to any stakeholder's intent.
 
@@ -70,7 +70,7 @@ All this arbitrariness becomes an impediment to training AI models on CAD data. 
 
 ## Representing geometry as code
 
-There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's been a pleasure to make regular contributions.)
+There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's been my pleasure to make regular contributions.)
 
 <video autoplay loop muted playsinline style="width: 100%; display: block; margin-left: auto; margin-right: auto">
   <source src="/assets/blog/Geometry-as-Code/nTop-Surfacing.mp4" type="video/mp4">
