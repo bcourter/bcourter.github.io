@@ -8,35 +8,32 @@ vec4 bounds = vec4(30,70,160,18);
 
 float pi = 3.1415926535;
 
-// Radius of the periodic (seam) point marker
+// Radius of the periodic (seam) point marker and X markers
 float R = 10.0;
 
 // X marker colors matching the PNG
-vec4 xFill = vec4(1.0, 0.82, 0.82, 1.0);
 vec4 xStroke = vec4(0.78, 0.38, 0.38, 1.0);
 
-// Draw an X marker using two thin rectangles rotated to tangent/normal of the circle
-vec4 drawXMarker(vec2 p, vec2 hitPt, vec2 circleCenter, vec4 opColor) {
-    vec2 normal = normalize(hitPt - circleCenter);
-    float angle = atan(normal.y, normal.x);
+// Draw an X marker with fill and stroke matching the PNG style
+vec4 drawXMarker(vec2 p, vec2 pos, vec4 opColor) {
+    // White-filled circle with red-pink outline (like drawPoint but tinted)
+    Implicit bounds = Circle(p, pos, R, vec4(1.0));
+    opColor = drawFill(bounds, opColor);
+    bounds.Color = xStroke;
+    opColor = strokeImplicit(bounds, 2.5, opColor);
 
-    float armLength = R * 2.0;
-    float armWidth = 4.0;
-    vec2 armSize = vec2(armLength, armWidth);
+    // X diagonal strokes within the circle
+    vec2 d = p - pos;
+    float dist = length(d);
+    if (dist > R) return opColor;
 
-    // One arm along normal, one along tangent
-    Implicit arm1 = RectangleCenterRotated(p, hitPt, armSize, angle, xFill);
-    Implicit arm2 = RectangleCenterRotated(p, hitPt, armSize, angle + pi * 0.5, xFill);
-    Implicit cross = Min(arm1, arm2);
+    float lineWidth = 2.0;
+    float d1 = abs(d.x + d.y) * 0.7071;
+    float d2 = abs(d.x - d.y) * 0.7071;
+    float minDist = min(d1, d2);
 
-    // Fill
-    opColor = drawFill(cross, opColor);
-
-    // Stroke
-    cross.Color = xStroke;
-    opColor = strokeImplicit(cross, 3.0, opColor);
-
-    return opColor;
+    float alpha = smoothstep(lineWidth, lineWidth - 1.5, minDist);
+    return mix(opColor, xStroke, xStroke.a * alpha);
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
@@ -54,24 +51,17 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // Fixed point p, above-left of the circle
     vec2 pointP = center + vec2(-radius * 0.55, radius * 1.2);
-    float pointRadius = 6.0;
 
-    // Compute tangent angle from p to circle
+    // Compute tangent angle from p to circle to set sweep range
     vec2 toCenter = center - pointP;
     float dirToCenter = atan(toCenter.y, toCenter.x);
     float distPC = length(toCenter);
     float tangentHalf = asin(radius / distPC);
     float upperTangent = dirToCenter + tangentHalf;
 
-    // Compute seam exit angle (direction from pointP through seamPt)
-    vec2 toSeam = seamPt - pointP;
-    float seamAngle = atan(toSeam.y, toSeam.x);
-
-    // Sweep from just past tangent (miss) through to seam exit
-    float sweepCenter = 0.5 * (upperTangent + seamAngle);
-    float sweepHalfRange = 0.5 * (upperTangent - seamAngle) + 0.12;
+    // Wobble sweeps the ray around the tangent: from missing to through
     float t = sin(iTime * 0.5);
-    float angle = sweepCenter + sweepHalfRange * t * wobble;
+    float angle = upperTangent - 0.35 * t * wobble;
     vec2 dir = vec2(cos(angle), sin(angle));
 
     // Ray-circle intersection: |pointP + s*dir - center|^2 = radius^2
@@ -111,26 +101,25 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float fill = 0.5 - clamp(circle.Distance / length(circle.Gradient), -0.5, 0.5);
     opColor = mix(opColor, fillColor, fill);
 
-    // Draw the ray as an arrow, shifted left to center in scene
+    // Draw the ray as an arrow (start moved back 25% along ray direction)
     float rayLen = iResolution.x * 0.55;
-    float shift = 0.25 * rayLen;
-    vec2 arrowStart = pointP - vec2(shift, 0.0);
-    vec2 arrowEnd = pointP + dir * rayLen - vec2(shift, 0.0);
-    vec4 rayColor = vec4(0.3, 0.3, 0.3, 1.0);
+    vec2 arrowStart = pointP - 0.25 * rayLen * dir;
+    vec2 arrowEnd = pointP + rayLen * dir;
+    vec4 rayColor = vec4(0.35, 0.35, 0.35, 0.5);
     opColor = drawArrow(p, arrowStart, arrowEnd, rayColor, opColor);
 
     // Stroke the circle outline
     opColor = strokeImplicit(circle, 4.0, opColor);
 
     // X markers at ray-circle intersection points
-    if (hasHit1) opColor = drawXMarker(p, hit1, center, opColor);
-    if (hasHit2) opColor = drawXMarker(p, hit2, center, opColor);
+    if (hasHit1) opColor = drawXMarker(p, hit1, opColor);
+    if (hasHit2) opColor = drawXMarker(p, hit2, opColor);
 
-    // Periodic (seam) point - same size as the start point
-    opColor = drawPoint(p, seamPt, pointRadius, opColor);
+    // Periodic (seam) point
+    opColor = drawPoint(p, seamPt, R * 0.5, opColor);
 
     // Draw point p
-    opColor = drawPoint(p, pointP, pointRadius, opColor);
+    opColor = drawPoint(p, pointP, 6.0, opColor);
 
     fragColor = opColor;
 }
