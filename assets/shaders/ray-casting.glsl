@@ -101,10 +101,11 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float fill = 0.5 - clamp(circle.Distance / length(circle.Gradient), -0.5, 0.5);
     opColor = mix(opColor, fillColor, fill);
 
-    // Draw the ray as an arrow (start moved back 25% along ray direction)
+    // Draw the ray as an arrow, shifted 25% of its length in -x to center visually
     float rayLen = iResolution.x * 0.55;
-    vec2 arrowStart = pointP - 0.25 * rayLen * dir;
-    vec2 arrowEnd = pointP + rayLen * dir;
+    vec2 shift = vec2(-0.25 * rayLen, 0.0);
+    vec2 arrowStart = pointP + shift;
+    vec2 arrowEnd = pointP + dir * rayLen + shift;
     vec4 rayColor = vec4(0.35, 0.35, 0.35, 0.5);
     opColor = drawArrow(p, arrowStart, arrowEnd, rayColor, opColor);
 
@@ -115,8 +116,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (hasHit1) opColor = drawXMarker(p, hit1, opColor);
     if (hasHit2) opColor = drawXMarker(p, hit2, opColor);
 
-    // Periodic (seam) point
-    opColor = drawPoint(p, seamPt, R * 0.5, opColor);
+    // Periodic (seam) point - same radius as pivot point
+    opColor = drawPoint(p, seamPt, 6.0, opColor);
 
     // Draw point p
     opColor = drawPoint(p, pointP, 6.0, opColor);
