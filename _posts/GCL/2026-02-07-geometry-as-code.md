@@ -137,11 +137,13 @@ Building on that foundation, [Dan Rubel](https://www.linkedin.com/in/danrubel/) 
 
 *The trivial rocket Omega and I improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
 
-NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete....
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete.  Claude Opus 4.6 is in the lead.
 
 ### Status of Omega
 
 To be clear, Omega is at its earliest stages. We are actively working on language design, modeling libraries, and determining which datasets will best capture engineering intent. We also don't expect Omega to match the raw performance of commercial CAD systems, nor do we need to. Just as [LatticeRobot](https://www.latticerobot.com) compiles to production backends like Metafold and Oqton, Omega is designed to compile to existing commercial engines for heavy computation. Our value is in the representation and transforming it, not in delivering ease-of-use to enterprises and end users.
+
+We are aware that we have little evidence for our extraordinary claims of the benefits of this approach.  We talk openly, because, unlike commercial and academics concerns, we want you to be inspired by and emulate our ideas.  We invite you on this journey with us, and we'd like to help you on yours.  And if you do get ahead of us, we will be moving on to our endless list of increasingly ambitious aspirations.
 
 ### Why Omega matters: democratizing engineering intelligence
 
@@ -163,4 +165,6 @@ And when that happens, we'll finally have tools worthy of human creativity enhan
 
 We would love your feedback and would be happy to talk.  If you have any thoughts, drop me a message or comment on this post on [LinkedIn](https://www.linkedin.com/in/blakecourter/).
 
-That said, we are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long-term value, not only as a practice, but also as a commitment to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.
+That said, it is probably not time for you to try the full Omega stack yet. We are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long-term value, not only as a practice, but also as a commitment to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.  
+
+Maybe we'll share some OmegaAI prototypes soon.  Let us know if you'd like a play.
