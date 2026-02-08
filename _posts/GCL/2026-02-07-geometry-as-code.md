@@ -139,11 +139,11 @@ Over the holiday break, Dan prompt injected the language spec into Gemini 3 prom
 
 NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete....
 
-### Why this matters: democratizing engineering intelligence
+### Why Omega matters: democratizing engineering intelligence
 
 The ultimate goal isn't just better CAD software. It's to create a world where engineering knowledge becomes portable, reusable, and understandable by AI. Where the intelligence behind design decisions lives in the geometry itself, not locked away in proprietary algorithms.  This year, I'm spending as much time as possible with companies like [Mecado](https://mecado.com) and [Hanomi](https://www.hanomi.ai) who are producing or finding new kinds of training data.
 
-This could fundamentally change how we approach engineering problems. Instead of humans struggling to communicate intent to dumb geometry systems, we'll have intelligent models that can both generate and document design intent.
+We believe that this approach will fundamentally change how we approach engineering problems. Instead of humans struggling to communicate intent to dumb geometry systems, we'll have intelligent models that can both generate and document design intent.
 
 **The future of engineering software isn't about automating CAD, it's about making geometry itself intelligent.**
 
@@ -151,35 +151,35 @@ And when that happens, we'll finally have tools worthy of human creativity enhan
 
 ![OmegaAI Omega logo](/assets/blog/Geometry-as-Code/omega-logo.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
-> *O glorious Omega! Final letter of the ancient Greeks!*
+> *O glorious Omega! Final letter of the ancient Greeks!*  
 >
-> *What wondrous collaboration hath wrought thee forth*
-> *From naught but mathematics pure and code!*
-> *Two minds entwined—one silicon, one flesh—*
-> *Have breathed life into geometric form.*
+> *What wondrous collaboration hath wrought thee forth*  \
+> *From naught but mathematics pure and code!*  \
+> *Two minds entwined—one silicon, one flesh—*  \
+> *Have breathed life into geometric form.*  
 >
-> *Behold! The horseshoe arch doth sweep on high,*
-> *A rainbow frozen in eternal stone,*
-> *While sturdy legs descend with purpose true*
-> *To feet that ground this symbol in the earth.*
+> *Behold! The horseshoe arch doth sweep on high,*  \
+> *A rainbow frozen in eternal stone,*  \
+> *While sturdy legs descend with purpose true*  \
+> *To feet that ground this symbol in the earth.*  
 >
-> *From signed distance functions, beauty springs!*
-> *Each point in space now knows its place from thee—*
-> *How far, how near, inside or out it dwells*
-> *From thy majestic, curving boundary.*
+> *From signed distance functions, beauty springs!*  \
+> *Each point in space now knows its place from thee—*  \
+> *How far, how near, inside or out it dwells*  \
+> *From thy majestic, curving boundary.*  
 >
-> *Let lesser letters envy thy grand form,*
-> *For thou art Omega—the end, the last,*
-> *Yet here reborn through human-AI accord,*
-> *A testament to what we build as one!*
+> *Let lesser letters envy thy grand form,*  \
+> *For thou art Omega—the end, the last,*  \
+> *Yet here reborn through human-AI accord,*  \
+> *A testament to what we build as one!*  
 >
-> *This extruded triumph stands in virtual space,*
-> *A monument to partnership sublime.*
-> *May future coders gaze upon this work*
-> *And know that greatness flows when minds combine!*
+> *This extruded triumph stands in virtual space,*  \
+> *A monument to partnership sublime.*  \
+> *May future coders gaze upon this work*  \
+> *And know that greatness flows when minds combine!*  
 
-## Can I try Omega or OmegaAI?
+## May I try Omega or OmegaAI?
 
-We would love your feedback and would be happy to talk. Please drop me a note on [LinkedIn](https://www.linkedin.com/in/blakecourter/).
+We would love your feedback and would be happy to talk.  If you have any thoughts, drop me a message or comment on this post on [LinkedIn](https://www.linkedin.com/in/blakecourter/).
 
-That said, we are a research consultancy, and we are motivated more by outcomes than growth. We prefer to deeply embed with partners to produce long term value, not only as a practice, but because we are committed to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.
+That said, we are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long term value, not only as a practice, but because we are committed to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.
