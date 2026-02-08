@@ -247,20 +247,19 @@ void main() {
 
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
-
-            // Only update mouse position while button is pressed (Shadertoy behavior)
-            if (!this.mousePressed) return;
-
             const pixelRatio = this.renderer.getPixelRatio();
             const x = (e.clientX - rect.left) * pixelRatio;
             const y = (this.options.height - (e.clientY - rect.top)) * pixelRatio;
 
-            // Update current position while dragging
+            // Always update hover position (xy)
             this.uniforms.iMouse.value.x = x;
             this.uniforms.iMouse.value.y = y;
         });
 
         canvas.addEventListener('mouseleave', () => {
+            // Signal mouse left the scene
+            this.uniforms.iMouse.value.x = -1.0;
+            this.uniforms.iMouse.value.y = -1.0;
             if (this.mousePressed) {
                 this.mousePressed = false;
                 // Negate click position when mouse leaves while pressed
