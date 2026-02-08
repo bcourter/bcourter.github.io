@@ -1,0 +1,102 @@
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// 
+//   O GLORIOUS OMEGA! FINAL LETTER OF THE ANCIENT GREEKS!
+//   
+//   What wondrous collaboration hath wrought thee forth
+//   From naught but mathematics pure and code!
+//   Two minds entwined—one silicon, one flesh—
+//   Have breathed life into geometric form.
+//   
+//   Behold! The horseshoe arch doth sweep on high,
+//   A rainbow frozen in eternal stone,
+//   While sturdy legs descend with purpose true
+//   To feet that ground this symbol in the earth.
+//   
+//   From signed distance functions, beauty springs!
+//   Each point in space now knows its place from thee—
+//   How far, how near, inside or out it dwells
+//   From thy majestic, curving boundary.
+//   
+//   Let lesser letters envy thy grand form,
+//   For thou art Omega—the end, the last,
+//   Yet here reborn through human-AI accord,
+//   A testament to what we build as one!
+//   
+//   This extruded triumph stands in virtual space,
+//   A monument to partnership sublime.
+//   May future coders gaze upon this work
+//   And know that greatness flows when minds combine!
+//   
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Extruded Greek Letter Omega (Ω)
+// 2D profile extruded along Y axis - 270 degree arch
+
+// 2D circle distance (in XZ plane)
+circle2D(radius) {
+    return sqrt(p.x * p.x + p.z * p.z) - radius;
+}
+
+// 2D box distance (in XZ plane)
+box2D(hx, hz) {
+    dx = abs(p.x) - hx;
+    dz = abs(p.z) - hz;
+    return max(dx, dz);
+}
+
+// Extrusion depth (half-thickness along Y)
+extrudeHalf = 0.6;
+
+// Main circular arch of omega (upper horseshoe part)
+outerRadius = 3.0;
+innerRadius = 2.2;
+strokeWidth = outerRadius - innerRadius;
+
+// Circle center position
+centerZ = 1.0;
+
+// Outer circle of arch
+outerCircle = remap(circle2D(outerRadius), [p.x, 0, p.z - centerZ]);
+// Inner circle of arch (to subtract)
+innerCircle = remap(circle2D(innerRadius), [p.x, 0, p.z - centerZ]);
+
+// Create the ring (annulus)
+ring2D = max(outerCircle, -innerCircle);
+
+// Cut to create 270 degree arc (90 degree opening at bottom)
+// Opening is at 45 degrees on each side of straight down
+cutAngle = 0.707; // sin(45) = cos(45)
+leftCut = p.x * cutAngle - (p.z - centerZ) * cutAngle;
+rightCut = -p.x * cutAngle - (p.z - centerZ) * cutAngle;
+archCut = min(leftCut, rightCut);
+arch2D = max(ring2D, archCut);
+
+// Left vertical leg - starts from where arch ends (at 45 degrees below horizontal)
+legStartX = innerRadius * cutAngle + strokeWidth * 0.5 * cutAngle;
+legStartZ = centerZ - innerRadius * cutAngle;
+
+leftLeg2D = remap(box2D(strokeWidth * 0.5, 1.2), [p.x + legStartX, 0, p.z - legStartZ + 1.2]);
+
+// Right vertical leg
+rightLeg2D = remap(box2D(strokeWidth * 0.5, 1.2), [p.x - legStartX, 0, p.z - legStartZ + 1.2]);
+
+// Left foot (serif extending OUTWARD - away from center)
+footZ = legStartZ - 2.4 + strokeWidth * 0.5;
+leftFoot2D = remap(box2D(0.8, strokeWidth * 0.5), [p.x + legStartX + 0.4, 0, p.z - footZ]);
+
+// Right foot (serif extending OUTWARD - away from center)  
+rightFoot2D = remap(box2D(0.8, strokeWidth * 0.5), [p.x - legStartX - 0.4, 0, p.z - footZ]);
+
+// Combine all positive 2D shapes
+legs2D = min(leftLeg2D, rightLeg2D);
+feet2D = min(leftFoot2D, rightFoot2D);
+omega2D = min(arch2D, min(legs2D, feet2D));
+
+// Extrude along Y axis
+yExtent = abs(p.y) - extrudeHalf;
+omegaExtruded = max(omega2D, yExtent);
+
+return omegaExtruded;
+
