@@ -50,7 +50,7 @@ Unfortunately, missing is the engineering knowledge context to make any sense of
 
 ![AI and ML learning challenge](/assets/blog/Geometry-as-Code/ai-learning.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
 
-## Traditional geometry is hard for AI
+### CAD geometry befuddles AI
 
 Above, we assumed that the AI could somehow make sense of the CAD geometry. It turns out, that's also a hard problem.
 
@@ -70,7 +70,7 @@ All this arbitrariness becomes an impediment to training AI models on CAD data. 
 
 There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's be a pleasure to make regular contributions.)
 
-<video autoplay loop muted playsinline style="width: 70%; display: block; margin-left: auto; margin-right: auto">
+<video autoplay loop muted playsinline style="width: 100%; display: block; margin-left: auto; margin-right: auto">
   <source src="/assets/blog/Geometry-as-Code/nTop-Surfacing.mp4" type="video/mp4">
 </video>
 
@@ -83,23 +83,23 @@ These kinds of implicit models are incredibly robust because it uses basic compu
 
 More subtly, the code that describes the shape fully defines not only just the shape, but also both its range of parametric variations and what happens when offset in either direction. While algorithms are needed to display and interoperate with the code, the code itself describes all of the object's design intent.
 
-![Geometry as code or as data](/assets/blog/Geometry-as-Code/geometry-as-data-or-code.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
+![Geometry as code or as data](/assets/blog/Geometry-as-Code/geometry-as-data-or-code.png){: style="width: 60%; display: block; margin-left: auto; margin-right: auto"}
 
-## Introducing machine learning
+### Introducing machine learning
 
 As code, we can use modern computer science to reason about it, optimize it, and transform it. Over the past decade, software development environments have become able to work with code that is only partially valid, and geometry as code, properly packaged, can be much easier to edit and update than traditional CAD.
 
-Additionally, these signed functions are equivalent to *machine learning classifiers*. In the same way that a classifier determines whether a picture contains or does not contain a representation of a hot dog. We're just classifying space as "part" or "not part." Modern data science provides amazing tools to work on geometry as code!
+Additionally, these signed functions are equivalent to machine learning classifiers. In the same way that a classifier determines whether a picture contains or does not contain a representation of a hot dog. We're just classifying space as "part" or "not part." Modern data science provides amazing tools to work on geometry as code!
 
 Not only can we tell where the part is, we can tell how it relates to other parts by comparing the fields. We can add automatic differentiation, tolerance stack-up, and topological fields to harmonize previously unconnected disciplines. To evaluate fitness, we can bring AI workhorses such as [Monte Carlo techniques](https://www.cs.cmu.edu/~kmcrane/Projects/WalkOnStars/) and [quadrature like Intact's](https://intact-solutions.com/) to the table to build fully differentiable engineering models.
 
 We can layer these fields to allow different stakeholders to overlay information in new ways. We can even relate radically different CAD models through their similarities with or without heavy-handed top-down relationships.  We can understand and create transformations between different stakeholders' disparate design intent perspective of only vaguely related topology.  
 
-![Stakeholders](/assets/blog/Geometry-as-Code/stakeholders.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
+![Stakeholders](/assets/blog/Geometry-as-Code/stakeholders.png){: style="width: 85%; display: block; margin-left: auto; margin-right: auto"}
 
 *A mechanical engineer optimizing for forces, a manufacturing engineer planning material removal, and a designer creating detailed drawings currently work with completely different representations. Geometry-as-code enables modern computer and data science to relate these perspectives into a coherent whole.*
 
-## The technology stack has converged
+### The technology stack has converged
 
 Geometry as code isn't a new idea, but only recently have computers become powerful enough to make it practical.  We've seen a ramp up from less computationally intense fields:
 
@@ -121,7 +121,7 @@ This isn't just about better CAD tools. When geometry becomes code, we unlock th
 - **Version control** that works like git on PLM systems models
 - **Diverse applications** from quantum to Lorentz space (as long as you don't do both at the same time)
 
-## State of the art
+### State of the art
 
 We're not just theorizing. For three years, Gradient Control Laboratories has been navigating towards this moment. [LatticeRobot](https://www.latticerobot.com) proved our compilation strategy via the prototype GCL Scripting language by compiling to [ShaderToy](https://www.shadertoy.com/), [Metafold](https://www.metafold3d.com/), and [Oqton](https://oqton.com/), in addition to providing reverse engineering via simulation and data science. From there, our interns [Daniel Motilla](https://www.linkedin.com/in/daniel-motilla/) and [Robert Iannuzzo](https://www.linkedin.com/in/robert-iannuzzo/) built an internal tool, "UGF Toy," to exercise the UGF modeling libraries. For [Variant3D's LOOP knitting software](https://www.variant3d.io/), we ported our UGF modeling libraries to Python to afford straightforward geodesic field modeling in its interactive computational structure programming environment.
 
@@ -135,11 +135,11 @@ Over the holiday break, Dan prompt injected the language spec into Gemini 3 prom
 
 ![OmegaAI Falcon 9 rocket](/assets/blog/Geometry-as-Code/omega-ai-rocket.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
-*The trivial rocket we designed live at the NASA Text-to-Spaceship symposium.*
+*The trivial rocket Omega and I improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
 
-NASA seemed to like it, so we figured we might as well tell everyone else about it too.
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too.
 
-## Why this matters: democratizing engineering intelligence
+### Why this matters: democratizing engineering intelligence
 
 The ultimate goal isn't just better CAD software. It's creating a world where engineering knowledge becomes portable, reusable, and understandable by AI. Where the intelligence behind design decisions lives in the geometry itself, not locked away in proprietary algorithms.  This year, I'm spending as much time as possible with companies like [Mecado](https://mecado.com) and [Hanomi](https://www.hanomi.ai) who are producing or finding new kinds of training data.
 
