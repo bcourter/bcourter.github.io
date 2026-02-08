@@ -8,20 +8,20 @@ vec4 bounds = vec4(30,70,160,18);
 
 float pi = 3.1415926535;
 
-// Radius of the periodic (seam) point marker and X markers
-float R = 10.0;
+// Radius used for X marker sizing and edge case proximity tests
+float R = 15.0;
 
-// X marker color - red to match the PNG
-vec4 xColor = vec4(0.9, 0.2, 0.2, 1.0);
+// X marker color - muted pink-red to match the PNG
+vec4 xColor = vec4(0.78, 0.38, 0.38, 1.0);
 
 // Draw an X marker using two rectangles rotated to tangent/normal of the circle
 vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
-    // Angle of the radial (normal) direction, plus 45 degrees to form an X
+    // Angle of the radial (normal) direction, minus 45 degrees to form an X
     vec2 radial = pos - circleCenter;
-    float angle = atan(radial.y, radial.x) + pi * 0.25;
+    float angle = atan(radial.y, radial.x) - pi * 0.25;
 
     // Two thin rectangles unioned into a cross
-    vec2 armSize = vec2(R * 1.8, 3.0);
+    vec2 armSize = vec2(R * 1.8, 3.5);
     Implicit arm1 = RectangleCenterRotated(p, pos, armSize, angle, xColor);
     Implicit arm2 = RectangleCenterRotated(p, pos, armSize, angle + pi * 0.5, xColor);
     Implicit cross = Min(arm1, arm2);
@@ -37,9 +37,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float wobble = iParam1;
     vec2 p = fragCoord - 0.5 * iResolution.xy;
 
-    // Circle at origin
+    // Circle shifted down 20% from center
     float radius = iResolution.y * 0.28;
-    vec2 center = vec2(0.0);
+    vec2 center = vec2(0.0, -0.2 * iResolution.y);
 
     // Periodic (seam) point on the right side of the circle
     vec2 seamPt = center + vec2(radius, 0.0);
@@ -58,8 +58,13 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float upperTangent = dirToCenter + tangentHalf;
 
     // Wobble sweeps the ray from missing (above tangent) through to seam
+    // Compute the angle to the seam exit to size the sweep range
+    vec2 toSeam = seamPt - pointP;
+    float seamAngle = atan(toSeam.y, toSeam.x);
+    float sweepRange = upperTangent - seamAngle;
+
     float t = sin(iTime * 0.5);
-    float angle = upperTangent - 0.50 * t * wobble;
+    float angle = upperTangent - sweepRange * (0.5 + 0.5 * t * wobble);
     vec2 dir = vec2(cos(angle), sin(angle));
 
     // Ray-circle intersection: |pointP + s*dir - center|^2 = radius^2
