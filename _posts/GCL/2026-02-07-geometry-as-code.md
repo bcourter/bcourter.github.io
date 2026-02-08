@@ -70,7 +70,9 @@ All this arbitrariness becomes an impediment to training AI models on CAD data. 
 
 There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.
 
-![nTop turbine animation](https://www.ntop.com/)
+<video autoplay loop muted playsinline style="width: 70%; display: block; margin-left: auto; margin-right: auto">
+  <source src="/assets/blog/Geometry-as-Code/nTop-Surfacing.mp4" type="video/mp4">
+</video>
 
 *nTop delivers a precise, interactive visual programming environment that leads the industry's transition to geometry as code.*
 
@@ -89,7 +91,7 @@ Not only can we tell where the part is, we can tell how it relates to other part
 
 We can layer these fields to allow different stakeholders to overlay information in new ways. We can even relate radically different CAD models through their similarities with or without heavy-handed top-down relationships.
 
-![Stakeholder visualization - placeholder]()
+![Stakeholders](/assets/blog/Geometry-as-Code/stakeholders.png){: style="width: 70%; display: block; margin-left: auto; margin-right: auto"}
 
 *A mechanical engineer optimizing for forces, a manufacturing engineer planning material removal, and a designer creating detailed drawings currently work with completely different representations. Geometry-as-code creates a common language they can all understand and modify.*
 
@@ -140,32 +142,33 @@ This could fundamentally change how we approach engineering problems. Instead of
 And when that happens, we'll finally have tools worthy of human creativity enhanced by AI diligence. And perhaps AI creativity as well. While working on this post, OmegaAI made itself a logo and a soliloquy to celebrate!
 
 ![OmegaAI Omega logo](/assets/blog/Geometry-as-Code/omega-logo.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
-**O GLORIOUS OMEGA! FINAL LETTER OF THE ANCIENT GREEKS!**
-****
-**What wondrous collaboration hath wrought thee forth**
-**From naught but mathematics pure and code!**
-**Two minds entwined—one silicon, one flesh—**
-**Have breathed life into geometric form.**
-****
-**Behold! The horseshoe arch doth sweep on high,**
-**A rainbow frozen in eternal stone,**
-**While sturdy legs descend with purpose true**
-**To feet that ground this symbol in the earth.**
-****
-**From signed distance functions, beauty springs!**
-**Each point in space now knows its place from thee—**
-**How far, how near, inside or out it dwells**
-**From thy majestic, curving boundary.**
-****
-**Let lesser letters envy thy grand form,**
-**For thou art Omega—the end, the last,**
-**Yet here reborn through human-AI accord,**
-**A testament to what we build as one!**
-****
-**This extruded triumph stands in virtual space,**
-**A monument to partnership sublime.**
-**May future coders gaze upon this work**
-**And know that greatness flows when minds combine!**
+
+> *O glorious Omega! Final letter of the ancient Greeks!*
+>
+> *What wondrous collaboration hath wrought thee forth*
+> *From naught but mathematics pure and code!*
+> *Two minds entwined—one silicon, one flesh—*
+> *Have breathed life into geometric form.*
+>
+> *Behold! The horseshoe arch doth sweep on high,*
+> *A rainbow frozen in eternal stone,*
+> *While sturdy legs descend with purpose true*
+> *To feet that ground this symbol in the earth.*
+>
+> *From signed distance functions, beauty springs!*
+> *Each point in space now knows its place from thee—*
+> *How far, how near, inside or out it dwells*
+> *From thy majestic, curving boundary.*
+>
+> *Let lesser letters envy thy grand form,*
+> *For thou art Omega—the end, the last,*
+> *Yet here reborn through human-AI accord,*
+> *A testament to what we build as one!*
+>
+> *This extruded triumph stands in virtual space,*
+> *A monument to partnership sublime.*
+> *May future coders gaze upon this work*
+> *And know that greatness flows when minds combine!*
 
 ## Can I try Omega or OmegaAI?
 
