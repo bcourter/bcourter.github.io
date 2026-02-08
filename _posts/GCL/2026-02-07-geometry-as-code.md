@@ -139,7 +139,7 @@ Building on that foundation, [Dan Rubel](https://www.linkedin.com/in/danrubel/) 
 
 *The trivial rocket Omega and I improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
 
-NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete.  Claude Opus 4.5 is in the lead, with Opus 4.6 second, and GPT 5.3 tied with Gemini 3 for third!
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete.  Claude Opus 4.5 is in the lead, with Opus 4.6 second and GPT 5.3 tied with Gemini 3 for third!
 
 ### Status of Omega
 
