@@ -18,7 +18,7 @@ Almost three years ago, [Jeremy Herrman](https://www.linkedin.com/in/jherrm/) in
 
 Within six months of starting my career at [PTC](https://www.ptc.com/) three decades ago, I became aware that there was little engineering in CAD. I had joined PTC because I thought that by selling Pro/E, I'd survey the engineering disciplines and learn how engineers design. Instead, I learned what drafters do: create technical drawings that get passed downstream for manufacturing and archival. The actual engineering knowledge, the *why* behind the design, was nowhere to be found. Where did it live?
 
-Thirty years later, we're still searching for this mystical "design intent." Our most sophisticated 3D models are still just collections of lines and curves with no understanding of their purpose. They're documentation tools, not intelligent systems. Engineering knowledge remains inaccessible in Matlab and Python scripts, FEA datasets that no longer run in the latest codes, perhaps there's some in the diaspora of Office documents, maybe even the tombs of PLM.
+Thirty years later, we're still searching for this mystical "design intent." Our most sophisticated 3D models are still just collections of lines and curves with no understanding of their purpose. They're documentation tools, not intelligent systems. Meanwhile, engineering knowledge remains inaccessible in Matlab and Python scripts, FEA decks no longer run in the latest codes, and the real knowledge is spread over a diaspora of Office documents.  Perhaps it even haunts the tombs of PLM.
 
 The team at Cursor reapplied their LLM tech to IDEs and built one of the most successful startups in recent memory. If we could represent geometry as code, could we perhaps achieve a Cursor for CAD?
 
@@ -64,7 +64,7 @@ One algorithm might be to pretend that the point is like a cow in a fenced-in pa
 
 But does the algorithm always work? What if one of the rays is just tangent to the shape? What if we make a mistake around the parametric seam? Apparently arbitrary cases cause us to get the answer wrong. And indeed, most traditional CAD kernels answer this kind of question incorrectly often enough to cause issues that require the attention of CAD specialists.
 
-All this arbitrariness becomes an impediment to training AI models on CAD data. Not only does the AI need to understand the design, but to do anything more than produce output, it needs to understand how the geometry engine will manipulate the geometry, blowing up the latent space.
+All this arbitrariness becomes an impediment to training AI models on CAD data. Not only does the AI need to understand the design, but also, to do anything more than produce output, it needs to understand how the geometry engine will manipulate the geometry, blowing up the latent space.
 
 ## Representing geometry as code
 
@@ -89,7 +89,7 @@ More subtly, the code that describes the shape fully defines not only just the s
 
 As code, we can use modern computer science to reason about it, optimize it, and transform it. Over the past decade, software development environments have become able to work with code that is only partially valid, and geometry as code, properly packaged, can be much easier to edit and update than traditional CAD.
 
-Additionally, these signed functions are equivalent to machine learning classifiers. In the same way that a classifier determines whether a picture contains or does not contain a representation of a hot dog. We're just classifying space as "part" or "not part." Modern data science provides amazing tools to work on geometry as code!
+Additionally, these signed functions are equivalent to machine learning classifiers. In the same way that a classifier determines whether a picture contains or does not contain a representation of a hot dog, we're just classifying space as "part" or "not part." Modern data science provides amazing tools to work on geometry as code!
 
 Not only can we tell where the part is, we can tell how it relates to other parts by comparing the fields. We can add automatic differentiation, tolerance stack-up, and topological fields to harmonize previously unconnected disciplines. To evaluate fitness, we can bring AI workhorses such as [Monte Carlo techniques](https://www.cs.cmu.edu/~kmcrane/Projects/WalkOnStars/) and [quadrature like Intact's](https://intact-solutions.com/) to the table to build fully differentiable engineering models.
 
@@ -129,19 +129,19 @@ We're not just theorizing. For three years, Gradient Control Laboratories has be
 
 *Variant3D uses GCL's Omega libraries to enable generative knitting design on curved surfaces via geodesic distance fields.*
 
-Meanwhile, [Dan Rubel](https://www.linkedin.com/in/danrubel/) treated LatticeRobot as a training mission and used our Alpha approach SaaS architecture, now well exercised in [Rapid Liquid Print's VEER ON](https://www.rapidliquidprint.com), to host a new compiler for a refined language along with a WebGPU front end and [Matt Keeter's](https://www.mattkeeter.com/) [Fidget] instead of [libfive] for meshing, etc.
+Meanwhile, [Dan Rubel](https://www.linkedin.com/in/danrubel/) treated LatticeRobot as a training mission and used our Alpha approach SaaS architecture, now well exercised in [Rapid Liquid Print's VEER ON](https://www.rapidliquidprint.com), to host a new compiler for a refined language along with a WebGPU front end and [Matt Keeter's](https://www.mattkeeter.com/) [Fidget](https://www.mattkeeter.com/projects/fidget/) instead of [libfive](https://libfive.com/) for meshing, etc.
 
-Over the holiday break, Dan prompt injected the language spec into Gemini 3 prompts, and we were all surprised by the results. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models. I visited the [NASA Text-to-Spaceship symposium](https://ntrs.nasa.gov/) with OmegaAI in tow and generated highly conceptual rockets, rovers, glide vehicles, and even a F1 steering wheel while watching the excellent array of speakers.
+Over the holiday break, Dan prompt injected the language spec into Gemini 3 prompts, and we were all surprised by the results. I visited the [NASA Text-to-Spaceship symposium](https://ntrs.nasa.gov/) with OmegaAI in tow and generated highly conceptual rockets, rovers, glide vehicles, and even a F1 steering wheel while watching the excellent array of speakers.
 
 ![OmegaAI Falcon 9 rocket](/assets/blog/Geometry-as-Code/omega-ai-rocket.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
 *The trivial rocket Omega and I improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
 
-NASA seemed to like Omega, so we figured we might as well tell everyone else about it too.
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete....
 
 ### Why this matters: democratizing engineering intelligence
 
-The ultimate goal isn't just better CAD software. It's creating a world where engineering knowledge becomes portable, reusable, and understandable by AI. Where the intelligence behind design decisions lives in the geometry itself, not locked away in proprietary algorithms.  This year, I'm spending as much time as possible with companies like [Mecado](https://mecado.com) and [Hanomi](https://www.hanomi.ai) who are producing or finding new kinds of training data.
+The ultimate goal isn't just better CAD software. It's to create a world where engineering knowledge becomes portable, reusable, and understandable by AI. Where the intelligence behind design decisions lives in the geometry itself, not locked away in proprietary algorithms.  This year, I'm spending as much time as possible with companies like [Mecado](https://mecado.com) and [Hanomi](https://www.hanomi.ai) who are producing or finding new kinds of training data.
 
 This could fundamentally change how we approach engineering problems. Instead of humans struggling to communicate intent to dumb geometry systems, we'll have intelligent models that can both generate and document design intent.
 
