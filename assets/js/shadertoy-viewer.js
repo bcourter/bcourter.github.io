@@ -28,7 +28,7 @@ class ShadertoyViewer {
         this.uniforms = {
             iTime: { value: 0 },
             iResolution: { value: new THREE.Vector3() },
-            iMouse: { value: new THREE.Vector4() },
+            iMouse: { value: new THREE.Vector4(-1, -1, 0, 0) },
             iFrame: { value: 0 },
             iTimeDelta: { value: 0 },
             iFrameRate: { value: 60 },

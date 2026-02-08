@@ -6,8 +6,6 @@
 
 vec4 bounds = vec4(30,70,160,18);
 
-float pi = 3.1415926535;
-
 // Radius used for X marker sizing and edge case proximity tests
 float R = 15.0;
 
@@ -16,10 +14,10 @@ vec4 xColor = vec4(0.78, 0.38, 0.38, 1.0);
 
 // Draw an X marker using two rectangles rotated to tangent/normal of the circle
 vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
+    float pi = 3.1415926535;
     vec2 radial = pos - circleCenter;
     float angle = atan(radial.y, radial.x) + pi * 0.25;
 
-    // Two thin rectangles unioned into a cross
     vec2 armSize = vec2(R * 1.8, 7.0);
     Implicit arm1 = RectangleCenterRotated(p, pos, armSize, -angle, xColor);
     Implicit arm2 = RectangleCenterRotated(p, pos, armSize, -angle + pi * 0.5, xColor);
@@ -33,7 +31,6 @@ vec4 drawXMarker(vec2 p, vec2 pos, vec2 circleCenter, vec4 opColor) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec4 opColor = vec4(1.0);
 
-    float wobble = iParam1;
     vec2 p = fragCoord - 0.5 * iResolution.xy;
 
     // Circle at center
@@ -46,7 +43,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // Arrow length
     float rayLen = iResolution.x * 0.4;
 
-    // Fixed point p, above-left of circle, shifted down 20% and left for visual centering
+    // Fixed point, above-left of circle, shifted down 20% and left for visual centering
     vec2 pointP = center + vec2(-radius * 0.55 - 0.25 * rayLen, radius * 1.2 - 0.2 * iResolution.y);
 
     // Check if mouse is hovering in the scene
@@ -63,20 +60,20 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         dir = normalize(arrowEnd - pointP);
         endpointInside = length(arrowEnd - center) < radius;
     } else {
-        // Compute tangent angle from p to circle to set sweep range
+        // Compute tangent angle from pointP to circle to set sweep range
         vec2 toCenter = center - pointP;
         float dirToCenter = atan(toCenter.y, toCenter.x);
         float distPC = length(toCenter);
         float tangentHalf = asin(radius / distPC);
-        float upperTangent = dirToCenter + tangentHalf;
 
-        // Wobble sweeps the ray from missing (above tangent) through to seam
+        // Sweep from above tangent through to past seam
         vec2 toSeam = seamPt - pointP;
         float seamAngle = atan(toSeam.y, toSeam.x);
+        float upperTangent = dirToCenter + tangentHalf;
         float sweepRange = 2.5 * (upperTangent - seamAngle);
 
         float t = sin(iTime * 0.5);
-        float angle = dirToCenter - sweepRange * t * wobble;
+        float angle = dirToCenter - sweepRange * t * 0.5;
         dir = vec2(cos(angle), sin(angle));
         arrowEnd = pointP + dir * rayLen;
     }
@@ -132,12 +129,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // Stroke the circle outline
     opColor = strokeImplicit(circle, 4.0, opColor);
 
-    // X markers at ray-circle intersection points
-    if (hasHit1) opColor = drawXMarker(p, hit1, center, opColor);
-    if (hasHit2 && !endpointInside) opColor = drawXMarker(p, hit2, center, opColor);
-
     // Periodic (seam) point - same radius as pivot point
     opColor = drawPoint(p, seamPt, 6.0, opColor);
+
+    // X markers drawn after periodic point so they render on top
+    if (hasHit1) opColor = drawXMarker(p, hit1, center, opColor);
+    if (hasHit2 && !endpointInside) opColor = drawXMarker(p, hit2, center, opColor);
 
     // Draw point p
     opColor = drawPoint(p, pointP, 6.0, opColor);
