@@ -72,7 +72,7 @@ All this arbitrariness becomes an impediment to training AI models on CAD data. 
 
 ## Representing geometry as code
 
-There is a different way to represent shapes. Instead of making files that describe *where* geometry is, we can write code that describes *what* geometry is. We create a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's been my pleasure to make regular contributions.)
+There is a different way to represent shapes. Instead of only describing the geometry by its boundary, we describe how every point in space relates to it. Specifically. we define a function that takes any point in space and returns a value that's positive when outside, negative on the inside, and zero on the boundary. Such implicit "[F-reps](https://en.wikipedia.org/wiki/Function_representation)" and "signed distance fields (SDFs)" have been around for decades, but only recently have we developed the appropriate setting, [unit gradient fields](https://www.blakecourter.com/2023/05/05/what-is-offset.html) (UGFs), to build precise and usable engineering software. In particular, [nTop](https://www.ntop.com/) has been blazing the path, demonstrating superior interactive performance to the explicit boundary representations (B-reps) of traditional CAD.  (nTop helps fund and retains access to GCL's research, and it's been my pleasure to make regular contributions.)
 
 <video autoplay loop muted playsinline style="width: 100%; display: block; margin-left: auto; margin-right: auto">
   <source src="/assets/blog/Geometry-as-Code/nTop-Surfacing.mp4" type="video/mp4">
@@ -107,7 +107,7 @@ We can layer these fields to allow different stakeholders to overlay information
 
 Geometry as code isn't a new idea, but only recently have computers become powerful enough to make it practical.  We've seen a ramp up from less computationally intense fields:
 
-**In the 2000s**, font rendering was completely replaced with geometry as code approaches for better text smoothing and Asian glyph support on low-power devices.
+**In the 2000s**, font rendering was completely replaced with geometry as code for better text smoothing at the subpixel level, Asian glyph support on pre-iPhone devices, and efficient e-ink support.
 
 **With 3D printing**, we needed to handle complex lattice patterns and infill that traditional CAD couldn't manage efficiently. Geometry as code excelled at these patterns but took overnight to compute.
 
@@ -139,9 +139,9 @@ Building on that foundation, [Dan Rubel](https://www.linkedin.com/in/danrubel/) 
 
 ![OmegaAI Falcon 9 rocket](/assets/blog/Geometry-as-Code/omega-ai-rocket.png){: style="width: 100%; display: block; margin-left: auto; margin-right: auto"}
 
-*The trivial rocket OmegaAI improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship symposium.*
+*The trivial rocket OmegaAI improvised with NASA engineers on the Goddard campus at their Text-to-Spaceship Symposium.*
 
-NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keegan-mcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete.  Claude Opus 4.5 is in the lead, with Opus 4.6 second and GPT 5.3 tied with Gemini 3 for third!
+NASA seemed to like Omega, so we figured we might as well tell everyone else about it too. [Keegan McNamara](https://www.linkedin.com/in/keeganmcnamara/) ([@keegan_mcnamara](https://x.com/keegan_mcnamara)), having just graduated our most recent incubatee, [xNilio](https://www.xnilio.com/), took over the front end and added [OpenRouter](https://openrouter.ai/) for simultaneous access to a dozen models.  So we started letting the models compete.  Claude Opus 4.5 is in the lead, with Opus 4.6 second and GPT 5.3 tied with Gemini 3 for third!
 
 ### Status of Omega
 
@@ -171,4 +171,4 @@ We would love your feedback and would be happy to talk.  If you have any thought
 
 That said, it is probably not time for you to try the full Omega stack yet. We are a research consultancy, and we are motivated more by intellectual outcomes than by growth. We prefer to deeply embed with partners to produce long-term value, not only as a practice, but also as a commitment to building our tools with a strong voice of the customer. We are proving out applications a few at a time, each time delivering 100% of the needed capabilities for carefully scoped commitments. Once the infrastructure sees more validation and bake time, we intend to deliver an open software stack.  
 
-Maybe we'll share some OmegaAI prototypes soon.  Let us know if you'd like a play.
+Maybe we'll share this OmegaAI prototype soon.  Let us know if you'd like a play.
