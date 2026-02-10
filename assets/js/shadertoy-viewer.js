@@ -382,7 +382,7 @@ void main() {
 
     onResize() {
         const width = this.container.clientWidth;
-        const height = this.container.clientHeight || 450;
+        const height = this.container.clientHeight;
 
         this.renderer.setSize(width, height);
 
