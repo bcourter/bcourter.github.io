@@ -110,7 +110,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         isEdgeCase = true;
     } else {
         if (hasHit1 && hasHit2) {
-            if (length(hit1 - hit2) < 4.0 * animR) isEdgeCase = true;
+            if (length(hit1 - hit2) < (mouseActive ? 8.0 : 16.0) * R) isEdgeCase = true;
         }
         if (hasHit1 && length(hit1 - seamPt) < animR) isEdgeCase = true;
         if (hasHit2 && length(hit2 - seamPt) < animR) isEdgeCase = true;
