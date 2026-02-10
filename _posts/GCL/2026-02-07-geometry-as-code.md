@@ -64,7 +64,7 @@ One algorithm might be to pretend that the point is like a cow in a fenced-in pa
 
 But does the algorithm always work? What if one of the rays is just tangent to the shape? What if we make a mistake around the parametric seam? Apparently arbitrary cases cause us to get the answer wrong. And indeed, most traditional CAD kernels answer this kind of question incorrectly often enough to cause issues that require the attention of CAD specialists.
 
-{%- include extensions/shadertoy.html id='ray-casting' -%}
+{%- include extensions/shadertoy.html id='ray-casting' aspect='16 / 9' -%}
 
 All this arbitrariness becomes an impediment to training AI models on CAD data. Not only does the AI need to understand the design, but also, to do anything more than produce output, it needs to understand how the geometry engine will manipulate the geometry, blowing up the latent space.
 
