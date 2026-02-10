@@ -12,6 +12,10 @@ Includes contributions from [Luke Church](https://www.linkedin.com/in/lukechurch
 * Geometry as code replaces the kernel with programmatic functions that encode geometric behavior and are much more amenable to AI and ML tools.
 * [Gradient Control Laboratories](https://www.gradientcontrol.com) announces Omega, the world's first pure geometry as code development system for engineering applications.
 
+{%- include extensions/carousel.html id='hello-models' images='/assets/blog/Geometry-as-Code/hello-gemini3pro.png,/assets/blog/Geometry-as-Code/hello-opus45.png,/assets/blog/Geometry-as-Code/hello-opus46.png,/assets/blog/Geometry-as-Code/hello-gpt52.png,/assets/blog/Geometry-as-Code/hello-sonnet45.png,/assets/blog/Geometry-as-Code/hello-gemini25pro.png,/assets/blog/Geometry-as-Code/hello-llama4maverick.png' captions='Gemini 3 Pro|Claude Opus 4.5|Claude Opus 4.6|GPT 5.2|Claude Sonnet 4.5|Gemini 2.5 Pro|Llama 4 Maverick' -%}
+
+*The result of asking seven leading LLMs to produce output for Omega, our implicit modeling stack.*
+
 ## Background
 
 Almost three years ago, [Jeremy Herrman](https://www.linkedin.com/in/jherrm/) introduced me to the founders of [Cursor](https://www.cursor.com/), who eventually made what we now know as a wildly popular AI-powered IDE. In those days, however, they were [attempting to create](https://open.spotify.com/episode/68r7x3USvWcCEvi02bTxvN) a "GitHub CoPilot for CAD" by training their tech on feature-based CAD models from [OnShape](https://www.onshape.com/) and [GrabCAD](https://grabcad.com/). They wanted to know why their models weren't converging. Why weren't there enough patterns in the CAD models' construction to learn to autocomplete?
@@ -23,10 +27,6 @@ Thirty years later, we're still searching for this mystical "design intent." Our
 The team at Cursor reapplied their LLM tech to IDEs and built one of the most successful startups in recent memory. If we could represent geometry as code, could we perhaps achieve a Cursor for CAD?
 
 At [Gradient Control Laboratories](https://www.gradientcontrol.com), we are building Omega: a new suite of modeling tools for CAD that manipulate geometry as code. With Omega, engineering knowledge becomes portable, reusable, and understandable by AI. CAD models become free and open software that places equity with creators, just as IDEs do for software developers.
-
-{%- include extensions/carousel.html id='hello-models' images='/assets/blog/Geometry-as-Code/hello-opus45.png,/assets/blog/Geometry-as-Code/hello-opus46.png,/assets/blog/Geometry-as-Code/hello-gpt52.png,/assets/blog/Geometry-as-Code/hello-gemini3pro.png,/assets/blog/Geometry-as-Code/hello-sonnet45.png,/assets/blog/Geometry-as-Code/hello-gemini25pro.png,/assets/blog/Geometry-as-Code/hello-llama4maverick.png' captions='Claude Opus 4.5|Claude Opus 4.6|GPT 5.2|Gemini 3 Pro|Claude Sonnet 4.5|Gemini 2.5 Pro|Llama 4 Maverick' -%}
-
-*OmegaAI's "Hello World" outputs across leading AI models. Claude Opus 4.5 leads the pack!*
 
  <!--more-->
 
@@ -68,7 +68,7 @@ One algorithm might be to pretend that the point is like a cow in a fenced-in pa
 
 But does the algorithm always work? What if one of the rays is just tangent to the shape? What if we make a mistake around the parametric seam? Apparently arbitrary cases cause us to get the answer wrong. And indeed, most traditional CAD kernels answer this kind of question incorrectly often enough to cause issues that require the attention of CAD specialists.
 
-{%- include extensions/shadertoy.html id='ray-casting' aspect='16 / 9' -%}
+{%- include extensions/shadertoy.html id='ray-casting' aspect='2 / 1' -%}
 
 All this arbitrariness becomes an impediment to training AI models on CAD data. Not only does the AI need to understand the design, but also, to do anything more than produce output, it needs to understand how the geometry engine will manipulate the geometry, blowing up the latent space.
 
