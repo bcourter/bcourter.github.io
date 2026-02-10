@@ -24,6 +24,10 @@ The team at Cursor reapplied their LLM tech to IDEs and built one of the most su
 
 At [Gradient Control Laboratories](https://www.gradientcontrol.com), we are building Omega: a new suite of modeling tools for CAD that manipulate geometry as code. With Omega, engineering knowledge becomes portable, reusable, and understandable by AI. CAD models become free and open software that places equity with creators, just as IDEs do for software developers.
 
+{%- include extensions/carousel.html id='hello-models' images='/assets/blog/Geometry-as-Code/hello-opus45.png,/assets/blog/Geometry-as-Code/hello-opus46.png,/assets/blog/Geometry-as-Code/hello-gpt52.png,/assets/blog/Geometry-as-Code/hello-gemini3pro.png,/assets/blog/Geometry-as-Code/hello-sonnet45.png,/assets/blog/Geometry-as-Code/hello-gemini25pro.png,/assets/blog/Geometry-as-Code/hello-llama4maverick.png' captions='Claude Opus 4.5|Claude Opus 4.6|GPT 5.2|Gemini 3 Pro|Claude Sonnet 4.5|Gemini 2.5 Pro|Llama 4 Maverick' -%}
+
+*OmegaAI's "Hello World" outputs across leading AI models. Claude Opus 4.5 leads the pack!*
+
  <!--more-->
 
 ## Why traditional CAD defies AI

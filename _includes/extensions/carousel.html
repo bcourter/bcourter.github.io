@@ -1,0 +1,42 @@
+{% assign images = include.images | split: ',' %}
+{% assign captions = include.captions | split: '|' %}
+<div class="extensions extensions--carousel">
+  <div class="carousel swiper" id="carousel-{{ include.id | default: 'default' }}">
+    <div class="swiper__wrapper">
+      {% for img in images %}
+      <div class="swiper__slide">
+        <div class="carousel__item">
+          <img src="{{ img | strip }}" alt="{{ captions[forloop.index0] | strip | default: '' }}" />
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+    <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  </div>
+  {% if captions.size > 0 %}
+  <div class="carousel__caption-area" id="carousel-caption-{{ include.id | default: 'default' }}">
+    {{ captions[0] | strip }}
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  (function() {
+    var SOURCES = window.TEXT_VARIABLES.sources;
+    window.Lazyload.js(SOURCES.jquery, function() {
+      var id = '{{ include.id | default: "default" }}';
+      var $carousel = $('#carousel-' + id);
+      var $caption = $('#carousel-caption-' + id);
+      var captions = [{% for img in images %}'{{ captions[forloop.index0] | strip | default: "" }}'{% unless forloop.last %},{% endunless %}{% endfor %}];
+      $carousel.swiper({
+        onChange: function(index) {
+          if ($caption.length && captions[index]) {
+            $caption.text(captions[index]);
+          }
+        }
+      });
+    });
+  })();
+</script>
