@@ -3,13 +3,14 @@
   window.Lazyload.js(SOURCES.jquery, function() {
     function swiper(options) {
       var $window = $(window), $root = this, $swiperWrapper, $swiperSlides, $swiperButtonPrev, $swiperButtonNext,
-        initialSlide, animation, onChange, onChangeEnd,
+        initialSlide, animation, loop, onChange, onChangeEnd,
         rootWidth, count, preIndex, curIndex, translateX, CRITICAL_ANGLE = Math.PI / 3;
 
       function setOptions(options) {
         var _options = options || {};
         initialSlide = _options.initialSlide || 0;
         animation = _options.animation === undefined && true;
+        loop = _options.loop || false;
         onChange = onChange || _options.onChange;
         onChangeEnd = onChangeEnd || _options.onChangeEnd;
       }
@@ -60,15 +61,20 @@
           }
           $swiperWrapper.css('transform', 'translate(' + translateX + 'px, 0)');
           if (count > 1) {
-            if (curIndex <= 0) {
-              $swiperButtonPrev.addClass('disabled');
-            } else {
+            if (loop) {
               $swiperButtonPrev.removeClass('disabled');
-            }
-            if (curIndex >= count - 1) {
-              $swiperButtonNext.addClass('disabled');
-            } else {
               $swiperButtonNext.removeClass('disabled');
+            } else {
+              if (curIndex <= 0) {
+                $swiperButtonPrev.addClass('disabled');
+              } else {
+                $swiperButtonPrev.removeClass('disabled');
+              }
+              if (curIndex >= count - 1) {
+                $swiperButtonNext.addClass('disabled');
+              } else {
+                $swiperButtonNext.removeClass('disabled');
+              }
             }
           }
         };
@@ -88,9 +94,17 @@
       function move(type) {
         var nextIndex = curIndex, unstableTranslateX;
         if (type === 'prev') {
-          nextIndex > 0 && nextIndex--;
+          if (loop && nextIndex <= 0) {
+            nextIndex = count - 1;
+          } else {
+            nextIndex > 0 && nextIndex--;
+          }
         } else if (type === 'next') {
-          nextIndex < count - 1 && nextIndex++;
+          if (loop && nextIndex >= count - 1) {
+            nextIndex = 0;
+          } else {
+            nextIndex < count - 1 && nextIndex++;
+          }
         }
         if (type === 'cur') {
           moveToIndex(curIndex, { animation: true });
