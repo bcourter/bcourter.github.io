@@ -14,8 +14,6 @@ Includes contributions from [Luke Church](https://www.linkedin.com/in/lukechurch
 
 {%- include extensions/carousel.html id='hello-models' images='/assets/blog/Geometry-as-Code/hello-gemini3pro.png,/assets/blog/Geometry-as-Code/hello-opus45.png,/assets/blog/Geometry-as-Code/hello-opus46.png,/assets/blog/Geometry-as-Code/hello-gpt52.png,/assets/blog/Geometry-as-Code/hello-sonnet45.png,/assets/blog/Geometry-as-Code/hello-gemini25pro.png,/assets/blog/Geometry-as-Code/hello-llama4maverick.png' captions='Gemini 3 Pro|Claude Opus 4.5|Claude Opus 4.6|GPT 5.2|Claude Sonnet 4.5|Gemini 2.5 Pro|Llama 4 Maverick' -%}
 
-*The result of asking seven leading LLMs to produce output for Omega, our implicit modeling stack.*
-
 ## Background
 
 Almost three years ago, [Jeremy Herrman](https://www.linkedin.com/in/jherrm/) introduced me to the founders of [Cursor](https://www.cursor.com/), who eventually made what we now know as a wildly popular AI-powered IDE. In those days, however, they were [attempting to create](https://open.spotify.com/episode/68r7x3USvWcCEvi02bTxvN) a "GitHub CoPilot for CAD" by training their tech on feature-based CAD models from [OnShape](https://www.onshape.com/) and [GrabCAD](https://grabcad.com/). They wanted to know why their models weren't converging. Why weren't there enough patterns in the CAD models' construction to learn to autocomplete?
