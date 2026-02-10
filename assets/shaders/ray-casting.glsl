@@ -33,18 +33,21 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     vec2 p = fragCoord - 0.5 * iResolution.xy;
 
+    // Use the smaller viewport dimension so everything scales uniformly on any aspect ratio
+    float scale = min(iResolution.x, iResolution.y);
+
     // Circle at center
-    float radius = iResolution.y * 0.28;
+    float radius = scale * 0.28;
     vec2 center = vec2(0.0);
 
     // Periodic (seam) point on the right side of the circle
     vec2 seamPt = center + vec2(radius, 0.0);
 
-    // Arrow length
-    float rayLen = iResolution.x * 0.4;
+    // Arrow length proportional to radius
+    float rayLen = radius * 2.5;
 
-    // Fixed point, above-left of circle, shifted down 20% and left for visual centering
-    vec2 pointP = center + vec2(-radius * 0.55 - 0.25 * rayLen, radius * 1.2 - 0.2 * iResolution.y);
+    // Fixed point, above-left of circle, positioned relative to radius to stay outside
+    vec2 pointP = center + vec2(-radius * 1.2, radius * 0.5);
 
     // Check if mouse is hovering in the scene
     bool mouseActive = iMouse.x >= 0.0;
