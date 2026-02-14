@@ -21,7 +21,7 @@ comments: true
         * [Metric without bearings](https://grabcad.com/library/11-gear-mobius-v3-1)
         * Builds
             * [mcmptk](https://youtu.be/YEp-J3Hj8uU)
-    * [The Penrose Triangle](/homepage/Penrose/)
+    * [The Penrose Triangle](/homepage/Penrose-Homepage/)
         * [Overview Presentation](https://drive.google.com/file/d/1xVqKeeGn5BUSU0N4g4ieo0-JtPGrLxut/view?usp=share_link){: onclick="gtag('event', 'download_penrose');"}
         * [Facebook](https://www.facebook.com/ThePenroseTriangle/)
     * [Dust Collection](https://grabcad.com/blake.courter/models)
