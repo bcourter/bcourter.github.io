@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Struttura</title>
+
+    <link rel="stylesheet" type="text/css" href="struttura.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <div class="content grid">
+        <div class="panel">
+            <span style="position: fixed; top: 10px; left: 5px" class="bigbuttons"> 
+                <a href='.'>Shirt</a>  
+                <a href='?pattern=dress21-28.js&mirror=0'>Dress</a> 
+                <a href='?pattern=jeans-19.js'>Jeans</a> 
+            </span>
+            <span style="position: fixed; bottom: 10px; right: 10px" class="bigbuttons"> 
+            <a id="SaveImage" href="#"> Save Image </a> 
+            <a id="SaveObj" href="#"> Save OBJ </a>
+            </span>
+
+            <select id="reduction" style="position: fixed; bottom: 10px; right: 180px">
+                <option value="4">4x</option>
+                <option value="2">2x</option>
+                <option value="1">1x</option>
+            </select>
+            
+        </div>
+        <select id="shaderMenu">
+        </select>
+
+        <div id="3d">
+        </div>
+    </div>
+
+    <div id="control-container" style="position: absolute; left: 0; top: 110px">
+    </div>
+   
+    <script type="text/javascript" src="js/physics.js"></script>
+
+    <script src="js/three/three.js"></script>
+    <script src="js/three/controls/OrbitControls.js"></script>
+    <script src="js/three/loaders/STLLoader.js"></script>
+
+    <script src="js/four/Four.js"></script>
+    <script src="js/four/math/Box4.js"></script>
+    <script src="js/four/math/Matrix5.js"></script>
+    <script src="js/four/core/Geometry.js"></script>
+    <script src="js/four/core/Face3.js"></script>
+    <script src="js/four/core/Face4.js"></script>
+    <script src="js/four/extras/geometries/Object3DGeometry.js"></script>
+
+    <script src="js/complex/Complex.js"></script>
+    <script src="js/complex/Circline.js"></script>
+    <script src="js/complex/Face.js"></script>
+    <script src="js/complex/Disc.js"></script>
+
+    <script src="js/libs/stats.min.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+
+    <script src="js/partloader.js"></script>
+    <script src="js/functions.js"></script>
+    <script data-main="js/struttura" src="js/require.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+
+body {
+  background: #000;
+  color: #ddd;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+
+p {
+  color: #eee;
+}
+
+a {
+    color: #ddd;
+}
+
+a:link {
+    color: #ddd;
+} 
+
+a:visited {
+    color: #ddd;
+}
+
+a:hover {
+    color: #fff;
+}
+
+#toolbar {
+    top: 0;
+    left: 0;
+    width: 100%;
+	  height: 12px;
+    margin: 1px;
+    padding: 6px;
+    background-color: #222;
+}
+
+#shaderMenu {
+  position: absolute;
+  top: 55px;
+  margin: 5px;
+  font-size: 26px;
+  border-color: #dad5cb;
+  width: 240px;
+  background: #dad5cb;
+}
+

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designs that design themselves &mdash; The Penrose Triangle</title>
+<style>* { margin: 0; padding: 0; box-sizing: border-box; } body { color: #ccc; background: #000; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5em; } a { color: #fff; } img { max-width: 100%; height: auto; }</style>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner">
+<a href="../index.html" class="site-logo"><img src="../logo.png" alt="The Penrose Triangle"></a>
+<h1 class="site-title"><a href="../index.html">The Penrose Triangle</a></h1>
+</div>
+<nav class="site-nav">
+<a href="../index.html">Home</a>
+<a href="../sample-page.html">Contact</a> <a href="../about.html">About</a> <a href="../team.html">Team</a> <a href="../links.html">Links</a>
+</nav>
+</header>
+<div class="container">
+<article class="post single">
+<h2 class="entry-title">Designs that design themselves</h2>
+<div class="entry-meta">June 30, 2013</div>
+<div class="entry-content">
+<p>In the last post, I mentioned that the design was determined from the level of subdivision.  Let's walk through how that happens, as there are a few fun twists and turns.</p>
+<br>
+<br>
+<br>
+<p>Last time, I showed the first three items of the sequence of subdivided Penrose triangles.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Three-Penrose-Triangles.png"><img class="alignnone size-full wp-image-179" title="Three Penrose Triangles" src="../uploads/2013/06/Three-Penrose-Triangles.png" alt="" width="745" height="254" /></a></p>
+<br>
+<br>
+<br>
+<p>We'll choose the second for this exercise.  The actual sculpture uses the third, so we'll end up making our triangle's little brother.</p>
+<br>
+<h3>Corner Cubes</h3>
+<br>
+<p>The first step is to create properly-oriented corner cubes from their hexagonal silhouettes.  Let's draw it's cross section, which is the hexagon <span style="font-size: 13px; line-height: 19px;">inscribed on the midpoints of the edges of the silhouette.  </span></p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.1-.png"><img class="alignnone size-full wp-image-187" title="Build Up Example.1-" src="../uploads/2013/06/Build-Up-Example.1-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p><address>All CAD work performed in SpaceClaim<span style="font-size: 13px; line-height: 19px;">.</span></address>We need to reconstruct the faces of the cube from those six cyan lines, each of which represents a face.  Let's start by getting those faces in 3D.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.2-.png"><img class="alignnone size-full wp-image-188" title="Build Up Example.2-" src="../uploads/2013/06/Build-Up-Example.2-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p>Three of those side faces on the hexagonal prism will tilt one way, and the other three will tilt the other, all rotating along their cross section lines, to form the cube.  What's the correct angle?  Here's the cube in a delightful cross with a right triangle with the edge length (<em>l</em>), the length of the face diagonal, and the length of the cube diagonal.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.13-.png"><img class=" wp-image-190 alignright" title="Build Up Example.13-" src="../uploads/2013/06/Build-Up-Example.13-.png" alt="" width="425" height="271" /></a></p>
+<br>
+<br>
+<br>
+<p>We then give that angle to the CAD tool's draft command, which pivots face geometry about a neutral plane, for the heavy lifting.  First the top set:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.4-.png"><img class="alignnone  wp-image-191" title="Build Up Example.4-" src="../uploads/2013/06/Build-Up-Example.4-.png" alt="" width="566" height="361" /></a></p>
+<br>
+<br>
+<br>
+<p>It's almost hard to see the top three edges of the cube beginning to form.  Do the exact same trick to the bottom set, and like magic:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.5-.png"><img class="alignnone  wp-image-192" title="Build Up Example.5-" src="../uploads/2013/06/Build-Up-Example.5-.png" alt="" width="566" height="361" /></a></p>
+<br>
+<br>
+<br>
+<p>And there's our cube in exactly the right position.  Taking advantage of symmetry and viewing from the front:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.6-.png"><img class="alignnone size-full wp-image-194" title="Build Up Example.6-" src="../uploads/2013/06/Build-Up-Example.6-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<h3>Inserting the arms</h3>
+<br>
+<p>We now need to make a design decision: What is shape of the arms?  What is the obvious thing to do?</p>
+<br>
+<br>
+<br>
+<p>We know the start and end points of the arm beams, so we really just need to agree on an interpolation technique.  Linear and spline interpolation are fast and easy, but observe that introducing arcs leads to an elegant solution.  There is exactly one pair of tangent arcs that are tangent to both cubes for the bottom-most beam.  This pair of arcs is symmetric, which matches the needed symmetry.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.7-.png"><img class="alignnone size-full wp-image-195" title="Build Up Example.7-" src="../uploads/2013/06/Build-Up-Example.7-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p>If we continue from there, we can copy curves to the middle position and the top.  Observe that the middle pair of arcs' ends are both touching and  perpendicular to the faces of the cube.  Therefore offset arcs will also touch the cube.  We then generate the actual curves by offsetting those arcs by half of a face diagonal in each direction.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.8-.png"><img class="alignnone  wp-image-196" title="Build Up Example.8-" src="../uploads/2013/06/Build-Up-Example.8-.png" alt="" width="425" height="271" /></a><a href="../uploads/2013/06/Build-Up-Example.9-.png"><img title="Build Up Example.9-" src="../uploads/2013/06/Build-Up-Example.9-.png" alt="" width="425" height="271" /></a></p>
+<br>
+<br>
+<br>
+<p><span style="font-size: 13px; line-height: 19px;">Lofting between these curves provides the arm surfaces.   Note that each face is defined by concentric, offset arcs, so they are all cones and are therefore are developable (able to rolled from flat patterns).  </span></p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.10-.png"><img class="alignnone  wp-image-198" title="Build Up Example.10-" src="../uploads/2013/06/Build-Up-Example.10-.png" alt="" width="425" height="271" /></a><a href="../uploads/2013/06/Build-Up-Example.11-.png"><img class="alignnone  wp-image-199" title="Build Up Example.11-" src="../uploads/2013/06/Build-Up-Example.11-.png" alt="" width="425" height="271" /></a></p>
+<br>
+<br>
+<br>
+<p>Back to the symmetric view:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.12-.png"><img class="alignnone size-full wp-image-200" title="Build Up Example.12-" src="../uploads/2013/06/Build-Up-Example.12-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<h3>Locating the beams</h3>
+<br>
+<p>We should be sufficiently pleased that we have constructed the triangle out of cones, but now we need to turn it into a truss structure.  Let's extrude our 2D beam pattern to see where it intersects the arms.</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.14-.png"><img class="alignnone  wp-image-202" title="Build Up Example.14-" src="../uploads/2013/06/Build-Up-Example.14-.png" alt="" width="425" height="271" /></a><a href="../uploads/2013/06/Build-Up-Example.15-.png"><img class="alignnone  wp-image-203" title="Build Up Example.15-" src="../uploads/2013/06/Build-Up-Example.15-.png" alt="" width="425" height="271" /></a></p>
+<br>
+<br>
+<br>
+<p>The intersection curves aren't straight, but they are close enough that our straight beams will be sufficient approximations.  We can draw them in place:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.17-.png"><img class="alignnone size-full wp-image-204" title="Build Up Example.17-" src="../uploads/2013/06/Build-Up-Example.17-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p>Notice that the arm has some symmetries we can use.  The beams on the bottom are a reflection of the ones we just drew.  We can also rotate them 180 around the center of the arm to get the other side.  Adding all the symmetry gives us:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.19-.png"><img class="alignnone size-full wp-image-205" title="Build Up Example.19-" src="../uploads/2013/06/Build-Up-Example.19-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p>Or in our symmetric view:</p>
+<br>
+<br>
+<br>
+<p><a href="../uploads/2013/06/Build-Up-Example.21-.png"><img class="alignnone size-full wp-image-206" title="Build Up Example.21-" src="../uploads/2013/06/Build-Up-Example.21-.png" alt="" width="708" height="451" /></a></p>
+<br>
+<br>
+<br>
+<p>The rest is just a sizing exercise and a lot of detailed design.</p>
+<br>
+<br>
+<br>
+<p>&nbsp;</p>
+</div>
+<div class="more-content">
+<a href="counting-the-truss-triangles.html">&laquo; Counting the Truss Triangles</a>
+<a href="three-cubes-hanging-with-casters-wtf.html">Three Cubes Hanging with Casters WTF &raquo;</a>
+</div>
+</article>
+</div>
+
+<footer class="site-footer">
+<div class="footer-inner">The Penrose Triangle &mdash; Burning Man 2013 Honorarium Project &mdash; Archive</div>
+</footer>
+</body>
+</html>

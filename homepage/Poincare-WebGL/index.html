@@ -1,0 +1,389 @@
+<html>
+<head>
+    <title>Poincar&eacute; Kaleidoscope</title>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="poincare.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="fileuploader.css" />
+    <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+    <script type="text/javascript" src="webgl-utils.js"></script>
+    <script type="text/javascript" src="fileuploader.js"></script>
+    <script type="text/javascript" src="Complex.js"></script>
+    <script type="text/javascript" src="Circline.js"></script>
+    <script type="text/javascript" src="Face.js"></script>
+    <script type="text/javascript" src="Disc.js"></script>
+    <script type="text/javascript" src="Animator.js"></script>
+    <script type="text/javascript" src="jpg.js"></script>
+    <script type="text/javascript" src="graphics.js"></script>
+    <script type="text/javascript" src="events.js"></script>
+    <script type="text/javascript" src="extensions.js"></script>
+    
+    <script id="shader-mobius-vertex" type="x-shader/x-vertex">
+			attribute vec3 aVertexPosition;
+			attribute vec2 aTextureCoord;
+
+			uniform vec2 uMobiusA;
+			uniform vec2 uMobiusB;
+			uniform vec2 uMobiusC;
+			uniform vec2 uMobiusD;
+			
+			uniform float uInterp;
+
+			vec2 pos;
+			varying vec2 vTextureCoord;
+			
+			vec2 one = vec2(1.0, 0.0);
+			vec2 i = vec2(0.0, 1.0);
+			vec2 zero = vec2(0.0, 0.0);
+			float pi = 4.0 * atan(1.0); 
+
+			vec2 fromPolar(in float modulus, in float argument) {
+				return vec2(modulus * cos(argument), modulus * sin(argument));
+			}
+
+			vec2 cMultiply(in vec2 a, in vec2 b) {
+				return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+			}
+
+			vec2 cDivide(in vec2 a, in vec2 b) {
+				float automorphy = b.x * b.x + b.y * b.y;
+				return vec2((a.x * b.x + a.y * b.y) / automorphy, (a.y * b.x - a.x * b.y) / automorphy);
+			}
+
+			vec2 cExp(in vec2 z) {
+				float modulus = length(z);
+				float argument = atan(z.y, z.x);
+				return fromPolar(modulus, argument);
+			}
+			
+			vec2 cLog(in vec2 z) {
+				return vec2(log(length(z)), atan(z.y, z.x));
+			}
+
+			// For perfect band, use: pos = (4.0 / pi) * cAtanh(pos);
+			vec2 cAtanh(in vec2 z) {
+				return 0.5 * (cLog(one + z) - cLog(one - z));
+			}
+			
+			vec2 cSin(in vec2 z) {
+				return 0.5 * cMultiply(i, exp(cMultiply(i, z)) - exp(cMultiply(-1.0 * i, z)));
+			}
+
+			// Band from http://bulatov.org/math/1107/index_talk_web.html
+			vec2 cStripMap(in vec2 z, in float t) {
+				if (t == 0.0) 
+					return z; 
+			
+				float c = 1.0 - log(t);
+				vec2 cVec2 = vec2(c, 0);
+				float scale = 1.0 / (cLog(cVec2 + i) - cLog(cVec2 - i)).y;
+
+				const int cutCount = 4;
+				vec2 cuts[cutCount];
+				cuts[0] = i;
+		//		cuts[1] = -i;
+		//		cuts[2] = one;
+		//		cuts[3] = -one;
+				
+				float sq2 = sqrt(2.0)/2.0;
+				cuts[0] = fromPolar(1.0, pi/4.0);
+				cuts[1] = fromPolar(1.0, 3.0 * pi/4.0);
+				cuts[2] = fromPolar(1.0, -pi/4.0);
+				cuts[3] = fromPolar(1.0, -3.0 * pi/4.0);
+				
+				vec2 result = zero;
+				for (int index = 0; index < cutCount; index++) {
+					float sign = index == 2 || index == 1 ? 1.0 : -1.0;
+					//float sign = -1.0;
+					result += sign * cMultiply(cuts[index], cLog(cVec2 + cMultiply(cuts[index], z)));
+				}
+				
+		//		vec2 a = i;
+		//		vec2 b = -i;
+		//		return 0.25 * (
+		//			cMultiply(a, cLog(cVec2 - cMultiply(a, z))) 
+		//			+ cMultiply(b, cLog(cVec2 - cMultiply(b, z))) 
+		//			- cLog(cVec2 - z)
+		//		);
+
+				return 0.25 * scale * result;
+			// original	return scale * (cLog(cVec2 + z) - cLog(cVec2 - z));
+			}
+			
+			vec2 cHalfPlaneMap(in vec2 z, in float t) {
+				z = cDivide(
+					cMultiply(i, z) + one,
+					cMultiply(one, z) + i
+				);
+				return z + i;
+			}
+			
+			void main(void) {
+				pos = aVertexPosition.xy;
+	
+				pos = cDivide(
+					cMultiply(uMobiusA, pos) + uMobiusB,
+					cMultiply(uMobiusC, pos) + uMobiusD
+				);
+	
+				pos = cStripMap(pos, uInterp);
+				//pos = cHalfPlaneMap(pos, 0.5);
+	
+				gl_Position =  vec4(pos, 0.0, 1.0);
+				vTextureCoord = aTextureCoord;
+			}
+    </script>
+    
+    <script id="shader-mobius-fragment" type="x-shader/x-fragment">
+			precision mediump float;
+
+			varying vec2 vTextureCoord;
+			uniform sampler2D uSampler;
+			uniform vec2 uTextureOffset;
+			uniform float uIsInverted;
+
+			void main(void) {
+//				gl_FragColor = vec4(1.0, 1.0, 1.0, 1);
+				gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t) - uTextureOffset);
+				if (uIsInverted != 0.0) {
+					gl_FragColor = vec4(
+						(1.0 - gl_FragColor.x) * uIsInverted + gl_FragColor.x * (1.0 - uIsInverted), 
+						(1.0 - gl_FragColor.y) * uIsInverted + gl_FragColor.y * (1.0 - uIsInverted), 
+						(1.0 - gl_FragColor.z) * uIsInverted + gl_FragColor.z * (1.0 - uIsInverted), 
+					1) ;
+				}
+			}
+    </script>
+    
+    <script id="shader-basic-fragment" type="x-shader/x-fragment">
+			precision mediump float;
+			
+			varying vec2 vTextureCoord;
+
+			void main(void) {
+				gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t) - uTextureOffset);
+			//	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+			}
+    </script>
+    
+    <script type="text/javascript">
+    	var tau = Math.PI * 2;
+    	
+    // Animatable parameters
+		var motionMobius = Mobius.identity;
+		var angleIncrement = 0;
+		var isInverting = 0;
+		var isHorizon = 0;
+		var isConformalMapping = 0;
+
+        function drawMinimizeControlsButton() {
+            var ctx = doc.controlsPanelMinimizeCanvas.getContext("2d");
+            var size = doc.controlsPanelMinimizeSize;
+
+            ctx.fillStyle = "#a00";
+            ctx.clearRect(0, 0, size + 1, size + 1);
+
+            ctx.fillStyle = "#444";
+            ctx.strokeStyle = "#666";
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+
+            if (doc.areControlsMinimized)
+                ctx.lineTo(size, 0);
+            else
+                ctx.lineTo(0, size);
+
+            ctx.lineTo(size, size);
+
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function tick() {
+	        if (texture == null)
+	    	    return;
+        
+            requestAnimFrame(tick);
+
+            Animator.update();
+
+            drawScene();
+            animate();
+
+            var animateTime = new Date().getTime();
+            doc.framerateText.innerHTML = disc.faces.length * disc.region.p * 2 + "&nbsp;regions&nbsp;in&nbsp;" + (initTime / 1000).toFixed(2) + "s&nbsp;&nbsp;&nbsp;" + (1000 / (animateTime - lastTickTime)).toFixed(1) + "fps";
+            lastTickTime = animateTime;
+
+            drawMinimizeControlsButton();
+            window.scrollTo(0, 0);
+        }
+
+        function inverting(event) {
+            new FloatAnimator("isInverting", 1, doc.isInvertingCheckbox.checked ? 1 : 0);
+        }
+
+        function horizon(event) {
+            new FloatAnimator("isHorizon", 1, doc.isHorizonCheckbox.checked ? 1 : 0);
+        }
+
+        function recenter(event) {
+            motionIncrement = Complex.zero;
+            angleIncrement = 0;
+
+            new MobiusAnimator("motionMobius", 1, Mobius.identity, disc.region.p);
+        }
+
+        function limitRotationLeft(event) {
+            new FloatAnimator("angleIncrement", 1, motionIncrement.modulus() * 2);
+        }
+
+        function limitRotationRight(event) {
+            new FloatAnimator("angleIncrement", 1, -motionIncrement.modulus() * 2);
+        }
+
+        function conformalMap(event) {
+            new FloatAnimator("isConformalMapping", 1, doc.isConformalMappingCheckbox.checked ? 1 : 0);
+        }
+
+        function output(text) {
+            doc.output.innerHTML = text;
+        }
+
+
+        window.onload = window.onresize = function () {
+            initGL(doc.canvas);
+        }
+        function start() {
+            doc = new Doc();
+            document.body.scroll = "no";
+            updateControls();
+            webGLStart();
+            Animator.prototype.animators = [];
+            tick();
+        }
+
+        var Doc = function () {
+            //this.canvas.onmousedown = handleMouseDown;
+            document.onmousedown = handleMouseDown;
+            document.onmouseup = handleMouseUp;
+            document.onmousemove = handleMouseMove;
+            document.ontouchstart = handleMouseDown;
+            document.ontouchend = handleMouseUp;
+            document.ontouchmove = handleMouseMove;
+
+            this.canvas = document.getElementById("canvas");
+            this.controls = document.getElementById("controlsPanel");
+
+            this.controlsPanelMinimize = document.getElementById("controlsPanelMinimize");
+            this.controlsPanelMinimizeCanvas = document.getElementById("controlsPanelMinimizeCanvas");
+            this.controlsPanelMinimizeCanvas.onclick = handleMinimizeControlsButtonClick;
+            this.controlsPanelMinimizeSize = this.controlsPanelMinimize.clientWidth;
+            this.areControlsMinimized = false;
+
+            this.controlsBody = document.getElementById("controlsBody");
+
+            this.output = document.getElementById("output");
+            this.framerateText = document.getElementById("controlsFramerateText");
+            this.pField = document.getElementById("p");
+            this.qField = document.getElementById("q");
+            this.circleLimitField = document.getElementById("circleLimit");
+            this.maxRegionsField = document.getElementById("maxRegions");
+            this.image = document.getElementById("image");
+            this.imageUploader = document.getElementById("imageUploader");
+            this.progress = document.getElementById("progress");
+            this.resetButton = document.getElementById("reset");
+            this.resetButton.onclick = initDisc;
+            this.recenterButton = document.getElementById("recenter");
+            this.recenterButton.onclick = recenter;
+
+            this.isInvertingCheckbox = document.getElementById("isInverting");
+            this.isInvertingCheckbox.onclick = inverting;
+            this.isHorizonCheckbox = document.getElementById("isHorizon");
+            this.isHorizonCheckbox.onclick = horizon;
+            this.limitRotationLeft = document.getElementById("limitRotationLeft");
+            this.limitRotationLeft.onclick = limitRotationLeft;
+            this.limitRotationRight = document.getElementById("limitRotationRight");
+            this.limitRotationRight.onclick = limitRotationRight;
+            this.isConformalMappingCheckbox = document.getElementById("isConformalMapping");
+            this.isConformalMappingCheckbox.onclick = conformalMap;
+        };
+
+    </script>
+</head>
+<body onload="start();">
+    <canvas id="canvas" width="205" height="205">
+			If your browser doesn't support canvas, it def won't run WebGL.
+		</canvas>
+    <div id="controlsPanel">
+        <div id="controlsPanelMinimize">
+            <canvas id="controlsPanelMinimizeCanvas"></canvas>
+        </div>
+        <div id="controlsBody">
+            <p id="output">
+            </p>
+            image:
+            <br />
+            <div class="meter-wrap">
+                <div id='progress' class="meter-value">
+                    <div id='image' class="meter-text">
+                        LawsonFront.jpg
+                    </div>
+                </div>
+            </div>
+            <div id="imageUploader">
+            </div>
+            <hr />
+            {
+            <input type='text' id='p' value='5' size='1' />
+            |
+            <input type='text' id='q' value='5' size='1' />
+            }
+            <br />
+            <div style="display: none;">
+                max radius:
+                <input type='text' id='circleLimit' value='0.999' size='3' />
+                <br />
+            </div>
+            <div style="display: block;">
+                max regions:
+                <input type='text' id='maxRegions' value='4096' size='3' />
+            </div>
+            <p>
+                <input type='button' id='reset' value="update" />
+            </p>
+            <hr />
+            <label>
+                <input type='checkbox' id='isInverting' />
+                invert
+            </label>
+            <label>
+                <input type='checkbox' id='isHorizon' />
+                horizon
+            </label>
+            <label>
+                <input type='checkbox' id='isConformalMapping' />
+                conformal map
+            </label>
+
+            limit rotation:
+            <input type='button' id='limitRotationLeft' value="left" />
+            <input type='button' id='limitRotationRight' value="right" />
+            <br />
+            <input type='button' id='recenter' value="recenter" />
+            <hr />
+            <div id="controlsTextArea">
+                <p>
+                    Poincar&eacute; Kaleidoscope
+                    <br />
+                    &copy; 2013 Blake Courter
+                    <br />
+                    <a href="https://github.com/bcourter/Poincare-WebGL" target='_blank'>http://github.com/bcourter/...</a>
+                </p>
+                <p id="controlsFramerateText">
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
