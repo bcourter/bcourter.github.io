@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:docs.google.com)"
+      "WebFetch(domain:docs.google.com)",
+      "Bash(ffmpeg -y -i \"c:/github/bcourter.github.io/assets/blog/Loop-Veer/RLP-Montage.mp4\" -vf scale=1280:720 -c:v libx264 -crf 26 -preset slow -movflags +faststart -an \"c:/github/bcourter.github.io/assets/blog/Loop-Veer/RLP-Montage-web.mp4\")",
+      "Bash(ffmpeg -y -i \"c:/github/bcourter.github.io/assets/blog/Loop-Veer/RLP-Montage.mp4\" -c:v libvpx-vp9 -crf 33 -b:v 0 -deadline good -cpu-used 2 -an \"c:/github/bcourter.github.io/assets/blog/Loop-Veer/RLP-Montage.webm\")"
     ]
   }
 }

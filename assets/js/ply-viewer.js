@@ -34,7 +34,7 @@ class PlyViewer {
     };
 
     // Spherical camera coordinates
-    this.spherical = { theta: 0.4, phi: 1.1, radius: 2.625 };
+    this.spherical = { theta: 0.4, phi: 1.1, radius: 2.0 };
     this.isocurve1 = null;
     this.isocurve2 = null;
     this.isDragging = false;
@@ -255,7 +255,8 @@ class PlyViewer {
       }
       // Collect original polygon edges (excludes triangulation diagonals)
       for (let i = 0; i < n; i++) {
-        const a = fv[i], b = fv[(i + 1) % n];
+        const a = fv[i],
+          b = fv[(i + 1) % n];
         const key = a < b ? `${a}_${b}` : `${b}_${a}`;
         if (!edgeSet.has(key)) {
           edgeSet.add(key);
@@ -399,8 +400,8 @@ class PlyViewer {
   }
 
   getVertexFieldValue(geometry, vi, ch) {
-    const col = geometry.getAttribute('color');
-    const alp = geometry.getAttribute('aChannel');
+    const col = geometry.getAttribute("color");
+    const alp = geometry.getAttribute("aChannel");
     const r = col ? col.getX(vi) : 0;
     const g = col ? col.getY(vi) : 0;
     const b = col ? col.getZ(vi) : 0;
@@ -410,19 +411,21 @@ class PlyViewer {
     if (idx === 1) return g;
     if (idx === 2) return b;
     if (idx === 3) return a;
-    if (idx === 4) return (a - b) * 0.5;                             // Midsurface
-    if (idx === 5) return a + b;                                     // Clearance
-    return (a - b) / (Math.abs(a + b) + 1e-10) * 0.5;              // TwoBody
+    if (idx === 4) return (a - b) * 0.5; // Midsurface
+    if (idx === 5) return a + b; // Clearance
+    return ((a - b) / (Math.abs(a + b) + 1e-10)) * 0.5; // TwoBody
   }
 
   buildZeroIsocurveGeometry(geometry, ch) {
     if (!geometry.index) return null;
     const indices = geometry.index.array;
-    const pos = geometry.getAttribute('position');
+    const pos = geometry.getAttribute("position");
     const pts = [];
 
     for (let f = 0; f < indices.length; f += 3) {
-      const i0 = indices[f], i1 = indices[f + 1], i2 = indices[f + 2];
+      const i0 = indices[f],
+        i1 = indices[f + 1],
+        i2 = indices[f + 2];
       const v0 = this.getVertexFieldValue(geometry, i0, ch);
       const v1 = this.getVertexFieldValue(geometry, i1, ch);
       const v2 = this.getVertexFieldValue(geometry, i2, ch);
@@ -437,22 +440,29 @@ class PlyViewer {
         );
       };
 
-      if ((v0 < 0) !== (v1 < 0)) lerp(i0, i1, v0, v1);
-      if ((v1 < 0) !== (v2 < 0)) lerp(i1, i2, v1, v2);
-      if ((v2 < 0) !== (v0 < 0)) lerp(i2, i0, v2, v0);
+      if (v0 < 0 !== v1 < 0) lerp(i0, i1, v0, v1);
+      if (v1 < 0 !== v2 < 0) lerp(i1, i2, v1, v2);
+      if (v2 < 0 !== v0 < 0) lerp(i2, i0, v2, v0);
 
       if (cross.length === 6) pts.push(...cross);
     }
 
     if (pts.length === 0) return null;
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts), 3));
+    geo.setAttribute(
+      "position",
+      new THREE.BufferAttribute(new Float32Array(pts), 3),
+    );
     return geo;
   }
 
   updateZeroIsocurves(geometry) {
     const remove = (obj) => {
-      if (obj) { this.scene.remove(obj); obj.geometry.dispose(); obj.material.dispose(); }
+      if (obj) {
+        this.scene.remove(obj);
+        obj.geometry.dispose();
+        obj.material.dispose();
+      }
     };
     remove(this.isocurve1);
     remove(this.isocurve2);
@@ -466,16 +476,18 @@ class PlyViewer {
     const make = (ch, color) => {
       const g = this.buildZeroIsocurveGeometry(geometry, ch);
       if (!g) return null;
-      const line = new THREE.LineSegments(g,
-        new THREE.LineBasicMaterial({ color, linewidth: 3 }));
+      const line = new THREE.LineSegments(
+        g,
+        new THREE.LineBasicMaterial({ color, linewidth: 3 }),
+      );
       line.rotation.x = -Math.PI / 2;
       this.scene.add(line);
       return line;
     };
 
-    this.isocurve1 = make(ch1, 0x880000);          // dark red  → ch1 field
+    this.isocurve1 = make(ch1, 0x880000); // dark red  → ch1 field
     if (ch2 !== ch1) {
-      this.isocurve2 = make(ch2, 0x000088);        // dark blue → ch2 field
+      this.isocurve2 = make(ch2, 0x000088); // dark blue → ch2 field
     }
   }
 
@@ -608,7 +620,7 @@ class PlyViewer {
     Object.assign(this.captionEl.style, {
       position: "absolute",
       bottom: "10px",
-      left: "240px",   // 10px margin + 220px GUI width + 10px gap
+      left: "240px", // 10px margin + 220px GUI width + 10px gap
       right: "10px",
       color: "#808080",
       backgroundColor: "rgba(255, 255, 255, 0.75)",
@@ -683,7 +695,11 @@ class PlyViewer {
   destroy() {
     if (this.gui) this.gui.destroy();
     [this.isocurve1, this.isocurve2].forEach((obj) => {
-      if (obj) { this.scene.remove(obj); obj.geometry.dispose(); obj.material.dispose(); }
+      if (obj) {
+        this.scene.remove(obj);
+        obj.geometry.dispose();
+        obj.material.dispose();
+      }
     });
     if (this.renderer) {
       this.renderer.dispose();

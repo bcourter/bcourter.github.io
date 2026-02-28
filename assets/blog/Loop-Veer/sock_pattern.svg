@@ -1,47 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="611.275574" height="273.889832" version="1.1" viewBox="0 0 611.275574 273.889832">
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="900.641235" height="273.889832" version="1.1" viewBox="0 0 900.641235 273.889832">
   <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
-  <g id="Layer_1">
-    <line x1="368.000075" y1="137.889801" x2="15.999989" y2="137.889886" style="fill: none; stroke: #828282; stroke-dasharray: 12 12 36 12; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-    <line x1="528.000114" y1="137.889762" x2="432.00009" y2="137.889785" style="fill: none; stroke: #828282; stroke-dasharray: 12 12 36 12; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+  <g id="Layer_4">
+    <g>
+      <line x1="592.000183" y1="225.889709" x2="592.000122" y2="137.901119" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="15.999957" y1="17.889877" x2="16.000023" y2="257.889893" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="111.999977" y1="17.889858" x2="112.000038" y2="257.889893" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="528.000183" y1="137.889744" x2="528.000183" y2="49.88974" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="776" y1="65.889832" x2="704" y2="65.889832" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="776" y1="17.889832" x2="704" y2="17.889832" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+    </g>
+    <path d="M842.235208,184.639832c12.371155,6.185593,15.236572,24.776886,6.400024,42.449997" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+  </g>
+  <g id="Layer_11" data-name="Layer_1">
+    <line x1="368.000061" y1="137.889801" x2="15.999989" y2="137.889893" style="fill: none; stroke: #828282; stroke-dasharray: 12 12 36 12; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+    <line x1="528.000122" y1="137.889755" x2="432.000092" y2="137.889786" style="fill: none; stroke: #828282; stroke-dasharray: 12 12 36 12; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     <g>
       <line x1="152" y1="177.889832" x2="276.060547" y2="177.889832" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
       <polygon points="270.443359 185.296082 273.589844 177.889832 270.443359 170.483582 288 177.889832 270.443359 185.296082" style="fill: #828282;"/>
     </g>
   </g>
-  <g id="Layer_5">
-    <rect x="8" y="9.889832" width="592" height="256" style="fill: none;"/>
-    <text transform="translate(545.304749 31.214142)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Toe</tspan></text>
-    <text transform="translate(382.017578 255.213955)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Heel</tspan></text>
-    <text transform="translate(455.645538 31.214142)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Instep</tspan></text>
-    <text transform="translate(225.757294 87.214035)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Leg</tspan></text>
-    <text transform="translate(157.912033 199.213963)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Knit Direction</tspan></text>
-    <text transform="translate(33.282153 87.21405)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Ribbing</tspan></text>
-    <text transform="translate(463.059113 255.213948)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px;"><tspan x="0" y="0">Sole</tspan></text>
-  </g>
-  <g id="Layer_2">
+  <g id="Layer_6">
     <g>
-      <polyline points="432.000067 49.889778 432.00009 137.889785 400.000091 169.889796 368.000075 137.889801 368.000051 49.889794" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <polyline points="592.000106 49.889739 560.000106 81.88975 528.00009 49.889755" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <polyline points="528.000114 137.889762 560.000113 105.889752 592.000129 137.889746" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <path d="M528.000137,225.889769" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <polyline points="368.000098 225.889808 400.000098 193.889798 432.000114 225.889792" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="776 17.889832 776 154.639832 842.235229 184.727203" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <path d="M704,17.889832v159.115585c0,10.347885,5.846436,19.807632,15.101868,24.435349l91.133362,46.536438" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <path d="M828.966553,247.42514c-6.412048,2.968613-13.0755,3.379974-18.731323.552063" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+    </g>
+    <g>
+      <polyline points="776 17.889832 776 154.639832 842.235229 184.727203" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <path d="M704,17.889832v159.115585c0,10.347885,5.846436,19.807632,15.101868,24.435349l91.133362,46.536438" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <path d="M828.966553,247.42514c-6.412048,2.968613-13.0755,3.379974-18.731323.552063" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
   </g>
-  <g id="Layer_4">
-    <g>
-      <line x1="592.000129" y1="137.889746" x2="592.000106" y2="49.889739" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <line x1="15.999957" y1="17.889877" x2="16.000022" y2="257.889896" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <line x1="111.999977" y1="17.889859" x2="112.000041" y2="257.889878" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <line x1="528.000137" y1="225.889769" x2="528.000114" y2="137.889762" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+  <g id="Layer_5">
+    <g style="isolation: isolate;">
+      <text transform="translate(545.304749 257.889954)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Toe</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(382.017578 257.889709)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Heel</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(455.645538 31.214172)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Instep</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(225.757294 87.21405)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Leg</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(157.912033 199.213928)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Knit Direction</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(33.28215 87.21405)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Ribbing</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(792 137.889893)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Assembled</tspan></text>
+    </g>
+    <g style="isolation: isolate;">
+      <text transform="translate(463.059113 257.889709)" style="fill: #231f20; font-family: SegoeUI, &apos;Segoe UI&apos;; font-size: 18px; isolation: isolate;"><tspan x="0" y="0">Sole</tspan></text>
     </g>
   </g>
   <g id="Layer_3">
     <g>
-      <polyline points="368.000051 49.889794 336.000043 49.889801 111.999977 17.889859 15.999957 17.889877" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <line x1="528.00009" y1="49.889755" x2="432.000067" y2="49.889778" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <line x1="432.000114" y1="225.889792" x2="528.000137" y2="225.889769" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <polyline points="16.000022 257.889896 112.000041 257.889878 336.000091 225.889816 368.000098 225.889808" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="368.000061 49.889793 336.000031 49.889801 111.999977 17.889858 15.999957 17.889877" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="528.000061" y1="49.889755" x2="432.000061" y2="49.889778" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="432.000122" y1="225.889786" x2="528.000122" y2="225.889771" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="16.000023 257.889893 112.000038 257.889893 336.000092 225.889816 368.000092 225.889801" style="fill: none; stroke: #3d51a3; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+    </g>
+  </g>
+  <g id="Layer_2">
+    <g>
+      <polyline points="432.000061 49.889778 432.000092 137.889786 400.000092 169.889801 368.000061 137.889801 368.000061 49.889793" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="592.000122 137.901119 560.000183 169.889717 528.000122 137.889725" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="528.000183 225.889725 560.000183 193.889725 592.000183 225.889709" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <polyline points="368.000092 225.889801 400.000092 193.889801 432.000122 225.889786" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <line x1="720" y1="185.000946" x2="744" y2="169.889832" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <path d="M848.635254,227.1772c-4.796692,9.593369-12.05542,16.723206-19.66864,20.24794" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
   </g>
 </svg>

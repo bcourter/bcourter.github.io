@@ -6,4 +6,18 @@
 <script src="/assets/js/shadertoy-viewer.js"></script>
 <script src="/assets/js/ply-viewer.js"></script>
 
+<!-- Resume muted autoplay videos when they scroll back into view -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        e.isIntersecting ? e.target.play() : e.target.pause();
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('video[autoplay]').forEach(function(v) {
+      observer.observe(v);
+    });
+  });
+</script>
+
 <!-- end custom head snippets -->
