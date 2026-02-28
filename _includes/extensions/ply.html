@@ -1,0 +1,35 @@
+<!-- PLY Mesh Viewer -->
+<div class="extensions extensions--ply">
+  <div class="ply-container" id="ply-{{ include.id }}" style="position: relative; width: 100%; aspect-ratio: {{ include.aspect | default: '16 / 9' }}; background: #fff; border: 1px solid #ddd;">
+  </div>
+</div>
+
+<script>
+  (function() {
+    var containerId = 'ply-{{ include.id }}';
+    var presets = {{ include.presets }};
+
+    function initViewer() {
+      if (typeof THREE === 'undefined' || typeof PlyViewer === 'undefined') {
+        setTimeout(initViewer, 100);
+        return;
+      }
+
+      var container = document.getElementById(containerId);
+      if (container && !container.dataset.initialized) {
+        container.dataset.initialized = 'true';
+
+        new PlyViewer(containerId, presets, {
+          autoRotate: {{ include.autorotate | default: true }},
+          showGui: {{ include.gui | default: true }}
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initViewer);
+    } else {
+      initViewer();
+    }
+  })();
+</script>

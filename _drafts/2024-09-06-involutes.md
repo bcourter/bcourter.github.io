@@ -2,6 +2,8 @@
 title: Involute UGFs and Abstracting Two Body Fields
 layout: article
 tags: SDF UGF Geometry TwoBody
+hidden: true
+exclude_from_archive: true
 ---
 
 The fun at [nTop](http://www.ntop.com) never ends, as our customers continue to push us to use nTop in new ways.  In the early days, I'd made a basic gear generator in nTop after seeing some engineers get started by approximating their involute faces with arcs.  While I found an implicit form on [MathOverflow](https://math.stackexchange.com/questions/411855/implicit-representation-of-the-involute-of-a-circle/415023
