@@ -10,7 +10,7 @@
       <line x1="776" y1="65.889832" x2="704" y2="65.889832" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
       <line x1="776" y1="17.889832" x2="704" y2="17.889832" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
-    <path d="M842.235208,184.639832c12.371155,6.185593,15.236572,24.776886,6.400024,42.449997" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+    <line x1="841.05015" y1="184.047431" x2="825.647059" y2="214.595714" style="fill: none; stroke: #61bb46; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
   </g>
   <g id="Layer_11" data-name="Layer_1">
     <line x1="368.000061" y1="137.889801" x2="15.999989" y2="137.889893" style="fill: none; stroke: #828282; stroke-dasharray: 12 12 36 12; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
@@ -24,12 +24,13 @@
     <g>
       <polyline points="776 17.889832 776 154.639832 842.235229 184.727203" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
       <path d="M704,17.889832v159.115585c0,10.347885,5.846436,19.807632,15.101868,24.435349l91.133362,46.536438" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <path d="M828.966553,247.42514c-6.412048,2.968613-13.0755,3.379974-18.731323.552063" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
     <g>
-      <polyline points="776 17.889832 776 154.639832 842.235229 184.727203" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <path d="M704,17.889832v159.115585c0,10.347885,5.846436,19.807632,15.101868,24.435349l91.133362,46.536438" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <path d="M828.966553,247.42514c-6.412048,2.968613-13.0755,3.379974-18.731323.552063" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      <g>
+        <polyline points="776 17.889832 776 154.639832 842.235229 184.727203" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+        <path d="M704,17.889832v159.115585c0,10.347885,5.846436,19.807632,15.101868,24.435349l91.133362,46.536438" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
+      </g>
+      <path d="M809.327848,247.505748c13.002031,6.499601,30.658514-2.467097,39.436858-20.027682l-.066894.134184c8.778344-17.560584,5.354369-37.065219-7.647662-43.56482" style="fill: none; stroke: #828282; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
   </g>
   <g id="Layer_5">
@@ -73,7 +74,7 @@
       <polyline points="528.000183 225.889725 560.000183 193.889725 592.000183 225.889709" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
       <polyline points="368.000092 225.889801 400.000092 193.889801 432.000122 225.889786" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
       <line x1="720" y1="185.000946" x2="744" y2="169.889832" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
-      <path d="M848.635254,227.1772c-4.796692,9.593369-12.05542,16.723206-19.66864,20.24794" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
     </g>
+    <line x1="825.647059" y1="214.595714" x2="841.05015" y2="222.36042" style="fill: none; stroke: #ee1c4e; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4px;"/>
   </g>
 </svg>
