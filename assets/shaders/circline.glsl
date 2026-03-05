@@ -314,7 +314,7 @@ Mobius clAsMobius(Circline cl) {
     }
     vec2  ctr = clCenter(cl);
     float rSq = clRadiusSq(cl);
-    return Mobius(ctr, vec2(rSq - cModSq(ctr), 0.0), C_ONE, cConj(cNeg(cl.b)));
+    return Mobius(ctr, vec2(rSq - cModSq(ctr), 0.0), C_ONE, cConj(cl.b));
 }
 
 // ---- Scaling ----

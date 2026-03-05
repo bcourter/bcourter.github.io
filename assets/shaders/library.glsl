@@ -519,6 +519,22 @@ vec4 drawImplicit(Implicit a, vec4 base) {
     return opColor;
 }
 
+// Like drawImplicit but suppresses all drawing outside the boundary
+vec4 drawImplicitInterior(Implicit a, vec4 base) {
+    float bandWidth = 20.0;
+    float widthThin = 2.0;
+    float widthThick = 4.0;
+
+    vec4 opColor = mix(base, a.Color, (a.Distance < 0.0 ? a.Color.a * 0.1 : 0.0));
+    Implicit wave = TriangleWaveEvenPositive(a, bandWidth, a.Color);
+
+    wave.Color.a = a.Distance < 0.0 ? 1.0 : 0.0;
+    opColor = strokeImplicit(wave, widthThin, opColor);
+    opColor = strokeImplicit(a, widthThick, opColor);
+
+    return opColor;
+}
+
 // Draw a line (thin stroke)
 vec4 drawLine(Implicit a, vec4 opColor) {
     a.Color.a = 0.75;
