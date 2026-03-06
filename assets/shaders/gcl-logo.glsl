@@ -68,15 +68,20 @@ vec2 Fold3(vec2 q) {
     return length(q) * vec2(cos(sec - PI / 6.0), sin(sec - PI / 6.0));
 }
 
+// Reflect across line with direction (√3,-1) — the canonical sector bisector
+vec2 MirrorLine(vec2 q) {
+    return vec2(0.5 * q.x - sqrt(3.0) * 0.5 * q.y, -sqrt(3.0) * 0.5 * q.x - 0.5 * q.y);
+}
+
 // TertiaryCombined remapped through the 5 daughter circle inversions of c2
 Implicit Quaternary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
     Circline daughters[5];
-    for (int k = 1; k <= 5; k++) {
+    for(int k = 1; k <= 5; k++) {
         vec2 ck = Rotate2(float(k) * PI / 3.0) * c2;
         daughters[k - 1] = circleInvertedThrough(ck, r2, c2, r2);
     }
     Implicit result = CreateImplicit();
-    for (int k = 0; k < 5; k++) {
+    for(int k = 0; k < 5; k++) {
         vec2 dk = clCenter(daughters[k]);
         float rk = clRadius(daughters[k]);
         Mobius invD = Mobius(C_ZERO, vec2(rk * rk, 0.0), C_ONE, C_ZERO);
@@ -87,9 +92,27 @@ Implicit Quaternary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
     return result;
 }
 
+// Full pattern at q: TertiaryCombined + Quaternary mirrored across the sector bisector
+Implicit Quinary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
+    Implicit tertiary = TertiaryCombined(q, c1, r, scale, c2, r2);
+    Implicit q1 = Quaternary(q, c1, r, scale, c2, r2);
+    Implicit q2 = Quaternary(MirrorLine(q), c1, r, scale, c2, r2);
+    return Min(tertiary, Min(q1, q2));
+}
+
+// Parabolic (limit rotation) Möbius fixing ideal point i = (0,1) with parameter t.
+// Derived by conjugating z→z+t through T(z)=1/(z−i):
+//   M(z) = ((1+it)z + t) / (tz + (1−it)),   det = 1,  tr = 2  (parabolic ✓)
+Mobius mLimitRotation(float t) {
+    return Mobius(vec2(1.0, t),   // a = 1 + it
+    vec2(t, 0.0),   // b = t
+    vec2(t, 0.0),   // c = t
+    vec2(1.0, -t));  // d = 1 - it
+}
+
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 p = fragCoord - 0.5 * iResolution.xy;
-    float scale = iResolution.y * 0.6;
+    float scale = iResolution.y * 0.5;
 
     vec4 opColor = vec4(1.0);
 
@@ -101,16 +124,15 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float r2 = scale / sqrt(3.0);
     vec2 c2 = vec2(2.0 * scale / sqrt(3.0), 0.0);
 
-    // 3-fold fold into canonical wedge [-π/2, π/6]; mirror across its bisector (√3,-1)
-    vec2 pF    = Fold3(p);
-    vec2 pFMir = vec2(0.5 * pF.x - sqrt(3.0) * 0.5 * pF.y,
-                      -sqrt(3.0) * 0.5 * pF.x - 0.5 * pF.y);
+    // Pretransform p by the limit rotation (parabolic Möbius fixing (0,1))
+    // Normalize to unit disk, apply Möbius, scale back
+    vec2 pUnit = mApply(mLimitRotation(iParam1), p / scale);
+    p = pUnit * scale;
 
-    Implicit tertiary = TertiaryCombined(pF, c1, r, scale, c2, r2);
-    Implicit q1 = Quaternary(pF,    c1, r, scale, c2, r2);
-    Implicit q2 = Quaternary(pFMir, c1, r, scale, c2, r2);
+    // 3-fold fold into canonical wedge [-π/2, π/6]; evaluate full pattern at folded point
+    vec2 pF = Fold3(p);
 
-    opColor = drawImplicitInterior(Min(tertiary, Min(q1, q2)), opColor);
+    opColor = drawImplicitInterior(Quinary(pF, c1, r, scale, c2, r2), opColor);
     opColor = strokeImplicit(Circle(p, vec2(0.0), scale, vec4(0.75, 0.75, 0.75, 1.0)), 3.0, opColor);
 
     fragColor = opColor;
