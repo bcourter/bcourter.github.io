@@ -6,20 +6,13 @@
 #include "circline.glsl"
 
 const float PI = 3.14159265358979;
+const int ITER = 111;
 
 // 3-fold: period 2π/3, canonical → -y axis (c1 at (0,-2))
 vec2 FoldPoint(vec2 q) {
     float ang = atan(q.x, -q.y);
     float sec = mod(ang + PI / 3.0, 2.0 * PI / 3.0) - PI / 3.0;
     return Rotate2(sec) * vec2(0.0, -length(q));
-}
-
-// 6-fold: period π/3, canonical → +x axis (c2 at (2/√3, 0))
-// Center of fold sector is at ang = π/2, so offset by π/3 before mod, shift by half-period π/6
-vec2 FoldPoint6(vec2 q) {
-    float ang = atan(q.x, -q.y);
-    float sec = mod(ang, 2.0 * PI / 3.0) - PI / 6.0;
-    return Rotate2(sec) * vec2(length(q), 0.0);
 }
 
 Implicit Geodesic(vec2 q, vec2 c1, float r, vec4 color) {
@@ -37,69 +30,6 @@ Implicit Logo(vec2 q, vec2 c1, float r, float scale) {
     return Min(Primary(q, c1, r, scale, colorCool), Primary(qInv, c1, r, scale, colorWarm));
 }
 
-// 6-fold tertiary: logo remapped through inversion across c2
-Implicit Tertiary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
-    Mobius inv2 = Mobius(C_ZERO, vec2(r2 * r2, 0.0), C_ONE, C_ZERO);
-    vec2 qInv2 = cAdd(c2, mApply(inv2, cConj(cSub(FoldPoint6(q), c2))));
-    return Logo(qInv2, c1, r, scale);
-}
-
-// Full pattern: logo + tertiary (both halves, with swapped color for reflected half)
-Implicit TertiaryCombined(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
-    Implicit t1 = Tertiary(q, c1, r, scale, c2, r2);
-    Implicit t2 = Tertiary(q * vec2(-1.0, 1.0), c1, r, scale, c2, r2);
-    Implicit tertiary = Min(t1, t2);
-    tertiary.Color = tertiary.Color.bgra;
-    return Min(Logo(q, c1, r, scale), tertiary);
-}
-
-// Invert circle (cj, rj) through reference circle (cinv, rinv), returning the image as a Circline
-Circline circleInvertedThrough(vec2 cj, float rj, vec2 cinv, float rinv) {
-    vec2 d = cj - cinv;
-    float k = (rinv * rinv) / (dot(d, d) - rj * rj);
-    return clCircle(cinv + k * d, abs(k * rj));
-}
-
-// 3-fold fold into canonical wedge [-π/2, π/6] (center -π/6, period 2π/3)
-// Mirror axis (√3,-1) is at -π/6 — exactly the sector bisector.
-vec2 Fold3(vec2 q) {
-    float ang = atan(q.y, q.x);
-    float sec = mod(ang + PI / 2.0, 2.0 * PI / 3.0) - PI / 3.0;
-    return length(q) * vec2(cos(sec - PI / 6.0), sin(sec - PI / 6.0));
-}
-
-// Reflect across line with direction (√3,-1) — the canonical sector bisector
-vec2 MirrorLine(vec2 q) {
-    return vec2(0.5 * q.x - sqrt(3.0) * 0.5 * q.y, -sqrt(3.0) * 0.5 * q.x - 0.5 * q.y);
-}
-
-// TertiaryCombined remapped through the 5 daughter circle inversions of c2
-Implicit Quaternary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
-    Circline daughters[5];
-    for(int k = 1; k <= 5; k++) {
-        vec2 ck = Rotate2(float(k) * PI / 3.0) * c2;
-        daughters[k - 1] = circleInvertedThrough(ck, r2, c2, r2);
-    }
-    Implicit result = CreateImplicit();
-    for(int k = 0; k < 5; k++) {
-        vec2 dk = clCenter(daughters[k]);
-        float rk = clRadius(daughters[k]);
-        Mobius invD = Mobius(C_ZERO, vec2(rk * rk, 0.0), C_ONE, C_ZERO);
-        vec2 qInvD = cAdd(dk, mApply(invD, cConj(cSub(q, dk))));
-        result = Min(result, TertiaryCombined(qInvD, c1, r, scale, c2, r2));
-    }
-    result.Color = result.Color.bgra;
-    return result;
-}
-
-// Full pattern at q: TertiaryCombined + Quaternary mirrored across the sector bisector
-Implicit Quinary(vec2 q, vec2 c1, float r, float scale, vec2 c2, float r2) {
-    Implicit tertiary = TertiaryCombined(q, c1, r, scale, c2, r2);
-    Implicit q1 = Quaternary(q, c1, r, scale, c2, r2);
-    Implicit q2 = Quaternary(MirrorLine(q), c1, r, scale, c2, r2);
-    return Min(tertiary, Min(q1, q2));
-}
-
 // Parabolic (limit rotation) Möbius fixing ideal point i = (0,1) with parameter t.
 // Derived by conjugating z→z+t through T(z)=1/(z−i):
 //   M(z) = ((1+it)z + t) / (tz + (1−it)),   det = 1,  tr = 2  (parabolic ✓)
@@ -110,29 +40,87 @@ Mobius mLimitRotation(float t) {
     vec2(1.0, -t));  // d = 1 - it
 }
 
+// Inversion of Logo through geodesic fixing i=(0,1) that swaps e^{-iπ/6} ↔ e^{iπ/6}:
+//   center (√3/2, 1)·scale, radius (√3/2)·scale
+vec4 Revolving(vec2 q, vec2 c1, float r, float scale, float t) {
+    t = clamp(t, 0.0, 1.0);
+    t = 1.0 - (t - 1.0) * (t - 1.0); // ease out
+
+    q = mApply(mLimitRotation(t * 2.0 / sqrt(3.0)), q / scale) * scale;
+
+    Implicit logo1 = Logo(q, c1, r, scale);
+
+    // Geodesic fixing i=(0,1) that swaps e^{-iπ/6} ↔ e^{iπ/6}: center (√3/2, 1)·scale, radius √3/2·scale
+    float r2 = sqrt(3.0) / 2.0 * scale;
+    vec2 c2 = vec2(r2, scale);
+    Mobius inv2 = Mobius(C_ZERO, vec2(r2 * r2, 0.0), C_ONE, C_ZERO);
+    vec2 qInv = cAdd(c2, mApply(inv2, cConj(cSub(q, c2))));
+    Implicit logo2 = Logo(qInv, c1, r, scale);
+
+    // float r3 = scale / sqrt(3.0);
+    // vec2 c3 = vec2(r3, scale);
+    // Mobius inv3 = Mobius(C_ZERO, vec2(r3 * r3, 0.0), C_ONE, C_ZERO);
+    // vec2 qInv3 = cAdd(c3, mApply(inv3, cConj(cSub(q, c3))));
+
+    // if(t > 0.5) {
+    //     logo1 = Logo(qInv3, c1, r, scale);
+    //     logo1.Color = logo1.Color.bgra;
+    // }
+
+    // logo2.Color = logo2.Color.bgra;
+
+    vec4 color1 = drawImplicitInterior(logo1, colorWhite);
+    vec4 color2 = drawImplicitInterior(logo2, colorWhite);
+
+    const float slope = 1.0;
+    color1 = mix(colorWhite, color1, clamp((1.0 - t) * slope, 0.0, 1.0));
+    color2 = mix(colorWhite, color2, clamp(t * slope, 0.0, 1.0));
+    return color1.r + color1.b < color2.r + color2.b ? color1 : color2;
+}
+
+// Reflection group iteration: repeatedly rotate into the primary sector (-5π/6, -π/6)
+// then invert through c1 until the point lands inside the primary triangle.
+vec4 IteratedLogo(vec2 q, vec2 c1, float r, float scale) {
+    Mobius inv1 = Mobius(C_ZERO, vec2(r * r, 0.0), C_ONE, C_ZERO);
+
+    for(int i = 0; i < ITER; i++) {
+        // Rotate into primary sector (-5π/6, -π/6): centered at -π/2, period 2π/3
+        float ang = atan(q.y, q.x);
+        float newAng = mod(ang + 5.0 * PI / 6.0, 2.0 * PI / 3.0) - 5.0 * PI / 6.0;
+        q = length(q) * vec2(cos(newAng), sin(newAng));
+
+        // If inside primary triangle (inside unit disk, outside geodesic), render Logo
+        if(length(q) < scale && length(q - c1) > r) {
+            return drawImplicitInterior(Primary(q, c1, r, scale, i % 2 == 0 ? colorCool : colorWarm), colorWhite);
+        }
+
+        // Invert through c1
+        q = cAdd(c1, mApply(inv1, cConj(cSub(q, c1))));
+    }
+
+    return drawImplicitInterior(Primary(q, c1, r, scale, colorBlack), colorWhite);
+}
+
+// iParam1: display mode (0 = Full Disc, 1 = Revolving)
+// iParam2: limit rotation parameter t
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 p = fragCoord - 0.5 * iResolution.xy;
     float scale = iResolution.y * 0.5;
 
-    vec4 opColor = vec4(1.0);
-
     float r = sqrt(3.0) * scale;
     vec2 c1 = vec2(0.0, -2.0 * scale);
 
-    // Secondary geodesic: spans 2π/6, endpoints (±½, √3/2) on unit circle
-    // Orthogonality: (2/√3)² = 4/3 = 1/3 + 1  →  c2=(2/√3, 0), r2=1/√3  (unit coords)
-    float r2 = scale / sqrt(3.0);
-    vec2 c2 = vec2(2.0 * scale / sqrt(3.0), 0.0);
+    float t = mod(iTime * 0.8, 4.0);
 
-    // Pretransform p by the limit rotation (parabolic Möbius fixing (0,1))
-    // Normalize to unit disk, apply Möbius, scale back
-    vec2 pUnit = mApply(mLimitRotation(iParam1), p / scale);
-    p = pUnit * scale;
+    // Pretransform by the limit rotation (parabolic Möbius fixing (0,1))
+    p = mApply(mLimitRotation(iParam2), p / scale) * scale;
 
-    // 3-fold fold into canonical wedge [-π/2, π/6]; evaluate full pattern at folded point
-    vec2 pF = Fold3(p);
-
-    opColor = drawImplicitInterior(Quinary(pF, c1, r, scale, c2, r2), opColor);
+    vec4 opColor = colorWhite;
+    if(iParam1 < 0.5) {
+        opColor = IteratedLogo(p, c1, r, scale);
+    } else {
+        opColor = Revolving(p, c1, r, scale, t);
+    }
     opColor = strokeImplicit(Circle(p, vec2(0.0), scale, vec4(0.75, 0.75, 0.75, 1.0)), 3.0, opColor);
 
     fragColor = opColor;

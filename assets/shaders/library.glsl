@@ -4,109 +4,122 @@
 const vec4 colorWarm = vec4(1, 0, 0, 1);
 const vec4 colorCool = vec4(0, 0, 1, 1);
 const vec4 colorBlack = vec4(0, 0, 0, 1);
+const vec4 colorWhite = vec4(1.0);
 
-const vec3 xDir = vec3(1, 0, 0);    
-const vec3 yDir = vec3(0, 1, 0);    
-const vec3 zDir = vec3(0, 0, 1);    
+const vec3 xDir = vec3(1, 0, 0);
+const vec3 yDir = vec3(0, 1, 0);
+const vec3 zDir = vec3(0, 0, 1);
 const vec3 zero = vec3(0);
-
 
 //////////////////
 // Implicit Struct and Basic Operations
 //////////////////
 
 struct Implicit {
-	float Distance;
-	vec3 Gradient;
-	vec4 Color;
+    float Distance;
+    vec3 Gradient;
+    vec4 Color;
 };
 
-Implicit CreateImplicit() { return Implicit(0.0, vec3(0.0), vec4(0.0)); }
-Implicit CreateImplicit(float iValue) { return Implicit(iValue, vec3(0.0), vec4(0.0)); }
-Implicit CreateImplicit(float iValue, vec4 iColor) { return Implicit(iValue, vec3(0.0), iColor); }
+Implicit CreateImplicit() {
+    return Implicit(0.0, vec3(0.0), vec4(0.0));
+}
+Implicit CreateImplicit(float iValue) {
+    return Implicit(iValue, vec3(0.0), vec4(0.0));
+}
+Implicit CreateImplicit(float iValue, vec4 iColor) {
+    return Implicit(iValue, vec3(0.0), iColor);
+}
 
 Implicit Negate(Implicit iImplicit) {
-	return Implicit(-iImplicit.Distance, -iImplicit.Gradient, iImplicit.Color);
+    return Implicit(-iImplicit.Distance, -iImplicit.Gradient, iImplicit.Color);
 }
 
 Implicit Add(Implicit a, Implicit b) {
-	return Implicit(a.Distance + b.Distance, a.Gradient + b.Gradient, (a.Color + b.Color) * 0.5);
+    return Implicit(a.Distance + b.Distance, a.Gradient + b.Gradient, (a.Color + b.Color) * 0.5);
 }
 
-Implicit Subtract(Implicit a, Implicit b)  {
-	return Implicit(a.Distance - b.Distance, a.Gradient - b.Gradient, (a.Color + b.Color) * 0.5);
+Implicit Subtract(Implicit a, Implicit b) {
+    return Implicit(a.Distance - b.Distance, a.Gradient - b.Gradient, (a.Color + b.Color) * 0.5);
 }
 
 Implicit Add(float iT, Implicit iImplicit) {
-	return Implicit(iT + iImplicit.Distance, iImplicit.Gradient, iImplicit.Color);
+    return Implicit(iT + iImplicit.Distance, iImplicit.Gradient, iImplicit.Color);
 }
-Implicit Add(Implicit iImplicit, float iT) { return Add(iT, iImplicit); }
-Implicit Subtract(float iT, Implicit iImplicit) { return Add(iT, Negate(iImplicit)); }
-Implicit Subtract(Implicit iImplicit, float iT) { return Add(-iT, iImplicit); }
+Implicit Add(Implicit iImplicit, float iT) {
+    return Add(iT, iImplicit);
+}
+Implicit Subtract(float iT, Implicit iImplicit) {
+    return Add(iT, Negate(iImplicit));
+}
+Implicit Subtract(Implicit iImplicit, float iT) {
+    return Add(-iT, iImplicit);
+}
 
 Implicit Multiply(Implicit a, Implicit b) {
-	return Implicit(a.Distance * b.Distance, a.Distance * b.Gradient + b.Distance * a.Gradient, (a.Color + b.Color) * 0.5);
+    return Implicit(a.Distance * b.Distance, a.Distance * b.Gradient + b.Distance * a.Gradient, (a.Color + b.Color) * 0.5);
 }
-Implicit Multiply(float iT, Implicit iImplicit) { return Implicit(iT * iImplicit.Distance, iT * iImplicit.Gradient, iImplicit.Color); }
-Implicit Multiply(Implicit iImplicit, float iT) { return Multiply(iT, iImplicit); }
+Implicit Multiply(float iT, Implicit iImplicit) {
+    return Implicit(iT * iImplicit.Distance, iT * iImplicit.Gradient, iImplicit.Color);
+}
+Implicit Multiply(Implicit iImplicit, float iT) {
+    return Multiply(iT, iImplicit);
+}
 
-Implicit Square(Implicit iA) { return Multiply(iA, iA); }
+Implicit Square(Implicit iA) {
+    return Multiply(iA, iA);
+}
 
 Implicit Divide(Implicit a, Implicit b) {
-	return Implicit(a.Distance / b.Distance, (b.Distance * a.Gradient - a.Distance * b.Gradient) / (b.Distance * b.Distance), (a.Color + b.Color) * 0.5);
+    return Implicit(a.Distance / b.Distance, (b.Distance * a.Gradient - a.Distance * b.Gradient) / (b.Distance * b.Distance), (a.Color + b.Color) * 0.5);
 }
-Implicit Divide(Implicit a, float b) { return Implicit(a.Distance / b, a.Gradient / b, a.Color); }
+Implicit Divide(Implicit a, float b) {
+    return Implicit(a.Distance / b, a.Gradient / b, a.Color);
+}
 
-Implicit Min(Implicit a, Implicit b)
-{
-	if (a.Distance <= b.Distance)
-		return a;
+Implicit Min(Implicit a, Implicit b) {
+    if(a.Distance <= b.Distance)
+        return a;
 
-	return b;
+    return b;
 }
 
 Implicit Max(Implicit a, Implicit b) {
-	if (a.Distance >= b.Distance)
-		return a;
+    if(a.Distance >= b.Distance)
+        return a;
 
-	return b;
+    return b;
 }
 
 float mix11(float a, float b, float t) {
     return mix(a, b, t * 0.5 + 0.5);
 }
 
-Implicit Exp(Implicit iImplicit)
-{
-	float exp = exp(iImplicit.Distance);
-	return Implicit(exp, exp * iImplicit.Gradient, iImplicit.Color);
+Implicit Exp(Implicit iImplicit) {
+    float exp = exp(iImplicit.Distance);
+    return Implicit(exp, exp * iImplicit.Gradient, iImplicit.Color);
 }
 
-Implicit Log(Implicit iImplicit)
-{
-	return Implicit(log(iImplicit.Distance), iImplicit.Gradient / iImplicit.Distance, iImplicit.Color);
+Implicit Log(Implicit iImplicit) {
+    return Implicit(log(iImplicit.Distance), iImplicit.Gradient / iImplicit.Distance, iImplicit.Color);
 }
 
-Implicit Sqrt(Implicit iImplicit)
-{
-	float sqrt = sqrt(iImplicit.Distance);
-	return Implicit(sqrt, iImplicit.Gradient / (2.0 * sqrt), iImplicit.Color);
+Implicit Sqrt(Implicit iImplicit) {
+    float sqrt = sqrt(iImplicit.Distance);
+    return Implicit(sqrt, iImplicit.Gradient / (2.0 * sqrt), iImplicit.Color);
 }
 
-Implicit Abs(Implicit iImplicit)
-{
-	return Implicit(abs(iImplicit.Distance), sign(iImplicit.Distance) * iImplicit.Gradient, iImplicit.Color);
+Implicit Abs(Implicit iImplicit) {
+    return Implicit(abs(iImplicit.Distance), sign(iImplicit.Distance) * iImplicit.Gradient, iImplicit.Color);
 }
 
-Implicit Mod(Implicit iImplicit, float iM)
-{
-	return Implicit(mod(iImplicit.Distance, iM), iImplicit.Gradient, iImplicit.Color);
+Implicit Mod(Implicit iImplicit, float iM) {
+    return Implicit(mod(iImplicit.Distance, iM), iImplicit.Gradient, iImplicit.Color);
 }
 
-Implicit Shell(Implicit iImplicit, float thickness, float bias)
-{
-	thickness *= 0.5;
-	return Subtract(Abs(Add(iImplicit, bias * thickness)), thickness);
+Implicit Shell(Implicit iImplicit, float thickness, float bias) {
+    thickness *= 0.5;
+    return Subtract(Abs(Add(iImplicit, bias * thickness)), thickness);
 }
 
 Implicit EuclideanNorm(Implicit a, Implicit b) {
@@ -128,13 +141,13 @@ Implicit IntersectionEuclidean(Implicit a, Implicit b, float radius) {
     Implicit ua = Implicit(Max(Add(a, r), CreateImplicit()).Distance, a.Gradient, a.Color);
     Implicit ub = Implicit(Max(Add(b, r), CreateImplicit()).Distance, b.Gradient, b.Color);
 
-	Implicit op = Add(Min(Negate(r), maxab), EuclideanNorm(ua, ub));
+    Implicit op = Add(Min(Negate(r), maxab), EuclideanNorm(ua, ub));
 
-    if (maxab.Distance <= 0.0)
+    if(maxab.Distance <= 0.0)
         op.Gradient = maxab.Gradient;
 
-    if (min(a.Distance, b.Distance) > 0.)
-        op.Color = mix(a.Color, b.Color, 0.5 + 0.5 * (b.Distance - a.Distance)/(a.Distance + b.Distance));
+    if(min(a.Distance, b.Distance) > 0.)
+        op.Color = mix(a.Color, b.Color, 0.5 + 0.5 * (b.Distance - a.Distance) / (a.Distance + b.Distance));
 
     return op;
 }
@@ -159,9 +172,9 @@ Implicit UnionEuclidean(Implicit a, Implicit b, float radius) {
     Implicit ua = Max(Subtract(r, a), CreateImplicit(0.0, a.Color));
     Implicit ub = Max(Subtract(r, b), CreateImplicit(0.0, b.Color));
 
-	Implicit op = Subtract(Max(r, ab), EuclideanNorm(ua, ub));
+    Implicit op = Subtract(Max(r, ab), EuclideanNorm(ua, ub));
 
-    if (ab.Distance > 0.0)
+    if(ab.Distance > 0.0)
         op.Gradient = ab.Gradient;
 
     return op;
@@ -177,16 +190,15 @@ Implicit UnionEuclidean(Implicit a, Implicit b, Implicit c, float radius) {
 
     Implicit abc = Min(a, Min(b, c));
 
-	Implicit op = Subtract(Max(r, abc), EuclideanNorm(ua, ub, uc));
+    Implicit op = Subtract(Max(r, abc), EuclideanNorm(ua, ub, uc));
 
-    if (abc.Distance > 0.0)
+    if(abc.Distance > 0.0)
         op.Gradient = abc.Gradient;
 
     return op;
 }
 
-Implicit UnionChamfer(Implicit iA, Implicit iB, float k)
-{
+Implicit UnionChamfer(Implicit iA, Implicit iB, float k) {
     Implicit h = Multiply(Max(Subtract(CreateImplicit(k), Abs(Subtract(iA, iB))), CreateImplicit()), 1.0 / k);
     Implicit h2 = Multiply(h, 0.5);
     Implicit result = Subtract(Min(iA, iB), Multiply(h2, k * 0.5));
@@ -197,46 +209,39 @@ Implicit UnionChamfer(Implicit iA, Implicit iB, float k)
 }
 
 // Polynomial Smooth Min 2 from https://iquilezles.org/articles/smin/ and https://iquilezles.org/articles/distgradfunctions2d/
-Implicit UnionSmoothMedial(Implicit a, Implicit b, float k)
-{
-    float h = max(k-abs(a.Distance-b.Distance),0.0);
-    float m = 0.25*h*h/k;
-    float n = 0.50 * h/k;
-    float dist = min(a.Distance,  b.Distance) - m;
+Implicit UnionSmoothMedial(Implicit a, Implicit b, float k) {
+    float h = max(k - abs(a.Distance - b.Distance), 0.0);
+    float m = 0.25 * h * h / k;
+    float n = 0.50 * h / k;
+    float dist = min(a.Distance, b.Distance) - m;
 
     float param = (a.Distance < b.Distance) ? n : 1.0 - n;
     vec3 grad = mix(a.Gradient, b.Gradient, param);
     vec4 color = mix(a.Color, b.Color, param);
 
-
     return Implicit(dist, grad, color);
 }
 
-Implicit UnionSmooth(Implicit a, Implicit b, float k){
+Implicit UnionSmooth(Implicit a, Implicit b, float k) {
     a.Distance -= k;
     b.Distance -= k;
 
  //   if (min(a.Distance, b.Distance) >= 0.)
  //       return (Min(a, b));
 
-    return Add(UnionSmoothMedial(a, b, abs(a.Distance + b.Distance) * abs(1.-dot(a.Gradient, b.Gradient))), k);
+    return Add(UnionSmoothMedial(a, b, abs(a.Distance + b.Distance) * abs(1. - dot(a.Gradient, b.Gradient))), k);
 }
 
-
-Implicit IntersectionSmoothMedial(Implicit iA, Implicit iB, float k){
+Implicit IntersectionSmoothMedial(Implicit iA, Implicit iB, float k) {
     return Negate(UnionSmoothMedial(Negate(iA), Negate(iB), k));
 }
 
-
-Implicit IntersectionSmooth(Implicit iA, Implicit iB, float k){
+Implicit IntersectionSmooth(Implicit iA, Implicit iB, float k) {
     return Negate(UnionSmooth(Negate(iA), Negate(iB), k));
 }
 
-
-
 // R0 from https://www.cambridge.org/core/journals/acta-numerica/article/abs/semianalytic-geometry-with-rfunctions/3F5E061C35CA6A712BE338FE4AD1DB7B
-Implicit UnionRvachev(Implicit iA, Implicit iB, float k)
-{
+Implicit UnionRvachev(Implicit iA, Implicit iB, float k) {
     Implicit result = Subtract(Add(iA, iB), Sqrt(Add(Square(iA), Square(iB))));
   //  float param = 0.5;
   //  result.Color = mix(iA.Color, iB.Color, iA.Distance < iB.Distance ? param : (1.0 - param));
@@ -244,18 +249,18 @@ Implicit UnionRvachev(Implicit iA, Implicit iB, float k)
     return result;
 }
 
-Implicit IntersectionRvachev(Implicit iA, Implicit iB, float k){
+Implicit IntersectionRvachev(Implicit iA, Implicit iB, float k) {
     return Negate(UnionRvachev(Negate(iA), Negate(iB), k));
 }
 
 // Exponential smooth blends
-Implicit UnionSmoothExp(Implicit a, Implicit b, float k ) {
-    Implicit res = Add(Exp(Multiply(a, -1./k)), Exp(Multiply(b, -1./k)));
+Implicit UnionSmoothExp(Implicit a, Implicit b, float k) {
+    Implicit res = Add(Exp(Multiply(a, -1. / k)), Exp(Multiply(b, -1. / k)));
     return Multiply(Log(res), -k);
 }
 
-Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k ) {
-    Implicit res = Add(Exp(Multiply(a, 1./k)), Exp(Multiply(b, 1./k)));
+Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k) {
+    Implicit res = Add(Exp(Multiply(a, 1. / k)), Exp(Multiply(b, 1. / k)));
     return Multiply(Log(res), k);
 }
 
@@ -263,57 +268,48 @@ Implicit IntersectionSmoothExp(Implicit a, Implicit b, float k ) {
 // Primitives
 //////////////////
 
-Implicit Plane(vec3 p, vec3 origin, vec3 normal, vec4 color)
-{
+Implicit Plane(vec3 p, vec3 origin, vec3 normal, vec4 color) {
     vec3 grad = normalize(normal);
     float v = dot(p - origin, grad);
     return Implicit(v, grad, color);
 }
-Implicit Plane(vec2 p, vec2 origin, vec2 normal, vec4 color)
-{
+Implicit Plane(vec2 p, vec2 origin, vec2 normal, vec4 color) {
     return Plane(vec3(p, 0.0), vec3(origin, 0.0), vec3(normal, 0.0), color);
 }
 
-
-Implicit Circle(vec2 p, vec2 center, float iRadius, vec4 color)
-{
-	vec2 centered = p - center;
+Implicit Circle(vec2 p, vec2 center, float iRadius, vec4 color) {
+    vec2 centered = p - center;
     float len = length(centered);
-	float length = len - iRadius;
-	return Implicit(length, vec3(centered / len, 0.0), color);
+    float length = len - iRadius;
+    return Implicit(length, vec3(centered / len, 0.0), color);
 }
 
 mat2 Rotate2(float theta) {
     float c = cos(theta);
     float s = sin(theta);
-    return mat2(
-        vec2(c, -s),
-        vec2(s, c)
-    );
+    return mat2(vec2(c, -s), vec2(s, c));
 }
 
-Implicit RectangleCenterRotated(vec2 p, vec2 center, vec2 size, float angle, vec4 color)
-{
-	vec2 centered = p - center;
+Implicit RectangleCenterRotated(vec2 p, vec2 center, vec2 size, float angle, vec4 color) {
+    vec2 centered = p - center;
     mat2 rot = Rotate2(-angle);
     centered = rot * centered;
 
-	vec2 b = size * 0.5;
-	vec2 d = abs(centered)-b;
-	float dist = length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0);
+    vec2 b = size * 0.5;
+    vec2 d = abs(centered) - b;
+    float dist = length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0);
 
-	vec2 grad = d.x > d.y ? vec2(1.0, 0.0) : vec2 (0.0, 1.0);
-	if (d.x > 0. && d.y > 0.)
-		grad = d / length(d);
+    vec2 grad = d.x > d.y ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    if(d.x > 0. && d.y > 0.)
+        grad = d / length(d);
 
-	grad *= -sign(centered);
+    grad *= -sign(centered);
 
-	return Implicit(dist, vec3(grad * rot, 0.0), color);
+    return Implicit(dist, vec3(grad * rot, 0.0), color);
 }
 
-Implicit RectangleUGFSDFCenterRotated(vec2 p, vec2 center, float size, float angle, vec4 color)
-{
-	vec2 centered = p - center;
+Implicit RectangleUGFSDFCenterRotated(vec2 p, vec2 center, float size, float angle, vec4 color) {
+    vec2 centered = p - center;
     mat2 rot = Rotate2(-angle);
  //   centered = rot * centered;
     size *= 0.5;
@@ -323,16 +319,15 @@ Implicit RectangleUGFSDFCenterRotated(vec2 p, vec2 center, float size, float ang
     Implicit cornerA = Subtract(Max(x, y), size);
     Implicit cornerB = Subtract(Max(Negate(x), Negate(y)), size);
 
-	return IntersectionEuclidean(cornerA, cornerB, 0.);
+    return IntersectionEuclidean(cornerA, cornerB, 0.);
 }
 
-Implicit TriangleWaveEvenPositive(Implicit param, float period, vec4 color)
-{
-	float halfPeriod = 0.5 * period;
+Implicit TriangleWaveEvenPositive(Implicit param, float period, vec4 color) {
+    float halfPeriod = 0.5 * period;
     float wave = mod(param.Distance, period) - halfPeriod;
-	float dist = halfPeriod - abs(wave);
-	vec3 grad = -sign(wave) * param.Gradient;
-	return Implicit(dist, grad, color);
+    float dist = halfPeriod - abs(wave);
+    vec3 grad = -sign(wave) * param.Gradient;
+    return Implicit(dist, grad, color);
 }
 
 //////////////////
@@ -342,7 +337,8 @@ Implicit TriangleWaveEvenPositive(Implicit param, float period, vec4 color)
 // 8x8 font rendering - returns 1.0 if pixel is part of character, 0.0 otherwise
 float char8x8(vec2 p, int b1, int b2, int b3, int b4) {
     // Check bounds before flooring
-    if (p.x < 0.0 || p.x >= 8.0 || p.y < 0.0 || p.y >= 8.0) return 0.0;
+    if(p.x < 0.0 || p.x >= 8.0 || p.y < 0.0 || p.y >= 8.0)
+        return 0.0;
 
     // Floor and flip coordinates to match bitmap layout
     vec2 pf = floor(8.0 - p);
@@ -356,16 +352,57 @@ float char8x8(vec2 p, int b1, int b2, int b3, int b4) {
 
 // Digit bitmaps (0-9) from 8x8 font
 void getDigitBitmap(int digit, out int b1, out int b2, out int b3, out int b4) {
-    if (digit == 0) { b1 = 0x384C; b2 = 0xC6C6; b3 = 0xC664; b4 = 0x3800; }
-    else if (digit == 1) { b1 = 0x1838; b2 = 0x1818; b3 = 0x1818; b4 = 0x7E00; }
-    else if (digit == 2) { b1 = 0x7CC6; b2 = 0x0E3C; b3 = 0x78E0; b4 = 0xFE00; }
-    else if (digit == 3) { b1 = 0x7E0C; b2 = 0x183C; b3 = 0x06C6; b4 = 0x7C00; }
-    else if (digit == 4) { b1 = 0x1C3C; b2 = 0x6CCC; b3 = 0xFE0C; b4 = 0x0C00; }
-    else if (digit == 5) { b1 = 0xFCC0; b2 = 0xFC06; b3 = 0x06C6; b4 = 0x7C00; }
-    else if (digit == 6) { b1 = 0x3C60; b2 = 0xC0FC; b3 = 0xC6C6; b4 = 0x7C00; }
-    else if (digit == 7) { b1 = 0xFEC6; b2 = 0x0C18; b3 = 0x3030; b4 = 0x3000; }
-    else if (digit == 8) { b1 = 0x78C4; b2 = 0xE478; b3 = 0x9E86; b4 = 0x7C00; }
-    else if (digit == 9) { b1 = 0x7CC6; b2 = 0xC67E; b3 = 0x060C; b4 = 0x7800; }
+    if(digit == 0) {
+        b1 = 0x384C;
+        b2 = 0xC6C6;
+        b3 = 0xC664;
+        b4 = 0x3800;
+    } else if(digit == 1) {
+        b1 = 0x1838;
+        b2 = 0x1818;
+        b3 = 0x1818;
+        b4 = 0x7E00;
+    } else if(digit == 2) {
+        b1 = 0x7CC6;
+        b2 = 0x0E3C;
+        b3 = 0x78E0;
+        b4 = 0xFE00;
+    } else if(digit == 3) {
+        b1 = 0x7E0C;
+        b2 = 0x183C;
+        b3 = 0x06C6;
+        b4 = 0x7C00;
+    } else if(digit == 4) {
+        b1 = 0x1C3C;
+        b2 = 0x6CCC;
+        b3 = 0xFE0C;
+        b4 = 0x0C00;
+    } else if(digit == 5) {
+        b1 = 0xFCC0;
+        b2 = 0xFC06;
+        b3 = 0x06C6;
+        b4 = 0x7C00;
+    } else if(digit == 6) {
+        b1 = 0x3C60;
+        b2 = 0xC0FC;
+        b3 = 0xC6C6;
+        b4 = 0x7C00;
+    } else if(digit == 7) {
+        b1 = 0xFEC6;
+        b2 = 0x0C18;
+        b3 = 0x3030;
+        b4 = 0x3000;
+    } else if(digit == 8) {
+        b1 = 0x78C4;
+        b2 = 0xE478;
+        b3 = 0x9E86;
+        b4 = 0x7C00;
+    } else if(digit == 9) {
+        b1 = 0x7CC6;
+        b2 = 0xC67E;
+        b3 = 0x060C;
+        b4 = 0x7800;
+    }
 }
 
 // Print a floating point number with one decimal place
@@ -375,9 +412,9 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
     float xOffset = 0.0;
 
     // Handle negative numbers
-    if (value < 0.0) {
+    if(value < 0.0) {
         // Minus sign: horizontal line
-        if (p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
+        if(p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
             result = 1.0;
         }
         xOffset = 9.0;
@@ -393,8 +430,9 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
     int bitmap1, bitmap2, bitmap3, bitmap4;
 
     // Draw integer digits
-    for (int i = 0; i < 5; i++) {
-        if (float(i) >= numDigits) break;
+    for(int i = 0; i < 5; i++) {
+        if(float(i) >= numDigits)
+            break;
 
         // Extract digit using mod to avoid precision issues
         float digitPow = pow(10.0, numDigits - float(i) - 1.0);
@@ -410,7 +448,7 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale) {
 
     // Decimal point (check relative to offset)
     vec2 dotPos = p - vec2(xOffset, 0.0);
-    if (dotPos.x >= 0.0 && dotPos.x < 2.0 && dotPos.y >= 0.0 && dotPos.y < 2.0) {
+    if(dotPos.x >= 0.0 && dotPos.x < 2.0 && dotPos.y >= 0.0 && dotPos.y < 2.0) {
         result = 1.0;
     }
     xOffset += 4.0;
@@ -432,9 +470,9 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale, int decimal
     float xOffset = 0.0;
 
     // Handle negative numbers
-    if (value < 0.0) {
+    if(value < 0.0) {
         // Minus sign: horizontal line
-        if (p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
+        if(p.x >= 0.0 && p.x < 6.0 && p.y >= 3.5 && p.y < 4.5) {
             result = 1.0;
         }
         xOffset = 9.0;
@@ -450,8 +488,9 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale, int decimal
     int bitmap1, bitmap2, bitmap3, bitmap4;
 
     // Draw integer digits
-    for (int i = 0; i < 5; i++) {
-        if (float(i) >= numDigits) break;
+    for(int i = 0; i < 5; i++) {
+        if(float(i) >= numDigits)
+            break;
 
         // Extract digit using mod to avoid precision issues
         float digitPow = pow(10.0, numDigits - float(i) - 1.0);
@@ -467,14 +506,15 @@ float printFloat(vec2 fragCoord, vec2 pos, float value, float scale, int decimal
 
     // Decimal point (check relative to offset)
     vec2 dotPos = p - vec2(xOffset, 0.0);
-    if (dotPos.x >= 0.0 && dotPos.x < 2.0 && dotPos.y >= 0.0 && dotPos.y < 2.0) {
+    if(dotPos.x >= 0.0 && dotPos.x < 2.0 && dotPos.y >= 0.0 && dotPos.y < 2.0) {
         result = 1.0;
     }
     xOffset += 4.0;
 
     // Draw decimal digits
-    for (int i = 0; i < 3; i++) {
-        if (i >= decimals) break;
+    for(int i = 0; i < 3; i++) {
+        if(i >= decimals)
+            break;
 
         float digitPow = pow(10.0, float(i + 1));
         int decDigit = int(mod(floor(fracPart * digitPow), 10.0));
@@ -548,8 +588,7 @@ vec4 drawFill(Implicit a, vec4 opColor) {
 }
 
 // Draw a vector field visualization
-vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick)
-{
+vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, float iLineHalfThick) {
     vec2 spacingVec = vec2(iSpacing);
     vec2 param = mod(p.xy, spacingVec);
     vec2 center = p.xy - param + 0.5 * spacingVec;
@@ -561,7 +600,7 @@ vec4 DrawVectorField(vec3 p, Implicit iImplicit, vec4 iColor, float iSpacing, fl
     bool isInCircle = length(p.xy - center) < iSpacing * 0.45 * max(length(iImplicit.Gradient.xy) / gradLength, 0.2);
     bool isNearLine = abs(dot(toCenter, vec2(-iImplicit.Gradient.y, iImplicit.Gradient.x))) / gradLength < iLineHalfThick + (-gradParam + iSpacing * 0.5) * 0.125;
 
-    if (isInCircle && isNearLine)
+    if(isInCircle && isNearLine)
         return vec4(iColor.rgb * 0.5, 1.);
 
     return iColor;
@@ -586,10 +625,7 @@ vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
     vec2 arrowNormal = vec2(delta.y, -delta.x);
     Implicit arrowSpine = Plane(p, endPt, arrowNormal, color);
     mat2 arrowSideRotation = Rotate2(pi / 12.0);
-    Implicit arrowTip = Max(
-        Plane(p, endPt, -arrowNormal * arrowSideRotation, color),
-        Plane(p, endPt, arrowNormal * inverse(arrowSideRotation), color)
-    );
+    Implicit arrowTip = Max(Plane(p, endPt, -arrowNormal * arrowSideRotation, color), Plane(p, endPt, arrowNormal * inverse(arrowSideRotation), color));
 
     vec2 spineDir = normalize(delta);
     vec2 arrowBackPt = endPt + arrowSize * spineDir;
@@ -598,7 +634,7 @@ vec4 drawArrow(vec2 p, vec2 startPt, vec2 endPt, vec4 color, vec4 opColor) {
     arrowTip = Max(arrowTip, Plane(p, arrowBackPt, delta, color));
 
     Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, color), length(arrowBackPt - arrowTailPt), 0.0);
-    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
+    if(bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
         opColor = strokeImplicit(arrowSpine, 4.0, opColor);
 
     return drawFill(arrowTip, opColor);
@@ -625,10 +661,7 @@ vec4 drawBoundaryMapArrow(vec2 p, vec2 fragCoord, vec2 mouse, Implicit mouseOp, 
     vec2 arrowNormal = vec2(delta.y, -delta.x);
     Implicit arrowSpine = Plane(p, boundPt, arrowNormal, annotationColor);
     mat2 arrowSideRotation = Rotate2(pi / 12.0);
-    Implicit arrowTip = Max(
-        Plane(p, boundPt, -arrowNormal * arrowSideRotation, annotationColor),
-        Plane(p, boundPt, arrowNormal * inverse(arrowSideRotation), annotationColor)
-    );
+    Implicit arrowTip = Max(Plane(p, boundPt, -arrowNormal * arrowSideRotation, annotationColor), Plane(p, boundPt, arrowNormal * inverse(arrowSideRotation), annotationColor));
 
     vec2 spineDir = normalize(delta);
     vec2 arrowBackPt = boundPt + arrowSize * spineDir;
@@ -636,18 +669,18 @@ vec4 drawBoundaryMapArrow(vec2 p, vec2 fragCoord, vec2 mouse, Implicit mouseOp, 
     arrowTip = Max(arrowTip, Max(Negate(cursor), Plane(p, arrowBackPt, delta, annotationColor)));
 
     Implicit bound = Shell(Plane(p, 0.5 * (arrowBackPt + arrowTailPt), spineDir, annotationColor), length(arrowBackPt - arrowTailPt), 0.0);
-    if (bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
+    if(bound.Distance < 0.0 && dot(spineDir, arrowBackPt - arrowTailPt) < 0.)
         opColor = strokeImplicit(arrowSpine, 4.0, opColor);
 
     opColor = drawFill(arrowTip, opColor);
 
     // Optionally draw distance value as text near mouse
-    if (drawText) {
+    if(drawText) {
         float iTextScale = 2.0;
         vec2 textPos = (mouse + 0.5 * vec2(iResolution.x, iResolution.y)) + vec2(10.0, -4.0) * iTextScale;
 
         float text = printFloat(fragCoord, textPos, mouseOp.Distance, iTextScale);
-        if (text > 0.5) {
+        if(text > 0.5) {
             opColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
     }
