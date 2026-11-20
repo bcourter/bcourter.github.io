@@ -1,0 +1,126 @@
+/* Styles for the .doc-content container — applied wherever rendered
+ * markdown is shown. Font definitions are not declared here; the embedding
+ * page is expected to load the GT America / Vercetti / IBM Plex Mono
+ * families itself. */
+
+.doc-content {
+    font-family: 'Vercetti', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #c0c0c0;
+}
+
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.doc-content h5,
+.doc-content h6 {
+    font-family: 'GT America', sans-serif;
+    color: #e8e8e8;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.doc-content h1 {
+    font-size: 24px;
+    margin: 24px 0 16px;
+    border-bottom: 1px solid #2d2d2d;
+    padding-bottom: 10px;
+}
+
+.doc-content h1:first-child {
+    margin-top: 0;
+}
+
+.doc-content h2 {
+    font-size: 18px;
+    margin: 28px 0 12px;
+}
+
+.doc-content h3 {
+    font-size: 15px;
+    margin: 22px 0 8px;
+    color: #c8c8c8;
+}
+
+.doc-content p {
+    margin: 10px 0;
+}
+
+.doc-content ul {
+    margin: 10px 0;
+    padding-left: 22px;
+}
+
+.doc-content li {
+    margin: 6px 0;
+}
+
+.doc-content li > p:first-child {
+    margin-top: 0;
+}
+
+.doc-content li > ul {
+    margin: 4px 0;
+}
+
+.doc-content strong {
+    color: #e8e8e8;
+    font-weight: 500;
+}
+
+.doc-content em {
+    color: #d1d1d1;
+}
+
+.doc-content hr {
+    border: none;
+    border-top: 1px solid #2d2d2d;
+    margin: 24px 0;
+}
+
+.doc-content code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: #d1d1d1;
+    background: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.doc-content pre {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin: 14px 0;
+}
+
+.doc-content pre code {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #d1d1d1;
+    font-size: 12.5px;
+    line-height: 1.55;
+    white-space: pre;
+}
+
+.doc-content a {
+    color: #6699cc;
+    text-decoration: none;
+}
+
+.doc-content a:hover {
+    text-decoration: underline;
+}
+
+.doc-error {
+    color: #cb4c4c;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+}

@@ -1,0 +1,141 @@
+/* The Render panel's Detail slider (detail-slider.js). The track runs from
+   the smallest parts at the left to the largest at the right, and each handle
+   moves on its own. Handle names sit above the track for the gone, colour and
+   simple rungs and below it for the textures and relief rungs, so neighbours
+   do not collide. Over the slider, a histogram of the parts' sizes on screen,
+   on the track's scale, and under it the checkbox that shows their boxes. */
+
+.detail-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+}
+
+.detail-slider {
+    position: relative;
+    width: 100%;
+    min-width: 220px;
+    padding: 16px 8px 26px;
+    box-sizing: border-box;
+    user-select: none;
+    touch-action: none;
+}
+
+.detail-track {
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    background: #262626;
+    cursor: pointer;
+}
+
+.detail-handle {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background: #171717;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    box-sizing: border-box;
+}
+
+.detail-handle:focus-visible {
+    outline: 2px solid #d1d1d1;
+    outline-offset: 2px;
+}
+
+.detail-handle.dragging {
+    cursor: grabbing;
+    background: currentColor;
+}
+
+/* The handle in hand, or last in hand, sits on top, so handles stacked at one
+   spot can be pulled apart again. */
+.detail-handle:focus,
+.detail-handle.dragging {
+    z-index: 1;
+}
+
+.detail-tag {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 10px 'Public Sans', sans-serif;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.detail-vanish .detail-tag,
+.detail-simplified .detail-tag {
+    bottom: 12px;
+}
+
+.detail-textures .detail-tag,
+.detail-displacement .detail-tag {
+    top: 12px;
+}
+
+.detail-vanish {
+    color: #e0726b;
+}
+
+.detail-simplified {
+    color: #9a9a9a;
+}
+
+.detail-textures {
+    color: #e2b64c;
+}
+
+.detail-displacement {
+    color: #6cc0e3;
+}
+
+.detail-inert {
+    border-style: dashed;
+    opacity: 0.6;
+}
+
+.detail-ticks {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 0;
+    height: 11px;
+}
+
+.detail-ticks span {
+    position: absolute;
+    transform: translateX(-50%);
+    color: #555;
+    font: 9px 'Public Sans', sans-serif;
+}
+
+.detail-ticks .detail-tick-any {
+    transform: none;
+}
+
+.detail-ticks .detail-tick-all {
+    transform: translateX(-100%);
+}
+
+.detail-hist {
+    display: block;
+    width: calc(100% - 16px);
+    height: 20px;
+    margin: 0 8px 2px;
+    color: #5f5f5f;
+}
+
+.detail-boxes {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 4px 8px 0;
+    font: 11px 'Public Sans', sans-serif;
+    color: #9a9a9a;
+    cursor: pointer;
+}

@@ -1,0 +1,1145 @@
+@import "./panels/export-panel.css";
+@import "./panels/detail-slider.css";
+@import "./panels/slider-panel.css";
+@import "./panels/mesh-import.css";
+@import "./panels/body-panel.css";
+@import "./panels/material-grid.css";
+@import "./ui/progress-bar.css";
+@import "./ui/notification.css";
+
+@font-face {
+    font-family: 'Public Sans';
+    src: url('fonts/PublicSans-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Public Sans';
+    src: url('fonts/PublicSans-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Public Sans', sans-serif;
+    background: #000;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
+}
+
+#tooltip {
+    position: fixed;
+    z-index: 10000;
+    background: #222;
+    color: #ccc;
+    font-size: 11px;
+    font-family: 'Public Sans', sans-serif;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    white-space: pre-line;
+    max-width: 280px;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    display: none;
+}
+
+#app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: #000;
+}
+
+#top-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 6px 12px;
+    background: #000;
+    border-bottom: 1px solid #141414;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+#top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+#btn-toggle-code {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #262626;
+}
+
+#btn-toggle-code.active {
+    background: #2d2d2d;
+    color: #fff;
+    border-color: #4a4a4a;
+}
+
+#editor-top-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#editor-top-controls.hidden {
+    display: none;
+}
+
+#top-bar-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#example-select {
+    background: #171717;
+    color: #e2e2e2;
+    border: 1px solid #2d2d2d;
+    border-radius: 8px;
+    padding: 7px 28px 7px 12px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    min-width: 210px;
+}
+
+#example-select:hover,
+#example-select:focus {
+    background: #222;
+    border-color: #444;
+    color: #fff;
+}
+
+#top-bar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    position: relative;
+}
+
+#btn-save-as {
+    border: 1px solid #2d2d2d;
+}
+
+#btn-save-as:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    color: #777;
+    background: #121212;
+    border-color: #1f1f1f;
+}
+
+#save-as-popover {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #171717;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 4px 6px;
+}
+
+#save-as-popover.hidden {
+    display: none;
+}
+
+#save-as-input {
+    background: #0e0e0e;
+    color: #e5e5e5;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    width: 190px;
+    outline: none;
+}
+
+#save-as-input:focus {
+    border-color: #5a8a5a;
+}
+
+#container {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+#editor-container {
+    flex: 0 0 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 320px;
+    position: relative;
+    z-index: 1;
+}
+
+#editor-container.collapsed {
+    display: none;
+}
+
+.splitter {
+    flex: 0 0 4px;
+    background: #0a0a0a;
+    cursor: col-resize;
+    position: relative;
+    z-index: 10;
+}
+
+.splitter.hidden {
+    display: none;
+}
+
+.splitter:hover {
+    background: #2d2d2d;
+}
+
+.splitter.dragging {
+    background: #013566;
+}
+
+body.resizing {
+    cursor: col-resize;
+    user-select: none;
+}
+
+body.resizing iframe,
+body.resizing #editor,
+body.resizing #canvas-container,
+body.resizing #stl-canvas-container {
+    pointer-events: none;
+}
+
+#warning-wrapper {
+    margin: 0 10px 10px 10px;
+    max-height: 112px;
+    display: flex;
+    background: #18140a;
+    border: 1px solid #4d3d16;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+#warning-wrapper.hidden {
+    display: none;
+}
+
+#warning-output {
+    flex-grow: 1;
+    margin: 0;
+    padding: 8px 10px;
+    color: #e2b93d;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-y: auto;
+}
+
+#error-wrapper {
+    height: 140px;
+    display: flex;
+    background: #000;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#error-wrapper.hidden {
+    display: none;
+}
+
+#error-output {
+    flex-grow: 1;
+    height: 100%;
+    background: #000;
+    color: #cb4c4c;
+    border: none;
+    resize: none;
+    padding: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+#canvas-container,
+#stl-canvas-container {
+    flex: 1 1 50%;
+    min-width: 320px;
+    min-height: 0;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    border: 10px solid #000;
+    border-radius: 0px;
+    background: #000;
+}
+
+#canvas-container > canvas,
+#stl-canvas-container > canvas {
+    border-radius: 14px;
+}
+
+#canvas-container:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+}
+
+/* @caption lines (ui/captions.js): centred at the bottom of the canvas, over
+   the model but under the panels, and never in the way of a click. */
+.caption-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6%;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+}
+
+.caption-line {
+    max-width: 80%;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: 'Public Sans', sans-serif;
+    font-size: clamp(14px, 2.2vw, 30px);
+    line-height: 1.3;
+    text-align: center;
+    white-space: pre-line;
+}
+
+.caption-line[hidden] {
+    display: none;
+}
+
+.btn-regular {
+    background: #171717;
+    color: #d1d1d1;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.btn-regular:hover:not(:disabled) {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+.btn-icon {
+    background: #171717;
+    color: #d1d1d1;
+    padding: 10px 10px;
+    cursor: pointer;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.btn-icon img {
+    display: block;
+    width: 13px;
+    height: 13px;
+}
+
+.btn-icon:hover {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+.btn-icon.active {
+    outline: 1px solid #ffff00;
+}
+
+.btn-light {
+    background: #1e1e1e;
+    color: #d1d1d1;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.btn-light:hover {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+#btn-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#btn-wrap.active { color: #5a8a5a; }
+#btn-wrap:not(.active) { color: #888; }
+
+.icon-mask {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.icon-mask.icon-wrap {
+    width: 12px;
+    height: 12px;
+    -webkit-mask-image: url(icons/wrap.svg);
+    mask-image: url(icons/wrap.svg);
+}
+
+.editor-tab-container {
+    display: flex;
+    margin-right: 0;
+}
+
+.btn-switch {
+    background: #171717;
+    color: #d1d1d1;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    outline: none;
+}
+
+.btn-switch.selected {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+.btn-switch:hover {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+.btn-switch:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.btn-switch:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.btn-switch:only-child {
+    border-radius: 8px;
+}
+
+.btn-switch.has-error {
+    color: #f48771;
+    box-shadow: inset 0 0 0 1px #f48771;
+}
+
+.btn-switch.has-warning {
+    color: #e2b93d;
+    box-shadow: inset 0 0 0 1px #d7a63c;
+}
+
+#canvas-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    max-height: calc(100% - 20px);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+#canvas-controls > * {
+    pointer-events: auto;
+    cursor: default;
+}
+
+#canvas-left-btns,
+#stl-left-btns {
+    position: absolute;
+    margin: 10px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.resolution-controls {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 8px;
+    background: #171717;
+}
+
+.resolution-btn {
+    min-width: 28px;
+    padding: 5px 4px;
+    border: 0;
+    border-radius: 6px;
+    color: #888;
+    background: transparent;
+    font: 11px 'Public Sans', sans-serif;
+}
+
+.resolution-btn:hover {
+    color: #fff;
+}
+
+.resolution-btn.active {
+    color: #fff;
+    background: #3a3a3a;
+}
+
+.resolution-btn:disabled {
+    color: #555;
+    cursor: default;
+}
+
+#scene-panel,
+#render-panel,
+#field-panel,
+#stl-bounds-panel,
+#mesh-import-panel,
+#body-panel,
+#material-panel,
+#slider-panel {
+    background: #171717;
+    border-radius: 8px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+}
+
+#scene-panel-header,
+#render-panel-header,
+#field-panel-header,
+#stl-bounds-header,
+#mesh-import-header,
+#body-panel-header,
+#material-panel-header,
+#slider-panel-header {
+    color: #d1d1d1;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+#scene-panel-header:hover,
+#render-panel-header:hover,
+#field-panel-header:hover,
+#stl-bounds-header:hover,
+#mesh-import-header:hover,
+#body-panel-header:hover,
+#material-panel-header:hover,
+#slider-panel-header:hover {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+#scene-panel.open #scene-panel-header,
+#render-panel.open #render-panel-header,
+#field-panel.open #field-panel-header,
+#stl-bounds-panel.open #stl-bounds-header,
+#mesh-import-panel.open #mesh-import-header,
+#body-panel.open #body-panel-header,
+#material-panel.open #material-panel-header,
+#slider-panel.open #slider-panel-header {
+    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #bababa;
+    cursor: default;
+    background: transparent;
+}
+
+#scene-panel.open #scene-panel-header:hover,
+#render-panel.open #render-panel-header:hover,
+#field-panel.open #field-panel-header:hover,
+#stl-bounds-panel.open #stl-bounds-header:hover,
+#mesh-import-panel.open #mesh-import-header:hover,
+#body-panel.open #body-panel-header:hover,
+#material-panel.open #material-panel-header:hover,
+#slider-panel.open #slider-panel-header:hover {
+    background: transparent;
+    color: #bababa;
+}
+
+.panel-close {
+    display: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0 2px;
+}
+
+.panel-close:hover {
+    color: #fff;
+}
+
+#scene-panel.open .panel-close,
+#render-panel.open .panel-close,
+#field-panel.open .panel-close,
+#stl-bounds-panel.open .panel-close,
+#mesh-import-panel.open .panel-close,
+#body-panel.open .panel-close,
+#material-panel.open .panel-close,
+#slider-panel.open .panel-close {
+    display: block;
+}
+
+.panel-body {
+    display: none;
+    padding: 0 10px 8px 10px;
+    color: #d1d1d1;
+}
+
+#scene-panel.open .panel-body,
+#render-panel.open .panel-body,
+#field-panel.open .panel-body,
+#stl-bounds-panel.open .panel-body,
+#mesh-import-panel.open .panel-body,
+#body-panel.open .panel-body,
+#material-panel.open .panel-body,
+#slider-panel.open .panel-body {
+    display: block;
+}
+
+/* Slider rows: name on the left, range + numeric input on the right.
+ * The numeric input accepts values outside [min, max] so the user can
+ * type a precise value; the range visually clamps but doesn't lose the
+ * typed value. */
+.slider-row {
+    /* 22px control cell sits between the name and the range slider —
+       animated rows host the play/pause toggle there, static rows host
+       an invisible spacer — so the toggle eats into the parameter
+       name's space rather than the slider's, and every row's range /
+       number column lines up across the panel. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1.4fr) 56px;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+}
+.slider-row .slider-play-btn {
+    background: transparent;
+    border: 1px solid #2a2a2a;
+    border-radius: 3px;
+    color: #d1d1d1;
+    font-size: 11px;
+    line-height: 1;
+    padding: 1px 0;
+    width: 22px;
+    height: 18px;
+    cursor: pointer;
+}
+.slider-row .slider-play-btn:hover {
+    border-color: #4488ee;
+    color: #ffffff;
+}
+
+/* Transport cluster below the Time slider: the .anim-btn flex-grow
+   rule spreads rewind / play-pause / fast-forward across the row, and
+   the end-time number input on the right lines up with the per-slider
+   value column. */
+#anim-controls-row .anim-btns {
+    flex: 1;
+}
+
+/* Inside the Parameters panel, widen the field-panel-label number
+   inputs (Time, end-time) to match the slider grid's 56px value
+   column so anim rows align with slider rows. box-sizing makes the
+   declared width inclusive of padding + border, so the input fits
+   the grid cell exactly. */
+#slider-panel .field-panel-label {
+    box-sizing: border-box;
+    width: 56px;
+    text-align: right;
+    padding: 3px 6px;
+}
+.slider-row .slider-label {
+    color: #d1d1d1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.slider-row input[type="range"] {
+    width: 100%;
+    accent-color: #4488ee;
+}
+/* Number inputs across the Parameters panel — slider rows, Time row,
+   and end-time — share the .field-panel-label look. Hide the native
+   spin buttons (Chromium + Firefox) so the right-aligned monospace
+   number stays clean. */
+#slider-panel input[type="number"] {
+    -moz-appearance: textfield;
+}
+#slider-panel input[type="number"]::-webkit-outer-spin-button,
+#slider-panel input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.mesh-hint {
+    font-size: 11px;
+    color: #8a8a8a;
+    margin-top: 10px;
+    line-height: 1.4;
+    max-width: 230px;
+    word-wrap: break-word;
+}
+.mesh-hint code {
+    color: #aaa;
+    background: #1e1e1e;
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+#stl-sdf-controls.hidden {
+    display: none;
+}
+
+#animation-time-input {
+    color: #d1d1d1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    width: 64px;
+    text-align: right;
+    padding: 3px 4px;
+    background: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+#animation-time-input::-webkit-outer-spin-button,
+#animation-time-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+#animation-time-input:not([readonly]) {
+    border-color: #888;
+    background: #252525;
+}
+
+.anim-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.anim-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.anim-glyph {
+    position: relative;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.checkbox-row-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.field-panel-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.field-panel-row label {
+    color: #888;
+    font-size: 12px;
+    min-width: 40px;
+}
+
+#render-fps,
+#render-progress {
+    color: #d1d1d1;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+#render-progress {
+    margin-left: auto;
+}
+
+.field-panel-row input[type="checkbox"] {
+    margin: 0 0 0 2px;
+    cursor: pointer;
+}
+
+.field-panel-row input[type="range"] {
+    flex: 1;
+    accent-color: #d1d1d1;
+    height: 5px;
+    cursor: pointer;
+}
+
+.field-panel-label {
+    color: #d1d1d1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    width: 42px;
+    text-align: center;
+    padding: 3px 4px;
+    background: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+    cursor: text;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.stl-row-loose {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.stl-row-loose label {
+    color: #888;
+    font-size: 12px;
+    min-width: 28px;
+}
+
+.stl-row-loose input[type="number"] {
+    width: 36px;
+    background: #1e1e1e;
+    color: #d1d1d1;
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+    padding: 3px 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.btn-menu-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2d2d2d;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #888;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.field-panel-label:focus {
+    border-color: #013566;
+    outline: none;
+}
+
+.stl-axis-labels {
+    margin-bottom: 2px;
+}
+
+.stl-axis-label {
+    width: 36px;
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding-left: 4px;
+}
+
+.stl-row-loose input[type="number"]::-webkit-inner-spin-button,
+.stl-row-loose input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.stl-row-loose input[type="number"]:focus {
+    border-color: #013566;
+}
+
+.stl-row-loose input[type="range"] {
+    flex: 1;
+    accent-color: #d1d1d1;
+    height: 5px;
+    cursor: pointer;
+}
+
+#stl-algorithm {
+    flex: 1;
+    padding: 8px 5px;
+    background: transparent;
+    color: #d1d1d1;
+    border: none;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+}
+
+#stl-depth-label {
+    color: #d1d1d1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    width: 36px;
+    text-align: center;
+    padding: 3px 4px;
+    background: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+    cursor: text;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#stl-depth-label:focus {
+    border-color: #013566;
+    outline: none;
+}
+
+#stl-scale-label {
+    color: #d1d1d1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    width: 36px;
+    text-align: center;
+    padding: 3px 4px;
+    background: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+    cursor: text;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#stl-scale-label:focus {
+    border-color: #013566;
+    outline: none;
+}
+
+.thmub-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ddd;
+}
+
+#stl-voxel-info,
+#scene-bbox-info,
+#scene-grid-info {
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-align: right;
+    margin-bottom: 4px;
+}
+
+/* Bodies is only shown once the document has bodies. The rows and the
+ * palette are in panels/body-panel.css, and Materials, on the same
+ * terms, is panels/material-grid.css. */
+#body-panel,
+#material-panel {
+    display: none;
+}
+
+#body-panel.visible,
+#material-panel.visible {
+    display: block;
+}
+
+#body-panel.open,
+#material-panel.open {
+    min-width: 180px;
+}
+
+/* A page `gsl export` wrote compiles nothing (host-static.js), so what changes
+ * or saves the document is not offered: Save As, the GSL reference, the tools
+ * that write a picked point into the source, Imports, Export and Materials. */
+body.read-only-host #btn-save-as,
+body.read-only-host #help-menu,
+body.read-only-host #btn-point-select,
+body.read-only-host #btn-point-normal-select,
+body.read-only-host #mesh-import-panel,
+body.read-only-host #stl-bounds-panel,
+body.read-only-host #material-panel {
+    display: none;
+}
+
+/* A page opened with ?embed sits in another page and shows the one document
+ * its address names: no menu of documents, so no top bar. main.js moves the
+ * Code button in with the viewport's buttons, where it is an icon like them,
+ * and the code's own controls to the top of the code panel. */
+body.embedded #top-bar {
+    display: none;
+}
+
+body.embedded #btn-toggle-code {
+    padding: 10px;
+    border: none;
+}
+
+body.embedded #btn-toggle-code span {
+    display: none;
+}
+
+body.embedded #btn-toggle-code img {
+    display: block;
+    width: 13px;
+    height: 13px;
+}
+
+body.embedded #btn-toggle-code.active {
+    outline: 1px solid #4a4a4a;
+}
+
+body.embedded #editor-top-controls {
+    flex-shrink: 0;
+    margin: 10px 10px 0;
+}

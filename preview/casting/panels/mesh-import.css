@@ -1,0 +1,80 @@
+/* Meshes side panel (mesh-import.js / mesh-import-markup.js). The panel
+ * frame — #mesh-import-panel, its header, .panel-body, .panel-close — and
+ * .mesh-hint are styled by each app's shared side-panel rules; this file
+ * carries the import controls and the viewer drop overlay. */
+
+.mesh-drop-zone {
+    border: 1px dashed #444;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+    max-width: 230px;
+    box-sizing: border-box;
+    transition: border-color 0.15s, background 0.15s;
+}
+#mesh-hint {
+    max-width: 230px;
+}
+.mesh-drop-zone:hover,
+.mesh-drop-zone.dragover {
+    border-color: #888;
+    background: rgba(255,255,255,0.03);
+}
+.mesh-upload-label {
+    cursor: pointer;
+    color: #888;
+    font-size: 12px;
+}
+#mesh-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.mesh-list-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    background: #1e1e1e;
+    border-radius: 4px;
+    font-size: 11px;
+}
+.mesh-list-item .mesh-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #d1d1d1;
+    font-size: 12px;
+}
+.mesh-list-item .mesh-delete {
+    cursor: pointer;
+    color: #666;
+    font-size: 13px;
+    padding: 0 2px;
+}
+.mesh-list-item .mesh-delete:hover {
+    color: #f44;
+}
+
+/* The viewer is a drop target for mesh files; while a file drag is over it an
+ * overlay names what dropping will do. The label comes from the accepted
+ * formats (initMeshImport sets data-drop-label on the target). */
+#canvas-container.cad-dragover::after {
+    content: attr(data-drop-label);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 16px;
+    background: rgba(30, 100, 200, 0.12);
+    border: 2px dashed rgba(120, 180, 255, 0.8);
+    color: #cfe3ff;
+    font: 600 16px 'Public Sans', sans-serif;
+    pointer-events: none;
+    z-index: 5;
+}

@@ -1,0 +1,43 @@
+{
+  "Viewer": {
+    "description": "The viewer's own lights: the rig at full strength over the dim sky/ground hemisphere, shaded by the original expressions (mode 0), so it renders exactly as before.",
+    "mode": 0,
+    "rig": 1,
+    "sky": [0.15, 0.13, 0.12],
+    "ground": [0.06, 0.07, 0.1],
+    "panels": []
+  },
+  "Softbox": {
+    "description": "A dark surround and large soft panels: a big one overhead leaning away from the camera, so horizontal faces reflect it; a key and a fill to the camera's sides for the faces turned toward it; a strip behind for rims.",
+    "mode": 1,
+    "rig": 0,
+    "sky": [0.015, 0.015, 0.015],
+    "ground": [0.0075, 0.0075, 0.0075],
+    "panels": [
+      { "axis": [-0.35, -0.35, 1], "sharpness": 6, "color": [1.5, 1.5, 1.5] },
+      { "axis": [1, -0.3, 0.55], "sharpness": 10, "color": [2.0, 1.9, 1.75] },
+      { "axis": [-0.3, 1, 0.35], "sharpness": 6, "color": [0.6, 0.65, 0.75] },
+      { "axis": [-1, -1, 0.3], "sharpness": 24, "color": [1.5, 1.5, 1.5] }
+    ]
+  },
+  "Overcast": {
+    "description": "A bright, even, cloudy sky over a grey ground, brightest overhead: soft light that shows a surface's colour and grain rather than its shine.",
+    "mode": 1,
+    "rig": 0.25,
+    "sky": [0.35, 0.36, 0.375],
+    "ground": [0.1, 0.095, 0.09],
+    "panels": [
+      { "axis": [0, 0, 1], "sharpness": 2, "color": [0.4, 0.4, 0.41] }
+    ]
+  },
+  "Horizon": {
+    "description": "A clear sky over dark ground with a small bright sun behind the camera: the horizon line and the sun's glint are what make chrome and glass read.",
+    "mode": 1,
+    "rig": 0,
+    "sky": [0.2599, 0.2974, 0.3724],
+    "ground": [0.02, 0.0175, 0.015],
+    "panels": [
+      { "axis": [1, 1, 0.9], "sharpness": 150, "color": [30, 27.5, 24] }
+    ]
+  }
+}

@@ -1,0 +1,175 @@
+/* Panel chrome for the shared Help menu and its two overlays — the frame, not
+ * the rendered markdown, which is docs.css.
+ *
+ * FOR AN APP THAT DOES NOT ALREADY CARRY THESE RULES. webai and a second app each have
+ * their own copy in style.css, where .omega-menu-item, .app-panel* and
+ * .panel-close are also used by app chrome that is not the help panel — the
+ * About modal and the side panels — so lifting them out of those is a wider
+ * change than sharing the help panel itself, and is deliberately not done here.
+ * They do not load this file. Transcribed from webai's style.css; keep the two
+ * in step until that consolidation happens. */
+
+/* ── Help menu ── */
+
+#help-menu {
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+#btn-help {
+    background: #171717;
+    color: #d1d1d1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#btn-help:hover {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+#help-menu-dropdown {
+    display: none;
+    position: fixed;
+    background: #171717;
+    border: 1px solid #2d2d2d;
+    border-radius: 6px;
+    z-index: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    min-width: 180px;
+    padding: 4px 0;
+    font-family: 'Vercetti', sans-serif;
+}
+
+#help-menu-dropdown.open {
+    display: block;
+}
+
+/* ── Menu items ── */
+
+.omega-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 11px;
+    user-select: none;
+}
+
+.omega-menu-item:hover {
+    background: #222;
+    color: #e0e0e0;
+}
+
+button.omega-menu-item {
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    font-family: inherit;
+}
+
+/* Section header inside a menu dropdown — same vertical rhythm as
+ * .omega-menu-item but inert (no hover, no pointer). Used by the "Libraries"
+ * label above the per-library submenu items. */
+.omega-menu-header {
+    display: flex;
+    align-items: center;
+    padding: 5px 12px;
+    color: #888;
+    font-size: 11px;
+    user-select: none;
+    cursor: default;
+}
+
+/* Indented child of a menu header — picks up .omega-menu-item styling and
+ * shifts left padding so the relationship reads as a sub-list. */
+.omega-menu-submenu-item {
+    padding-left: 24px;
+}
+
+/* ── Panel frame ── */
+
+.app-panel {
+    background: #171717;
+    border-radius: 8px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    font-family: 'Vercetti', sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.app-panel-header {
+    color: #d1d1d1;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2d2d2d;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.app-panel-header .panel-close {
+    display: block;
+}
+
+.app-panel-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    color: #d1d1d1;
+}
+
+.app-panel[hidden] {
+    display: none;
+}
+
+/* Placement: anchored inside a positioned ancestor (e.g. the canvas
+ * container). Centered horizontally and stretched vertically with a 20px
+ * inset, capped to a readable width. */
+.app-panel-canvas {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(640px, calc(100% - 40px));
+    z-index: 200;
+}
+
+/* Language Guide panel — inline doc viewer with comfortable padding. */
+#language-guide-panel .app-panel-body {
+    padding: 18px 22px 28px;
+}
+
+#libraries-panel .app-panel-body {
+    padding: 18px 22px 28px;
+}
+
+/* ── Close affordance ── */
+
+.panel-close {
+    display: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0 2px;
+}
+
+.panel-close:hover {
+    color: #fff;
+}

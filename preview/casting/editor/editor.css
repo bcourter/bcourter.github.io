@@ -1,0 +1,332 @@
+/* CodeMirror host container. Fills the editor column and gets the
+ * wrapper chrome; the .cm-editor theme (see editor.js) handles internals. */
+#editor {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 14px;
+    margin: 10px;
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor:focus-within {
+    border-color: #013566;
+}
+
+#editor .cm-editor {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* Highlight styling (reused for shape-picker spans via Decoration.mark). */
+.editor-highlight {
+    background: rgba(255, 255, 0, 0.2);
+}
+
+/* -------------------------------------------------------------------------
+ * CodeMirror search panel (common/web/editor/search-panel.js builds the DOM).
+ *
+ *   ┌─────┬─────┬──────────────────────────┬─────────┬─────────────┐
+ *   │ Aa  │ .*  │  [ find ................]│  next   │     all     │
+ *   ├─────┼─────┼──────────────────────────┼─────────┼─────────────┤
+ *   │ ab  │  ↑  │  [ replace .............]│ replace │ replace all │
+ *   └─────┴─────┴──────────────────────────┴─────────┴─────────────┘
+ *
+ *   Toggles 2x2 │ inputs (1fr) │ action col 1 (auto) │ action col 2 (auto)
+ *   Action rows use subgrid so columns align across find and replace rows.
+ * ------------------------------------------------------------------------- */
+
+.cm-panels {
+    background: transparent;
+    color: #bbb;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+}
+.cm-panels-bottom { border-top: 1px solid #2d2d2d; }
+.cm-panels-top    { border-bottom: 1px solid #2d2d2d; }
+
+.cm-panel.cm-search.gsl-search {
+    background: #171717;
+    padding: 8px 34px 8px 10px;
+    display: grid;
+    /* Toggles | inputs | first action btn | second action btn.
+     * Splitting the action group into two explicit columns lets the two
+     * action rows share tracks via subgrid below, so next/replace align
+     * and all/replace-all align. */
+    grid-template-columns: auto 1fr auto auto;
+    /* 24px rows: action buttons, inputs, and each of the 4 toggle cells
+     * all share this height. Uniform 4px gap for every separation. */
+    grid-template-rows: 24px 24px;
+    gap: 4px;
+    align-items: stretch;
+    position: relative;
+}
+
+.cm-panel.cm-search .gsl-toggles {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    display: grid;
+    /* 30 wide x 24 tall cells; 4px gap matches the outer grid. */
+    grid-template-columns: 30px 30px;
+    grid-template-rows: 24px 24px;
+    gap: 4px;
+}
+
+.cm-panel.cm-search input[name=search]  { grid-column: 2; grid-row: 1; }
+.cm-panel.cm-search input[name=replace] { grid-column: 2; grid-row: 2; }
+
+.cm-panel.cm-search .gsl-actions {
+    grid-column: 3 / span 2;
+    display: grid;
+    /* Subgrid: inherit columns 3 and 4 from the outer grid so the find row
+     * and replace row share tracks and their buttons align vertically. */
+    grid-template-columns: subgrid;
+    gap: 4px;
+}
+.cm-panel.cm-search .gsl-actions button { min-width: 0; }
+
+/* CM6's base theme injects .ͼ1 .cm-panel.cm-search input/button/label
+ * with margin: .2em (and a few other defaults). The .ͼ1 class is generated
+ * at runtime so we can't selector around it, and our generic rules either
+ * lose on specificity outright or tie and lose on load order (CM6's styles
+ * are injected after our linked stylesheet). Anchor at #editor to push
+ * past the tie. Add other properties here if CM6 starts winning on them. */
+#editor .cm-panel.cm-search input,
+#editor .cm-panel.cm-search button,
+#editor .cm-panel.cm-search label {
+    margin: 0;
+}
+
+/* Inputs. */
+.cm-panel.cm-search input[type=text] {
+    background: #1e1e1e;
+    color: #d1d1d1;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    /* Null out CM6's base-theme margin on .cm-search children. */
+    margin: 0;
+}
+.cm-panel.cm-search input[type=text]:focus {
+    border-color: #4488ee;
+}
+
+/* Buttons and toggle labels share every property that makes them feel like
+ * one family of controls; differences (padding, resting color, glyph
+ * rendering) are layered on top in per-element rules below. */
+.cm-panel.cm-search button,
+.cm-panel.cm-search .gsl-toggles label {
+    background: transparent;
+    color: #bbb;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.cm-panel.cm-search button:hover,
+.cm-panel.cm-search .gsl-toggles label:hover {
+    background: #222;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.cm-panel.cm-search button {
+    padding: 0 6px;
+    white-space: nowrap;
+}
+
+/* Toggle-specific bits: dimmer resting color (they're passive until clicked),
+ * relative positioning for ::before, checkbox hidden but kept in the DOM. */
+.cm-panel.cm-search .gsl-toggles label {
+    position: relative;
+    color: #888;
+    line-height: 1;
+}
+.cm-panel.cm-search .gsl-toggles label:has(input:checked),
+.cm-panel.cm-search .gsl-toggles label.on {
+    color: #4488ee;
+    border-color: #4488ee;
+    background: #1d2a3f;
+}
+.cm-panel.cm-search .gsl-toggles label input[type=checkbox] {
+    appearance: none;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    position: absolute;
+}
+/* Glyph rendered from data-glyph so the panel JS stays simple. */
+.cm-panel.cm-search .gsl-toggles label::before {
+    content: attr(data-glyph);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+}
+.cm-panel.cm-search .gsl-toggles label.underline-glyph::before {
+    text-decoration: underline;
+}
+/* Aa and ↑ read better in the sans-serif UI font. */
+.cm-panel.cm-search .gsl-toggles label[data-toggle=case]::before,
+.cm-panel.cm-search .gsl-toggles label[data-toggle=reverse]::before {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+}
+
+/* Close (×) floats in the top-right corner. The 3-class selector beats
+ * any base-theme rule CM6 injects. */
+.cm-panel.cm-search.gsl-search [name=close] {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+    display: inline-block;
+}
+.cm-panel.cm-search.gsl-search [name=close]:hover {
+    color: #e0e0e0;
+    background: transparent;
+    border: none;
+}
+
+/* Match highlights in the editor body. */
+.cm-searchMatch {
+    background: rgba(255, 255, 0, 0.4);
+    outline: 1px solid rgba(255, 255, 0, 0.8);
+}
+.cm-searchMatch-selected {
+    background: rgba(255, 120, 0, 0.4);
+    outline: 1px solid #4488ee;
+}
+
+/* -------------------------------------------------------------------------
+ * Lint diagnostics (@codemirror/lint).
+ *
+ *   - red underline below the offending range in the editor body
+ *   - red marker in the lint gutter
+ *   - hover tooltip with the message + optional "Fix error" action
+ *
+ * Styled to match the rest of the app; the action button reuses the
+ * panel-button look so the tooltip feels native. */
+
+.cm-tooltip.cm-tooltip-hover,
+.cm-tooltip.cm-diagnostic {
+    background: #171717;
+    color: #d1d1d1;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+.cm-diagnostic {
+    padding: 6px 8px;
+    border-left: 3px solid #cb4c4c;
+    /* The diagnostic message often quotes the offending line and uses an
+     * indented "^" caret on the next line to point at the column of the
+     * error. That alignment only holds in a monospace font. */
+    font-family: 'IBM Plex Mono', monospace;
+    white-space: pre-wrap;
+}
+.cm-diagnostic-error {
+    border-left-color: #cb4c4c;
+}
+.cm-diagnostic-warning {
+    border-left-color: #d7a63c;
+}
+.cm-diagnostic pre,
+.cm-diagnostic-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    white-space: pre-wrap;
+    margin: 0;
+    color: #d1d1d1;
+}
+.cm-diagnosticAction {
+    display: inline-block;
+    margin: 6px 4px 0 0;
+    padding: 2px 8px;
+    background: transparent;
+    color: #bbb;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+}
+.cm-diagnosticAction:hover {
+    background: #222;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+/* Wavy underline under diagnostic ranges (red for errors, amber for warnings). */
+.cm-lintRange-error {
+    background-image: linear-gradient(
+        45deg,
+        transparent 65%, #cb4c4c 80%, transparent 90%
+    ), linear-gradient(
+        135deg,
+        transparent 5%, #cb4c4c 15%, transparent 25%,
+        transparent 35%, #cb4c4c 50%, transparent 60%,
+        transparent 70%, #cb4c4c 85%, transparent 95%
+    );
+    background-repeat: repeat-x;
+    background-size: 8px 3px;
+    background-position: left bottom;
+    padding-bottom: 2px;
+}
+
+.cm-lintRange-warning {
+    background-image: linear-gradient(
+        45deg,
+        transparent 65%, #d7a63c 80%, transparent 90%
+    ), linear-gradient(
+        135deg,
+        transparent 5%, #d7a63c 15%, transparent 25%,
+        transparent 35%, #d7a63c 50%, transparent 60%,
+        transparent 70%, #d7a63c 85%, transparent 95%
+    );
+    background-repeat: repeat-x;
+    background-size: 8px 3px;
+    background-position: left bottom;
+    padding-bottom: 2px;
+}
+
+/* Line-number tint for diagnostic lines. diagnosticLineClassField in
+ * editor.js adds .cm-has-error or .cm-has-warning to every gutter cell on a
+ * diagnostic's line; tinting the line number is a lighter-weight signal than
+ * the default lintGutter's marker column. */
+.cm-gutterElement.cm-has-error {
+    color: #cb4c4c;
+    font-weight: 600;
+}
+
+.cm-gutterElement.cm-has-warning {
+    color: #d7a63c;
+    font-weight: 600;
+}

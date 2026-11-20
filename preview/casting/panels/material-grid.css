@@ -1,0 +1,327 @@
+/* The Materials panel (material-grid.js). The panel frame — #material-panel,
+ * its header, .panel-body, .panel-close — is styled by each app's shared
+ * side-panel rules; this file carries what is inside it. */
+
+/* A tab with two lists shares the panel's height between them. */
+.two-lists #material-grid {
+    max-height: 200px;
+}
+#material-substance-category,
+#material-finish-category {
+    margin: 6px 0 4px 0;
+}
+#material-finishes {
+    max-height: 170px;
+    overflow-y: auto;
+}
+/* The tabs over the grid. */
+#material-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #333;
+}
+.material-tab {
+    padding: 3px 8px;
+    font: inherit;
+    font-size: 11px;
+    color: #888;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+.material-tab:hover {
+    color: #d1d1d1;
+}
+.material-tab.active {
+    color: #d1d1d1;
+    border-bottom-color: #d1d1d1;
+}
+
+#material-filter {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 4px 0 6px 0;
+    padding: 4px 6px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #d1d1d1;
+    font-family: inherit;
+    font-size: 12px;
+}
+#material-filter:focus {
+    outline: none;
+    border-color: #666;
+}
+
+/* The panel's size must not depend on what the pointer is over. Naming a
+ * swatch on hover rewrites the readout, and the readout sits above the grid,
+ * so anything it changes moves the swatches out from under the pointer — the
+ * row shifts while you are trying to click one.
+ *
+ * Both axes are therefore pinned. The height is fixed rather than a minimum,
+ * because a description wraps to one line or two. The width is fixed because
+ * the panel is sized by its content and a long name in a monospace font —
+ * physical.juiceWhiteGrapefruit() — is wider than the grid, so it would widen
+ * the whole panel for as long as the pointer rested on that one swatch.
+ *
+ * The width is six swatches across: six cells and the five gaps between them,
+ * the panel's 10px padding either side, and room for the grid's scrollbar,
+ * which is up to 16px where scrollbars are not overlaid. */
+#body-panel .panel-body,
+#material-panel .panel-body {
+    width: var(--material-panel-width,
+        calc(6 * var(--material-swatch-px, 40px) + 5 * 4px + 2 * 10px + 16px));
+    box-sizing: border-box;
+}
+#material-readout {
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    font-size: 11px;
+    line-height: 1.3;
+}
+/* Truncated rather than wrapped: wrapping a long name would eat the line the
+ * description needs, inside a box that can no longer grow. */
+.material-readout-name {
+    color: #d1d1d1;
+    font-family: 'Roboto Mono', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.material-readout-doc,
+.material-readout-hint {
+    color: #888;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+/* What a pick does to the colour, on one line between the name and the doc. */
+.material-readout-effect {
+    color: #d1d1d1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.material-readout-chip {
+    display: inline-block;
+    width: 18px;
+    height: 9px;
+    border-radius: 2px;
+    vertical-align: middle;
+    border: 1px solid #444;
+}
+
+/* What a pick carries over from the body's surface: one row of switches. */
+.material-keep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 6px 0;
+    font-size: 11px;
+    color: #888;
+    user-select: none;
+}
+.material-keep label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #bababa;
+    cursor: pointer;
+}
+.material-keep input {
+    margin: 0;
+}
+
+#material-grid {
+    max-height: 320px;
+    overflow-y: auto;
+}
+.material-group {
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 8px 0 3px 0;
+}
+.material-group:first-child {
+    margin-top: 0;
+}
+/* Exactly six to a row, whatever width is left over: a grid of six columns
+ * rather than a wrapping flex row, so a scrollbar appearing or a font loading
+ * cannot reflow the grid to five. */
+.material-row {
+    display: grid;
+    grid-template-columns: repeat(6, var(--material-swatch-px, 40px));
+    gap: 4px;
+}
+
+/* The size is set by material-grid.js as --material-swatch-px: it scales the
+ * swatch sheet by the same number, so the two cannot drift apart. */
+.material-swatch {
+    width: var(--material-swatch-px, 40px);
+    height: var(--material-swatch-px, 40px);
+    padding: 0;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #1e1e1e;
+    background-origin: border-box;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: border-color 0.12s, box-shadow 0.12s;
+}
+/* Marked with a ring rather than a scale: growing a swatch under the pointer
+ * moves its neighbours, and in a wrapped grid that is enough to make the row
+ * jump while you are trying to click one. */
+.material-swatch:hover,
+.material-swatch:focus {
+    border-color: #bababa;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+/* A finish carries no colour of its own and is drawn against a stand-in grey,
+ * so it is marked to keep it from reading as a grey material. */
+.material-swatch[data-kind="finish"] {
+    border-style: dashed;
+    border-color: #4a4a4a;
+}
+
+/* With the colour kept, a patterned material still sets its colour, so its
+ * swatch is drawn back rather than offered as if it would not. */
+.material-swatch.held {
+    opacity: 0.4;
+}
+
+.material-empty {
+    color: #777;
+    font-size: 11px;
+    padding: 6px 0;
+}
+
+.material-readout-error {
+    color: #e0726b;
+}
+
+/* Adjust: opens the selected body's preset into its parameters. Shown in the
+ * idle readout only when the catalog has something to adjust on it. */
+.material-readout-adjust {
+    display: block;
+    margin-top: 4px;
+    padding: 1px 6px;
+    font: inherit;
+    font-family: 'Roboto Mono', monospace;
+    color: #d1d1d1;
+    background: #2e2e2e;
+    border: 1px solid #555;
+    border-radius: 3px;
+    cursor: pointer;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.material-readout-adjust:hover {
+    background: #3a3a3a;
+    border-color: #777;
+}
+
+/* Wrap, and the stack (material-grid.js): the operator menu, then the selected
+ * body's base and its layers, innermost first, each with Remove and its sliders.
+ * Below the readout, so it changes with the selection and never under the
+ * pointer. */
+#material-stack {
+    margin-bottom: 6px;
+    font-size: 11px;
+    line-height: 1.3;
+}
+.material-wrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2px 4px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #d1d1d1;
+    font-family: inherit;
+    font-size: 11px;
+}
+.material-wrap + .material-wrap {
+    margin-top: 3px;
+}
+.material-wrap:focus {
+    outline: none;
+    border-color: #666;
+}
+.material-stack-rows {
+    margin-top: 4px;
+}
+.material-layer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 1px 0;
+    color: #d1d1d1;
+}
+.material-layer-base {
+    color: #888;
+}
+.material-layer-name {
+    flex: 1;
+    font-family: 'Roboto Mono', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.material-layer-button {
+    padding: 0 5px;
+    font: inherit;
+    font-size: 10px;
+    color: #d1d1d1;
+    background: #2e2e2e;
+    border: 1px solid #555;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.material-layer-button:hover {
+    background: #3a3a3a;
+    border-color: #777;
+}
+
+/* A layer's controls, indented under it. The columns are the Parameters panel's
+ * without its 22px control cell, which only an animated row uses. */
+.slider-row.material-layer-parameter {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) 52px;
+    padding: 1px 0 1px 12px;
+}
+.material-layer-parameter .slider-label {
+    color: #888;
+}
+.material-layer-parameter input[type="color"] {
+    justify-self: start;
+}
+.slider-row.color-row.material-layer-parameter .color-hex {
+    width: 52px;
+    font-size: 10px;
+    padding: 1px 2px;
+}
+.material-layer-parameter .field-panel-label {
+    box-sizing: border-box;
+    width: 52px;
+    text-align: right;
+    padding: 1px 4px;
+}
+
+/* The hover preview: a swatch's tooltip (tooltip.js) shows its material three
+ * times the swatch's size, rendered at that size for a sharp image. */
+#tooltip .tooltip-image {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 2px 0 4px 0;
+    border-radius: 4px;
+}

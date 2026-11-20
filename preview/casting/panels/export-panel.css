@@ -1,0 +1,68 @@
+/* Export side panel (export-panel.js / export-panel-markup.js). The panel
+ * frame — #stl-bounds-panel, its header, .panel-body, .panel-close — is
+ * styled by each app's shared side-panel rules; this file carries only the
+ * export-specific controls. */
+
+/* One button per line: the panel is narrow, and the labels say where the
+ * export runs, so they need the full width to stay readable. */
+.stl-export-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+#btn-export {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Format and Mesher: a label, then the choice across the rest of the row. */
+.export-choice label {
+    flex: 0 0 52px;
+}
+
+.export-choice select {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid #3b3b3b;
+    border-radius: 5px;
+    background: #252525;
+    color: #d1d1d1;
+    padding: 3px 4px;
+    font: 11px 'Public Sans', sans-serif;
+}
+
+.export-choice select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.field-panel-row label.export-clean {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+/* Detail with nothing to mesh (Omega Tape): shown, but out of play. */
+.export-detail.disabled,
+#stl-voxel-info.disabled {
+    opacity: 0.5;
+}
+
+.export-detail.disabled input[type="range"],
+.export-detail.disabled #stl-depth-label {
+    cursor: not-allowed;
+}
+
+/* A button the app shows but cannot run (no mesher it can use): kept so the
+ * panels match, its title says why. */
+.stl-export-buttons .btn-light.unavailable,
+.stl-export-buttons .btn-light.unavailable:hover {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #1e1e1e;
+    color: #d1d1d1;
+}

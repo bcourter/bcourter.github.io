@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega Core — GSL Example Viewer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="editor/editor.css">
+    <link rel="stylesheet" href="docs/docs.css">
+    <link rel="stylesheet" href="docs/help-panel.css">
+    <link rel="icon" type="image/svg+xml" href="icons/cube-lightning.svg">
+</head>
+
+<body>
+    <div id="app-shell">
+        <header id="top-bar">
+            <div id="top-bar-left">
+                <button id="btn-toggle-code" class="btn-regular" type="button" aria-pressed="false" title="Toggle GSL code editor panel">
+                    <img src="icons/code.svg" width="16" height="16" alt="">
+                    <span>Code</span>
+                </button>
+                <div id="editor-top-controls" class="hidden">
+                    <div id="btn-wrap" class="btn-regular active" title="Soft-wrap long lines">
+                        <span class="icon-mask icon-wrap"></span>Wrap
+                    </div>
+                    <div class="editor-tab-container"></div>
+                    <div id="help-menu"></div>
+                </div>
+            </div>
+            <div id="top-bar-center">
+                <select id="example-select" aria-label="Select GSL example" title="Select an example GSL model"></select>
+            </div>
+            <div id="top-bar-right">
+                <button id="btn-save-as" class="btn-regular" type="button" disabled title="Save modified GSL source as a new example">Save As</button>
+                <div id="save-as-popover" class="hidden">
+                    <input type="text" id="save-as-input" spellcheck="false" placeholder="example_copy.gsl">
+                    <button id="btn-save-confirm" class="btn-regular" type="button">Save</button>
+                    <button id="btn-save-cancel" class="btn-regular" type="button">Cancel</button>
+                </div>
+            </div>
+        </header>
+        <div id="container">
+            <div id="editor-container" class="collapsed">
+                <div id="editor"></div>
+                <div id="warning-wrapper" class="hidden" role="status" aria-live="polite">
+                    <pre id="warning-output"></pre>
+                </div>
+                <div id="error-wrapper" class="hidden">
+                    <textarea id="error-output" readonly></textarea>
+                </div>
+            </div>
+            <div class="splitter hidden" data-splitter></div>
+            <div id="canvas-column" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0;">
+                <div id="canvas-container">
+                    <div id="canvas-left-btns">
+                        <div id="btn-fullscreen" class="btn-icon" title="Fullscreen"><img src="icons/fullscreen.svg" alt="Fullscreen"></div>
+                        <div id="btn-point-select" class="btn-icon" title="Point selection"><img src="icons/crosshair.svg" alt="Point selection"></div>
+                        <div id="btn-point-normal-select" class="btn-icon" title="Point + normal selection"><img src="icons/crosshair-normal.svg" alt="Point + normal selection"></div>
+                    </div>
+                    <div id="canvas-controls">
+                        <!-- Parameters panel: one slider row per top-level variable with
+                             both a .min and .max property, one colour chip per @color
+                             control, and the animation clock's transport at the bottom
+                             (the Time range, rewind / play-pause / fast-forward, and the
+                             end time), which replaced the former Animation panel. -->
+                        <div id="slider-panel">
+                            <div id="slider-panel-header">Parameters <span class="panel-close">&#x2715;</span></div>
+                            <div class="panel-body">
+                                <div id="slider-panel-body">
+                                    <!-- Slider rows populated by panels/slider-panel.js from the
+                                         compile response's slider metadata. -->
+                                </div>
+                                <div class="field-panel-row" id="time-slider-row">
+                                    <label>time</label>
+                                    <input type="range" id="time-range" min="0" max="10" value="0" step="0.01" disabled>
+                                    <input type="number" id="animation-time-input" class="field-panel-label" value="0.00" step="0.01" min="0" readonly>
+                                </div>
+                                <div class="field-panel-row" id="anim-controls-row">
+                                    <div class="anim-btns">
+                                        <div id="btn-rewind-anim" class="btn-light anim-btn" title="Rewind to 0"><span class="anim-glyph">&#x23EE;</span></div>
+                                        <div id="btn-pause-anim" class="btn-light anim-btn" title="Play / pause"><span class="anim-glyph">&#x25B6;</span></div>
+                                        <div id="btn-fastforward-anim" class="btn-light anim-btn" title="Fast-forward to end"><span class="anim-glyph">&#x23ED;</span></div>
+                                    </div>
+                                    <input type="number" id="anim-end-time" class="field-panel-label" title="End time" value="10" step="0.5" min="0.01">
+                                </div>
+                                <div class="field-panel-row" id="audio-volume-row" style="display: none;">
+                                    <label>Volume</label>
+                                    <input type="range" id="audio-volume" min="0" max="100" value="50" step="1">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Imports (panels/mesh-import.js), Bodies (panels/body-panel.js) and
+                             Export (panels/export-panel.js) inject their own markup into these
+                             empty panels at init. -->
+                        <div id="mesh-import-panel"></div>
+                        <div id="scene-panel">
+                            <div id="scene-panel-header">Scene <span class="panel-close">&#x2715;</span></div>
+                            <div class="panel-body">
+                                <div class="field-panel-row">
+                                    <label>Size (mm)</label>
+                                    <input type="range" id="scene-bbox" min="1" max="10000" value="400" step="1">
+                                    <span id="scene-bbox-label" class="field-panel-label">400</span>
+                                </div>
+                                <div id="scene-bbox-info"></div>
+                                <div class="field-panel-row">
+                                    <label>Grid (mm)</label>
+                                    <input type="range" id="scene-grid-spacing" min="0" max="12" value="7" step="1">
+                                    <span id="scene-grid-spacing-label" class="field-panel-label">20</span>
+                                </div>
+                                <div id="scene-grid-info"></div>
+                            </div>
+                        </div>
+                        <div id="render-panel">
+                            <div id="render-panel-header">Render <span class="panel-close">&#x2715;</span></div>
+                            <div class="panel-body">
+                                <div class="field-panel-row">
+                                    <label>Resolution</label>
+                                    <div class="resolution-controls" role="group" aria-label="Viewer resolution">
+                                        <button class="resolution-btn active" type="button" data-render-scale="1" aria-pressed="true" title="Full rendering resolution">1x</button>
+                                        <button class="resolution-btn" type="button" data-render-scale="0.5" aria-pressed="false" title="Half rendering resolution for faster interaction">1/2</button>
+                                        <button class="resolution-btn" type="button" data-render-scale="0.25" aria-pressed="false" title="Quarter rendering resolution for fastest interaction">1/4</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Moving</label>
+                                    <div class="resolution-controls" role="group" aria-label="Render quality while the view moves">
+                                        <button class="resolution-btn active" type="button" data-moving-tier="draft" aria-pressed="true" title="While the view moves: half resolution, no ambient occlusion, one sharp refraction through glass">Draft</button>
+                                        <button class="resolution-btn" type="button" data-moving-tier="standard" aria-pressed="false" title="While the view moves: full quality">Full</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>At rest</label>
+                                    <div class="resolution-controls" role="group" aria-label="Render quality at rest">
+                                        <button class="resolution-btn" type="button" data-rest-tier="simple" aria-pressed="false" title="Always: one headlight on each body&#39;s schematic color, the palette&#39;s, with no shadows, occlusion, glass or materials">Schematic</button>
+                                        <button class="resolution-btn" type="button" data-rest-tier="color" aria-pressed="false" title="Always: the Standard frame&#39;s lighting and colours on the default surface, without the document&#39;s materials (no metal, roughness, glass, emission or displacement)">Color</button>
+                                        <button class="resolution-btn active" type="button" data-rest-tier="standard" aria-pressed="true" title="At rest: the full-quality frame">Standard</button>
+                                        <button class="resolution-btn" type="button" data-rest-tier="progressive" aria-pressed="false" title="At rest: path tracing that refines while the view is still (shadows, bounce light, antialiasing)">Progressive</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Shadows</label>
+                                    <div class="resolution-controls" role="group" aria-label="Shadows in the path tracer">
+                                        <button class="resolution-btn active" type="button" data-trace-shadows="on" aria-pressed="true" title="Each light casts shadows in Progressive and Render image; Standard darkens corners with ambient occlusion">On</button>
+                                        <button class="resolution-btn" type="button" data-trace-shadows="off" aria-pressed="false" title="No shadows from the lights in Progressive and Render image (bounce light still darkens corners), and no ambient occlusion in Standard">Off</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Back faces</label>
+                                    <div class="resolution-controls" role="group" aria-label="How a surface seen from behind is drawn">
+                                        <button class="resolution-btn active" type="button" data-back-faces="dim" aria-pressed="true" title="Every tier draws a surface seen from behind, such as the inside of a part cut open, at 25% brightness">Dim</button>
+                                        <button class="resolution-btn" type="button" data-back-faces="full" aria-pressed="false" title="Every tier draws a surface seen from behind as brightly as one seen from the front">Full</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Displacement</label>
+                                    <div class="resolution-controls" role="group" aria-label="Displacement of surfaces">
+                                        <button class="resolution-btn active" type="button" data-displacement="on" aria-pressed="true" title="Materials with displacement move the surface, such as open pores and weathered relief">On</button>
+                                        <button class="resolution-btn" type="button" data-displacement="off" aria-pressed="false" title="Draw every surface undisplaced: faster, and the pores and relief show as colour only">Off</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Fine relief</label>
+                                    <div class="resolution-controls" role="group" aria-label="Where fine relief fades in Standard">
+                                        <button class="resolution-btn active" type="button" data-march-fade="hit" aria-pressed="true" title="Relief too fine to see fades only where the surface is shaded; the ray marches the full relief">At hit</button>
+                                        <button class="resolution-btn" type="button" data-march-fade="march" aria-pressed="false" title="Relief too fine to see fades while the ray marches too, so the surface found and the surface shaded agree">In march</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Pixel filter</label>
+                                    <input type="range" id="render-pixel-filter" min="0" max="3" value="1" step="0.05" style="width: 80px;" title="How many pixels wide detail must be to show: textures fade detail finer than this, and lines thinner than this are drawn this wide and fainter; 0 filters nothing, so fine detail aliases">
+                                    <span id="render-pixel-filter-label" class="field-panel-label">1.00</span>
+                                </div>
+                                <div class="field-panel-row detail-row">
+                                    <label>Detail</label>
+                                    <div id="detail-slider" role="group" aria-label="What a part keeps as it gets smaller on screen"></div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Field of view</label>
+                                    <input type="range" id="render-fov" min="9" max="90" value="50" step="1" style="width: 80px;" title="Lens angle; leftmost is orthographic. The view keeps its size at the orbit pivot, so a narrower lens stands farther back">
+                                    <span id="render-fov-label" class="field-panel-label">50&deg;</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Depth of field</label>
+                                    <input type="range" id="render-aperture" min="0" max="1" value="0" step="0.01" style="width: 80px;" title="Lens blur for the path tracer; 0 is off">
+                                    <span id="render-aperture-label" class="field-panel-label">0.00</span>
+                                    <div id="btn-render-focus" class="btn-icon" title="Focus: click a point on the model to focus on it (until then, the orbit pivot)"><img src="icons/crosshair.svg" alt="Focus"></div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Light</label>
+                                    <div class="resolution-controls" role="group" aria-label="Environment light">
+                                        <button class="resolution-btn active" type="button" data-env-preset="Viewer" aria-pressed="true" title="The viewer's lights, which turn with the camera, over a dim sky">Viewer</button>
+                                        <button class="resolution-btn" type="button" data-env-preset="Softbox" aria-pressed="false" title="Large soft panels around a dark room, turning with the camera like the rig: highlights slide across polished surfaces as you orbit">Softbox</button>
+                                        <button class="resolution-btn" type="button" data-env-preset="Overcast" aria-pressed="false" title="A bright cloudy sky: even light that shows colour and grain">Overcast</button>
+                                        <button class="resolution-btn" type="button" data-env-preset="Horizon" aria-pressed="false" title="Blue sky over dark ground with a small sun: a horizon line and a glint in chrome and glass">Horizon</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Turn</label>
+                                    <input type="range" id="env-azimuth" min="0" max="360" value="0" step="1" style="width: 80px;" title="Turn the environment about the vertical axis">
+                                    <span id="env-azimuth-label" class="field-panel-label">0&deg;</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <div id="btn-render-image" class="btn-light" title="Path trace this view to 1024 samples in the background and download it as a PNG with a transparent background; press again to cancel">Render image</div>
+                                    <div class="resolution-controls" role="group" aria-label="Render image size">
+                                        <button class="resolution-btn active" type="button" data-image-scale="1" aria-pressed="true" title="The image is the size of the view">1&times;</button>
+                                        <button class="resolution-btn" type="button" data-image-scale="2" aria-pressed="false" title="Twice the view's width and height">2&times;</button>
+                                        <button class="resolution-btn" type="button" data-image-scale="4" aria-pressed="false" title="Four times the view's width and height">4&times;</button>
+                                    </div>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Frame rate</label>
+                                    <span id="render-fps" title="Frames drawn in the last second; the viewer draws only when something changes, so at rest it is idle">Idle</span>
+                                    <span id="render-progress" title="How much of the progressive sum is done"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="field-panel">
+                            <div id="field-panel-header">Section <span class="panel-close">&#x2715;</span></div>
+                            <div class="panel-body">
+                                <div class="stl-row-loose">
+                                    <label>Direction</label>
+                                    <input type="number" id="field-normal-x" value="0" step="0.1">
+                                    <input type="number" id="field-normal-y" value="0" step="0.1">
+                                    <input type="number" id="field-normal-z" value="1" step="0.1">
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Offset (mm)</label>
+                                    <input type="range" id="field-height" min="-200" max="200" value="0" step="0.01">
+                                    <span id="field-height-label" class="field-panel-label">0.00</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Interval (mm)</label>
+                                    <input type="range" id="field-interval" min="0" max="40" value="5" step="0.01">
+                                    <span id="field-interval-label" class="field-panel-label">5.00</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Fade (mm)</label>
+                                    <input type="range" id="field-fade" min="0" max="200" value="100" step="0.1">
+                                    <span id="field-fade-label" class="field-panel-label">100.0</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Model</label>
+                                    <input type="range" id="field-model" min="0" max="1" value="0.5" step="0.01">
+                                    <span id="field-model-label" class="field-panel-label">0.50</span>
+                                </div>
+                                <div class="field-panel-row">
+                                    <label>Section</label>
+                                    <input type="range" id="field-section" min="0" max="1" value="0.25" step="0.01">
+                                    <span id="field-section-label" class="field-panel-label">0.25</span>
+                                </div>
+                                <div class="checkbox-row">
+                                    <div class="checkbox-row-group">
+                                        <label for="field-union">Union</label>
+                                        <input type="checkbox" id="field-union">
+                                    </div>
+                                    <div class="checkbox-row-group">
+                                        <label for="field-external">External</label>
+                                        <input type="checkbox" id="field-external" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="body-panel"></div>
+                        <div id="material-panel"></div>
+                        <div id="stl-bounds-panel"></div>
+                    </div>
+                </div>
+                <div id="stl-canvas-container" style="display: none;">
+                    <div id="stl-left-btns">
+                        <div id="btn-live-stl" class="btn-icon" title="Live STL: Auto-render on compile"><img src="icons/cube-lightning.svg" alt="Live STL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notification" class="notification"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./vendor/three/three.webgpu.js",
+                "three/webgpu": "./vendor/three/three.webgpu.js",
+                "three/tsl": "./vendor/three/three.tsl.js",
+                "three/addons/": "./vendor/three/jsm/",
+                "manifold-3d": "./vendor/manifold/manifold.js",
+                "codemirror": "./vendor/codemirror/codemirror.js",
+                "viewer": "./render/viewer.js"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

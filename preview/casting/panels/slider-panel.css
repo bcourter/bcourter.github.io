@@ -1,0 +1,40 @@
+/* Colour rows in the Parameters panel (slider-panel.js): a top-level @color
+ * variable gets a chip where a slider row has its range, and the hex where
+ * the row has its number. The chip is the Bodies panel's (body-panel.css),
+ * so a colour reads the same wherever it is picked. */
+.slider-row.color-row input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider-row.color-row input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.slider-row.color-row input[type="color"]::-webkit-color-swatch {
+    border: none;
+    padding: 0;
+    border-radius: 3px;
+}
+
+.slider-row.color-row input[type="color"]::-moz-color-swatch {
+    border: none;
+    padding: 0;
+    border-radius: 3px;
+}
+
+.slider-row.color-row .color-hex {
+    box-sizing: border-box;
+    width: 56px;
+    font-family: monospace;
+    font-size: 11px;
+    text-align: right;
+}
