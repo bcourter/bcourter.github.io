@@ -1,0 +1,21 @@
+{
+  "name": "omega-codemirror-bundle",
+  "private": true,
+  "description": "One-shot ESM bundle of the CodeMirror 6 subset the viewer's editor uses. The output file codemirror.js is committed to the repo so runtime fetch is a single file and no Node is needed to run omega-core.",
+  "scripts": {
+    "build": "esbuild build.mjs --bundle --format=esm --outfile=codemirror.js --minify --legal-comments=inline"
+  },
+  "devDependencies": {
+    "@codemirror/autocomplete": "^6.18.0",
+    "@codemirror/commands": "^6.6.0",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/search": "^6.5.6",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.28.0",
+    "@lezer/highlight": "^1.2.0",
+    "esbuild": "^0.23.0"
+  },
+  "dependencies": {
+    "@codemirror/lint": "^6.9.5"
+  }
+}
